@@ -19,6 +19,8 @@ import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/allWidget/fontsize.dart';
 import 'dart:io' show Platform;
 import 'package:mfp_app/allWidget/PostButton.dart';
+import 'package:mfp_app/utils/router.dart';
+import 'package:mfp_app/view/Today/Dtemergencyevent.dart';
 
 import 'package:mfp_app/view/Today/PostDetailsSc.dart';
 
@@ -315,12 +317,13 @@ class _TodayScState extends State<TodaySc> {
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               slivers: [
-                Platform.isAndroid
-                    ? SliverToBoxAdapter(
-                        child: SizedBox.shrink(
-                        child: Container(),
-                      ))
-                    : primaryAppBar(context),
+                // Platform.isAndroid
+                //     ? SliverToBoxAdapter(
+                //         child: SizedBox.shrink(
+                //         child: Container(),
+                //       ))
+                //     :
+                primaryAppBar(context),
 
                 ///-----------APPBAR-----------------//
                 isLoadingHastag
@@ -377,8 +380,9 @@ class _TodayScState extends State<TodaySc> {
                                       final nDataList1 =
                                           listModelPostClass[index];
 
-                                      if (index == listModelPostClass.length - 2) {
-                                        return BuildVideorecom();
+                                      if (index ==
+                                          listModelPostClass.length - 2) {
+                                        return BuildRecommendedUserPage();
                                       }
                                       //  else {
                                       //   PostList(
@@ -402,7 +406,7 @@ class _TodayScState extends State<TodaySc> {
                                         nDataList1.post.likeCount,
                                         nDataList1.post.commentCount,
                                         nDataList1.post.shareCount,
-                                         nDataList1.post.id,
+                                        nDataList1.post.id,
                                       );
                                     });
                               },
@@ -612,23 +616,23 @@ class _TodayScState extends State<TodaySc> {
       int likeCount,
       int commentCount,
       int shareCount,
-      String postid
-      ) {
+      String postid) {
     return InkWell(
       onTap: () {
-        Navigator.push( context,
+        Navigator.push(
+          context,
           MaterialPageRoute(
             builder: (BuildContext context) {
-              return PostDetailsSC(posttitle: posttitle,
-                                        subtitle:subtitle,
-                                        authorposttext:authorposttext,
-                                        dateTime:dateTime,
-                                        gallery:gallery,
-                                        likeCount:likeCount,
-                                        commentCount:commentCount,
-                                        shareCoun:shareCount,
-                                        id: postid,
-              
+              return PostDetailsSC(
+                posttitle: posttitle,
+                subtitle: subtitle,
+                authorposttext: authorposttext,
+                dateTime: dateTime,
+                gallery: gallery,
+                likeCount: likeCount,
+                commentCount: commentCount,
+                shareCoun: shareCount,
+                id: postid,
               );
             },
           ),
@@ -661,7 +665,9 @@ class _TodayScState extends State<TodaySc> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       fixtextauthor(),
-                      authorpost(authorposttext, context),
+                      Container(
+                        width: 240,
+                        child: authorpost(authorposttext, context)),
                       texttimetimestamp(dateTime),
                     ],
                   ),
@@ -672,82 +678,43 @@ class _TodayScState extends State<TodaySc> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Column(
-      children: [
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(4.0),
-               decoration: BoxDecoration(
-                color: MColors.primaryBlue,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.favorite_outline,
-                size: 10.0,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(width: 4.0),
-            Expanded(
-              child: Text(
-                '$likeCount ถูกใจ',
-                style: TextStyle(
-                  color: Colors.grey[600],
-                ),
-              ),
-            ),
-            Text(
-              '$commentCount ความคิดเห็น',
-              style: TextStyle(
-                color: Colors.grey[600],
-              ),
-            ),
-            const SizedBox(width: 8.0),
-            Text(
-              '$shareCount  แชร์',
-              style: TextStyle(
-                color: Colors.grey[600],
-              ),
-            )
-          ],
-        ),
-        const Divider(),
-        Row(
-          children: [
-          PostButton(
-              icon: Icon(
-                Icons.favorite_outline,
-                color: MColors.primaryBlue,
-                size: 20.0,
-              ),
-              label: 'ถูกใจ',
-              onTap: () => print('Like'),
-            ),
-            PostButton(
-              icon: Icon(
-                MdiIcons.commentOutline,
-                color: MColors.primaryBlue,
-                size: 20.0,
-              ),
-              label: 'ความคิดเห็น',
-              onTap: () => print('Comment'),
-            ),
-            PostButton(
-              icon: Icon(
-                Icons.share,
-                color: MColors.primaryBlue,
-                size: 25.0,
-              ),
-              label: 'แชร์',
-              onTap: () => print('Share'),
-            )
-          ],
-        ),
-        SizedBox(
-              height: 5,
-            ),
-      ],
-    ),
+                      children: [
+                        Row(
+                          children: [
+                            PostButton(
+                              icon: Icon(
+                                Icons.favorite_outline,
+                                color: MColors.primaryBlue,
+                                size: 20.0,
+                              ),
+                              label: '$likeCount ถูกใจ',
+                              onTap: () => print('Like'),
+                            ),
+                            PostButton(
+                                icon: Icon(
+                                  MdiIcons.commentOutline,
+                                  color: MColors.primaryBlue,
+                                  size: 20.0,
+                                ),
+                                label: '$commentCount ความคิดเห็น',
+                                onTap: () => print('Comment'),
+                              ),
+                            PostButton(
+                              icon: Icon(
+                                Icons.share,
+                                color: MColors.primaryBlue,
+                                size: 25.0,
+                              ),
+                              label: '$shareCount แชร์',
+                              onTap: () => print('Share'),
+                            )
+                          ],
+                        ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -827,75 +794,99 @@ class _TodayScState extends State<TodaySc> {
   }
 
   Widget BuildRecommendedUserPage() {
-    return Card(
-      child: Container(
-        width: double.infinity,
-        height: 500.84,
-        // color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: texttitle("แนะนำให้ติดตามส.ส. กทม", context),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Builder(
-              builder: (BuildContext context) {
-                return ListView.builder(
-                    physics: ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: listRecomUserPageModel.length,
-                    itemBuilder: (
-                      BuildContext context,
-                      int index,
-                    ) {
-                      var data = listRecomUserPageModel[index];
-                      return Card(
-                        child: Container(
-                          child: ListTile(
-                            leading: new CircleAvatar(
-                              radius: 30,
-                              backgroundImage: data.imageUrl != null
-                                  ? NetworkImage(
-                                      "https://today-api.moveforwardparty.org/api${data.imageUrl}/image")
-                                  : NetworkImage(
-                                      "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png"),
-                              backgroundColor: Colors.transparent,
+    return InkWell(
+      onTap: (){
+        Navigate.pushPage(context, DTEmergenSc());
 
-                              // child: Container(
-                              //   height: 81,
-                              //   width: 347,
-                              //   color: Colors.white,
-                              //   child: Image.network(
-                              //       "https://today-api.moveforwardparty.org/api${data.imageUrl}/image"),
-                              // ),
-                            ),
-                            title: new Text(
-                                '${data.displayName == null ? data.name : data.displayName}'),
-                            subtitle: new Text(
-                                '${data.pageUsername == null ? "" : data.pageUsername}'),
-                          ),
-                        ),
-                      );
-                    });
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: Text(
-                "ดูเพิ่มเติม",
-                style: TextStyle(fontSize: 16),
+      },
+      child: Card(
+        child: Container(
+          width: double.infinity,
+          height: 500.84,
+          // color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10,
               ),
-            ),
-          ],
+              Center(
+                child: texttitle("แนะนำให้ติดตามส.ส. กทม", context),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Builder(
+                builder: (BuildContext context) {
+                  return ListView.builder(
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: listRecomUserPageModel.length,
+                      itemBuilder: (
+                        BuildContext context,
+                        int index,
+                      ) {
+                        var data = listRecomUserPageModel[index];
+                        return Card(
+                          child: Container(
+                            child: ListTile(
+                              leading: new CircleAvatar(
+                                radius: 30,
+                                backgroundImage: data.imageUrl != null
+                                    ? NetworkImage(
+                                        "https://today-api.moveforwardparty.org/api${data.imageUrl}/image")
+                                    : NetworkImage(
+                                        "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png"),
+                                backgroundColor: Colors.transparent,
+
+                                // child: Container(
+                                //   height: 81,
+                                //   width: 347,
+                                //   color: Colors.white,
+                                //   child: Image.network(
+                                //       "https://today-api.moveforwardparty.org/api${data.imageUrl}/image"),
+                                // ),
+                              ),
+                              title: new Text(
+                                  '${data.displayName == null ? data.name : data.displayName}'),
+                              subtitle: new Text(
+                                  '${data.pageUsername == null ? "" : data.pageUsername}'),
+                              trailing: Container(
+                                margin: EdgeInsets.all(10),
+                                height: 50.0,
+                                width: 95,
+                                child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25)),
+                                    side: BorderSide(color: MColors.primaryColor),
+                                  ),
+                                  onPressed: () {},
+                                  color: Colors.white,
+                                  child: Text("ติดตาม",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: MColors.primaryColor)),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Center(
+                child: Text(
+                  "ดูเพิ่มเติม",
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

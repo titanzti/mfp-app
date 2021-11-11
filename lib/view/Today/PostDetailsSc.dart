@@ -47,6 +47,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
 
   @override
   Widget build(BuildContext context) {
+        final size = MediaQuery.of(context).size;
+
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -55,7 +57,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
             controller: _trackingScrollController,
             slivers: [
               primaryAppBar(context),
-              AppBardetail(context, widget.authorposttext),
+              AppBardetail(context,"โพสของ", widget.authorposttext),
 
               ///-----------APPBAR-----------------//
               SliverToBoxAdapter(
@@ -72,37 +74,44 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
               ),
 
               ///-----------SliverListปิดไปก่อนได้----------------//
-              SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return ListView.builder(
-                          physics: ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.all(8.0),
-                          scrollDirection: Axis.vertical,
-                          itemCount: 5,
-                          itemBuilder: (
-                            BuildContext context,
-                            int index,
-                          ) {
-                            return ListTile(
-                             
-                              leading:  new  CircleAvatar(
-                          radius: 25.0,
-                          backgroundImage:
-                              NetworkImage('https://via.placeholder.com/150'),
-                          backgroundColor: Colors.transparent,
-                        ),
-                              title: Text('I like icecream$index'),
-                              subtitle: Text('Icream is good for health'),
-                              trailing: Icon(Icons.food_bank),
-                            );
-                          });
-                    },
-                  );
-                }, childCount: 1),
+               SliverToBoxAdapter(
+                 child: Expanded(
+                  child: Container(
+                    color:Color(0xffF8F8F8),
+                    child: _buildCommentList(size)),
               ),
+               ),
+              // SliverList(
+              //   delegate: SliverChildBuilderDelegate((context, index) {
+              //     return Builder(
+              //       builder: (BuildContext context) {
+              //         return ListView.builder(
+              //             physics: ClampingScrollPhysics(),
+              //             shrinkWrap: true,
+              //             padding: const EdgeInsets.all(8.0),
+              //             scrollDirection: Axis.vertical,
+              //             itemCount: 5,
+              //             itemBuilder: (
+              //               BuildContext context,
+              //               int index,
+              //             ) {
+              //               return ListTile(
+                             
+              //                 leading:  new  CircleAvatar(
+              //             radius: 25.0,
+              //             backgroundImage:
+              //                 NetworkImage('https://via.placeholder.com/150'),
+              //             backgroundColor: Colors.transparent,
+              //           ),
+              //                 title: Text('I like icecream$index'),
+              //                 subtitle: Text('Icream is good for health'),
+              //                 trailing: Icon(Icons.food_bank),
+              //               );
+              //             });
+              //       },
+              //     );
+              //   }, childCount: 1),
+              // ),
             ],
           ),
         ),
@@ -175,7 +184,9 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       fixtextauthor(),
-                      authorpost(authorposttext, context),
+                      Container(
+                          width: 240,
+                        child: authorpost(authorposttext, context)),
                       texttimetimestamp(dateTime),
                     ],
                   ),
@@ -203,7 +214,16 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Container(
                           width: 300,
-                          height: 80,
+                          height: 50,
+                          decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xffDEDEDE),),
+
+                                  color: MColors.primaryWhite,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0),
+                                      
+                                      ),
+                                ),
                           child: TextFormField(
                             onSaved: (String value) {},
                             onChanged: (String value) {
@@ -246,5 +266,139 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
         ),
       ),
     );
+  }
+
+
+
+  Widget _buildCommentList(Size size) {
+    return ListView.builder(
+          physics: ClampingScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+          itemCount: 2,
+          itemBuilder: (BuildContext context, int index) {
+            return new InkWell(        
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  // widget.data['toCommentID'] == null ? EdgeInsets.all(8.0) : EdgeInsets.fromLTRB(34.0,8.0,8.0,8.0),
+                  child: Stack(
+                    children: <Widget>[
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(6.0, 2.0, 10.0, 2.0),
+                            child: Container(
+                              width: 48,
+                              // widget.data['toCommentID'] == null ? 48 : 40,
+                              height: 48,
+                              // widget.data['toCommentID'] == null ? 48 : 40,
+                              child: CircleAvatar(
+                          radius: 25.0,
+                          backgroundImage:
+                              NetworkImage('https://via.placeholder.com/150'),
+                          backgroundColor: Colors.transparent,
+                        ),
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Text(
+                                         'test',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,color: MColors.primaryBlue),
+                                        ),
+                                      ),
+                               Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 4.0),
+                                        child: Text(
+                                         'testttttt',
+                                          maxLines: null,
+                                          style: TextStyle(color: MColors.primaryBlue),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                width: size.width - 90,
+                                // widget.size.width- (widget.data['toCommentID'] == null ? 90 : 110),
+                                decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xffDEDEDE),),
+
+                                  color: MColors.primaryWhite,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0),
+                                      
+                                      ),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10.0, top: 2.0),
+                                child: Container(
+                                  width: size.width * 0.38,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                           GestureDetector(          
+                                        child: Text(
+                                          'ถูกใจ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: MColors.primaryBlue),
+
+                                          // style:TextStyle(fontWeight: FontWeight.bold,color:_currentMyData.myLikeCommnetList != null && _currentMyData.myLikeCommnetList.contains(widget.data['commentID']) ? Colors.blue[900] : Colors.grey[700])
+                                        ),
+                                      ),
+                                                      SizedBox(width: 8,),
+
+                                           GestureDetector(          
+                                        child: Text(
+                                          'ตอบกลับ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: MColors.primaryBlue),
+
+                                          // style:TextStyle(fontWeight: FontWeight.bold,color:_currentMyData.myLikeCommnetList != null && _currentMyData.myLikeCommnetList.contains(widget.data['commentID']) ? Colors.blue[900] : Colors.grey[700])
+                                        ),
+                                      ),
+                                                      SizedBox(width: 8,),
+
+                                      Text('3วัน',style: TextStyle(color: MColors.primaryBlue),),
+                              
+                                    
+
+                             
+
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+
+                    ],
+                  ),
+                ),
+               
+                );
+          },
+        );
   }
 }

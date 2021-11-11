@@ -21,18 +21,27 @@ class PostButton extends StatelessWidget {
           onTap: onTap,
           child: Container(
             // padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            height: 35.0,
+            height: 50.0,
             width: double.infinity,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 icon,
                 const SizedBox(width: 4.0),
-                AutoSizeText(
+                // Container(
+                //   width: 90,
+                //   child: Text(label, maxLines: 2, overflow: TextOverflow.ellipsis))
+
+                Container(
+                                    width: 90,
+
+                  child: Text(
               label,
               style: Theme.of(context).textTheme.subtitle1,
               maxLines: 2,
+              overflow: TextOverflow.ellipsis
             ),
+                ),
                
               ],
             ),

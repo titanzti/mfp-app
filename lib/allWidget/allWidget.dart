@@ -78,12 +78,12 @@ Widget primaryAppBar(context) {
     ],
   );
 }
-Widget AppBardetail(context,String authorposttext) {
+Widget AppBardetail(context,String authorposttext,String lable) {
   return SliverAppBar(
     brightness: Brightness.light,
     backgroundColor: Colors.white,
     title:Text(
-         'โพสของ $authorposttext',style:TextStyle(fontSize: 16,color: MColors.textDark,fontFamily: '')),
+         '$lable $authorposttext',style:TextStyle(fontSize: 16,color: MColors.textDark,fontFamily: '')),
     // Text(
     //   'facebook',
     //   style: const TextStyle(
@@ -215,4 +215,6 @@ Widget UIlikecommentshear(context,int like,int comment,int share) {
   //   ],
   // );
 }
+
+
 

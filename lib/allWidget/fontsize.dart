@@ -56,14 +56,14 @@ Widget texttimetimestamp(DateTime dateTime) =>  Text(
         style: TextStyle(
           fontFamily: 'Anakotmai-Light',
           fontSize: 14,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w400,
           color: MColors.textGrey,
         ),);
 Widget authorpost(String string,context) =>  Text(
-              string,
+              string ,
               style: Theme.of(context).textTheme.bodyText2,
               maxLines: 2,
-               overflow: TextOverflow.clip,
+               overflow: TextOverflow.ellipsis,
 
             );
 Widget texthashtags(String string) => Text(
