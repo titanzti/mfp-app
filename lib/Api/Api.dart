@@ -31,9 +31,11 @@ class Api {
     return clear;
   }
 
-  static Future<Http.Response> getuserprofile(String token) async {
+  static Future<Http.Response> getuserprofile(String userid) async {
+             print('getuserprofile');
+
     final responseData = await Http.get(
-        "https://today-api.moveforwardparty.org/api/check_status?token=$token");
+        "${Api.url}api/profile/$userid");
 
     return responseData;
   }
@@ -87,7 +89,15 @@ class Api {
       }
     }
 
-  
+  static Future getemergencycontent(String emergencyEventId)async{
+
+
+
+    final responseData = await Http.get("${Api.url}api/emergency/$emergencyEventId/timeline");
+
+    return responseData;
+  }
+
 
   static Future<Http.Response> getRecommendedUserPage() async {
 
@@ -182,8 +192,7 @@ class Api {
     return postlist;
   }
 
-  static Future<List<PostListSS>> getPostListSS1(String idss,
-      {int page = 1}) async {
+  static Future<List<PostListSS>> getPostListSS1(String idss, {int page = 1}) async {
     print('getPostListSS1');
     final headers = {
       "limit": 1,
@@ -305,8 +314,7 @@ class Api {
     return responseData;
   }
 
-  static Future<Http.Response> apisearchlist(
-      String keyword, String hashtag, int offset) async {
+  static Future<Http.Response> apisearchlist(String keyword, String hashtag, int offset) async {
     print('getHashtagList');
     var url = "https://today-api.moveforwardparty.org/api/main/content/search";
     final headers = {
@@ -336,19 +344,19 @@ class Api {
     return responseData;
   }
 
-  static Future<Http.Response> getcommentlist(String postid, String uid) async {
+  static Future<Http.Response> getcommentlist(String postid, String uid,String token) async {
     print('getcommentlist');
 
     var url =
         "https://today-api.moveforwardparty.org/api/post/$postid/comment/search";
     final headers = {
       "userid": uid,
-      "content-type": "application/json"
-
+      "content-type": "application/json",
+      "authorization":token,
       // "whereConditions": {"isHideStory": false},
     };
     Map data = {
-      "limit": 0,
+      "limit": 5,
     };
     var body = jsonEncode(data);
 
@@ -389,8 +397,7 @@ class Api {
   //   return responseData;
   // }
 
-  static Future<Http.Response> updataimage(
-      String id, String base64image, String fileName, String token) async {
+  static Future<Http.Response> updataimage(String id, String base64image, String fileName, String token) async {
     print('updataimage');
     var url = "https://today-api.moveforwardparty.org/api/profile/$id/image";
     final headers = {
@@ -422,8 +429,7 @@ class Api {
     return responseData;
   }
 
-  static Future<Http.Response> repost(
-      String postid, String uid, String token) async {
+  static Future<Http.Response> repost( String postid, String uid, String token) async {
     print('repost');
     var url = "https://today-api.moveforwardparty.org/api/post/$postid/repost";
     final headers = {
