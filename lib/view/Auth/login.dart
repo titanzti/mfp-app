@@ -271,10 +271,10 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              Padding(
-                  padding: EdgeInsets.only(
-                bottom: 100.0,
-              )),
+              // Padding(
+              //     padding: EdgeInsets.only(
+              //   bottom: 100.0,
+              // )),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(

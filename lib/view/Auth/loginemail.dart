@@ -397,10 +397,10 @@ class _LoginemailState extends State<Loginemail> {
                       ),
                     ),
 
-                    Padding(
-                        padding: EdgeInsets.only(
-                      bottom: 65.0,
-                    )),
+                    // Padding(
+                    //     padding: EdgeInsets.only(
+                    //   bottom: 65.0,
+                    // )),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Text(

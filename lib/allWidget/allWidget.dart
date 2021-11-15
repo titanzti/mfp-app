@@ -88,7 +88,7 @@ Widget primaryAppBar(context, var token) {
                 radius: 25.0,
                 backgroundColor: Colors.white70,
                 child: IconButton(
-                  icon: (Icon(CupertinoIcons.camera)),
+                  icon: (Icon(CupertinoIcons.person)),
                   onPressed: () {
                     Navigate.pushPage(context, Loginregister());
                   },
