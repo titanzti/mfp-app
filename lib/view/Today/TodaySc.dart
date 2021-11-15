@@ -54,7 +54,7 @@ class _TodayScState extends State<TodaySc> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
 
-  String checktoken;
+  var checktoken;
 
   var datagetuserprofile;
 
@@ -382,7 +382,7 @@ class _TodayScState extends State<TodaySc> {
                 //         child: Container(),
                 //       ))
                 //     :
-                primaryAppBar(context),
+                primaryAppBar(context, checktoken),
 
                 ///-----------APPBAR-----------------//
                 isLoadingHastag
@@ -762,34 +762,35 @@ class _TodayScState extends State<TodaySc> {
                                 size: 20.0,
                               ),
                               label: '${likeCount.toString()} ถูกใจ',
-                              onTap: ()async {
-                                  HapticFeedback.lightImpact();
+                              onTap: () async {
+                                HapticFeedback.lightImpact();
 
-                          var jsonResponse;
-                          await Api.islike(postid, userid, checktoken)
-                              .then((value) => ({
-                                    jsonResponse = jsonDecode(value.body),
-                                    print('message${jsonResponse['message']}'),
-                                    if (value.statusCode == 200)
-                                      {
-                                        if (jsonResponse['message'] ==
-                                            "Like Post Success")
-                                          {
-                                            setState(() {
-                                              likeCount++;
-                                            }),
-                                          }
-                                        else if (jsonResponse['message'] ==
-                                            "UnLike Post Success")
-                                          {
-                                            setState(() {
-                                             likeCount--;
-                                            }),
-                                          }
-                                      }
-                                  }));
-                          print("กดlike");
-
+                                var jsonResponse;
+                                await Api.islike(postid, userid, checktoken)
+                                    .then((value) => ({
+                                          jsonResponse = jsonDecode(value.body),
+                                          print(
+                                              'message${jsonResponse['message']}'),
+                                          if (value.statusCode == 200)
+                                            {
+                                              if (jsonResponse['message'] ==
+                                                  "Like Post Success")
+                                                {
+                                                  setState(() {
+                                                    likeCount++;
+                                                  }),
+                                                }
+                                              else if (jsonResponse[
+                                                      'message'] ==
+                                                  "UnLike Post Success")
+                                                {
+                                                  setState(() {
+                                                    likeCount--;
+                                                  }),
+                                                }
+                                            }
+                                        }));
+                                print("กดlike");
                               },
                             ),
                             PostButton(

@@ -117,7 +117,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
           body: CustomScrollView(
             controller: _trackingScrollController,
             slivers: [
-              primaryAppBar(context),
+              primaryAppBar(context,""),
               AppBardetail( context, 
               "เหตุการณ์ด่วน ${widget.hashtagstitle}",
                "",
@@ -130,21 +130,6 @@ class _DTemergenScState extends State<DTEmergenSc> {
             Navigator.of(context).pop();
           },
         ),),
-
-              ///-----------APPBAR-----------------//
-              // SliverToBoxAdapter(
-              //   child: PostList(name == null ? "" : name, coverPageUrl,followedCount
-              //       // nDataList1.post.detail,
-              //       // nDataList1.page.name,
-              //       // nDataList1.page.createdDate,
-              //       // nDataList1.post.gallery,
-              //       // nDataList1.post.likeCount,
-              //       // nDataList1.post.commentCount,
-              //       // nDataList1.post.shareCount,
-              //       // nDataList1.post.id,
-              //       ),
-              // ),
-
               SliverToBoxAdapter(
                 child: FutureBuilder(
                   future: Future.wait([getDataList]),
@@ -326,97 +311,6 @@ class _DTemergenScState extends State<DTEmergenSc> {
                 height: 100,
               )),
 
-              //         SliverToBoxAdapter(
-              //           child: ListView.builder(
-              //                             physics: ClampingScrollPhysics(),
-              //                             shrinkWrap: true,
-              //                             // padding: const EdgeInsets.all(8.0),
-              //                             scrollDirection: Axis.vertical,
-              //                             itemCount: 5,
-              //                             itemBuilder: (
-              //                               BuildContext context,
-              //                               int index,
-              //                             ) {
-              //                               // final nDataList1 =
-              //                               //     listeEmergencyEventModel[index];
-              //                               // print(listeEmergencyEventModel.length);
-              //                               // print(nDataList1.hashTagName);
-              //                               return Container(
-
-              //                                 color: Colors.white,
-              //                                 child: Column(
-              //                                   children: [
-              //                                     Row(
-              //                                       children: [
-              //                                         Container(
-              //                                     color: Colors.yellow,
-
-              //                                           width: 170,
-              //                                           height: 190,
-              //                                           child: Container(child: Text('data'))),
-              //                                          Container(
-              //                                             color: Colors.blue,
-
-              //                                           width: 170,
-              //                                           height: 190,
-              //                                           child: Container(child: Text('data'))),
-              //                                       ],
-              //                                     )
-              //                                   ],
-              //                                 ),
-              //                               );
-              //                               // PostList(name,
-              //                               //     coverPageUrl
-              //                               //     // nDataList1.post.detail,
-              //                               //     // nDataList1.page.name,
-              //                               //     // nDataList1.page.createdDate,
-              //                               //     // nDataList1.post.gallery,
-              //                               //     // nDataList1.post.likeCount,
-              //                               //     // nDataList1.post.commentCount,
-              //                               //     // nDataList1.post.shareCount,
-              //                               //     // nDataList1.post.id,
-              //                               //     );
-              //                             }),
-              //         ),
-
-              ///-----------SliverListปิดไปก่อนได้----------------//
-              //  SliverToBoxAdapter(
-              //    child: Expanded(
-              //     child: Container(
-              //       color:Color(0xffF8F8F8),
-              //       child: _buildCommentList(size)),
-              // ),
-              //  ),
-              // SliverList(
-              //   delegate: SliverChildBuilderDelegate((context, index) {
-              //     return Builder(
-              //       builder: (BuildContext context) {
-              //         return ListView.builder(
-              //             physics: ClampingScrollPhysics(),
-              //             shrinkWrap: true,
-              //             padding: const EdgeInsets.all(8.0),
-              //             scrollDirection: Axis.vertical,
-              //             itemCount: 15,
-              //             itemBuilder: (
-              //               BuildContext context,
-              //               int index,
-              //             ) {
-              //               return ListTile(
-              //                 leading: new CircleAvatar(
-              //                   radius: 25.0,
-              //                   backgroundImage: NetworkImage(
-              //                       'https://via.placeholder.com/150'),
-              //                   backgroundColor: Colors.transparent,
-              //                 ),
-              //                 title: Text('I like icecream$index'),
-              //                 subtitle: Text('Icream is good for health'),
-              //                 trailing: Icon(Icons.food_bank),
-              //               );
-              //             });
-              //       },
-              //     );
-              //   }, childCount: 1),
-              // ),
             ],
           ),
         ),

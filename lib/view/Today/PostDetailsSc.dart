@@ -124,7 +124,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       String postid, String mytoken, String mag, String myuid) async {
     print('sendcomment');
 
-    var url = "https://today-api.moveforwardparty.org/api/post/$postid/comment";
+    var url = "${Api.url}api/post/$postid/comment";
     final headers = {
       "userid": myuid,
       "content-type": "application/json",
@@ -160,41 +160,42 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       }
     }
   }
+
   Future<Null> _handleRefresh() async {
     new Future.delayed(const Duration(seconds: 2));
     setState(() {
       listModel.clear();
     });
-    Api.getcommentlist(widget.id, widget.userid,widget.token).then((responseData) => ({
-          setState(() {
-            loading = true;
-          }),
-          print('getHashtagData'),
-          if (responseData.statusCode == 200)
-            {
-              dataht = jsonDecode(responseData.body),
-              print("comlist${dataht["data"]}"),
-              for (Map i in dataht["data"])
-                {
-                  setState(() {
-                    listModel.add(CommentlistModel.fromJson(i));
-                    _postsController.add(responseData);
-                  }),
-                  print('listModel${listModel.length}'),
-                },
+    Api.getcommentlist(widget.id, widget.userid, widget.token)
+        .then((responseData) => ({
               setState(() {
-                loading = false;
-                onref = false;
+                loading = true;
               }),
-            }
-        }));
+              print('getHashtagData'),
+              if (responseData.statusCode == 200)
+                {
+                  dataht = jsonDecode(responseData.body),
+                  print("comlist${dataht["data"]}"),
+                  for (Map i in dataht["data"])
+                    {
+                      setState(() {
+                        listModel.add(CommentlistModel.fromJson(i));
+                        _postsController.add(responseData);
+                      }),
+                      print('listModel${listModel.length}'),
+                    },
+                  setState(() {
+                    loading = false;
+                    onref = false;
+                  }),
+                }
+            }));
   }
-
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-if (onref == true) {
+    if (onref == true) {
       _handleRefresh();
     }
     print(onref);
@@ -204,16 +205,16 @@ if (onref == true) {
       child: SafeArea(
         child: Scaffold(
           body: RefreshIndicator(
-          onRefresh: () => () async {
-            print('RefreshIndicator');
-            HapticFeedback.mediumImpact();
+            onRefresh: () => () async {
+              print('RefreshIndicator');
+              HapticFeedback.mediumImpact();
 
-            _handleRefresh();
-          }(),
+              _handleRefresh();
+            }(),
             child: CustomScrollView(
               controller: _trackingScrollController,
               slivers: [
-                primaryAppBar(context),
+                primaryAppBar(context,""),
                 AppBardetail(
                   context,
                   "โพสของ",
@@ -228,7 +229,7 @@ if (onref == true) {
                     },
                   ),
                 ),
-          
+
                 ///-----------APPBAR-----------------//
                 SliverToBoxAdapter(
                   child: PostList(
@@ -242,13 +243,10 @@ if (onref == true) {
                     widget.shareCoun,
                   ),
                 ),
-          
+
                 ///-----------SliverListปิดไปก่อนได้----------------//
                 SliverToBoxAdapter(
-                  child: Expanded(
-                    child: Container(
-                        color: Color(0xffF8F8F8), child: _buildCommentList(size)),
-                  ),
+                  child: _buildCommentList(size),
                 ),
                 // SliverList(
                 //   delegate: SliverChildBuilderDelegate((context, index) {
@@ -265,7 +263,7 @@ if (onref == true) {
                 //               int index,
                 //             ) {
                 //               return ListTile(
-          
+
                 //                 leading:  new  CircleAvatar(
                 //             radius: 25.0,
                 //             backgroundImage:
@@ -299,9 +297,7 @@ if (onref == true) {
       int commentCount,
       int shareCount) {
     return InkWell(
-      onTap: () {
-       
-      },
+      onTap: () {},
       child: Container(
         width: 200,
         color: MColors.containerWhite,
@@ -540,9 +536,11 @@ if (onref == true) {
                             // widget.data['toCommentID'] == null ? 48 : 40,
                             child: CircleAvatar(
                               radius: 25.0,
-                              backgroundImage: data.user.imageUrl!=null ?NetworkImage(
-                                  "https://today-api.moveforwardparty.org/api${data.user.imageUrl}/image"):
-                                  NetworkImage('https://via.placeholder.com/150'),
+                              backgroundImage: data.user.imageUrl != null
+                                  ? NetworkImage(
+                                      "https://today-api.moveforwardparty.org/api${data.user.imageUrl}/image")
+                                  : NetworkImage(
+                                      'https://via.placeholder.com/150'),
                               backgroundColor: Colors.transparent,
                             ),
                           ),

@@ -12,23 +12,21 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> with TickerProviderStateMixin {
   ScrollController _scrollController = ScrollController();
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
-              color: MColors.primaryWhite,
-
-      child: SafeArea(
-        child:  Scaffold(
-            body: Container(
-              
+      color: MColors.primaryWhite,
+      child: Scaffold(
+        body: Container(
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('images/1200.png'), fit: BoxFit.fill)),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only( left: 20, right: 20),
+                padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
                 child: Column(
                   children: [
                     Row(
@@ -46,12 +44,11 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                         ),
                         Spacer(),
                         Container(
-                          height: 85,
+                          height: 100,
                           width: 170,
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                            image:
-                                AssetImage('images/MFP-Logo-Horizontal.png'),
+                            image: AssetImage('images/MFP-Logo-Horizontal.png'),
                           )),
                         ),
                       ],
@@ -63,7 +60,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           child: Text(
                             "เราอยากให้ทุกคนมี",
                             style: TextStyle(
-                              fontFamily: AppTheme.FontAnakotmaiLight,
+                                fontFamily: AppTheme.FontAnakotmaiLight,
                                 fontSize: 25,
                                 // fontWeight: FontWeight.bold,
                                 color: Colors.white),
@@ -75,7 +72,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                             "เสรีภาพ เสมอภาค ภราดรภาพ",
                             style: TextStyle(
                                 fontFamily: AppTheme.FontAnakotmaiLight,
-
                                 fontSize: 25,
                                 color: Colors.white),
                           ),
@@ -93,8 +89,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                           child: Text(
                             'เข้าสู่ระบบด้วย',
                             style: TextStyle(
-                        fontFamily: AppTheme.FontAnakotmaiLight,
-
+                                fontFamily: AppTheme.FontAnakotmaiLight,
                                 fontSize: 18,
                                 color: Colors.white),
                           ),
@@ -122,7 +117,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   //   padding: EdgeInsets.only(left: 110),
                                   // ),
                                   Container(
-                                    height: 50.0,
+                                    height: 60.0,
                                     width: 50.0,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
@@ -138,10 +133,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   Text(
                                     'เข้าสู่ระบบด้วย Email',
                                     style: TextStyle(
-                                       fontFamily: AppTheme.FontAnakotmaiLight,
-
-                                      fontSize: 20,
-                                    
+                                      fontFamily: AppTheme.FontAnakotmaiLight,
+                                      fontSize: 18,
                                     ),
                                   ),
                                 ],
@@ -151,7 +144,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => Loginemail()),
+                                  MaterialPageRoute(
+                                      builder: (context) => Loginemail()),
                                 );
                                 print('กด');
                               },
@@ -163,7 +157,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     //-------------------------------------------------------------------------------//
                     Padding(
                         padding: EdgeInsets.only(
-                      top: 10,
+                      top: 5,
                     )),
                     //-----------------------------เข้าสู่ระบบด้วย Facebook------------------------------//
                     Container(
@@ -182,7 +176,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   //   padding: EdgeInsets.only(left: 110),
                                   // ),
                                   Container(
-                                    height: 50.0,
+                                    height: 60.0,
                                     width: 50.0,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
@@ -199,9 +193,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   Text(
                                     'เข้าสู่ระบบด้วย Facebook',
                                     style: TextStyle(
-                                       fontFamily: AppTheme.FontAnakotmaiLight,
-
-                                      fontSize: 20,
+                                      fontFamily: AppTheme.FontAnakotmaiLight,
+                                      fontSize: 18,
                                     ),
                                   ),
                                 ],
@@ -219,7 +212,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     //-------------------------------------------------------------------------------//
                     Padding(
                         padding: EdgeInsets.only(
-                      top: 10,
+                      top: 5,
                     )),
                     //------------------------------เข้าสู่ระบบด้วย Twitter------------------------------//
                     Container(
@@ -238,7 +231,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   //   padding: EdgeInsets.only(left: 110),
                                   // ),
                                   Container(
-                                    height: 50.0,
+                                    height: 60.0,
                                     width: 50.0,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
@@ -255,10 +248,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                   Text(
                                     'เข้าสู่ระบบด้วย Twitter',
                                     style: TextStyle(
-                                      fontSize: 20,
-                                       fontFamily: AppTheme.FontAnakotmaiLight,
-
-                                      ),
+                                      fontSize: 18,
+                                      fontFamily: AppTheme.FontAnakotmaiLight,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -274,28 +266,31 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     ),
                     //-------------------------------------------------------------------------------//
                     // Padding(
-                    
+
                     // )),
-                    Padding(
-                       padding:const EdgeInsets.only(
-                       top: 95),
-                      child: Container(
-                                     alignment: Alignment.bottomCenter,
-                        child: Text(
-                          '© 2021 พรรคก้าวไกล. ALL RIGHTS RESERVED.',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    )
                   ],
                 ),
-              )
+              ),
+              Padding(
+                  padding: EdgeInsets.only(
+                bottom: 100.0,
+              )),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    '© 2021 พรรคก้าวไกล. ALL RIGHTS RESERVED.',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: AppTheme.FontAnakotmaiLight,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-      ),
-           
-      ),
-      
+        ),
       ),
     );
   }

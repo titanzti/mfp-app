@@ -28,7 +28,7 @@ class _ShopSCState extends State<ShopSC> {
           body: CustomScrollView(
             controller: _trackingScrollController,
             slivers: [
-              primaryAppBar(context),
+              primaryAppBar(context,""),
 
               ///-----------APPBAR-----------------//
 

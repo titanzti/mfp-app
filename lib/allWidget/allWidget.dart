@@ -1,9 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/PostButton.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/postModel.dart';
@@ -11,6 +14,8 @@ import 'package:mfp_app/allWidget/circle_button.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/style.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
+import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
+import 'package:mfp_app/view/Profile/ProfileUITEST.dart';
 
 //APPBARS-------------------------------------
 
@@ -34,26 +39,21 @@ import 'package:mfp_app/view/Auth/login-register.dart';
 //   );
 // }
 
-Widget primaryAppBar(context) {
+Widget primaryAppBar(context, var token) {
+  bool isopen = false;
   return SliverAppBar(
     brightness: Brightness.light,
     backgroundColor: Colors.white,
-    title: Image.asset(
-      'images/MFP-Logo-Horizontal.png',
-      width: 150,
-      height: 150,
+    title: InkWell(
+      onTap: null,
+      //  () => Navigator.pop(context),
+      child: Image.asset(
+        'images/MFP-Logo-Horizontal.png',
+        width: 150,
+        height: 150,
+      ),
     ),
-    // Text(
-    //   'facebook',
-    //   style: const TextStyle(
-    //     color: Colors.blue,
-    //     fontSize: 28.0,
-    //     fontWeight: FontWeight.bold,
-    //     letterSpacing: -1.2,
-    //   ),
-    // ),
     automaticallyImplyLeading: false,
-
     centerTitle: false,
     floating: true,
     actions: [
@@ -67,19 +67,34 @@ Widget primaryAppBar(context) {
         iconSize: 30.0,
         onPressed: () => print('Messenger'),
       ),
-      InkWell(
-        onTap: (){
-          Navigate.pushPage(context, Loginregister());
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: CircleAvatar(
-            radius: 25.0,
-            backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-            backgroundColor: Colors.transparent,
-          ),
-        ),
-      )
+      token != null
+          ? InkWell(
+              onTap: () {
+                Navigate.pushPage(context, ProfileUITEST());
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: CircleAvatar(
+                  radius: 25.0,
+                  backgroundImage:
+                      NetworkImage('https://via.placeholder.com/150'),
+                  backgroundColor: Colors.transparent,
+                ),
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: CircleAvatar(
+                radius: 25.0,
+                backgroundColor: Colors.white70,
+                child: IconButton(
+                  icon: (Icon(CupertinoIcons.camera)),
+                  onPressed: () {
+                    Navigate.pushPage(context, Loginregister());
+                  },
+                ),
+              ),
+            )
     ],
   );
 }
