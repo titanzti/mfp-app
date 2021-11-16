@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mfp_app/Api/Api.dart';
+import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/allWidget/circle_button.dart';
 import 'package:mfp_app/allWidget/custom_tab_bar.dart';
@@ -17,12 +19,32 @@ class NavScreen extends StatefulWidget {
 }
 
 class _NavScreenState extends State<NavScreen> {
-  final List<Widget> _screens = [
-    TodaySc(),
+  var userid;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //  Api.gettoke().then((value) => value({
+    //           checktoken = value,
+    //           // print('checktoken$checktoken'),
+    //         }));
+
+        Api.getmyuid().then((value) => ({
+              setState(() {
+                userid = value;
+              }),
+              // print('myuidhome$userid'),
+            }));
+  }
+   List<Widget> _screens() {
+ return [
+    TodaySc(userid: userid),
     DoingSC(),
     ShopSC(),
     MenuSC(),
   ];
+   } 
   final List<IconData> _icons = const [
     Icons.home,
     Icons.ondemand_video,
@@ -56,7 +78,7 @@ class _NavScreenState extends State<NavScreen> {
 
         body: IndexedStack(
           index: _selectedIndex,
-          children: _screens,
+          children: _screens(),
         ),
         
         bottomNavigationBar: Container(

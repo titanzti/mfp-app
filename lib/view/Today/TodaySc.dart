@@ -20,11 +20,15 @@ import 'package:mfp_app/allWidget/fontsize.dart';
 import 'dart:io' show Platform;
 import 'package:mfp_app/allWidget/PostButton.dart';
 import 'package:mfp_app/utils/router.dart';
+import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/Today/Dtemergencyevent.dart';
 
 import 'package:mfp_app/view/Today/PostDetailsSc.dart';
 
 class TodaySc extends StatefulWidget {
+  final String userid;
+
+  const TodaySc({Key key, this.userid}) : super(key: key);
   @override
   _TodayScState createState() => _TodayScState();
 }
@@ -71,6 +75,8 @@ class _TodayScState extends State<TodaySc> {
   var email;
 
   var image;
+
+  var userimageUrl;
   @override
   void dispose() {
     _trackingScrollController.dispose();
@@ -86,17 +92,21 @@ class _TodayScState extends State<TodaySc> {
       setState(() {
         Api.gettoke().then((value) => value({
               checktoken = value,
-              print('checktoken$checktoken'),
+              // print('checktoken$checktoken'),
             }));
-
         Api.getmyuid().then((value) => ({
               setState(() {
                 userid = value;
               }),
-              print('myuidhome$userid'),
+              // print('myuidhome$userid'),
+            }));
+            Api.getimageURL().then((value) => ({
+              setState(() {
+                userimageUrl = value;
+              }),
+              // print('myuidhome$userid'),
             }));
       });
-
       //   () async {
       //   if (_scrollController.position.pixels ==
       //       _scrollController.position.maxScrollExtent) {
@@ -131,7 +141,7 @@ class _TodayScState extends State<TodaySc> {
       //     });
       //   }
       // });
-      Api.getuserprofile("618e3785ff6acb2b1b2b35d8").then((responseData) => ({
+      Api.getuserprofile("$userid").then((responseData) => ({
             if (responseData.statusCode == 200)
               {
                 datagetuserprofile = jsonDecode(responseData.body),
@@ -357,7 +367,7 @@ class _TodayScState extends State<TodaySc> {
 
   @override
   Widget build(BuildContext context) {
-    print('fistload$fistload');
+    print('widgetuserid${widget.userid}');
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -382,8 +392,7 @@ class _TodayScState extends State<TodaySc> {
                 //         child: Container(),
                 //       ))
                 //     :
-                primaryAppBar(context, checktoken),
-
+                primaryAppBar(context, checktoken,userid,userimageUrl),
                 ///-----------APPBAR-----------------//
                 isLoadingHastag
                     ? SliverToBoxAdapter(child: CarouselLoading())
@@ -755,7 +764,7 @@ class _TodayScState extends State<TodaySc> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            PostButton(
+                          PostButton(
                               icon: Icon(
                                 Icons.favorite_outline,
                                 color: MColors.primaryBlue,
@@ -766,7 +775,7 @@ class _TodayScState extends State<TodaySc> {
                                 HapticFeedback.lightImpact();
 
                                 var jsonResponse;
-                                await Api.islike(postid, userid, checktoken)
+                             checktoken==null? Navigate.pushPage(context, Loginregister()):    await Api.islike(postid, userid, checktoken)
                                     .then((value) => ({
                                           jsonResponse = jsonDecode(value.body),
                                           print(
@@ -960,7 +969,44 @@ class _TodayScState extends State<TodaySc> {
                                     side:
                                         BorderSide(color: MColors.primaryColor),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: ()async {
+                                                                    var jsonResponse;
+
+                                    await Api.sendfollowPage(data.id, checktoken, widget.userid)
+                                    .then((value) => ({
+                                          jsonResponse = jsonDecode(value.body),
+                                          print('message${jsonResponse['message']}'),
+                                          if (value.statusCode == 200)
+                                            {
+                                              if (jsonResponse['message'] ==
+                                                  "Followed Page Success")
+                                                {
+                                                ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+    content: Text(jsonResponse['message']),
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(24),
+    ),
+  margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
+  )),
+                                                }
+                                              else if (jsonResponse['message'] ==
+                                                  "Unfollow Page Success")
+                                                {
+                                                                                                  ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+    content: Text(jsonResponse['message']),
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(24),
+    ),
+     margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
+
+  )),
+                                                }
+                                            }
+                                        }));
+
+                                  },
                                   color: Colors.white,
                                   child: Text("ติดตาม",
                                       style: TextStyle(

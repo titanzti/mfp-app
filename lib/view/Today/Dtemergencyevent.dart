@@ -117,7 +117,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
           body: CustomScrollView(
             controller: _trackingScrollController,
             slivers: [
-              primaryAppBar(context,""),
+              primaryAppBar(context,"","",""),
               AppBardetail( context, 
               "เหตุการณ์ด่วน ${widget.hashtagstitle}",
                "",
@@ -199,7 +199,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                   // alignment: Alignment.center,
                                   child: Column(
                                     children: [
-                                      e.standardItem.imageUrl != null
+                                      e.standardItem.imageUrl != ""
                                           ? new CachedNetworkImage(
                                               imageUrl:
                                                   "https://today-api.moveforwardparty.org/api${e.standardItem.imageUrl}/image",
@@ -236,7 +236,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                           Text('${e.unit}'),
                                         ],
                                       ),
-                                      Padding(
+                                    e.active==true?  Padding(
                                         padding: const EdgeInsets.only(top: 10),
                                         child: Container(
                                           width: 150,
@@ -251,6 +251,31 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                               backgroundColor:
                                                   MaterialStateProperty.all<
                                                       Color>(Colors.green),
+                                            ),
+                                            child: Text(
+                                              'เติมเต็ม',
+                                              style: TextStyle(
+                                                  fontSize: 11.0,
+                                                  color: MColors.primaryWhite),
+                                            ),
+                                            onPressed: () {},
+                                          ),
+                                        ),
+                                      ):Padding(
+                                        padding: const EdgeInsets.only(top: 10),
+                                        child: Container(
+                                          width: 150,
+                                          height: 27,
+                                          // color: Colors.green,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(8)),
+                                          ),
+                                          child: TextButton(
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(Colors.green.withOpacity(0.2)),
                                             ),
                                             child: Text(
                                               'เติมเต็ม',
@@ -410,7 +435,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    nDataList1.fulfillmentCount.toString(),
+                                    nDataList1.followedCount.toString(),
                                     style: TextStyle(
                                         fontSize: 33,
                                         color: MColors.primaryBlue),
@@ -468,7 +493,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'ติดตาม',
+                      'พูดถึง',
                       style: TextStyle(fontSize: 15),
                     ),
                   ),
@@ -482,7 +507,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'ติดตาม',
+                      'แชร์',
                       style: TextStyle(fontSize: 15),
                     ),
                   ),

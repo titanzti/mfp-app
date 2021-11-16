@@ -18,11 +18,26 @@ class _LoginregisterState extends State<Loginregister> with TickerProviderStateM
       color: MColors.primaryWhite,
       child: SafeArea(
         child: Scaffold(
+
               body: SingleChildScrollView(
                 controller: _scrollController,
                       physics: BouncingScrollPhysics(),
                 child: Column(
             children: [
+              Container(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                            icon: const Icon(
+                              Icons.close,
+                              size: 30,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              print('กด');
+                            },
+                          ),
+              ),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 200),

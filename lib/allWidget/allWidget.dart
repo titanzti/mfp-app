@@ -15,6 +15,7 @@ import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/style.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
+import 'package:mfp_app/view/Profile/Profile.dart';
 import 'package:mfp_app/view/Profile/ProfileUITEST.dart';
 
 //APPBARS-------------------------------------
@@ -39,7 +40,7 @@ import 'package:mfp_app/view/Profile/ProfileUITEST.dart';
 //   );
 // }
 
-Widget primaryAppBar(context, var token) {
+Widget primaryAppBar(context, var token,var userid,var imageurl) {
   bool isopen = false;
   return SliverAppBar(
     brightness: Brightness.light,
@@ -70,14 +71,14 @@ Widget primaryAppBar(context, var token) {
       token != null
           ? InkWell(
               onTap: () {
-                Navigate.pushPage(context, ProfileUITEST());
+                Navigate.pushPage(context, ProfileSc(userid: userid,));
               },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: CircleAvatar(
                   radius: 25.0,
                   backgroundImage:
-                      NetworkImage('https://via.placeholder.com/150'),
+                      NetworkImage('https://today-api.moveforwardparty.org/api$imageurl/image'),
                   backgroundColor: Colors.transparent,
                 ),
               ),

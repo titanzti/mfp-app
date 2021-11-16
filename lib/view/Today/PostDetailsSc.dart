@@ -14,7 +14,9 @@ import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/commentlistmodel.dart';
 import 'package:mfp_app/model/searchpostlistModel.dart';
 import 'package:http/http.dart' as Http;
+import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/timeutils.dart';
+import 'package:mfp_app/view/Auth/login-register.dart';
 
 class PostDetailsSC extends StatefulWidget {
   final String id;
@@ -214,7 +216,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
             child: CustomScrollView(
               controller: _trackingScrollController,
               slivers: [
-                primaryAppBar(context,""),
+              primaryAppBar(context,"","",""),
                 AppBardetail(
                   context,
                   "โพสของ",
@@ -368,32 +370,32 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                               ),
                               label: '${likeCount.toString()} ถูกใจ',
                               onTap: () async {
-                                //         HapticFeedback.lightImpact();
+                                        HapticFeedback.lightImpact();
 
-                                // var jsonResponse;
-                                // await Api.islike(postid, userid, checktoken)
-                                //     .then((value) => ({
-                                //           jsonResponse = jsonDecode(value.body),
-                                //           print('message${jsonResponse['message']}'),
-                                //           if (value.statusCode == 200)
-                                //             {
-                                //               if (jsonResponse['message'] ==
-                                //                   "Like Post Success")
-                                //                 {
-                                //                   setState(() {
-                                //                     likeCount++;
-                                //                   }),
-                                //                 }
-                                //               else if (jsonResponse['message'] ==
-                                //                   "UnLike Post Success")
-                                //                 {
-                                //                   setState(() {
-                                //                    likeCount--;
-                                //                   }),
-                                //                 }
-                                //             }
-                                //         }));
-                                // print("กดlike");
+                                var jsonResponse;
+                          widget.token==null? Navigate.pushPage(context, Loginregister()):  await Api.islike(widget.id, widget.userid, widget.token)
+                                    .then((value) => ({
+                                          jsonResponse = jsonDecode(value.body),
+                                          print('message${jsonResponse['message']}'),
+                                          if (value.statusCode == 200)
+                                            {
+                                              if (jsonResponse['message'] ==
+                                                  "Like Post Success")
+                                                {
+                                                  setState(() {
+                                                    likeCount++;
+                                                  }),
+                                                }
+                                              else if (jsonResponse['message'] ==
+                                                  "UnLike Post Success")
+                                                {
+                                                  setState(() {
+                                                   likeCount--;
+                                                  }),
+                                                }
+                                            }
+                                        }));
+                                print("กดlike");
                               },
                             ),
                             PostButton(
@@ -419,7 +421,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                       ],
                     ),
                   ),
-                  Row(
+                 widget.token==null? Container():    Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(10.0),
@@ -430,7 +432,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                           backgroundColor: Colors.transparent,
                         ),
                       ),
-                      Padding(
+                        Padding(
                         padding: const EdgeInsets.only(left: 4.0),
                         child: Container(
                           width: 300,

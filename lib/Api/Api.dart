@@ -21,6 +21,7 @@ class Api {
     print("!remover secc");
     return clear;
   }
+  /*--------------------logout--------------------------------------*/
 
   static Future<Http.Response> getuserprofile(String userid) async {
     print('getuserprofile');
@@ -29,24 +30,29 @@ class Api {
 
     return responseData;
   }
+  /*--------------------ดึงค่าuserprofile--------------------------------------*/
 
   static Future gettoke() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var tokenname = prefs.getString('token');
     return tokenname;
   }
+    /*--------------------gettokeจากSharedPreferences--------------------------------------*/
+
 
   static Future getmyuid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var myuid = prefs.getString('myuid');
     return myuid;
   }
+    /*--------------------getmyuidจากSharedPreferences--------------------------------------*/
 
   static Future getimageURL() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var imageURL = prefs.getString('imageURL');
     return imageURL;
   }
+    /*--------------------getimageURLจากSharedPreferences--------------------------------------*/
 
   static Future getPostList(int offset) async {
     print('getPostList');
@@ -78,6 +84,8 @@ class Api {
       return responseData;
     }
   }
+      /*--------------------getPostจาก/content/search--------------------------------------*/
+
 
   static Future getemergencycontent(String emergencyEventId) async {
     final responseData =
@@ -85,10 +93,36 @@ class Api {
 
     return responseData;
   }
+      /*--------------------getcontentemergencyจาก/emergency/emergencyid/timeline--------------------------------------*/
 
   static Future<Http.Response> getRecommendedUserPage() async {
     final responseData =
         await Http.get("${Api.url}api/recommend?limit=5&offset=0");
+    return responseData;
+  }
+      /*--------------------getแนะนำpageUseryจาก/recommend--------------------------------------*/
+       static Future<Http.Response> sendfollowPage(String pageid,String token,String userid) async {
+    print('getHashtagList');
+    var url = "https://today-api.moveforwardparty.org/api/page/$pageid/follow";
+    final headers = {
+      // "mode": "EMAIL",
+      "content-type": "application/json",
+            "authorization": "Bearer $token",
+       "userid":userid
+    };
+    Map data = {
+     
+    };
+    var body = jsonEncode(data);
+
+    final responseData = await Http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+    print('body$body');
+    print('headers$headers');
+    print('responseData${responseData.body}');
 
     return responseData;
   }
@@ -172,31 +206,7 @@ class Api {
     return responseData;
   }
 
-  static List<PostListSS> parsePost(String responseBody) {
-    var list = jsonDecode(responseBody) as List<dynamic>;
-    List<PostListSS> postlist =
-        list.map((model) => PostListSS.fromJson(model)).toList();
-    return postlist;
-  }
 
-  static Future<List<PostListSS>> getPostListSS1(String idss,
-      {int page = 1}) async {
-    print('getPostListSS1');
-    final headers = {
-      "limit": 1,
-      "count": false,
-      "whereConditions": {"isHideStory": false}
-    };
-    // print('getData');
-
-    final responseData = await Http.get(
-        "https://today-api.moveforwardparty.org/api/page/$idss/post/?offset=$page&limit=5");
-    if (responseData.statusCode == 200) {
-      return compute(parsePost, responseData.body);
-    } else if (responseData.statusCode == 404) {
-      throw Exception('Not Found');
-    }
-  }
 
   static Future<Http.Response> getPostDetailSS(String id) async {
     print('getPostDetailSS');
