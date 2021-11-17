@@ -14,10 +14,14 @@ import 'package:mfp_app/model/searchpostlistModel.dart';
 class DTEmergenSc extends StatefulWidget {
   final String hashtagstitle;
   final String emergencyEventId;
+  final String userimage;
+  final String token;
   const DTEmergenSc({
     Key key,
     this.hashtagstitle,
     this.emergencyEventId,
+    this.userimage,
+    this.token,
   }) : super(key: key);
 
   @override
@@ -117,27 +121,28 @@ class _DTemergenScState extends State<DTEmergenSc> {
           body: CustomScrollView(
             controller: _trackingScrollController,
             slivers: [
-              primaryAppBar(context,"","",""),
-              AppBardetail( context, 
-              "เหตุการณ์ด่วน ${widget.hashtagstitle}",
-               "",
-               IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: MColors.primaryColor,
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),),
+              primaryAppBar(context, widget.token, "", widget.userimage),
+              AppBardetail(
+                context,
+                "เหตุการณ์ด่วน ${widget.hashtagstitle}",
+                "",
+                IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: MColors.primaryColor,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
               SliverToBoxAdapter(
                 child: FutureBuilder(
                   future: Future.wait([getDataList]),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return Center(child: CupertinoActivityIndicator());
-                            }
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CupertinoActivityIndicator());
+                    }
                     return Builder(
                       builder: (BuildContext context) {
                         return ListView.builder(
@@ -157,7 +162,6 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                 nDataList1.hashTagName,
                                 nDataList1.coverPageUrl,
                                 nDataList1.title,
-                            
                               );
                             });
                       },
@@ -178,14 +182,14 @@ class _DTemergenScState extends State<DTEmergenSc> {
                       future: Future.wait([getDataList]),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                         return GridView.builder(
-                                                  physics: NeverScrollableScrollPhysics(),
-
+                          physics: NeverScrollableScrollPhysics(),
                           itemCount: listeNeedModel.length,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2),
                           itemBuilder: (BuildContext context, int index) {
                             var e = listeNeedModel[index];
+                          
                             return Container(
                               color: Color(0xffF8F8F8),
                               child: new Padding(
@@ -193,31 +197,33 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                     left: 10, right: 10, bottom: 15),
                                 child: Container(
                                   color: Colors.white,
-
                                   width: 170,
                                   height: 200,
                                   // alignment: Alignment.center,
                                   child: Column(
                                     children: [
-                                      e.standardItem.imageUrl != ""
-                                          ? new CachedNetworkImage(
-                                              imageUrl:
-                                                  "https://today-api.moveforwardparty.org/api${e.standardItem.imageUrl}/image",
-                                              placeholder: (context, url) =>
-                                                  new CupertinoActivityIndicator(),
-                                              errorWidget: (context, url,
-                                                      error) =>
-                                                  Container(
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    8)),
-                                                      ),
-                                                      child: new Image.asset(
-                                                          'images/placeholder.png')),
-                                            )
-                                          : new SizedBox.shrink(),
+                                      new Image.network("https://today-api.moveforwardparty.org/api/file/6034a808e1e737658b221294/image"),
+                                      // e.standardItem.imageUrl != null
+                                      //     ? new Image.network("https://today.moveforwardparty.org/assets/img/customize_item.svg")
+                                      //     // CachedNetworkImage(
+                                      //     //     imageUrl:
+                                      //     //         "https://today-api.moveforwardparty.org/api/file/6034a808e1e737658b221294/image",
+                                      //     //     placeholder: (context, url) =>
+                                      //     //         new CupertinoActivityIndicator(),
+                                      //     //     errorWidget: (context, url,
+                                      //     //             error) =>
+                                      //     //         Container(
+                                      //     //             decoration: BoxDecoration(
+                                      //     //               borderRadius:
+                                      //     //                   BorderRadius.all(
+                                      //     //                       Radius.circular(
+                                      //     //                           8)),
+                                      //     //             ),
+                                      //     //             child: new Image.asset(
+                                      //     //                 'images/placeholder.png')),
+                                      //     //   )
+                                      //     : new Image.network(
+                                      //         'https://today.moveforwardparty.org/assets/img/customize_item.svg'),
                                       Container(
                                         alignment: Alignment.topRight,
                                         child: Text(
@@ -236,60 +242,71 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                           Text('${e.unit}'),
                                         ],
                                       ),
-                                    e.active==true?  Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Container(
-                                          width: 150,
-                                          height: 27,
-                                          // color: Colors.green,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8)),
-                                          ),
-                                          child: TextButton(
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(Colors.green),
+                                      e.active == true
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10),
+                                              child: Container(
+                                                width: 150,
+                                                height: 27,
+                                                // color: Colors.green,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8)),
+                                                ),
+                                                child: TextButton(
+                                                  style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                                Colors.green),
+                                                  ),
+                                                  child: Text(
+                                                    'เติมเต็ม',
+                                                    style: TextStyle(
+                                                        fontSize: 11.0,
+                                                        color: MColors
+                                                            .primaryWhite),
+                                                  ),
+                                                  onPressed: () {},
+                                                ),
+                                              ),
+                                            )
+                                          : Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10),
+                                              child: Container(
+                                                width: 150,
+                                                height: 27,
+                                                // color: Colors.green,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(8)),
+                                                ),
+                                                child: TextButton(
+                                                  style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(Colors
+                                                                .green
+                                                                .withOpacity(
+                                                                    0.2)),
+                                                  ),
+                                                  child: Text(
+                                                    'เติมเต็ม',
+                                                    style: TextStyle(
+                                                        fontSize: 11.0,
+                                                        color: MColors
+                                                            .primaryWhite),
+                                                  ),
+                                                  onPressed: () {},
+                                                ),
+                                              ),
                                             ),
-                                            child: Text(
-                                              'เติมเต็ม',
-                                              style: TextStyle(
-                                                  fontSize: 11.0,
-                                                  color: MColors.primaryWhite),
-                                            ),
-                                            onPressed: () {},
-                                          ),
-                                        ),
-                                      ):Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Container(
-                                          width: 150,
-                                          height: 27,
-                                          // color: Colors.green,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(8)),
-                                          ),
-                                          child: TextButton(
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(Colors.green.withOpacity(0.2)),
-                                            ),
-                                            child: Text(
-                                              'เติมเต็ม',
-                                              style: TextStyle(
-                                                  fontSize: 11.0,
-                                                  color: MColors.primaryWhite),
-                                            ),
-                                            onPressed: () {},
-                                          ),
-                                        ),
-                                      ),
                                     ],
                                   ),
-                
                                 ),
                               ),
                             );
@@ -301,8 +318,6 @@ class _DTemergenScState extends State<DTEmergenSc> {
                   childCount: 1,
                 ),
               ),
-
-
               SliverToBoxAdapter(
                   child: SizedBox(
                 height: 15,
@@ -335,7 +350,6 @@ class _DTemergenScState extends State<DTEmergenSc> {
                   child: SizedBox(
                 height: 100,
               )),
-
             ],
           ),
         ),

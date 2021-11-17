@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
+import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/view/Menu/Detilmenu.dart';
 
 class MenuSC extends StatefulWidget {
@@ -15,14 +17,47 @@ class _MenuSCState extends State<MenuSC> {
   final TrackingScrollController _trackingScrollController =
       TrackingScrollController();
 
+  var token;
+
+  var userid;
+
+  var userimageUrl;
+
+ 
+
   @override
+  void initState() { 
+    print('initState');
+    super.initState();
+    setState(() {
+        Api.gettoke().then((value) => value({
+              token = value,
+              print('token$token'),
+            }));
+
+   Api.getmyuid().then((value) => ({
+              setState(() {
+                userid = value;
+              }),
+              print('userid$userid'),
+            }));
+        Api.getimageURL().then((value) => ({
+              setState(() {
+                userimageUrl = value;
+              }),
+              print('userimageUrl$userimageUrl'),
+            }));
+               
+    });
+  }
+ @override
   void dispose() {
     _trackingScrollController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
+
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -30,15 +65,14 @@ class _MenuSCState extends State<MenuSC> {
           body: CustomScrollView(
             controller: _trackingScrollController,
             slivers: [
-              primaryAppBar(context,"","",""),
-
-            
+              primaryAppBar(context, token,userid, userimageUrl),
               SliverToBoxAdapter(
                 child: Container(
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
                       ' ข้อมูลเกี่ยวกับพรรค',
+                      maxLines: 1,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: Colors.black,
@@ -75,10 +109,10 @@ class _MenuSCState extends State<MenuSC> {
                       children: <Widget>[
                         Positioned(
                           top: 10,
-                          right: 40,
-                          child: Image.asset("images/profile.jpeg"),
-                          width: 60,
-                          height: 150,
+                          right: 1,
+                          child: Image.asset("images/Group 11904.png"),
+                          width: 91,
+                          height: 92,
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: 30, left: 30),
@@ -87,6 +121,7 @@ class _MenuSCState extends State<MenuSC> {
                             children: <Widget>[
                               Text(
                                 'บริจาค',
+                                maxLines: 1,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -98,6 +133,7 @@ class _MenuSCState extends State<MenuSC> {
                               ),
                               Text(
                                 'ซื้อสินค้าพรรคก้าวไกล สนับสนุนการ\nทำงานเพื่อประชาธิปไตย',
+                                maxLines: 2,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -112,7 +148,6 @@ class _MenuSCState extends State<MenuSC> {
                   ),
                 ),
               ),
-
               SliverToBoxAdapter(
                 child: Container(
                   margin: EdgeInsets.all(14),
@@ -132,10 +167,10 @@ class _MenuSCState extends State<MenuSC> {
                     children: <Widget>[
                       Positioned(
                         top: 10,
-                        right: 40,
-                        child: Image.asset("images/profile.jpeg"),
-                        width: 60,
-                        height: 150,
+                        right: 10,
+                        child: Image.asset("images/Group 11925.png"),
+                        width: 92,
+                        height: 91,
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 30, left: 30),
@@ -144,17 +179,19 @@ class _MenuSCState extends State<MenuSC> {
                           children: <Widget>[
                             Text(
                               'เกี่ยวกับพรรค',
+                              maxLines: 1,
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'Anakotmai-Bold',
-                                  fontSize: 24),
+                                color: Colors.white,
+                                fontFamily: AppTheme.FontAnakotmaiBold,
+                                fontSize: AppTheme.TitleTextSize,
+                              ),
                             ),
                             SizedBox(
                               height: 20,
                             ),
                             Text(
                               'ซื้อสินค้าพรรคก้าวไกล สนับสนุนการ\nทำงานเพื่อประชาธิปไตย',
+                              maxLines: 2,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -173,12 +210,13 @@ class _MenuSCState extends State<MenuSC> {
                     padding: const EdgeInsets.all(12.0),
                     child: Text(
                       ' ข้อมูลเกี่ยวกับพรรค',
+                      maxLines: 1,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Anakotmai-Bold',
-                          fontSize: 20),
+                        color: Colors.black,
+                        fontFamily: AppTheme.FontAnakotmaiMedium,
+                        fontSize: AppTheme.BodyTextSize16,
+                      ),
                     ),
                   ),
                 ),
@@ -195,7 +233,7 @@ class _MenuSCState extends State<MenuSC> {
                               Container(
                                 width: 170,
                                 height: 130,
-                                 decoration: BoxDecoration(
+                                decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(14),
                                     color: Colors.grey[200],
                                     boxShadow: [
@@ -209,18 +247,22 @@ class _MenuSCState extends State<MenuSC> {
                                   padding: const EdgeInsets.all(18.0),
                                   child: Column(
                                     children: [
-                                      Icon(
-                                        Icons.chat_rounded,
-                                        size: 66.0,
-                                        color: primaryColor,
+                                      Image.asset(
+                                        "images/Group_11912.png",
+                                        width: 65,
+                                        height: 55,
                                       ),
+                                                                            SizedBox(height: 10,),
+
                                       Text(
                                         'ช่องทางการติดต่อ',
+                                        maxLines: 1,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: 'Anakotmai-Bold',
-                                            fontSize: 16),
+                                            fontFamily:
+                                                AppTheme.FontAnakotmaiBold,
+                                            fontSize: AppTheme.BodyTextSize16),
                                       ),
                                     ],
                                   ),
@@ -246,18 +288,22 @@ class _MenuSCState extends State<MenuSC> {
                                   padding: const EdgeInsets.all(18.0),
                                   child: Column(
                                     children: [
-                                      Icon(
-                                        Icons.mark_email_unread_outlined,
-                                        size: 66.0,
-                                        color: primaryColor,
+                                      Image.asset(
+                                        "images/Group 11924.png",
+                                        width: 65,
+                                        height: 55,
                                       ),
+                                                                            SizedBox(height: 10,),
+
                                       Text(
                                         'ร้องเรียน',
+                                        maxLines: 1,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: 'Anakotmai-Bold',
-                                            fontSize: 16),
+                                            fontFamily:
+                                                AppTheme.FontAnakotmaiBold,
+                                            fontSize: AppTheme.BodyTextSize16),
                                       ),
                                     ],
                                   ),
@@ -273,7 +319,7 @@ class _MenuSCState extends State<MenuSC> {
                               Container(
                                 width: 170,
                                 height: 130,
-                                 decoration: BoxDecoration(
+                                decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(14),
                                     color: Colors.grey[200],
                                     boxShadow: [
@@ -287,18 +333,21 @@ class _MenuSCState extends State<MenuSC> {
                                   padding: const EdgeInsets.all(18.0),
                                   child: Column(
                                     children: [
-                                      Icon(
-                                        Icons.hail_rounded,
-                                        size: 66.0,
-                                        color: primaryColor,
+                                      Image.asset(
+                                        "images/Group 11961.png",
+                                        width: 65,
+                                        height: 55,
                                       ),
+                                      SizedBox(height: 10,),
                                       Text(
                                         'อาสาสมัคร',
+                                        maxLines: 1,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: 'Anakotmai-Bold',
-                                            fontSize: 16),
+                                            fontFamily:
+                                                AppTheme.FontAnakotmaiBold,
+                                            fontSize: AppTheme.BodyTextSize16),
                                       ),
                                     ],
                                   ),
@@ -324,18 +373,22 @@ class _MenuSCState extends State<MenuSC> {
                                   padding: const EdgeInsets.all(18.0),
                                   child: Column(
                                     children: [
-                                      Icon(
-                                        Icons.supervised_user_circle_rounded,
-                                        size: 66.0,
-                                        color: primaryColor,
+                                      Image.asset(
+                                        "images/Group 11962.png",
+                                        width: 65,
+                                        height: 55,
                                       ),
+                                                                            SizedBox(height: 10,),
+
                                       Text(
                                         'บุคลากร',
+                                        maxLines: 1,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily: 'Anakotmai-Bold',
-                                            fontSize: 16),
+                                            fontFamily:
+                                                AppTheme.FontAnakotmaiBold,
+                                            fontSize: AppTheme.BodyTextSize16),
                                       ),
                                     ],
                                   ),
@@ -357,7 +410,5 @@ class _MenuSCState extends State<MenuSC> {
         ),
       ),
     );
-
-   
   }
 }

@@ -31,6 +31,7 @@ class PostDetailsSC extends StatefulWidget {
   final int shareCoun;
   final String userid;
   final String token;
+  final String userimage;
 
   const PostDetailsSC(
       {Key key,
@@ -45,7 +46,7 @@ class PostDetailsSC extends StatefulWidget {
       this.commentCount,
       this.shareCoun,
       this.userid,
-      this.token})
+      this.token, this.userimage})
       : super(key: key);
 
   @override
@@ -67,7 +68,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   List<CommentlistModel> listModel = [];
   TextEditingController _commentController = TextEditingController();
   TextEditingController _commenteditController = TextEditingController();
-
+  bool islike =false;
   bool idedit = false;
   var jsonResponse;
   bool onref = false;
@@ -216,7 +217,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
             child: CustomScrollView(
               controller: _trackingScrollController,
               slivers: [
-              primaryAppBar(context,"","",""),
+              primaryAppBar(context,widget.token,"",widget.userimage),
                 AppBardetail(
                   context,
                   "โพสของ",
@@ -362,13 +363,13 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            PostButton(
+                     islike==false?       PostButton(
                               icon: Icon(
                                 Icons.favorite_outline,
                                 color: MColors.primaryBlue,
                                 size: 20.0,
                               ),
-                              label: '${likeCount.toString()} ถูกใจ',
+                              label: '$likeCount ถูกใจ',
                               onTap: () async {
                                         HapticFeedback.lightImpact();
 
@@ -383,6 +384,9 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                   "Like Post Success")
                                                 {
                                                   setState(() {
+                                                    islike=jsonResponse['data']['isLike'];
+
+
                                                     likeCount++;
                                                   }),
                                                 }
@@ -390,6 +394,48 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                   "UnLike Post Success")
                                                 {
                                                   setState(() {
+                                                  islike=jsonResponse['data']['isLike'];
+
+                                                   likeCount--;
+                                                  }),
+                                                }
+                                            }
+                                        }));
+                                print("กดlike");
+                              },
+                            ):PostButton(
+                              icon: Icon(
+                                Icons.favorite,
+                                color: MColors.primaryBlue,
+                                size: 20.0,
+                              ),
+                              label: '$likeCount ถูกใจ',
+                              onTap: () async {
+                                        HapticFeedback.lightImpact();
+
+                                var jsonResponse;
+                          widget.token==null? Navigate.pushPage(context, Loginregister()):  await Api.islike(widget.id, widget.userid, widget.token)
+                                    .then((value) => ({
+                                          jsonResponse = jsonDecode(value.body),
+                                          print('message${jsonResponse['message']}'),
+                                          if (value.statusCode == 200)
+                                            {
+                                              if (jsonResponse['message'] ==
+                                                  "Like Post Success")
+                                                {
+                                                  setState(() {
+                                                    islike=jsonResponse['data']['isLike'];
+
+
+                                                    likeCount++;
+                                                  }),
+                                                }
+                                              else if (jsonResponse['message'] ==
+                                                  "UnLike Post Success")
+                                                {
+                                                  setState(() {
+                                                  islike=jsonResponse['data']['isLike'];
+
                                                    likeCount--;
                                                   }),
                                                 }
@@ -428,6 +474,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                         child: CircleAvatar(
                           radius: 25.0,
                           backgroundImage:
+                         widget.userimage!=null?  NetworkImage('https://today-api.moveforwardparty.org/api${widget.userimage}/image'):
                               NetworkImage('https://via.placeholder.com/150'),
                           backgroundColor: Colors.transparent,
                         ),

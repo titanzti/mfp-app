@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 
@@ -13,10 +14,41 @@ class _ShopSCState extends State<ShopSC> {
   final TrackingScrollController _trackingScrollController =
       TrackingScrollController();
 
+  var token;
+
+  var userid;
+
+  var userimageUrl;
+
   @override
   void dispose() {
     _trackingScrollController.dispose();
     super.dispose();
+  }
+    @override
+  void initState() { 
+    print('initState');
+    super.initState();
+    setState(() {
+        Api.gettoke().then((value) => value({
+              token = value,
+              print('token$token'),
+            }));
+
+   Api.getmyuid().then((value) => ({
+              setState(() {
+                userid = value;
+              }),
+              print('userid$userid'),
+            }));
+        Api.getimageURL().then((value) => ({
+              setState(() {
+                userimageUrl = value;
+              }),
+              print('userimageUrl$userimageUrl'),
+            }));
+               
+    });
   }
 
   @override
@@ -28,7 +60,7 @@ class _ShopSCState extends State<ShopSC> {
           body: CustomScrollView(
             controller: _trackingScrollController,
             slivers: [
-              primaryAppBar(context,"","",""),
+              primaryAppBar(context, token,userid, userimageUrl),
 
               ///-----------APPBAR-----------------//
 

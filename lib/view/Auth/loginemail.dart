@@ -370,7 +370,9 @@ class _LoginemailState extends State<Loginemail> {
                                     textColor: Colors.white,
                                     color:
                                         MColors.primaryColor.withOpacity(0.5),
-                                    onPressed: null,
+                                    onPressed: (){
+                                      
+                                    },
                                   ),
                                 )
                               ],

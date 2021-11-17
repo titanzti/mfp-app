@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
 
@@ -13,10 +14,41 @@ class _DoingSCState extends State<DoingSC> {
   final TrackingScrollController _trackingScrollController =
       TrackingScrollController();
 
+  var token;
+
+  var userid;
+
+  var userimageUrl;
+
   @override
   void dispose() {
     _trackingScrollController.dispose();
     super.dispose();
+  }
+    @override
+  void initState() { 
+    print('initState');
+    super.initState();
+    setState(() {
+        Api.gettoke().then((value) => value({
+              token = value,
+              print('token$token'),
+            }));
+
+   Api.getmyuid().then((value) => ({
+              setState(() {
+                userid = value;
+              }),
+              print('userid$userid'),
+            }));
+        Api.getimageURL().then((value) => ({
+              setState(() {
+                userimageUrl = value;
+              }),
+              print('userimageUrl$userimageUrl'),
+            }));
+               
+    });
   }
 
   @override
@@ -28,7 +60,7 @@ class _DoingSCState extends State<DoingSC> {
           body: CustomScrollView(
             controller: _trackingScrollController,
             slivers: [
-              primaryAppBar(context,"","",""),
+              primaryAppBar(context, token,userid, userimageUrl),
 
              
               SliverToBoxAdapter(
@@ -39,6 +71,7 @@ class _DoingSCState extends State<DoingSC> {
                     padding: const EdgeInsets.all(15.0),
                     child: Text(
                       'สิ่งที่ "พรรคก้าวไกล" กำลังทำอยู่',
+                      maxLines: 2,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.white,
@@ -56,6 +89,8 @@ class _DoingSCState extends State<DoingSC> {
                     padding: const EdgeInsets.all(18.0),
                     child: Text(
                       'สิ่งที่กำลังทำใน 1 เดือนที่ผ่านมา',
+                                            maxLines: 2,
+
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: MColors.primaryBlue,
@@ -103,6 +138,8 @@ class _DoingSCState extends State<DoingSC> {
                                         padding: const EdgeInsets.only(top: 10),
                                         child: Text(
                                           '#WaterBank',
+                                                                maxLines: 2,
+
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -144,6 +181,8 @@ class _DoingSCState extends State<DoingSC> {
                                         padding: const EdgeInsets.only(top: 10),
                                         child: Text(
                                           '# WALKTODAY',
+                                                                maxLines: 2,
+
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -189,6 +228,8 @@ class _DoingSCState extends State<DoingSC> {
                                         padding: const EdgeInsets.only(top: 10),
                                         child: Text(
                                           'มอบแรงใจสู้แรงงาน',
+                                                                maxLines: 2,
+
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -230,6 +271,8 @@ class _DoingSCState extends State<DoingSC> {
                                         padding: const EdgeInsets.only(top: 10),
                                         child: Text(
                                           'ชุดยังชีพ',
+                                                                maxLines: 2,
+
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -265,6 +308,8 @@ class _DoingSCState extends State<DoingSC> {
                     padding: const EdgeInsets.only(top: 20,left: 20),
                     child: Text(
                       'สิ่งที่ทำที่เคยทำมา',
+                                            maxLines: 2,
+
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: MColors.primaryBlue,
@@ -312,6 +357,8 @@ class _DoingSCState extends State<DoingSC> {
                                 children: <Widget>[
                                   Text(
                                     '#พรบจัดสรร',
+                                                          maxLines: 2,
+
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold,
@@ -323,6 +370,8 @@ class _DoingSCState extends State<DoingSC> {
                                   ),
                                   Text(
                                     '#ร่างพระราชบัญญัการจัดสรรที่ดิน\n(ฉบับที่..) พ.ศ. ....',
+                                                          maxLines: 2,
+
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 12,

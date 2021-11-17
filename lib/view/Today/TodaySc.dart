@@ -57,7 +57,7 @@ class _TodayScState extends State<TodaySc> {
   bool _isLoadMoreRunning = false;
   int _current = 0;
   final CarouselController _controller = CarouselController();
-
+  bool islike = false;
   var checktoken;
 
   var datagetuserprofile;
@@ -100,7 +100,7 @@ class _TodayScState extends State<TodaySc> {
               }),
               // print('myuidhome$userid'),
             }));
-            Api.getimageURL().then((value) => ({
+        Api.getimageURL().then((value) => ({
               setState(() {
                 userimageUrl = value;
               }),
@@ -367,7 +367,6 @@ class _TodayScState extends State<TodaySc> {
 
   @override
   Widget build(BuildContext context) {
-    print('widgetuserid${widget.userid}');
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -392,12 +391,14 @@ class _TodayScState extends State<TodaySc> {
                 //         child: Container(),
                 //       ))
                 //     :
-                primaryAppBar(context, checktoken,userid,userimageUrl),
+                primaryAppBar(context, checktoken, userid, userimageUrl),
+
                 ///-----------APPBAR-----------------//
                 isLoadingHastag
                     ? SliverToBoxAdapter(child: CarouselLoading())
                     : SliverToBoxAdapter(
-                        child: Carouselslider(listemergencyEvents, context)),
+                        child: Carouselslider(
+                            listemergencyEvents, context, userimageUrl)),
 
                 ///-----------เลื่อนสไลด์-----------------//
                 listModelPostClass.length == 0
@@ -713,6 +714,7 @@ class _TodayScState extends State<TodaySc> {
                 id: postid,
                 userid: userid,
                 token: checktoken,
+                userimage: userimageUrl,
               );
             },
           ),
@@ -758,50 +760,126 @@ class _TodayScState extends State<TodaySc> {
                   Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                          PostButton(
-                              icon: Icon(
-                                Icons.favorite_outline,
-                                color: MColors.primaryBlue,
-                                size: 20.0,
-                              ),
-                              label: '${likeCount.toString()} ถูกใจ',
-                              onTap: () async {
-                                HapticFeedback.lightImpact();
+                            islike == false
+                                ? PostButton(
+                                    icon: Icon(
+                                      Icons.favorite_outline,
+                                      color: MColors.primaryBlue,
+                                      size: 20.0,
+                                    ),
+                                    width: 100,
+                                    label: '$likeCount ถูกใจ',
+                                    onTap: () async {
+                                      HapticFeedback.lightImpact();
+                                      var jsonResponse;
+                                      checktoken == null
+                                          ? Navigate.pushPage(
+                                              context, Loginregister())
+                                          : await Api.islike(
+                                                  postid, userid, checktoken)
+                                              .then((value) => ({
+                                                    jsonResponse =
+                                                        jsonDecode(value.body),
+                                                    print(
+                                                        'message${jsonResponse['message']}'),
+                                                    if (value.statusCode == 200)
+                                                      {
+                                                        if (jsonResponse[
+                                                                'message'] ==
+                                                            "Like Post Success")
+                                                          {
+                                                            setState(() {
+                                                              ++likeCount;
+                                                              islike =
+                                                                  jsonResponse[
+                                                                          'data']
+                                                                      [
+                                                                      'isLike'];
+                                                              likeCount++;
+                                                            }),
+                                                          }
+                                                        else if (jsonResponse[
+                                                                'message'] ==
+                                                            "UnLike Post Success")
+                                                          {
+                                                            setState(() {
+                                                              islike =
+                                                                  jsonResponse[
+                                                                          'data']
+                                                                      [
+                                                                      'isLike'];
+                                                              likeCount++;
 
-                                var jsonResponse;
-                             checktoken==null? Navigate.pushPage(context, Loginregister()):    await Api.islike(postid, userid, checktoken)
-                                    .then((value) => ({
-                                          jsonResponse = jsonDecode(value.body),
-                                          print(
-                                              'message${jsonResponse['message']}'),
-                                          if (value.statusCode == 200)
-                                            {
-                                              if (jsonResponse['message'] ==
-                                                  "Like Post Success")
-                                                {
-                                                  setState(() {
-                                                    likeCount++;
-                                                  }),
-                                                }
-                                              else if (jsonResponse[
-                                                      'message'] ==
-                                                  "UnLike Post Success")
-                                                {
-                                                  setState(() {
-                                                    likeCount--;
-                                                  }),
-                                                }
-                                            }
-                                        }));
-                                print("กดlike");
-                              },
-                            ),
+                                                              likeCount--;
+                                                            }),
+                                                          }
+                                                      }
+                                                  }));
+                                      print("กดlike");
+                                    },
+                                  )
+                                : PostButton(
+                                    icon: Icon(
+                                      Icons.favorite,
+                                      color: MColors.primaryBlue,
+                                      size: 20.0,
+                                    ),
+                                    label: '$likeCount ถูกใจ',
+                                    width: 100,
+                                    onTap: () async {
+                                      HapticFeedback.lightImpact();
+
+                                      var jsonResponse;
+                                      checktoken == null
+                                          ? Navigate.pushPage(
+                                              context, Loginregister())
+                                          : await Api.islike(
+                                                  postid, userid, checktoken)
+                                              .then((value) => ({
+                                                    jsonResponse =
+                                                        jsonDecode(value.body),
+                                                    print(
+                                                        'message${jsonResponse['message']}'),
+                                                    if (value.statusCode == 200)
+                                                      {
+                                                        if (jsonResponse[
+                                                                'message'] ==
+                                                            "Like Post Success")
+                                                          {
+                                                            setState(() {
+                                                              ++likeCount;
+
+                                                              islike =
+                                                                  jsonResponse[
+                                                                          'data']
+                                                                      [
+                                                                      'isLike'];
+                                                              likeCount++;
+                                                            }),
+                                                          }
+                                                        else if (jsonResponse[
+                                                                'message'] ==
+                                                            "UnLike Post Success")
+                                                          {
+                                                            setState(() {
+                                                              islike =
+                                                                  jsonResponse[
+                                                                          'data']
+                                                                      [
+                                                                      'isLike'];
+                                                              likeCount++;
+
+                                                              likeCount--;
+                                                            }),
+                                                          }
+                                                      }
+                                                  }));
+                                      print("กดlike");
+                                    },
+                                  ),
                             PostButton(
                               icon: Icon(
                                 MdiIcons.commentOutline,
@@ -809,6 +887,7 @@ class _TodayScState extends State<TodaySc> {
                                 size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
+                                    width: 100,
                               onTap: () => print('Comment'),
                             ),
                             PostButton(
@@ -969,43 +1048,69 @@ class _TodayScState extends State<TodaySc> {
                                     side:
                                         BorderSide(color: MColors.primaryColor),
                                   ),
-                                  onPressed: ()async {
-                                                                    var jsonResponse;
+                                  onPressed: () async {
+                                    var jsonResponse;
 
-                                    await Api.sendfollowPage(data.id, checktoken, widget.userid)
-                                    .then((value) => ({
-                                          jsonResponse = jsonDecode(value.body),
-                                          print('message${jsonResponse['message']}'),
-                                          if (value.statusCode == 200)
-                                            {
-                                              if (jsonResponse['message'] ==
-                                                  "Followed Page Success")
+                                    await Api.sendfollowPage(
+                                            data.id, checktoken, widget.userid)
+                                        .then((value) => ({
+                                              jsonResponse =
+                                                  jsonDecode(value.body),
+                                              print(
+                                                  'message${jsonResponse['message']}'),
+                                              if (value.statusCode == 200)
                                                 {
-                                                ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-    content: Text(jsonResponse['message']),
-    behavior: SnackBarBehavior.floating,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24),
-    ),
-  margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
-  )),
+                                                  if (jsonResponse['message'] ==
+                                                      "Followed Page Success")
+                                                    {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              new SnackBar(
+                                                        content: Text(
+                                                            jsonResponse[
+                                                                'message']),
+                                                        behavior:
+                                                            SnackBarBehavior
+                                                                .floating,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(24),
+                                                        ),
+                                                        margin:
+                                                            EdgeInsets.fromLTRB(
+                                                                0, 0, 0, 50),
+                                                      )),
+                                                    }
+                                                  else if (jsonResponse[
+                                                          'message'] ==
+                                                      "Unfollow Page Success")
+                                                    {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              new SnackBar(
+                                                        content: Text(
+                                                            jsonResponse[
+                                                                'message']),
+                                                        behavior:
+                                                            SnackBarBehavior
+                                                                .floating,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(24),
+                                                        ),
+                                                        margin:
+                                                            EdgeInsets.fromLTRB(
+                                                                0, 0, 0, 50),
+                                                      )),
+                                                    }
                                                 }
-                                              else if (jsonResponse['message'] ==
-                                                  "Unfollow Page Success")
-                                                {
-                                                                                                  ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-    content: Text(jsonResponse['message']),
-    behavior: SnackBarBehavior.floating,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24),
-    ),
-     margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
-
-  )),
-                                                }
-                                            }
-                                        }));
-
+                                            }));
                                   },
                                   color: Colors.white,
                                   child: Text("ติดตาม",
@@ -1036,7 +1141,7 @@ class _TodayScState extends State<TodaySc> {
     );
   }
 
-  Widget Carouselslider(List<EmergencyEventsContent> emc, context) {
+  Widget Carouselslider(List<EmergencyEventsContent> emc, context, userimage) {
     return CarouselSlider(
       carouselController: _controller,
       options: CarouselOptions(
@@ -1067,6 +1172,7 @@ class _TodayScState extends State<TodaySc> {
                     DTEmergenSc(
                       hashtagstitle: emcs.title,
                       emergencyEventId: emcs.data.emergencyEventId,
+                      userimage: userimage,
                     ));
               },
               child: Column(

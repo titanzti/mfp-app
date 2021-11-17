@@ -45,6 +45,13 @@ class _NavScreenState extends State<NavScreen> {
     MenuSC(),
   ];
    } 
+    final List<String> _iconsimage = const [
+    'images/Element@2x.png',
+    'images/Group 10711@2x.png',
+    'images/shopping basket@2x.png',
+       'images/Group 11614@2x.png',
+
+  ];
   final List<IconData> _icons = const [
     Icons.home,
     Icons.ondemand_video,
@@ -52,10 +59,10 @@ class _NavScreenState extends State<NavScreen> {
     Icons.menu,
   ];
   final List<String> _lable = const [
-    "home",
-    "video",
-    "bellOutline",
-    " menu",
+    "Today",
+    "กำลังทำ",
+    "สินค้า",
+    "เมนู",
   ];
   int _selectedIndex = 0;
 
@@ -82,9 +89,10 @@ class _NavScreenState extends State<NavScreen> {
         ),
         
         bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(bottom: 13.0),
+          // padding: const EdgeInsets.only(bottom: 1.0),
           color: Colors.white,
           child: CustomTabBar(
+            iconsimage:_iconsimage,
             icons: _icons,
             selectedIndex: _selectedIndex,
             onTap: (index) {
@@ -95,7 +103,7 @@ class _NavScreenState extends State<NavScreen> {
               });
 
             },
-             lable: 'data',
+             lable: _lable,
           ),
         ),
       ),
