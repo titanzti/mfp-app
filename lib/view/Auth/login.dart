@@ -21,12 +21,14 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         body: Container(
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
+            
               image: DecorationImage(
-                  image: AssetImage('images/1200.png'), fit: BoxFit.fill)),
+                colorFilter:ColorFilter.mode(Color(0xFF0C3455), BlendMode.softLight), 
+                  image: AssetImage('images/shutterstock_553511089.png'), fit: BoxFit.fill)),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
                 child: Column(
                   children: [
                     Row(
@@ -80,7 +82,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     ),
                     Padding(
                         padding: EdgeInsets.only(
-                      top: 110,
+                      top: 90,
                     )),
                     Row(
                       children: [
@@ -275,16 +277,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               //     padding: EdgeInsets.only(
               //   bottom: 100.0,
               // )),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: Text(
-                    '© 2021 พรรคก้าวไกล. ALL RIGHTS RESERVED.',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: AppTheme.FontAnakotmaiLight,
-                    ),
+              Container(
+               margin: EdgeInsets.only(left: 20, right: 20,top: 50),
+                child: Text(
+                  '© 2021 พรรคก้าวไกล. ALL RIGHTS RESERVED.',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: AppTheme.FontAnakotmaiLight,
                   ),
                 ),
               ),

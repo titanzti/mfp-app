@@ -17,7 +17,6 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
 
     
-        primarySwatch: Colors.blue,
       
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),

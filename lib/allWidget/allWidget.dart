@@ -68,10 +68,10 @@ Widget primaryAppBar(context, var token,var userid,var imageurl) {
         iconSize: 30.0,
         onPressed: () => print('Messenger'),
       ),
-      token != null
+      token != "" && token != null
           ? InkWell(
               onTap: () {
-                Navigate.pushPage(context, ProfileSc(userid: userid,));
+                Navigate.pushPage(context, ProfileSc(userid: userid,token: token,));
               },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),

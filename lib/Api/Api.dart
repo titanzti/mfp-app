@@ -56,7 +56,7 @@ class Api {
 
   static Future getPostList(int offset) async {
     print('getPostList');
-    String url = "${Api.url}api/main/content/search";
+    String url =  "${Api.url}api/main/content/search";
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
@@ -72,7 +72,7 @@ class Api {
       "sortBy": "LASTEST_DATE",
       "filter": {"limit": 5, "offset": offset}
     };
-    var body = jsonEncode(data);
+    var body =  jsonEncode(data);
 
     final responseData = await Http.post(
       url,

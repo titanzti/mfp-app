@@ -10,48 +10,41 @@ class Loginregister extends StatefulWidget {
   _LoginregisterState createState() => _LoginregisterState();
 }
 
-class _LoginregisterState extends State<Loginregister> with TickerProviderStateMixin {
-  ScrollController _scrollController = ScrollController();
+class _LoginregisterState extends State<Loginregister>
+    with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
       color: MColors.primaryWhite,
       child: SafeArea(
         child: Scaffold(
-
-              body: SingleChildScrollView(
-                controller: _scrollController,
-                      physics: BouncingScrollPhysics(),
-                child: Column(
+          body: Column(
             children: [
               Container(
                 alignment: Alignment.topLeft,
                 child: IconButton(
-                            icon: const Icon(
-                              Icons.close,
-                              size: 30,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              print('กด');
-                            },
-                          ),
-              ),
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 200),
-                  child: Container(
-                    height: 280,
-                    width: 280,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                      image: AssetImage('images/MFP-Logo-Verticle.png'),
-                    )),
+                  icon: const Icon(
+                    Icons.close,
+                    size: 30,
+                    color: Colors.black,
                   ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    print('กด');
+                  },
                 ),
               ),
-              Padding(padding: EdgeInsets.only(top: 50)),
+              Center(
+                child: Container(
+                                  margin: EdgeInsets.only(left: 20, right: 20,bottom: 100,top: 70),
+
+                  height: 280,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                    image: AssetImage('images/MFP-Logo-Verticle.png'),
+                  )),
+                ),
+              ),
               //----------------------------------สร้างบัญชีก้าวไกล-------------------------------//
               Container(
                 margin: EdgeInsets.only(left: 20, right: 20),
@@ -66,11 +59,11 @@ class _LoginregisterState extends State<Loginregister> with TickerProviderStateM
                         child: Text(
                           'สร้างบัญชีก้าวไกล',
                           style: TextStyle(
-      // body2 -> body1
-        fontFamily: AppTheme.FontAnakotmaiLight,
-          fontSize: AppTheme.BodyTextSize,
-          color: MColors.primaryWhite,
-  ),
+                            // body2 -> body1
+                            fontFamily: AppTheme.FontAnakotmaiLight,
+                            fontSize: AppTheme.BodyTextSize,
+                            color: MColors.primaryWhite,
+                          ),
                         ),
                         textColor: Colors.white,
                         color: MColors.primaryBlue,
@@ -83,10 +76,9 @@ class _LoginregisterState extends State<Loginregister> with TickerProviderStateM
                 ),
               ),
               //-------------------------------------------------------------------------------//
-              Padding(padding: EdgeInsets.only(top: 20)),
               //------------------------------------เข้าสู่ระบบ-----------------------------------//
               Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
+                margin: EdgeInsets.only(left: 20, right: 20,top: 10),
                 child: Row(
                   children: <Widget>[
                     Expanded(
@@ -98,19 +90,19 @@ class _LoginregisterState extends State<Loginregister> with TickerProviderStateM
                         child: Text(
                           'เข้าสู่ระบบ',
                           style: TextStyle(
-      // body2 -> body1
-        fontFamily: AppTheme.FontAnakotmaiLight,
-          fontSize: AppTheme.BodyTextSize,
-          color: MColors.primaryWhite,
-  ),
+                            // body2 -> body1
+                            fontFamily: AppTheme.FontAnakotmaiLight,
+                            fontSize: AppTheme.BodyTextSize,
+                            color: MColors.primaryWhite,
+                          ),
                         ),
                         textColor: MColors.primaryWhite,
                         color: MColors.primaryColor,
                         onPressed: () {
                           Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Login()),
-                              );
+                            context,
+                            MaterialPageRoute(builder: (context) => Login()),
+                          );
                           print("กด");
                         },
                       ),
@@ -121,18 +113,16 @@ class _LoginregisterState extends State<Loginregister> with TickerProviderStateM
               //-------------------------------------------------------------------------------//
               Padding(padding: EdgeInsets.only(top: 20)),
               Center(
-                child: TextButton(
-                  child: Text("Skip for new",style: TextStyle(color: Colors.black)),
-                  onPressed: () {
-                    print("กด");
-                  },
-                )
-              )
+                  child: TextButton(
+                child:
+                    Text("Skip for new", style: TextStyle(color: Colors.black)),
+                onPressed: () {
+                  print("กด");
+                },
+              ))
             ],
           ),
-              ),
-              
-          ),
+        ),
       ),
     );
   }

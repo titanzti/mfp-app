@@ -95,6 +95,7 @@ class _LoginemailState extends State<Loginemail> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     //--------------------อีเมล----------------------//
     final TextField _txtEmail = TextField(
         controller: _emailController,
@@ -171,11 +172,13 @@ class _LoginemailState extends State<Loginemail> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('images/1200.png'), fit: BoxFit.cover)),
+                                colorFilter:ColorFilter.mode(Color(0xFF0C3455), BlendMode.softLight), 
+
+                  image: AssetImage('images/shutterstock_553511089.png'), fit: BoxFit.cover)),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
                 child: Column(
                   children: [
                     Row(
@@ -202,10 +205,11 @@ class _LoginemailState extends State<Loginemail> {
                         ),
                       ],
                     ),
-                    Padding(
-                        padding: const EdgeInsets.only(
-                      top: 200,
-                    )),
+                    if (!isKeyboard)
+                      Padding(
+                          padding: const EdgeInsets.only(
+                        top: 200,
+                      )),
                     Row(
                       children: [
                         Padding(
@@ -233,15 +237,6 @@ class _LoginemailState extends State<Loginemail> {
                               const Radius.circular(10.0))),
                       child: _txtEmail,
                     ),
-                    iserror == true
-                        ? Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              msgres,
-                              style: TextStyle(fontSize: 14, color: Colors.red),
-                            ),
-                          )
-                        : Container(),
                     //-------------------รหัสผ่าน---------------------//
                     Container(
                       height: 60,
@@ -264,7 +259,26 @@ class _LoginemailState extends State<Loginemail> {
                         : Container(),
 
                     //----------------ปุ่ม ลืมรหัสผ่านใช่ไหม ?--------------//
-                    Row(
+                 iserror == true
+                        ?Center(
+                          child: Row(
+                            mainAxisAlignment:MainAxisAlignment.center,
+                      children: [
+                         
+                          TextButton(
+                            child: Text('ลืมรหัสผ่าน ?',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontFamily: AppTheme.FontAnakotmaiLight,
+                                )),
+                            onPressed: () {
+                              print('กด');
+                            },
+                          ),
+                      ],
+                    ),
+                        ) :Row(
                       children: [
                         Padding(
                           padding: EdgeInsets.only(left: 220),
@@ -273,7 +287,6 @@ class _LoginemailState extends State<Loginemail> {
                           child: Text('ลืมรหัสผ่าน ?',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
                                 fontSize: 17,
                                 fontFamily: AppTheme.FontAnakotmaiLight,
                               )),
@@ -313,40 +326,71 @@ class _LoginemailState extends State<Loginemail> {
                     //       )
                     //     :
                     _isEnabled == false
-                        ? Container(
-                            margin: EdgeInsets.only(left: 10, right: 10),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: RaisedButton(
-                                    padding:
-                                        EdgeInsets.only(top: 15, bottom: 15),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                        side: BorderSide(color: Colors.red)),
-                                    child: Text(
-                                      'เข้าสู่ระบบ',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontFamily: AppTheme.FontAnakotmaiLight,
+                        ? _isloading == true
+                            ? Container(
+                                margin: EdgeInsets.only(left: 10, right: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: TextButton.styleFrom(
+                                          padding: EdgeInsets.only(
+                                              top: 15, bottom: 15),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                              side: BorderSide(
+                                                  color: Colors.red)),
+                                          primary: MColors.primaryColor,
+                                        ),
+                                        onPressed: null,
+                                        child: Center(
+                                          child: CircularProgressIndicator(),
+                                        ),
                                       ),
-                                    ),
-                                    textColor: Colors.white,
-                                    color: MColors.primaryColor,
-                                    onPressed: () async {
-                                      print('กด');
-                                      setState(() {
-                                        _isloading = true;
-                                      });
-                                      await singin(_emailController.text,
-                                          _passController.text);
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
+                                    )
+                                  ],
+                                ),
+                              )
+                            : Container(
+                                margin: EdgeInsets.only(left: 10, right: 10),
+                                child: Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        
+                                        style: TextButton.styleFrom(
+                                          padding: EdgeInsets.only(
+                                              top: 15, bottom: 15),
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30.0),
+                                              side: BorderSide(
+                                                  color: Colors.red)),
+                                           backgroundColor: MColors.primaryColor,
+                                        ),
+                                        child: Text(
+                                          'เข้าสู่ระบบ',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontFamily:
+                                                AppTheme.FontAnakotmaiLight,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          print('กด');
+                                          setState(() {
+                                            _isloading = true;
+                                          });
+                                          await singin(_emailController.text,
+                                              _passController.text);
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
                         : Container(
                             margin: EdgeInsets.only(left: 10, right: 10),
                             child: Row(
@@ -370,9 +414,7 @@ class _LoginemailState extends State<Loginemail> {
                                     textColor: Colors.white,
                                     color:
                                         MColors.primaryColor.withOpacity(0.5),
-                                    onPressed: (){
-                                      
-                                    },
+                                    onPressed: () {},
                                   ),
                                 )
                               ],

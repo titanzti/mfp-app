@@ -201,7 +201,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
     if (onref == true) {
       _handleRefresh();
     }
-    print(onref);
+    print('token${widget.token}');
 
     return Container(
       color: Colors.white,
@@ -374,7 +374,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                         HapticFeedback.lightImpact();
 
                                 var jsonResponse;
-                          widget.token==null? Navigate.pushPage(context, Loginregister()):  await Api.islike(widget.id, widget.userid, widget.token)
+                          widget.token=="" || widget.token==null? Navigate.pushPage(context, Loginregister()):  await Api.islike(widget.id, widget.userid, widget.token)
                                     .then((value) => ({
                                           jsonResponse = jsonDecode(value.body),
                                           print('message${jsonResponse['message']}'),
@@ -467,7 +467,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                       ],
                     ),
                   ),
-                 widget.token==null? Container():    Row(
+               widget.token=="" || widget.token==null? Container():    Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(10.0),
