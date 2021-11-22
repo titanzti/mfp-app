@@ -11,33 +11,35 @@ class PostButton extends StatelessWidget {
     Key key,
     @required this.icon,
     @required this.label,
-    @required this.onTap, this.width,
+    @required this.onTap,
+    this.width,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var hight =MediaQuery.of(context).size.height;
-        var widthCont =MediaQuery.of(context).size.width;
+    var hight = MediaQuery.of(context).size.height;
+    var widthCont = MediaQuery.of(context).size.width;
 
     return Expanded(
       child: Material(
         color: Colors.white,
         child: InkWell(
           onTap: onTap,
-          child:  Container(
-            padding: const EdgeInsets.symmetric(horizontal: 2.0),
-            height: hight/20.0,
+          child: Container(
+            // padding: const EdgeInsets.symmetric(horizontal: 2.0),
+            height: hight / 20.0,
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(child: icon),
+                icon,
                 // const SizedBox(width: 4.0),
                 // Container(
                 //   width: 90,
                 //   child: Text(label, maxLines: 2, overflow: TextOverflow.ellipsis))
 
                 Container(
-                  width: widthCont*0.20,
+                  width: widthCont * 0.22,
                   child: Center(
                     child: Text(label,
                         style: Theme.of(context).textTheme.subtitle1,

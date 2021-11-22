@@ -27,8 +27,9 @@ import 'package:mfp_app/view/Today/PostDetailsSc.dart';
 
 class TodaySc extends StatefulWidget {
   final String userid;
+  bool taptoload;
 
-  const TodaySc({Key key, this.userid}) : super(key: key);
+  TodaySc({Key key, this.userid, this.taptoload}) : super(key: key);
   @override
   _TodayScState createState() => _TodayScState();
 }
@@ -82,6 +83,17 @@ class _TodayScState extends State<TodaySc> {
     _trackingScrollController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _goToElement(int index) {
+    _scrollController.animateTo(
+        (100.0 *
+            index), // 100 is the height of container and index of 6th element is 5
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut);
+    setState(() {
+      widget.taptoload = false;
+    });
   }
 
   @override
@@ -328,47 +340,50 @@ class _TodayScState extends State<TodaySc> {
   }
 
   void _loadMore() async {
-    if (_isLoadMoreRunning == false &&
-        _scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent) {
+    if (_scrollController.offset >=
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
       print('AT end');
-          await new Future.delayed(const Duration(milliseconds: 200));
+      await new Future.delayed(const Duration(milliseconds: 100));
 
       setState(() {
         _currentMax = _currentMax + 5;
         fistload = false;
-
         _isLoadMoreRunning = true; // Display a progress indicator at the bottom
+
+        try {
+          Api.getPostList(_currentMax).then((value) => {
+                if (value.statusCode == 200)
+                  {
+                    setState(() {
+                      isLoading = true;
+                    }),
+                    datapostlist = jsonDecode(value.body),
+                    for (Map i in datapostlist["data"])
+                      {
+                        listModelPostClass.add(PostSearchModel.fromJson(i)),
+                        _postsController.add(value),
+                      },
+                    setState(() {
+                      isLoading = false;
+                      _isLoadMoreRunning =
+                          false; // Display a progress indicator at the bottom
+                    }),
+                  }
+              });
+        } catch (err) {
+          print('Something went wrong!');
+        }
       });
-      try {
-        Api.getPostList(_currentMax).then((value) => {
-              if (value.statusCode == 200)
-                {
-                  setState(() {
-                    isLoading = true;
-                  }),
-                  datapostlist = jsonDecode(value.body),
-                  for (Map i in datapostlist["data"])
-                    {
-                      listModelPostClass.add(PostSearchModel.fromJson(i)),
-                      _postsController.add(value),
-                    },
-                  setState(() {
-                    isLoading = false;
-                  }),
-                }
-            });
-      } catch (err) {
-        print('Something went wrong!');
-      }
     }
-    setState(() {
-      _isLoadMoreRunning = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    print('taptoload${widget.taptoload}');
+    if (widget.taptoload == true) {
+      _goToElement(0);
+    }
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -383,7 +398,7 @@ class _TodayScState extends State<TodaySc> {
             }(),
             child: CustomScrollView(
               controller: _scrollController,
-              physics: BouncingScrollPhysics(),
+              physics: AlwaysScrollableScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               slivers: <Widget>[
@@ -408,7 +423,7 @@ class _TodayScState extends State<TodaySc> {
                     : SliverToBoxAdapter(
                         child: Container(
                           width: double.infinity,
-                          height: 50,
+                          height: 40,
                           color: MColors.primaryGrey,
                           child: Center(
                             child: titletimeline("ไทม์ไลน์"),
@@ -453,10 +468,10 @@ class _TodayScState extends State<TodaySc> {
                                         // }
                                         final nDataList1 =
                                             listModelPostClass[index];
-                                      
+
                                         //   if(fistload==true){
                                         // if (index == listModelPostClass.length - 3) {
-                                                            
+
                                         // return  BuildRecommendedUserPage();
                                         //  }
                                         // }else{
@@ -468,7 +483,11 @@ class _TodayScState extends State<TodaySc> {
                                               ? BuildRecommendedUserPage()
                                               : SizedBox.shrink();
                                         }
-                                                            
+                                        if (index ==
+                                            listModelPostClass.length) {
+                                          print('เท่ากัน');
+                                        }
+
                                         //  else {
                                         //   PostList(
                                         //     nDataList1.post.title,
@@ -481,7 +500,7 @@ class _TodayScState extends State<TodaySc> {
                                         //     nDataList1.post.shareCount,
                                         //   );
                                         // }
-                                                            
+
                                         return PostList(
                                           nDataList1.post.title,
                                           nDataList1.post.detail,
@@ -511,10 +530,13 @@ class _TodayScState extends State<TodaySc> {
 
                 if (_isLoadMoreRunning == true)
                   SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 50, bottom: 10),
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
+                    child: Center(
+                        child: Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              MColors.primaryColor)),
+                    )),
                   ),
               ],
             ),
@@ -602,8 +624,7 @@ class _TodayScState extends State<TodaySc> {
               // ),
 
               list[0].signUrl != null
-                  ? 
-                  Image.network(list[0].signUrl.toString())
+                  ? Image.network(list[0].signUrl.toString())
                   // CachedNetworkImage(
                   //     imageUrl: 'https://via.placeholder.com/350x150',
                   //     placeholder: (context, url) =>
@@ -615,22 +636,16 @@ class _TodayScState extends State<TodaySc> {
                   //       child:Image(image: CachedNetworkImageProvider(list[0].signUrl),)
                   //     ),
                   //   )
-                  :
-                  SizedBox.shrink(),
+                  : SizedBox.shrink(),
             ],
           ),
         ),
       );
     }
   }
-  
-  
-  Future cacheImage(BuildContext context,String urlImage)=>precacheImage(
-     CachedNetworkImageProvider(urlImage), context);
-   
 
-  
-
+  Future cacheImage(BuildContext context, String urlImage) =>
+      precacheImage(CachedNetworkImageProvider(urlImage), context);
 
   getItems(img_path, img_path2, count) {
     return Container(
@@ -761,9 +776,7 @@ class _TodayScState extends State<TodaySc> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       fixtextauthor(),
-                      Container(
-                          width: 240,
-                          child: authorpost(authorposttext, context)),
+                      authorpost(authorposttext, context, dateTime),
                       texttimetimestamp(dateTime),
                     ],
                   ),
@@ -901,7 +914,7 @@ class _TodayScState extends State<TodaySc> {
                                 size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
-                              width: 100,
+                              width: 110,
                               onTap: () => print('Comment'),
                             ),
                             PostButton(
@@ -1055,72 +1068,77 @@ class _TodayScState extends State<TodaySc> {
                                 shape: RoundedRectangleBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(25)),
-                                  side:
-                                      BorderSide(color: MColors.primaryColor),
+                                  side: BorderSide(color: MColors.primaryColor),
                                 ),
                                 onPressed: () async {
                                   var jsonResponse;
 
-                             checktoken=="" || checktoken==null? Navigate.pushPage(context, Loginregister()):       await Api.sendfollowPage(
-                                          data.id, checktoken, widget.userid)
-                                      .then((value) => ({
-                                            jsonResponse =
-                                                jsonDecode(value.body),
-                                            print(
-                                                'message${jsonResponse['message']}'),
-                                            if (value.statusCode == 200)
-                                              {
-                                                if (jsonResponse['message'] ==
-                                                    "Followed Page Success")
+                                  checktoken == "" || checktoken == null
+                                      ? Navigate.pushPage(
+                                          context, Loginregister())
+                                      : await Api.sendfollowPage(data.id,
+                                              checktoken, widget.userid)
+                                          .then((value) => ({
+                                                jsonResponse =
+                                                    jsonDecode(value.body),
+                                                print(
+                                                    'message${jsonResponse['message']}'),
+                                                if (value.statusCode == 200)
                                                   {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                            new SnackBar(
-                                                      content: Text(
-                                                          jsonResponse[
-                                                              'message']),
-                                                      behavior:
-                                                          SnackBarBehavior
-                                                              .floating,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(24),
-                                                      ),
-                                                      margin:
-                                                          EdgeInsets.fromLTRB(
-                                                              0, 0, 0, 50),
-                                                    )),
+                                                    if (jsonResponse[
+                                                            'message'] ==
+                                                        "Followed Page Success")
+                                                      {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                new SnackBar(
+                                                          content: Text(
+                                                              jsonResponse[
+                                                                  'message']),
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        24),
+                                                          ),
+                                                          margin: EdgeInsets
+                                                              .fromLTRB(
+                                                                  0, 0, 0, 50),
+                                                        )),
+                                                      }
+                                                    else if (jsonResponse[
+                                                            'message'] ==
+                                                        "Unfollow Page Success")
+                                                      {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                new SnackBar(
+                                                          content: Text(
+                                                              jsonResponse[
+                                                                  'message']),
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        24),
+                                                          ),
+                                                          margin: EdgeInsets
+                                                              .fromLTRB(
+                                                                  0, 0, 0, 50),
+                                                        )),
+                                                      }
                                                   }
-                                                else if (jsonResponse[
-                                                        'message'] ==
-                                                    "Unfollow Page Success")
-                                                  {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                            new SnackBar(
-                                                      content: Text(
-                                                          jsonResponse[
-                                                              'message']),
-                                                      behavior:
-                                                          SnackBarBehavior
-                                                              .floating,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(24),
-                                                      ),
-                                                      margin:
-                                                          EdgeInsets.fromLTRB(
-                                                              0, 0, 0, 50),
-                                                    )),
-                                                  }
-                                              }
-                                          }));
+                                              }));
                                 },
                                 color: Colors.white,
                                 child: Text("ติดตาม",
@@ -1180,7 +1198,6 @@ class _TodayScState extends State<TodaySc> {
                     context,
                     DTEmergenSc(
                       token: checktoken,
-                      
                       hashtagstitle: emcs.title,
                       emergencyEventId: emcs.data.emergencyEventId,
                       userimage: userimage,

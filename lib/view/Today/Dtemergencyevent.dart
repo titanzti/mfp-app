@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mfp_app/Api/Api.dart';
 
 import 'package:mfp_app/allWidget/allWidget.dart';
@@ -189,7 +190,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                   crossAxisCount: 2),
                           itemBuilder: (BuildContext context, int index) {
                             var e = listeNeedModel[index];
-                          
+
                             return Container(
                               color: Color(0xffF8F8F8),
                               child: new Padding(
@@ -202,7 +203,20 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                   // alignment: Alignment.center,
                                   child: Column(
                                     children: [
-                                      new Image.network("https://today-api.moveforwardparty.org/api/file/6034a808e1e737658b221294/image"),
+                                      new SvgPicture.network(
+                                        'https://today.moveforwardparty.org/assets/img/customize_item.svg',
+                                        width: 70,
+                                        height: 70,
+                                        semanticsLabel: 'A shark?!',
+                                        placeholderBuilder:
+                                            (BuildContext context) => Container(
+                                                padding:
+                                                    const EdgeInsets.all(30.0),
+                                                child:
+                                                    const CircularProgressIndicator()),
+                                      ),
+
+                                      // Image.network("https://today-api.moveforwardparty.org/api/file/6034a808e1e737658b221294/image"),
                                       // e.standardItem.imageUrl != null
                                       //     ? new Image.network("https://today.moveforwardparty.org/assets/img/customize_item.svg")
                                       //     // CachedNetworkImage(

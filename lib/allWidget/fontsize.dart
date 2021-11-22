@@ -19,30 +19,30 @@ Widget titletimeline(String string) => Text(
         color: MColors.textDark,
       ),
     );
-Widget texttitlepost(String string,context) => Text(
+Widget texttitlepost(String string, context) => Text(
       string,
-      style:  Theme.of(context).textTheme.headline1,
+      style: Theme.of(context).textTheme.headline1,
     );
-Widget texttitle(String string,context) => Text(
-      string,
-      style:  Theme.of(context).textTheme.headline4,
-    );
-Widget subtexttitlepost(String string,context) => Text(
-      string,
-      style: Theme.of(context).textTheme.bodyText1,
-    );
-    Widget texttitleVideorecommend(String string,context) => Text(
+Widget texttitle(String string, context) => Text(
       string,
       style: Theme.of(context).textTheme.headline4,
     );
-Widget textsubVideorecommend(String string,context) => Text(
+Widget subtexttitlepost(String string, context) => Text(
+      string,
+      style: Theme.of(context).textTheme.bodyText1,
+    );
+Widget texttitleVideorecommend(String string, context) => Text(
+      string,
+      style: Theme.of(context).textTheme.headline4,
+    );
+Widget textsubVideorecommend(String string, context) => Text(
       string,
       style: Theme.of(context).textTheme.headline5,
     );
 Widget fixtextauthor() => Padding(
       padding: const EdgeInsets.all(10.0),
       child: Text(
-        'ผู้เขียน :',
+        'ผู้เขียน:',
         style: TextStyle(
           fontFamily: 'Anakotmai-Light',
           fontSize: 14,
@@ -51,21 +51,22 @@ Widget fixtextauthor() => Padding(
         ),
       ),
     );
-Widget texttimetimestamp(DateTime dateTime) =>  Text(
-        TimeUtils.readTimestamp(dateTime.millisecondsSinceEpoch),
-        style: TextStyle(
-          fontFamily: 'Anakotmai-Light',
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: MColors.textGrey,
-        ),);
-Widget authorpost(String string,context) =>  Text(
-              string ,
-              style: Theme.of(context).textTheme.bodyText2,
-              maxLines: 2,
-               overflow: TextOverflow.ellipsis,
-
-            );
+Widget texttimetimestamp(DateTime dateTime) => Text(
+      TimeUtils.readTimestamp(dateTime.millisecondsSinceEpoch),
+      maxLines: 1,
+      style: TextStyle(
+        fontFamily: 'Anakotmai-Light',
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: MColors.textGrey,
+      ),
+    );
+Widget authorpost(String string, context, DateTime dateTime) => Text(
+      '$string',
+      style: Theme.of(context).textTheme.bodyText2,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+    );
 Widget texthashtags(String string) => Text(
       string,
       style: TextStyle(
@@ -75,4 +76,3 @@ Widget texthashtags(String string) => Text(
         color: MColors.primaryWhite,
       ),
     );
-

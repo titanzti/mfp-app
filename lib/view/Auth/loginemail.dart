@@ -172,9 +172,10 @@ class _LoginemailState extends State<Loginemail> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
               image: DecorationImage(
-                                colorFilter:ColorFilter.mode(Color(0xFF0C3455), BlendMode.softLight), 
-
-                  image: AssetImage('images/shutterstock_553511089.png'), fit: BoxFit.cover)),
+                  colorFilter:
+                      ColorFilter.mode(Color(0xFF0C3455), BlendMode.softLight),
+                  image: AssetImage('images/shutterstock_553511089.png'),
+                  fit: BoxFit.cover)),
           child: Column(
             children: [
               Padding(
@@ -253,49 +254,49 @@ class _LoginemailState extends State<Loginemail> {
                             padding: const EdgeInsets.only(left: 10),
                             child: Text(
                               msgres,
-                              style: TextStyle(fontSize: 14, color: Colors.red),
+                              style: TextStyle(fontSize: 16, color: Colors.red),
                             ),
                           )
                         : Container(),
 
                     //----------------ปุ่ม ลืมรหัสผ่านใช่ไหม ?--------------//
-                 iserror == true
-                        ?Center(
-                          child: Row(
-                            mainAxisAlignment:MainAxisAlignment.center,
-                      children: [
-                         
-                          TextButton(
-                            child: Text('ลืมรหัสผ่าน ?',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 17,
-                                  fontFamily: AppTheme.FontAnakotmaiLight,
-                                )),
-                            onPressed: () {
-                              print('กด');
-                            },
+                    iserror == true
+                        ? Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  child: Text('ลืมรหัสผ่าน ?',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17,
+                                        fontFamily: AppTheme.FontAnakotmaiLight,
+                                      )),
+                                  onPressed: () {
+                                    print('กด');
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        : Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 220),
+                              ),
+                              TextButton(
+                                child: Text('ลืมรหัสผ่าน ?',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 17,
+                                      fontFamily: AppTheme.FontAnakotmaiLight,
+                                    )),
+                                onPressed: () {
+                                  print('กด');
+                                },
+                              ),
+                            ],
                           ),
-                      ],
-                    ),
-                        ) :Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 220),
-                        ),
-                        TextButton(
-                          child: Text('ลืมรหัสผ่าน ?',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontFamily: AppTheme.FontAnakotmaiLight,
-                              )),
-                          onPressed: () {
-                            print('กด');
-                          },
-                        ),
-                      ],
-                    ),
                     //-------------------------------------------------------------------------------//
                     Padding(
                         padding: EdgeInsets.only(
@@ -358,7 +359,6 @@ class _LoginemailState extends State<Loginemail> {
                                   children: <Widget>[
                                     Expanded(
                                       child: ElevatedButton(
-                                        
                                         style: TextButton.styleFrom(
                                           padding: EdgeInsets.only(
                                               top: 15, bottom: 15),
@@ -367,7 +367,7 @@ class _LoginemailState extends State<Loginemail> {
                                                   BorderRadius.circular(30.0),
                                               side: BorderSide(
                                                   color: Colors.red)),
-                                           backgroundColor: MColors.primaryColor,
+                                          backgroundColor: MColors.primaryColor,
                                         ),
                                         child: Text(
                                           'เข้าสู่ระบบ',

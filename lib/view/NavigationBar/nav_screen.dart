@@ -20,7 +20,8 @@ class NavScreen extends StatefulWidget {
 
 class _NavScreenState extends State<NavScreen> {
   var userid;
-
+  int _selectedIndex = 0;
+  bool taptoload = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -30,27 +31,31 @@ class _NavScreenState extends State<NavScreen> {
     //           // print('checktoken$checktoken'),
     //         }));
 
-        Api.getmyuid().then((value) => ({
-              setState(() {
-                userid = value;
-              }),
-              // print('myuidhome$userid'),
-            }));
+    Api.getmyuid().then((value) => ({
+          setState(() {
+            userid = value;
+          }),
+          // print('myuidhome$userid'),
+        }));
   }
-   List<Widget> _screens() {
- return [
-    TodaySc(userid: userid),
-    DoingSC(),
-    ShopSC(),
-    MenuSC(),
-  ];
-   } 
-    final List<String> _iconsimage = const [
+
+  List<Widget> _screens() {
+    return [
+      TodaySc(
+        userid: userid,
+        taptoload: taptoload,
+      ),
+      DoingSC(),
+      ShopSC(),
+      MenuSC(),
+    ];
+  }
+
+  final List<String> _iconsimage = const [
     'images/Element@2x.png',
     'images/Group 10711@2x.png',
     'images/shopping basket@2x.png',
-       'images/Group 11614@2x.png',
-
+    'images/Group 11614@2x.png',
   ];
   final List<IconData> _icons = const [
     Icons.home,
@@ -64,17 +69,15 @@ class _NavScreenState extends State<NavScreen> {
     "สินค้า",
     "เมนู",
   ];
-  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    return 
-    // Platform.isAndroid?isAnd():
-     DefaultTabController(
+    return
+        // Platform.isAndroid?isAnd():
+        DefaultTabController(
       length: _icons.length,
       child: Scaffold(
-        
         appBar: null,
         // CustomAppBar(
         //           currentUser: currentUser,
@@ -87,99 +90,123 @@ class _NavScreenState extends State<NavScreen> {
           index: _selectedIndex,
           children: _screens(),
         ),
-        
         bottomNavigationBar: Container(
           // padding: const EdgeInsets.only(bottom: 1.0),
           color: Colors.white,
           child: CustomTabBar(
-            iconsimage:_iconsimage,
+            iconsimage: _iconsimage,
             icons: _icons,
             selectedIndex: _selectedIndex,
             onTap: (index) {
-              HapticFeedback.mediumImpact();
-
+              Platform.isAndroid
+                  ? HapticFeedback.vibrate()
+                  : HapticFeedback.lightImpact();
               setState(() {
                 _selectedIndex = index;
+                print('_selectedIndex$_selectedIndex');
               });
-
+              if (_selectedIndex == 0) {
+                setState(() {
+                  taptoload = true;
+                });
+              }
             },
-             lable: _lable,
+            lable: _lable,
           ),
         ),
       ),
     );
   }
-  Widget isAnd (){
-      int _selectedIndex = 0;
+
+  Widget isAnd() {
+    int _selectedIndex = 0;
 
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        
         appBar: AppBar(
-          backgroundColor:MColors.primaryWhite,
+          backgroundColor: MColors.primaryWhite,
           title: Image.asset(
-      'images/MFP-Logo-Horizontal.png',
-      width: 150,
-      height: 150,
-    ),
-    centerTitle: false,
-    actions: [
-      CircleButton(
-        icon: Icons.search,
-        iconSize: 30.0,
-        onPressed: () => print('search'),
-      ),
-      CircleButton(
-        icon: MdiIcons.bellOutline,
-        iconSize: 30.0,
-        onPressed: () => print('Messenger'),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: CircleAvatar(
-          radius: 25.0,
-          backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-          backgroundColor: Colors.transparent,
-        ),
-      )
-    ],
+            'images/MFP-Logo-Horizontal.png',
+            width: 150,
+            height: 150,
+          ),
+          centerTitle: false,
+          actions: [
+            CircleButton(
+              icon: Icons.search,
+              iconSize: 30.0,
+              onPressed: () => print('search'),
+            ),
+            CircleButton(
+              icon: MdiIcons.bellOutline,
+              iconSize: 30.0,
+              onPressed: () => print('Messenger'),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: CircleAvatar(
+                radius: 25.0,
+                backgroundImage:
+                    NetworkImage('https://via.placeholder.com/150'),
+                backgroundColor: Colors.transparent,
+              ),
+            )
+          ],
           bottom: new PreferredSize(
-            preferredSize: new Size( 1.0,45.0),
+            preferredSize: new Size(1.0, 45.0),
             child: new Container(
               child: new TabBar(
                 indicator: BoxDecoration(
-        border:Border(
-                bottom: BorderSide(
-                  color: MColors.primaryColor,
-                  width: 3.0,
+                  border: Border(
+                    bottom: BorderSide(
+                      color: MColors.primaryColor,
+                      width: 3.0,
+                    ),
+                  ),
                 ),
-              ),
-      ),
                 tabs: [
                   new Container(
-                    
                     height: 45.0,
-                    child: new Tab(icon: Icon(Icons.home,color: MColors.textGrey,),),
+                    child: new Tab(
+                      icon: Icon(
+                        Icons.home,
+                        color: MColors.textGrey,
+                      ),
+                    ),
                   ),
                   new Container(
                     height: 45.0,
-                    child: new Tab(icon: Icon(Icons.ondemand_video,color: MColors.textGrey,),),
+                    child: new Tab(
+                      icon: Icon(
+                        Icons.ondemand_video,
+                        color: MColors.textGrey,
+                      ),
+                    ),
                   ),
                   new Container(
                     height: 45.0,
-                    child: new Tab(icon: Icon(MdiIcons.bellOutline,color: MColors.textGrey,),),
+                    child: new Tab(
+                      icon: Icon(
+                        MdiIcons.bellOutline,
+                        color: MColors.textGrey,
+                      ),
+                    ),
                   ),
                   new Container(
                     height: 45.0,
-                    child: new Tab(icon: Icon(Icons.menu,color: MColors.textGrey,),),
+                    child: new Tab(
+                      icon: Icon(
+                        Icons.menu,
+                        color: MColors.textGrey,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         ),
-
 
         // CustomAppBar(
         //           currentUser: currentUser,
@@ -190,13 +217,13 @@ class _NavScreenState extends State<NavScreen> {
 
         body: TabBarView(
           children: [
-              TodaySc(),
-    DoingSC(),
-    ShopSC(),
-    MenuSC(),
+            TodaySc(),
+            DoingSC(),
+            ShopSC(),
+            MenuSC(),
           ],
         ),
-        
+
         // bottomNavigationBar: Container(
         //   padding: const EdgeInsets.only(bottom: 13.0),
         //   color: Colors.white,
@@ -208,6 +235,5 @@ class _NavScreenState extends State<NavScreen> {
         // ),
       ),
     );
- 
   }
 }

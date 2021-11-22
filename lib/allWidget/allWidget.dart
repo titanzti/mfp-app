@@ -17,6 +17,7 @@ import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:mfp_app/view/Profile/Profile.dart';
 import 'package:mfp_app/view/Profile/ProfileUITEST.dart';
+import 'package:mfp_app/view/Search/Search.dart';
 
 //APPBARS-------------------------------------
 
@@ -40,7 +41,7 @@ import 'package:mfp_app/view/Profile/ProfileUITEST.dart';
 //   );
 // }
 
-Widget primaryAppBar(context, var token,var userid,var imageurl) {
+Widget primaryAppBar(context, var token, var userid, var imageurl) {
   bool isopen = false;
   return SliverAppBar(
     brightness: Brightness.light,
@@ -61,7 +62,11 @@ Widget primaryAppBar(context, var token,var userid,var imageurl) {
       CircleButton(
         icon: Icons.search,
         iconSize: 30.0,
-        onPressed: () => print('search'),
+        onPressed: () => Navigate.pushPage(
+            context,
+            Search(
+              userid: userid,
+            )),
       ),
       CircleButton(
         icon: MdiIcons.bellOutline,
@@ -71,14 +76,19 @@ Widget primaryAppBar(context, var token,var userid,var imageurl) {
       token != "" && token != null
           ? InkWell(
               onTap: () {
-                Navigate.pushPage(context, ProfileSc(userid: userid,token: token,));
+                Navigate.pushPage(
+                    context,
+                    ProfileSc(
+                      userid: userid,
+                      token: token,
+                    ));
               },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: CircleAvatar(
                   radius: 25.0,
-                  backgroundImage:
-                      NetworkImage('https://today-api.moveforwardparty.org/api$imageurl/image'),
+                  backgroundImage: NetworkImage(
+                      'https://today-api.moveforwardparty.org/api$imageurl/image'),
                   backgroundColor: Colors.transparent,
                 ),
               ),
@@ -89,7 +99,11 @@ Widget primaryAppBar(context, var token,var userid,var imageurl) {
                 radius: 25.0,
                 backgroundColor: Colors.white70,
                 child: IconButton(
-                  icon: (Icon(CupertinoIcons.person)),
+                  iconSize: 30,
+                  icon: (Icon(
+                    CupertinoIcons.person_crop_circle,
+                    color: MColors.primaryBlue,
+                  )),
                   onPressed: () {
                     Navigate.pushPage(context, Loginregister());
                   },

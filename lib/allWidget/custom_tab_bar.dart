@@ -4,7 +4,7 @@ import 'package:mfp_app/utils/app_theme.dart';
 
 class CustomTabBar extends StatelessWidget {
   final List<IconData> icons;
-    final List<String> iconsimage;
+  final List<String> iconsimage;
 
   final int selectedIndex;
   final Function(int) onTap;
@@ -17,7 +17,8 @@ class CustomTabBar extends StatelessWidget {
     @required this.selectedIndex,
     @required this.onTap,
     this.isBottomIndicator = false,
-    @required this.lable, this.iconsimage,
+    @required this.lable,
+    this.iconsimage,
   }) : super(key: key);
 
   final List<Tab> _tabs = [
@@ -59,12 +60,9 @@ class CustomTabBar extends StatelessWidget {
                 ),
               ),
       ),
-      labelStyle: TextStyle(
-        fontSize: 14,
-        fontFamily: AppTheme.FontAnakotmaiMedium
-      ),
+      labelStyle:
+          TextStyle(fontSize: 12, fontFamily: AppTheme.FontAnakotmaiMedium),
       labelColor: Colors.black,
-
       tabs:
           // _tabs,
           icons
@@ -74,11 +72,13 @@ class CustomTabBar extends StatelessWidget {
                     Tab(
                       iconMargin: EdgeInsets.only(bottom: 10.0),
                       // text: "data",
-                      icon:  Image.asset(iconsimage[i],
-                           color: i == selectedIndex
+                      icon: Image.asset(
+                        iconsimage[i],
+                        color: i == selectedIndex
                             ? MColors.primaryColor
                             : Colors.grey[500],
-                      width: 21,height: 21,
+                        width: 21,
+                        height: 21,
                       ),
                       // Icon(
                       //   e,

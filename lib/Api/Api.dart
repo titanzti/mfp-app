@@ -37,26 +37,25 @@ class Api {
     var tokenname = prefs.getString('token');
     return tokenname;
   }
-    /*--------------------gettokeจากSharedPreferences--------------------------------------*/
-
+  /*--------------------gettokeจากSharedPreferences--------------------------------------*/
 
   static Future getmyuid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var myuid = prefs.getString('myuid');
     return myuid;
   }
-    /*--------------------getmyuidจากSharedPreferences--------------------------------------*/
+  /*--------------------getmyuidจากSharedPreferences--------------------------------------*/
 
   static Future getimageURL() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var imageURL = prefs.getString('imageURL');
     return imageURL;
   }
-    /*--------------------getimageURLจากSharedPreferences--------------------------------------*/
+  /*--------------------getimageURLจากSharedPreferences--------------------------------------*/
 
   static Future getPostList(int offset) async {
     print('getPostList');
-    String url =  "${Api.url}api/main/content/search";
+    String url = "${Api.url}api/main/content/search";
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
@@ -70,9 +69,9 @@ class Api {
       "endActionCount": 6,
       "pageCategories": [],
       "sortBy": "LASTEST_DATE",
-      "filter": {"limit": 5, "offset": offset}
+      "filter": {"limit": 15, "offset": offset}
     };
-    var body =  jsonEncode(data);
+    var body = jsonEncode(data);
 
     final responseData = await Http.post(
       url,
@@ -84,8 +83,7 @@ class Api {
       return responseData;
     }
   }
-      /*--------------------getPostจาก/content/search--------------------------------------*/
-
+  /*--------------------getPostจาก/content/search--------------------------------------*/
 
   static Future getemergencycontent(String emergencyEventId) async {
     final responseData =
@@ -93,26 +91,26 @@ class Api {
 
     return responseData;
   }
-      /*--------------------getcontentemergencyจาก/emergency/emergencyid/timeline--------------------------------------*/
+  /*--------------------getcontentemergencyจาก/emergency/emergencyid/timeline--------------------------------------*/
 
   static Future<Http.Response> getRecommendedUserPage() async {
     final responseData =
         await Http.get("${Api.url}api/recommend?limit=5&offset=0");
     return responseData;
   }
-      /*--------------------getแนะนำpageUseryจาก/recommend--------------------------------------*/
-       static Future<Http.Response> sendfollowPage(String pageid,String token,String userid) async {
+
+  /*--------------------getแนะนำpageUseryจาก/recommend--------------------------------------*/
+  static Future<Http.Response> sendfollowPage(
+      String pageid, String token, String userid) async {
     print('getHashtagList');
     var url = "https://today-api.moveforwardparty.org/api/page/$pageid/follow";
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
-            "authorization": "Bearer $token",
-       "userid":userid
+      "authorization": "Bearer $token",
+      "userid": userid
     };
-    Map data = {
-     
-    };
+    Map data = {};
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
@@ -205,8 +203,6 @@ class Api {
 
     return responseData;
   }
-
-
 
   static Future<Http.Response> getPostDetailSS(String id) async {
     print('getPostDetailSS');
@@ -347,8 +343,7 @@ class Api {
       String postid, String uid, String token) async {
     print('getcommentlist');
 
-    var url =
-        "${Api.url}api/post/$postid/comment/search";
+    var url = "${Api.url}api/post/$postid/comment/search";
     final headers = {
       "userid": uid,
       "content-type": "application/json",
@@ -517,8 +512,7 @@ class Api {
   static Future<Http.Response> islikecomment(
       String postid, String uid, String token, String commentid) async {
     print('islikecomment');
-    var url =
-        "${Api.url}api/post/$postid/comment/$commentid/like";
+    var url = "${Api.url}api/post/$postid/comment/$commentid/like";
     final headers = {
       "userid": uid,
       "authorization": "Bearer $token",
