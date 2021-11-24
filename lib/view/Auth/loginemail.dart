@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mfp_app/Api/Api.dart';
+import 'package:mfp_app/allWidget/sizeconfig.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
@@ -206,31 +207,27 @@ class _LoginemailState extends State<Loginemail> {
                         ),
                       ],
                     ),
-                    if (!isKeyboard)
-                      Padding(
-                          padding: const EdgeInsets.only(
-                        top: 200,
-                      )),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: Text(
-                            'เข้าสู่ระบบด้วย Email',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontFamily: AppTheme.FontAnakotmaiLight,
-                            ),
-                          ),
+                   if(!isKeyboard) 
+                     SizedBox(
+                      height: SizeConfig.screenHeight * 0.18,
+                    ),
+                   
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'เข้าสู่ระบบด้วย Email',
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontFamily: AppTheme.FontAnakotmaiLight,
                         ),
-                      ],
+                      ),
                     ),
                     //--------------------อีเมล----------------------//
 
                     Container(
-                      height: 60,
-                      margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+                      height: SizeConfig.screenHeight * 0.07,
+                      margin: EdgeInsets.only( left: 10, right: 10),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(width: 1.2, color: Colors.black12),
@@ -239,9 +236,10 @@ class _LoginemailState extends State<Loginemail> {
                       child: _txtEmail,
                     ),
                     //-------------------รหัสผ่าน---------------------//
+                    SizedBox(height: 5,),
                     Container(
-                      height: 60,
-                      margin: EdgeInsets.only(top: 15, left: 10, right: 10),
+                      height: SizeConfig.screenHeight * 0.07,
+                      margin: EdgeInsets.only( left: 10, right: 10),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(width: 1.2, color: Colors.black12),
@@ -262,70 +260,36 @@ class _LoginemailState extends State<Loginemail> {
                     //----------------ปุ่ม ลืมรหัสผ่านใช่ไหม ?--------------//
                     iserror == true
                         ? Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextButton(
-                                  child: Text('ลืมรหัสผ่าน ?',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontFamily: AppTheme.FontAnakotmaiLight,
-                                      )),
-                                  onPressed: () {
-                                    print('กด');
-                                  },
-                                ),
-                              ],
+                            child: TextButton(
+                              child: Text('ลืมรหัสผ่าน ?',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontFamily: AppTheme.FontAnakotmaiLight,
+                                  )),
+                              onPressed: () {
+                                print('กด');
+                              },
                             ),
                           )
-                        : Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 220),
-                              ),
-                              TextButton(
-                                child: Text('ลืมรหัสผ่าน ?',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 17,
-                                      fontFamily: AppTheme.FontAnakotmaiLight,
-                                    )),
-                                onPressed: () {
-                                  print('กด');
-                                },
-                              ),
-                            ],
+                        : Align(
+                            alignment: Alignment.bottomRight,
+                            child: TextButton(
+                              child: Text('ลืมรหัสผ่าน ?',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    fontFamily: AppTheme.FontAnakotmaiLight,
+                                  )),
+                              onPressed: () {
+                                print('กด');
+                              },
+                            ),
                           ),
-                    //-------------------------------------------------------------------------------//
-                    Padding(
-                        padding: EdgeInsets.only(
-                      top: 15,
-                    )),
-                    //-------------------------------------เข้าสู่ระบบ----------------------------------//
-// Container(
-                    //         margin: EdgeInsets.only(left: 10, right: 10),
-                    //         child: Row(
-                    //           children: <Widget>[
-                    //             _emailController.text == ""
-                    //                 ? Expanded(
-                    //                     child: RaisedButton(
-                    //                       padding: EdgeInsets.only(
-                    //                           top: 15, bottom: 15),
-                    //                       shape: RoundedRectangleBorder(
-                    //                           borderRadius:
-                    //                               BorderRadius.circular(30.0),
-                    //                           side: BorderSide(
-                    //                               color: Colors.red)),
-                    //                       onPressed: () {},
-                    //                       child: CupertinoActivityIndicator(),
-                    //                     ),
-                    //                   )
 
-                    //           ],
-                    //         ),
-                    //       )
-                    //     :
+                    //-------------------------------------------------------------------------------//
+                    //-------------------------------------เข้าสู่ระบบ----------------------------------//
+
                     _isEnabled == false
                         ? _isloading == true
                             ? Container(
@@ -421,10 +385,6 @@ class _LoginemailState extends State<Loginemail> {
                             ),
                           ),
                     //-------------------------------------------------------------------------------//
-                    Padding(
-                        padding: EdgeInsets.only(
-                      top: 15,
-                    )),
                     //-----------------------------------สมัครสมาชิก----------------------------------//
                     Center(
                       child: TextButton(
@@ -441,11 +401,11 @@ class _LoginemailState extends State<Loginemail> {
                       ),
                     ),
 
-                    // Padding(
-                    //     padding: EdgeInsets.only(
-                    //   bottom: 65.0,
-                    // )),
-                    Align(
+                   
+                  ],
+                ),
+              ),
+               Align(
                       alignment: Alignment.bottomCenter,
                       child: Text(
                         '© 2021 พรรคก้าวไกล. ALL RIGHTS RESERVED.',
@@ -455,9 +415,6 @@ class _LoginemailState extends State<Loginemail> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-              )
             ],
           ),
         ),

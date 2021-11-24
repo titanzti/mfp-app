@@ -345,7 +345,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       fixtextauthor(),
-                      authorpost(authorposttext, context, dateTime),
+                      // authorpost(authorposttext, context, dateTime),
                       texttimetimestamp(dateTime),
                     ],
                   ),

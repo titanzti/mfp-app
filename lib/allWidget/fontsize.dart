@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mfp_app/constants/colors.dart';
+import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/timeutils.dart';
+import 'package:mfp_app/view/Profile/Profliess.dart';
 
 Widget titleK1(String string) => Text(
       string,
@@ -61,11 +63,34 @@ Widget texttimetimestamp(DateTime dateTime) => Text(
         color: MColors.textGrey,
       ),
     );
-Widget authorpost(String string, context, DateTime dateTime) => Text(
-      '$string',
-      style: Theme.of(context).textTheme.bodyText2,
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
+Widget authorpost(
+  String string,
+  context,
+  DateTime dateTime,
+  String id,
+  String imageUrl,
+  String name,
+  bool isOfficial,
+  String pageUsername,
+  bool isFollow,
+) =>
+    InkWell(
+      onTap: () => Navigate.pushPage(
+          context,
+          Profliess(
+            id: id,
+            image: imageUrl,
+            name: name,
+            isOfficial: isOfficial,
+            pageUsername: pageUsername,
+            isFollow: isFollow,
+          )),
+      child: Text(
+        '$string',
+        style: Theme.of(context).textTheme.bodyText2,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
 Widget texthashtags(String string) => Text(
       string,

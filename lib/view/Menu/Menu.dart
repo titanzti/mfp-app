@@ -23,41 +23,39 @@ class _MenuSCState extends State<MenuSC> {
 
   var userimageUrl;
 
- 
-
   @override
-  void initState() { 
+  void initState() {
     print('initState');
     super.initState();
     setState(() {
-        Api.gettoke().then((value) => value({
-              token = value,
-              print('token$token'),
-            }));
+      Api.gettoke().then((value) => value({
+            token = value,
+            print('token$token'),
+          }));
 
-   Api.getmyuid().then((value) => ({
-              setState(() {
-                userid = value;
-              }),
-              print('userid$userid'),
-            }));
-        Api.getimageURL().then((value) => ({
-              setState(() {
-                userimageUrl = value;
-              }),
-              print('userimageUrl$userimageUrl'),
-            }));
-               
+      Api.getmyuid().then((value) => ({
+            setState(() {
+              userid = value;
+            }),
+            print('userid$userid'),
+          }));
+      Api.getimageURL().then((value) => ({
+            setState(() {
+              userimageUrl = value;
+            }),
+            print('userimageUrl$userimageUrl'),
+          }));
     });
   }
- @override
+
+  @override
   void dispose() {
     _trackingScrollController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -65,7 +63,7 @@ class _MenuSCState extends State<MenuSC> {
           body: CustomScrollView(
             controller: _trackingScrollController,
             slivers: [
-              primaryAppBar(context, token,userid, userimageUrl),
+              primaryAppBar(context, token, userid, userimageUrl),
               SliverToBoxAdapter(
                 child: Container(
                   child: Padding(
@@ -122,6 +120,7 @@ class _MenuSCState extends State<MenuSC> {
                               Text(
                                 'บริจาค',
                                 maxLines: 1,
+                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -134,6 +133,7 @@ class _MenuSCState extends State<MenuSC> {
                               Text(
                                 'ซื้อสินค้าพรรคก้าวไกล สนับสนุนการ\nทำงานเพื่อประชาธิปไตย',
                                 maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -180,6 +180,7 @@ class _MenuSCState extends State<MenuSC> {
                             Text(
                               'เกี่ยวกับพรรค',
                               maxLines: 1,
+                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: AppTheme.FontAnakotmaiBold,
@@ -192,6 +193,7 @@ class _MenuSCState extends State<MenuSC> {
                             Text(
                               'ซื้อสินค้าพรรคก้าวไกล สนับสนุนการ\nทำงานเพื่อประชาธิปไตย',
                               maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -211,6 +213,7 @@ class _MenuSCState extends State<MenuSC> {
                     child: Text(
                       ' ข้อมูลเกี่ยวกับพรรค',
                       maxLines: 1,
+                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.black,
@@ -252,11 +255,13 @@ class _MenuSCState extends State<MenuSC> {
                                         width: 65,
                                         height: 55,
                                       ),
-                                                                            SizedBox(height: 10,),
-
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Text(
                                         'ช่องทางการติดต่อ',
                                         maxLines: 1,
+                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
@@ -293,11 +298,13 @@ class _MenuSCState extends State<MenuSC> {
                                         width: 65,
                                         height: 55,
                                       ),
-                                                                            SizedBox(height: 10,),
-
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Text(
                                         'ร้องเรียน',
                                         maxLines: 1,
+                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
@@ -338,10 +345,13 @@ class _MenuSCState extends State<MenuSC> {
                                         width: 65,
                                         height: 55,
                                       ),
-                                      SizedBox(height: 10,),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Text(
                                         'อาสาสมัคร',
                                         maxLines: 1,
+                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
@@ -378,11 +388,13 @@ class _MenuSCState extends State<MenuSC> {
                                         width: 65,
                                         height: 55,
                                       ),
-                                                                            SizedBox(height: 10,),
-
+                                      SizedBox(
+                                        height: 10,
+                                      ),
                                       Text(
                                         'บุคลากร',
                                         maxLines: 1,
+                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,

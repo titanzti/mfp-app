@@ -505,12 +505,18 @@ class _TodayScState extends State<TodaySc> {
                                           nDataList1.post.title,
                                           nDataList1.post.detail,
                                           nDataList1.page.name,
-                                          nDataList1.page.createdDate,
+                                          nDataList1.post.createdDate,
                                           nDataList1.post.gallery,
                                           nDataList1.post.likeCount,
                                           nDataList1.post.commentCount,
                                           nDataList1.post.shareCount,
                                           nDataList1.post.id,
+                                          nDataList1.page.id,
+                                          nDataList1.page.imageUrl,
+                                          nDataList1.page.name,
+                                          false,
+                                          nDataList1.page.pageUsername,
+                                          nDataList1.page.isOfficial,
                                         );
                                       }),
                                 );
@@ -546,185 +552,96 @@ class _TodayScState extends State<TodaySc> {
     );
   }
 
-  _myAlbumCard(List<Gallery> list) {
-    if (list.length >= 4) {
-      return Container(
-        height: 280,
-        width: double.infinity,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              getItems(list[0].signUrl, list[1].signUrl, 0),
-              getItems(list[2].signUrl, list[3].signUrl, list.length - 4),
-            ],
-          ),
-        ),
-      );
-    } else if (list.length >= 3) {
-      return Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-          height: 340,
-          width: 300,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: Colors.grey, width: 0.2)),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 100,
-                  ),
-                  getItems(list[0].signUrl, list[1].signUrl, 0),
-                  Expanded(
-                    child: getItems(list[2].signUrl, list[3].signUrl ?? "",
-                        list.length - 3),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    } else if (list.length >= 2) {
-      return Container(
-        height: 340,
-        width: double.infinity,
-        color: Colors.black,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              getItems(list[0].signUrl, list[1].signUrl, 0),
-            ],
-          ),
-        ),
-      );
-    } else if (list.length >= 1) {
-      return Container(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              // Padding(
-              //   padding: EdgeInsets.only(
-              //       left: 10.0, top: 2),
-              //   child: Text(
-              //     name,
-              //     style: TextStyle(
-              //         color: Colors.black,
-              //         fontSize: 14,
-              //         fontWeight: FontWeight.bold),
-              //   ),
-              // ),
-
-              list[0].signUrl != null
-                  ? Image.network(list[0].signUrl.toString())
-                  // CachedNetworkImage(
-                  //     imageUrl: 'https://via.placeholder.com/350x150',
-                  //     placeholder: (context, url) =>
-                  //         new CupertinoActivityIndicator(),
-                  //     errorWidget: (context, url, error) => Container(
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                  //       ),
-                  //       child:Image(image: CachedNetworkImageProvider(list[0].signUrl),)
-                  //     ),
-                  //   )
-                  : SizedBox.shrink(),
-            ],
-          ),
-        ),
-      );
-    }
-  }
+  
 
   Future cacheImage(BuildContext context, String urlImage) =>
       precacheImage(CachedNetworkImageProvider(urlImage), context);
 
-  getItems(img_path, img_path2, count) {
-    return Container(
-      width: double.infinity,
-      child: Row(
-        // crossAxisAlignment :CrossAxisAlignment.center,
-        // mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          // SizedBox(width: 5,),
-          ClipRRect(
-            child: Image.network(
-              img_path,
-              height: 140,
-              width: 190,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.low,
-            ),
-          ),
-          SizedBox(
-            width: 11,
-          ),
-          (count > 0)
-              ? Stack(
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    ClipRRect(
-                      // borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10),),
-                      child: Image.network(
-                        img_path2,
-                        height: 140,
-                        width: 190,
-                        fit: BoxFit.cover,
-                        filterQuality: FilterQuality.low,
-                      ),
-                    ),
-                    (count > 0)
-                        ? Positioned(
-                            child: Container(
-                              height: 140,
-                              width: 190,
-                              decoration: BoxDecoration(color: Colors.black38),
-                              child: Center(
-                                child: Text(
-                                  "$count +",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Center()
-                  ],
-                )
-              : ClipRRect(
-                  child: Image.network(
-                    img_path2,
-                    height: 140,
-                    width: 190,
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.low,
-                  ),
-                ),
-        ],
-      ),
-    );
-  }
+  // getItems(img_path, img_path2, count) {
+  //   return Container(
+  //     width: double.infinity,
+  //     child: Row(
+  //       // crossAxisAlignment :CrossAxisAlignment.center,
+  //       // mainAxisSize: MainAxisSize.max,
+  //       children: <Widget>[
+  //         // SizedBox(width: 5,),
+  //         ClipRRect(
+  //           child: Image.network(
+  //             img_path,
+  //             height: 140,
+  //             width: 190,
+  //             fit: BoxFit.cover,
+  //             filterQuality: FilterQuality.low,
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           width: 11,
+  //         ),
+  //         (count > 0)
+  //             ? Stack(
+  //                 overflow: Overflow.visible,
+  //                 children: <Widget>[
+  //                   ClipRRect(
+  //                     // borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10),),
+  //                     child: Image.network(
+  //                       img_path2,
+  //                       height: 140,
+  //                       width: 190,
+  //                       fit: BoxFit.cover,
+  //                       filterQuality: FilterQuality.low,
+  //                     ),
+  //                   ),
+  //                   (count > 0)
+  //                       ? Positioned(
+  //                           child: Container(
+  //                             height: 140,
+  //                             width: 190,
+  //                             decoration: BoxDecoration(color: Colors.black38),
+  //                             child: Center(
+  //                               child: Text(
+  //                                 "$count +",
+  //                                 style: TextStyle(
+  //                                   color: Colors.white,
+  //                                   fontSize: 20,
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         )
+  //                       : Center()
+  //                 ],
+  //               )
+  //             : ClipRRect(
+  //                 child: Image.network(
+  //                   img_path2,
+  //                   height: 140,
+  //                   width: 190,
+  //                   fit: BoxFit.cover,
+  //                   filterQuality: FilterQuality.low,
+  //                 ),
+  //               ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget PostList(
-      String posttitle,
-      String subtitle,
-      String authorposttext,
-      DateTime dateTime,
-      List<Gallery> gallery,
-      int likeCount,
-      int commentCount,
-      int shareCount,
-      String postid) {
+    String posttitle,
+    String subtitle,
+    String authorposttext,
+    DateTime dateTime,
+    List<Gallery> gallery,
+    int likeCount,
+    int commentCount,
+    int shareCount,
+    String postid,
+    String pageid,
+    String pageimage,
+    String pagename,
+    bool isFollow,
+    String pageUsername,
+    bool isOfficial,
+  ) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -755,7 +672,7 @@ class _TodayScState extends State<TodaySc> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            gallery.length != 0 ? _myAlbumCard(gallery) : SizedBox.shrink(),
+            gallery.length != 0 ? myAlbumCard(gallery) : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),
             Card(
               child: Column(
@@ -776,7 +693,16 @@ class _TodayScState extends State<TodaySc> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       fixtextauthor(),
-                      authorpost(authorposttext, context, dateTime),
+                      authorpost(
+                          authorposttext,
+                          context,
+                          dateTime,
+                          pageid,
+                          pageimage,
+                          pagename,
+                          isFollow,
+                          pageUsername,
+                          isOfficial),
                       texttimetimestamp(dateTime),
                     ],
                   ),

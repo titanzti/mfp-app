@@ -11,6 +11,7 @@ import 'package:mfp_app/allWidget/PostButton.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/postModel.dart';
 import 'package:mfp_app/allWidget/circle_button.dart';
+import 'package:mfp_app/model/searchpostlistModel.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/style.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
@@ -40,6 +41,171 @@ import 'package:mfp_app/view/Search/Search.dart';
 //     actions: actions,
 //   );
 // }
+Widget myAlbumCard(List<Gallery> list) {
+    if (list.length >= 4) {
+      return Container(
+        height: 280,
+        width: double.infinity,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              getItems(list[0].signUrl, list[1].signUrl, 0),
+              getItems(list[2].signUrl, list[3].signUrl, list.length - 4),
+            ],
+          ),
+        ),
+      );
+    } else if (list.length >= 3) {
+      return Padding(
+        padding: const EdgeInsets.all(10),
+        child: Container(
+          height: 340,
+          width: 300,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(color: Colors.grey, width: 0.2)),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    height: 100,
+                  ),
+                  getItems(list[0].signUrl, list[1].signUrl, 0),
+                  Expanded(
+                    child: getItems(list[2].signUrl, list[3].signUrl ?? "",
+                        list.length - 3),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    } else if (list.length >= 2) {
+      return Container(
+        height: 340,
+        width: double.infinity,
+        color: Colors.black,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              getItems(list[0].signUrl, list[1].signUrl, 0),
+            ],
+          ),
+        ),
+      );
+    } else if (list.length >= 1) {
+      return Container(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              // Padding(
+              //   padding: EdgeInsets.only(
+              //       left: 10.0, top: 2),
+              //   child: Text(
+              //     name,
+              //     style: TextStyle(
+              //         color: Colors.black,
+              //         fontSize: 14,
+              //         fontWeight: FontWeight.bold),
+              //   ),
+              // ),
+
+              list[0].signUrl != null
+                  ? Image.network(list[0].signUrl.toString())
+                  // CachedNetworkImage(
+                  //     imageUrl: 'https://via.placeholder.com/350x150',
+                  //     placeholder: (context, url) =>
+                  //         new CupertinoActivityIndicator(),
+                  //     errorWidget: (context, url, error) => Container(
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //       ),
+                  //       child:Image(image: CachedNetworkImageProvider(list[0].signUrl),)
+                  //     ),
+                  //   )
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget  getItems(img_path, img_path2, count) {
+    return Container(
+      width: double.infinity,
+      child: Row(
+        // crossAxisAlignment :CrossAxisAlignment.center,
+        // mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          // SizedBox(width: 5,),
+          ClipRRect(
+            child: Image.network(
+              img_path,
+              height: 140,
+              width: 190,
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.low,
+            ),
+          ),
+          SizedBox(
+            width: 11,
+          ),
+          (count > 0)
+              ? Stack(
+                  overflow: Overflow.visible,
+                  children: <Widget>[
+                    ClipRRect(
+                      // borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10),),
+                      child: Image.network(
+                        img_path2,
+                        height: 140,
+                        width: 190,
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.low,
+                      ),
+                    ),
+                    (count > 0)
+                        ? Positioned(
+                            child: Container(
+                              height: 140,
+                              width: 190,
+                              decoration: BoxDecoration(color: Colors.black38),
+                              child: Center(
+                                child: Text(
+                                  "$count +",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                        : Center()
+                  ],
+                )
+              : ClipRRect(
+                  child: Image.network(
+                    img_path2,
+                    height: 140,
+                    width: 190,
+                    fit: BoxFit.cover,
+                    filterQuality: FilterQuality.low,
+                  ),
+                ),
+        ],
+      ),
+    );
+  }
 
 Widget primaryAppBar(context, var token, var userid, var imageurl) {
   bool isopen = false;

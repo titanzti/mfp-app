@@ -113,7 +113,7 @@ class _DoingSCState extends State<DoingSC> {
                             children: [
                               Container(
                                 width: 170,
-                                height: hight / 5.7,
+                                height: hight / 5.4,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.grey[100],
@@ -138,7 +138,8 @@ class _DoingSCState extends State<DoingSC> {
                                         padding: const EdgeInsets.only(top: 10),
                                         child: Text(
                                           '#WaterBank',
-                                          maxLines: 2,
+                                          maxLines: 1,
+                                             overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
@@ -155,7 +156,7 @@ class _DoingSCState extends State<DoingSC> {
                               ),
                               Container(
                                 width: 170,
-                                height: hight / 5.7,
+                                height: hight / 5.4,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.grey[100],
@@ -201,7 +202,7 @@ class _DoingSCState extends State<DoingSC> {
                             children: [
                               Container(
                                 width: 170,
-                                height: hight / 5.7,
+                                height: hight / 5.4,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.grey[100],
@@ -243,7 +244,7 @@ class _DoingSCState extends State<DoingSC> {
                               ),
                               Container(
                                 width: 170,
-                                height: hight / 5.7,
+                                height: hight / 5.4,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.grey[100],
@@ -299,6 +300,7 @@ class _DoingSCState extends State<DoingSC> {
               )),
               SliverToBoxAdapter(
                 child: Container(
+                
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20, left: 20),
