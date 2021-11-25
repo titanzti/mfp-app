@@ -309,17 +309,20 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             gallery[0].signUrl != null
-                ? CachedNetworkImage(
-                    imageUrl: gallery[0].signUrl,
-                    placeholder: (context, url) =>
-                        new CupertinoActivityIndicator(),
-                    errorWidget: (context, url, error) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      child: new Image.network(
-                        gallery[0].signUrl,
-                        filterQuality: FilterQuality.low,
+                ? Hero(
+                    tag: "image"+ gallery[0].signUrl,
+                    child: CachedNetworkImage(
+                      imageUrl: gallery[0].signUrl,
+                      placeholder: (context, url) =>
+                          new CupertinoActivityIndicator(),
+                      errorWidget: (context, url, error) => Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: new Image.network(
+                          gallery[0].signUrl,
+                          filterQuality: FilterQuality.low,
+                        ),
                       ),
                     ),
                   )

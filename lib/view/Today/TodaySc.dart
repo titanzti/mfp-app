@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/Api/apipost.dart';
+import 'package:mfp_app/animation/FadeAnimation.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/RecommendedUserPageModel.dart';
 import 'package:mfp_app/model/postModel.dart';
@@ -417,13 +419,13 @@ class _TodayScState extends State<TodaySc> {
                         child: Carouselslider(
                             listemergencyEvents, context, userimageUrl)),
 
-                ///-----------เลื่อนสไลด์-----------------//
+                // ///-----------เลื่อนสไลด์-----------------//
                 listModelPostClass.length == 0
                     ? SliverToBoxAdapter(child: Container())
                     : SliverToBoxAdapter(
                         child: Container(
                           width: double.infinity,
-                          height: 40,
+                          // height: 40,
                           color: MColors.primaryGrey,
                           child: Center(
                             child: titletimeline("ไทม์ไลน์"),
@@ -431,7 +433,7 @@ class _TodayScState extends State<TodaySc> {
                         ),
                       ),
 
-                ///-----------คำว่าไทม์ไลน์-----------------//
+                // ///-----------คำว่าไทม์ไลน์-----------------//
 
                 isLoading == true
                     ? SliverToBoxAdapter(child: CarouselLoading())
@@ -501,7 +503,7 @@ class _TodayScState extends State<TodaySc> {
                                         //   );
                                         // }
 
-                                        return PostList(
+                                        return  FadeAnimation((1.0 + index) / 4, PostList(
                                           nDataList1.post.title,
                                           nDataList1.post.detail,
                                           nDataList1.page.name,
@@ -517,7 +519,7 @@ class _TodayScState extends State<TodaySc> {
                                           false,
                                           nDataList1.page.pageUsername,
                                           nDataList1.page.isOfficial,
-                                        );
+                                        ));
                                       }),
                                 );
                               },
@@ -551,8 +553,6 @@ class _TodayScState extends State<TodaySc> {
       ),
     );
   }
-
-  
 
   Future cacheImage(BuildContext context, String urlImage) =>
       precacheImage(CachedNetworkImageProvider(urlImage), context);
@@ -691,6 +691,7 @@ class _TodayScState extends State<TodaySc> {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       fixtextauthor(),
                       authorpost(
@@ -703,6 +704,9 @@ class _TodayScState extends State<TodaySc> {
                           isFollow,
                           pageUsername,
                           isOfficial),
+                      SizedBox(
+                        width: 2,
+                      ),
                       texttimetimestamp(dateTime),
                     ],
                   ),
@@ -1103,8 +1107,8 @@ class _TodayScState extends State<TodaySc> {
             _current = index;
           });
         },
-        height: 450,
-        aspectRatio: 4 / 3,
+        height: MediaQuery.of(context).size.height / 1.9,
+        // aspectRatio: 16 / 9,
         enableInfiniteScroll: true,
         initialPage: 0,
         viewportFraction: 0.99,
@@ -1133,29 +1137,29 @@ class _TodayScState extends State<TodaySc> {
                 children: [
                   Container(
                     width: double.infinity,
-                    child: Container(
-                      // borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network(
-                        "https://today-api.moveforwardparty.org/api${emcs.coverPageUrl}/image",
-                        filterQuality: FilterQuality.medium,
-                      ),
+                    height: MediaQuery.of(context).size.height / 2.2,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(
+                              "https://today-api.moveforwardparty.org/api${emcs.coverPageUrl}/image"),
+                          fit: BoxFit.cover),
                     ),
                   ),
                   Stack(
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 50,
+                        height: MediaQuery.of(context).size.height / 16.0,
                         color: MColors.primaryColor,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.only(left: 10),
                               child: texthashtags(emcs.title),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.only(right: 10),
                               child: Text(
                                 'ดูเพิ่มเติม >',
                                 style: TextStyle(

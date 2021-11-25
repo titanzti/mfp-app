@@ -193,17 +193,17 @@ class _DTemergenScState extends State<DTEmergenSc> {
 
                             return Container(
                               color: Color(0xffF8F8F8),
-                              child: new Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, bottom: 15),
-                                child: Container(
-                                  color: Colors.white,
-                                  width: 170,
-                                  height: 200,
-                                  // alignment: Alignment.center,
-                                  child: Column(
-                                    children: [
-                                      new SvgPicture.network(
+                              child: Container(
+                                color: Colors.white,
+                                width: 170,
+
+                                // height: MediaQuery.of(context).size.height / 2.0,
+                                // alignment: Alignment.center,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: new SvgPicture.network(
                                         'https://today.moveforwardparty.org/assets/img/customize_item.svg',
                                         width: 70,
                                         height: 70,
@@ -213,114 +213,128 @@ class _DTemergenScState extends State<DTEmergenSc> {
                                                 padding:
                                                     const EdgeInsets.all(30.0),
                                                 child:
-                                                    const CircularProgressIndicator()),
+                                                    const CupertinoActivityIndicator()),
                                       ),
+                                    ),
 
-                                      // Image.network("https://today-api.moveforwardparty.org/api/file/6034a808e1e737658b221294/image"),
-                                      // e.standardItem.imageUrl != null
-                                      //     ? new Image.network("https://today.moveforwardparty.org/assets/img/customize_item.svg")
-                                      //     // CachedNetworkImage(
-                                      //     //     imageUrl:
-                                      //     //         "https://today-api.moveforwardparty.org/api/file/6034a808e1e737658b221294/image",
-                                      //     //     placeholder: (context, url) =>
-                                      //     //         new CupertinoActivityIndicator(),
-                                      //     //     errorWidget: (context, url,
-                                      //     //             error) =>
-                                      //     //         Container(
-                                      //     //             decoration: BoxDecoration(
-                                      //     //               borderRadius:
-                                      //     //                   BorderRadius.all(
-                                      //     //                       Radius.circular(
-                                      //     //                           8)),
-                                      //     //             ),
-                                      //     //             child: new Image.asset(
-                                      //     //                 'images/placeholder.png')),
-                                      //     //   )
-                                      //     : new Image.network(
-                                      //         'https://today.moveforwardparty.org/assets/img/customize_item.svg'),
-                                      Container(
-                                        alignment: Alignment.topRight,
-                                        child: Text(
-                                            '${e.quantity}/ ${e.fulfillQuantity}'),
+                                    // Image.network("https://today-api.moveforwardparty.org/api/file/6034a808e1e737658b221294/image"),
+                                    // e.standardItem.imageUrl != null
+                                    //     ? new Image.network("https://today.moveforwardparty.org/assets/img/customize_item.svg")
+                                    //     // CachedNetworkImage(
+                                    //     //     imageUrl:
+                                    //     //         "https://today-api.moveforwardparty.org/api/file/6034a808e1e737658b221294/image",
+                                    //     //     placeholder: (context, url) =>
+                                    //     //         new CupertinoActivityIndicator(),
+                                    //     //     errorWidget: (context, url,
+                                    //     //             error) =>
+                                    //     //         Container(
+                                    //     //             decoration: BoxDecoration(
+                                    //     //               borderRadius:
+                                    //     //                   BorderRadius.all(
+                                    //     //                       Radius.circular(
+                                    //     //                           8)),
+                                    //     //             ),
+                                    //     //             child: new Image.asset(
+                                    //     //                 'images/placeholder.png')),
+                                    //     //   )
+                                    //     : new Image.network(
+                                    //         'https://today.moveforwardparty.org/assets/img/customize_item.svg'),
+                                    Container(
+                                      alignment: Alignment.topRight,
+                                      child: Text(
+                                        '${e.quantity}/ ${e.fulfillQuantity}',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment
-                                            .spaceBetween, //Center Row contents horizontally,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 5),
-                                            child: Text(
-                                                '${e.name == null ? "" : e.name}'),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .spaceBetween, //Center Row contents horizontally,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 5),
+                                          child: Text(
+                                            '${e.name == null ? "" : e.name}',
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
                                           ),
-                                          Text('${e.unit}'),
-                                        ],
-                                      ),
-                                      e.active == true
-                                          ? Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10),
-                                              child: Container(
-                                                width: 150,
-                                                height: 27,
-                                                // color: Colors.green,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(8)),
-                                                ),
-                                                child: TextButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all<Color>(
-                                                                Colors.green),
-                                                  ),
-                                                  child: Text(
-                                                    'เติมเต็ม',
-                                                    style: TextStyle(
-                                                        fontSize: 11.0,
-                                                        color: MColors
-                                                            .primaryWhite),
-                                                  ),
-                                                  onPressed: () {},
-                                                ),
+                                        ),
+                                        Text(
+                                          '${e.unit}',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ],
+                                    ),
+                                    e.active == true
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Container(
+                                              width: 150,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  24.0,
+                                              // color: Colors.green,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8)),
                                               ),
-                                            )
-                                          : Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10),
-                                              child: Container(
-                                                width: 150,
-                                                height: 27,
-                                                // color: Colors.green,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(8)),
+                                              child: TextButton(
+                                                style: ButtonStyle(
+                                                  padding: MaterialStateProperty
+                                                      .all<EdgeInsets>(
+                                                          EdgeInsets.only(
+                                                              bottom: 0)),
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all<
+                                                          Color>(Colors.green),
                                                 ),
-                                                child: TextButton(
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all<Color>(Colors
-                                                                .green
-                                                                .withOpacity(
-                                                                    0.2)),
-                                                  ),
-                                                  child: Text(
-                                                    'เติมเต็ม',
-                                                    style: TextStyle(
-                                                        fontSize: 11.0,
-                                                        color: MColors
-                                                            .primaryWhite),
-                                                  ),
-                                                  onPressed: () {},
+                                                child: Text(
+                                                  'เติมเต็ม',
+                                                  style: TextStyle(
+                                                      fontSize: 13.0,
+                                                      color:
+                                                          MColors.primaryWhite),
                                                 ),
+                                                onPressed: () {},
                                               ),
                                             ),
-                                    ],
-                                  ),
+                                          )
+                                        : Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 10),
+                                            child: Container(
+                                              width: 150,
+                                              height: 27,
+                                              // color: Colors.green,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(8)),
+                                              ),
+                                              child: TextButton(
+                                                style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all<
+                                                              Color>(
+                                                          Colors.green
+                                                              .withOpacity(
+                                                                  0.2)),
+                                                ),
+                                                child: Text(
+                                                  'เติมเต็ม',
+                                                  style: TextStyle(
+                                                      fontSize: 11.0,
+                                                      color:
+                                                          MColors.primaryWhite),
+                                                ),
+                                                onPressed: () {},
+                                              ),
+                                            ),
+                                          ),
+                                  ],
                                 ),
                               ),
                             );
@@ -355,7 +369,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
                         style: TextStyle(
                             fontSize: 22.0, color: MColors.primaryColor),
                       ),
-                      onPressed: () {},
+                      onPressed: null,
                     ),
                   ),
                 ),

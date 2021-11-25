@@ -96,7 +96,7 @@ class _DoingSCState extends State<DoingSC> {
                           color: MColors.primaryBlue,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Anakotmai',
-                          fontSize:  17),
+                          fontSize: 17),
                     ),
                   ),
                 ),
@@ -106,13 +106,13 @@ class _DoingSCState extends State<DoingSC> {
                   child: Container(
                     color: Colors.white,
                     child: Padding(
-                      padding: const EdgeInsets.all(18.0),
+                      padding: const EdgeInsets.only(left: 19, top: 8),
                       child: Column(
                         children: [
                           Row(
                             children: [
                               Container(
-                                width: 170,
+                                width: width / 2.3,
                                 height: hight / 5.4,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -125,7 +125,7 @@ class _DoingSCState extends State<DoingSC> {
                                       ),
                                     ]),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
+                                  padding: const EdgeInsets.only(top: 15.0),
                                   child: Column(
                                     children: [
                                       CircleAvatar(
@@ -134,18 +134,15 @@ class _DoingSCState extends State<DoingSC> {
                                             'https://via.placeholder.com/150'),
                                         backgroundColor: Colors.transparent,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          '#WaterBank',
-                                          maxLines: 1,
-                                             overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Anakotmai-Bold',
-                                              fontSize: 14),
-                                        ),
+                                      Text(
+                                        '#WaterBank',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.clip,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Anakotmai-Bold',
+                                            fontSize: 14),
                                       ),
                                     ],
                                   ),
@@ -155,7 +152,7 @@ class _DoingSCState extends State<DoingSC> {
                                 width: 12.0,
                               ),
                               Container(
-                                width: 170,
+                                width: width / 2.3,
                                 height: hight / 5.4,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -168,7 +165,7 @@ class _DoingSCState extends State<DoingSC> {
                                       ),
                                     ]),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
+                                  padding: const EdgeInsets.only(top: 15.0),
                                   child: Column(
                                     children: [
                                       CircleAvatar(
@@ -177,17 +174,14 @@ class _DoingSCState extends State<DoingSC> {
                                             'https://via.placeholder.com/150'),
                                         backgroundColor: Colors.transparent,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          '# WALKTODAY',
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Anakotmai-Bold',
-                                              fontSize: 14),
-                                        ),
+                                      Text(
+                                        '# WALKTODAY',
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Anakotmai-Bold',
+                                            fontSize: 14),
                                       ),
                                     ],
                                   ),
@@ -201,7 +195,7 @@ class _DoingSCState extends State<DoingSC> {
                           Row(
                             children: [
                               Container(
-                                width: 170,
+                                width: width / 2.3,
                                 height: hight / 5.4,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -214,7 +208,7 @@ class _DoingSCState extends State<DoingSC> {
                                       ),
                                     ]),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
+                                  padding: const EdgeInsets.only(top: 15.0),
                                   child: Column(
                                     children: [
                                       CircleAvatar(
@@ -223,17 +217,15 @@ class _DoingSCState extends State<DoingSC> {
                                             'https://via.placeholder.com/150'),
                                         backgroundColor: Colors.transparent,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          'มอบแรงใจสู้แรงงาน',
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Anakotmai-Bold',
-                                              fontSize: 14),
-                                        ),
+                                      Text(
+                                        'มอบแรงใจสู้แรงงาน',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.clip,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Anakotmai-Bold',
+                                            fontSize: 14),
                                       ),
                                     ],
                                   ),
@@ -243,7 +235,7 @@ class _DoingSCState extends State<DoingSC> {
                                 width: 12.0,
                               ),
                               Container(
-                                width: 170,
+                                width: width / 2.3,
                                 height: hight / 5.4,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
@@ -256,7 +248,7 @@ class _DoingSCState extends State<DoingSC> {
                                       ),
                                     ]),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
+                                  padding: const EdgeInsets.only(top: 15.0),
                                   child: Column(
                                     children: [
                                       CircleAvatar(
@@ -265,17 +257,14 @@ class _DoingSCState extends State<DoingSC> {
                                             'https://via.placeholder.com/150'),
                                         backgroundColor: Colors.transparent,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          'ชุดยังชีพ',
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Anakotmai-Bold',
-                                              fontSize: 14),
-                                        ),
+                                      Text(
+                                        'ชุดยังชีพ',
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Anakotmai-Bold',
+                                            fontSize: 14),
                                       ),
                                     ],
                                   ),
@@ -300,7 +289,6 @@ class _DoingSCState extends State<DoingSC> {
               )),
               SliverToBoxAdapter(
                 child: Container(
-                
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20, left: 20),

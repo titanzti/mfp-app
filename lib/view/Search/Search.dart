@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
+import 'package:mfp_app/animation/FadeAnimation.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/pagemodel.dart';
 import 'package:mfp_app/model/searchhastag.dart';
@@ -313,7 +314,7 @@ class _SearchState extends State<Search> {
                                 }
                                 print('isty$isType');
                                 print("isva$isvalue");
-                                return new InkWell(
+                                return  FadeAnimation((1.0 + i) / 4, new InkWell(
                                   onTap: () {
                                     if (istype == "HASHTAG") {
                                       // Navigator.push(
@@ -357,7 +358,7 @@ class _SearchState extends State<Search> {
                                     ),
                                     margin: const EdgeInsets.all(2.0),
                                   ),
-                                );
+                            ));
                               },
                             );
                           }),
@@ -374,7 +375,7 @@ class _SearchState extends State<Search> {
                         itemCount: _listPageModel.length,
                         itemBuilder: (BuildContext context, int index) {
                           var data = _listPageModel[index];
-                          return new InkWell(
+                          return  FadeAnimation((1.0 + index) / 4, new InkWell(
                             onTap: () {
                               // Navigator.push(
                               //   context,
@@ -409,7 +410,7 @@ class _SearchState extends State<Search> {
                               ),
                               margin: const EdgeInsets.all(0.0),
                             ),
-                          );
+                          ));
                         },
                       ),
                     )

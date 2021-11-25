@@ -12,6 +12,7 @@ import 'package:mfp_app/allWidget/CarouselsLoading.dart';
 import 'package:mfp_app/allWidget/PostButton.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/allWidget/fontsize.dart';
+import 'package:mfp_app/allWidget/sizeconfig.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/postlistSSmodel.dart';
 import 'package:mfp_app/utils/router.dart';
@@ -57,7 +58,7 @@ class _ProfliessState extends State<Profliess> {
 
   var userid;
   StreamController _postsController;
-  bool isFollow=false;
+  bool isFollow = false;
   var userimageUrl;
   List<PostListSS> listpostss = [];
   Future getPostss;
@@ -65,7 +66,7 @@ class _ProfliessState extends State<Profliess> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _scrollController = ScrollController();
   int _currentMax = 5;
-  var  myuid;
+  var myuid;
   bool islike = false;
 
   bool isLoading = false;
@@ -184,20 +185,17 @@ class _ProfliessState extends State<Profliess> {
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                color: MColors.primaryColor,
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
+                          IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_ios,
+                              color: MColors.primaryColor,
                             ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
                           ),
                           Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(top: 10),
                             child: CircleAvatar(
                               radius: 25.0,
                               backgroundImage: NetworkImage(
@@ -206,12 +204,14 @@ class _ProfliessState extends State<Profliess> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(),
+                            padding: EdgeInsets.only(left: 5),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
                                   widget.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16.0,
@@ -264,6 +264,8 @@ class _ProfliessState extends State<Profliess> {
                       child: Center(
                         child: Text(
                           widget.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: primaryColor,
                             fontSize: 22,
@@ -298,183 +300,153 @@ class _ProfliessState extends State<Profliess> {
                 child: Container(
                   color: Colors.white,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                         isFollow == true
-                              ? InkWell(
-                                onTap: ()async{
- HapticFeedback.lightImpact();
-                                      var jsonResponse;
-                                      token == null || token == ""
-                                          ? Navigate.pushPage(
-                                              context, Loginregister())
-                                          : await Api.isfollowpage(
-                                                  widget.id, userid, token)
-                                              .then((value) => ({
-                                                    jsonResponse =
-                                                        jsonDecode(value.body),
-                                                    print(
-                                                        'message${jsonResponse['message']}'),
-                                                    if (value.statusCode == 200)
-                                                      {
-                                                        if (jsonResponse[
-                                                                'message'] ==
-                                                            "Followed Page Success")
-                                                          {
-                                                            setState(() {
-                                                           isFollow=true;
-                                                              islike =
-                                                                  jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                            
-                                                            }),
-                                                          }
-                                                        else if (jsonResponse[
-                                                                'message'] ==
-                                                            "Unfollow Page Success")
-                                                          {
-                                                            setState(() {
-                                                              islike =
-                                                                  jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                              isFollow=false;
-
-                                                            }),
-                                                          }
-                                                      }
-                                                  }));
-                                      print("กดlike");
-                                    },
-                                child: Container(
-                                    width: 110.0,
-                                    height: 40.0,
-                                    margin: EdgeInsets.all(20.0),
-                                    child: Center(
-                                      child: Text(
-                                        'กำลังติดตาม',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14.0,
-                                          fontFamily: 'Anakotmai',
-                                        ),
-                                      ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                        color: primaryColor,
-                                        border: Border.all(color: primaryColor),
-                                        borderRadius: const BorderRadius.all(
-                                            const Radius.circular(20))),
-                                  ),
-                              )
-                              : InkWell(
-                                onTap: ()async{
-                                   HapticFeedback.lightImpact();
-                                      var jsonResponse;
-                                      token == null || token == ""
-                                          ? Navigate.pushPage(
-                                              context, Loginregister())
-                                          : await Api.isfollowpage(
-                                                  widget.id, userid, token)
-                                              .then((value) => ({
-                                                    jsonResponse =
-                                                        jsonDecode(value.body),
-                                                    print(
-                                                        'message${jsonResponse['message']}'),
-                                                    if (value.statusCode == 200)
-                                                      {
-                                                        if (jsonResponse[
-                                                                'message'] ==
-                                                            "Followed Page Success")
-                                                          {
-                                                            setState(() {
-                                                           isFollow=true;
-                                                              islike =
-                                                                  jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                            
-                                                            }),
-                                                          }
-                                                        else if (jsonResponse[
-                                                                'message'] ==
-                                                            "Unfollow Page Success")
-                                                          {
-                                                            setState(() {
-                                                              islike =
-                                                                  jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                              isFollow=false;
-
-                                                            }),
-                                                          }
-                                                      }
-                                                  }));
-                                      print("กดlike");
-
-                                },
-                                child: Container(
-                                    width: 110.0,
-                                    height: 40.0,
-                                    margin: EdgeInsets.all(20.0),
-                                    child: Center(
-                                      child: Text(
-                                        'ติดตาม',
-                                        style: TextStyle(
-                                          color: MColors.textDark,
-                                          fontSize: 14.0,
-                                          fontFamily: 'Anakotmai',
-                                        ),
-                                      ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                        color: MColors.primaryWhite,
-                                        border: Border.all(color: primaryColor),
-                                        borderRadius: const BorderRadius.all(
-                                            const Radius.circular(20))),
-                                  ),
-                              ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 25.0),
-                            child: Icon(Icons.person),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 6.0),
-                                child: Text(
-                                  '4 พัน',
-                                  style: TextStyle(
-                                      color: Colors.grey[700],
-                                      fontSize: 16.0,
+                      Spacer(),
+                      isFollow == true
+                          ? InkWell(
+                              onTap: () async {
+                                HapticFeedback.lightImpact();
+                                var jsonResponse;
+                                token == null || token == ""
+                                    ? Navigate.pushPage(
+                                        context, Loginregister())
+                                    : await Api.isfollowpage(
+                                            widget.id, userid, token)
+                                        .then((value) => ({
+                                              jsonResponse =
+                                                  jsonDecode(value.body),
+                                              print(
+                                                  'message${jsonResponse['message']}'),
+                                              if (value.statusCode == 200)
+                                                {
+                                                  if (jsonResponse['message'] ==
+                                                      "Followed Page Success")
+                                                    {
+                                                      setState(() {
+                                                        isFollow = true;
+                                                        islike =
+                                                            jsonResponse['data']
+                                                                ['isLike'];
+                                                      }),
+                                                    }
+                                                  else if (jsonResponse[
+                                                          'message'] ==
+                                                      "Unfollow Page Success")
+                                                    {
+                                                      setState(() {
+                                                        islike =
+                                                            jsonResponse['data']
+                                                                ['isLike'];
+                                                        isFollow = false;
+                                                      }),
+                                                    }
+                                                }
+                                            }));
+                                print("กดlike");
+                              },
+                              child: Container(
+                                width: 110.0,
+                                height: 40.0,
+                                child: Center(
+                                  child: Text(
+                                    'กำลังติดตาม',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14.0,
                                       fontFamily: 'Anakotmai',
-                                      fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
                                 ),
+                                decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    border: Border.all(color: primaryColor),
+                                    borderRadius: const BorderRadius.all(
+                                        const Radius.circular(20))),
                               ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 40.0),
-                            child: Text(
-                              'เกี่ยวกับ',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18.0,
-                                fontFamily: 'Anakotmai-Bold',
-                                fontWeight: FontWeight.bold,
+                            )
+                          : InkWell(
+                              onTap: () async {
+                                HapticFeedback.lightImpact();
+                                var jsonResponse;
+                                token == null || token == ""
+                                    ? Navigate.pushPage(
+                                        context, Loginregister())
+                                    : await Api.isfollowpage(
+                                            widget.id, userid, token)
+                                        .then((value) => ({
+                                              jsonResponse =
+                                                  jsonDecode(value.body),
+                                              print(
+                                                  'message${jsonResponse['message']}'),
+                                              if (value.statusCode == 200)
+                                                {
+                                                  if (jsonResponse['message'] ==
+                                                      "Followed Page Success")
+                                                    {
+                                                      setState(() {
+                                                        isFollow = true;
+                                                        islike =
+                                                            jsonResponse['data']
+                                                                ['isLike'];
+                                                      }),
+                                                    }
+                                                  else if (jsonResponse[
+                                                          'message'] ==
+                                                      "Unfollow Page Success")
+                                                    {
+                                                      setState(() {
+                                                        islike =
+                                                            jsonResponse['data']
+                                                                ['isLike'];
+                                                        isFollow = false;
+                                                      }),
+                                                    }
+                                                }
+                                            }));
+                                print("กดlike");
+                              },
+                              child: Container(
+                                width: 110.0,
+                                height: 40.0,
+                                child: Center(
+                                  child: Text(
+                                    'ติดตาม',
+                                    style: TextStyle(
+                                      color: MColors.textDark,
+                                      fontSize: 14.0,
+                                      fontFamily: 'Anakotmai',
+                                    ),
+                                  ),
+                                ),
+                                decoration: BoxDecoration(
+                                    color: MColors.primaryWhite,
+                                    border: Border.all(color: primaryColor),
+                                    borderRadius: const BorderRadius.all(
+                                        const Radius.circular(20))),
                               ),
                             ),
-                          ),
-                        ],
+                      Spacer(),
+                      Icon(Icons.person),
+                      Text(
+                        '4 พัน',
+                        style: TextStyle(
+                            color: Colors.grey[700],
+                            fontSize: 16.0,
+                            fontFamily: 'Anakotmai',
+                            fontWeight: FontWeight.bold),
                       ),
+                      Spacer(),
+                      Text(
+                        'เกี่ยวกับ',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          fontFamily: 'Anakotmai-Bold',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Spacer(),
                     ],
                   ),
                 ),
@@ -504,18 +476,25 @@ class _ProfliessState extends State<Profliess> {
                 ),
               ),
               SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 1,
+                ),
+              ),
+              SliverToBoxAdapter(
                 child: Center(
                   child: Container(
                     color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Column(
-                        children: [
-                          Row(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 25, right: 25),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width: 170,
-                                height: 145,
+                                width: MediaQuery.of(context).size.width / 2.4,
+                                height:
+                                    MediaQuery.of(context).size.height / 5.8,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.grey[100],
@@ -526,38 +505,37 @@ class _ProfliessState extends State<Profliess> {
                                         spreadRadius: 0.5,
                                       ),
                                     ]),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    children: [
-                                      CircleAvatar(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 11),
+                                      child: CircleAvatar(
                                         radius: 40.0,
                                         backgroundImage: NetworkImage(
                                             'https://via.placeholder.com/150'),
                                         backgroundColor: Colors.transparent,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          '#น้ำท่วม',
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Anakotmai-Bold',
-                                              fontSize: 14),
-                                        ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Text(
+                                        '#น้ำท่วม',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'Anakotmai-Bold',
+                                            fontSize: 14),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              SizedBox(
-                                width: 12.0,
-                              ),
                               Container(
-                                width: 170,
-                                height: 145,
+                                width: MediaQuery.of(context).size.width / 2.4,
+                                height:
+                                    MediaQuery.of(context).size.height / 5.8,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: Colors.grey[100],
@@ -568,36 +546,34 @@ class _ProfliessState extends State<Profliess> {
                                         spreadRadius: 0.5,
                                       ),
                                     ]),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Column(
-                                    children: [
-                                      CircleAvatar(
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 11),
+                                      child: CircleAvatar(
                                         radius: 40.0,
                                         backgroundImage: NetworkImage(
                                             'https://via.placeholder.com/150'),
                                         backgroundColor: Colors.transparent,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          '# WALKTODAY',
-                                          maxLines: 2,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Anakotmai-Bold',
-                                              fontSize: 14),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    Text(
+                                      '# WALKTODAY',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'Anakotmai-Bold',
+                                          fontSize: 14),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -605,7 +581,7 @@ class _ProfliessState extends State<Profliess> {
               SliverToBoxAdapter(
                   child: Divider(
                 color: Colors.transparent,
-                height: 3,
+                height: 15,
                 thickness: 6.0,
               )),
               SliverToBoxAdapter(
@@ -674,7 +650,7 @@ class _ProfliessState extends State<Profliess> {
                                   nDataList1.likeCount,
                                   nDataList1.commentCount,
                                   nDataList1.shareCount,
-                                    nDataList1.coverImage,
+                                  nDataList1.coverImage,
                                 );
                               }),
                         );
@@ -684,15 +660,15 @@ class _ProfliessState extends State<Profliess> {
                 ),
               ),
               if (_isLoadMoreRunning == true)
-                  SliverToBoxAdapter(
-                    child: Center(
-                        child: Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              MColors.primaryColor)),
-                    )),
-                  ),
+                SliverToBoxAdapter(
+                  child: Center(
+                      child: Container(
+                    margin: EdgeInsets.only(bottom: 20),
+                    child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            MColors.primaryColor)),
+                  )),
+                ),
             ],
           ),
         ),
@@ -701,16 +677,16 @@ class _ProfliessState extends State<Profliess> {
   }
 
   Widget PostList(
-      String posttitle,
-      String subtitle,
-      String authorposttext,
-      DateTime dateTime,
-      List<Gallery> gallery,
-      int likeCount,
-      int commentCount,
-      int shareCount,
-      String coverimage,
-      ) {
+    String posttitle,
+    String subtitle,
+    String authorposttext,
+    DateTime dateTime,
+    List<Gallery> gallery,
+    int likeCount,
+    int commentCount,
+    int shareCount,
+    String coverimage,
+  ) {
     return InkWell(
       onTap: () {},
       child: Container(
@@ -719,9 +695,10 @@ class _ProfliessState extends State<Profliess> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-           coverimage != ""
+            coverimage != ""
                 ? CachedNetworkImage(
-                    imageUrl:"https://today-api.moveforwardparty.org/api$coverimage/image",
+                    imageUrl:
+                        "https://today-api.moveforwardparty.org/api$coverimage/image",
                     placeholder: (context, url) =>
                         new CupertinoActivityIndicator(),
                     errorWidget: (context, url, error) => Container(

@@ -177,41 +177,45 @@ class _LoginemailState extends State<Loginemail> {
                       ColorFilter.mode(Color(0xFF0C3455), BlendMode.softLight),
                   image: AssetImage('images/shutterstock_553511089.png'),
                   fit: BoxFit.cover)),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-                child: Column(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Column(
+              children: [
+                Column(
                   children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back_sharp,
-                            size: 40,
-                            color: Colors.white,
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.18,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.arrow_back_sharp,
+                              size: 40,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              print('กด');
+                            },
                           ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                            print('กด');
-                          },
-                        ),
-                        Spacer(),
-                        Container(
-                          height: 100,
-                          width: 170,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: AssetImage('images/MFP-Logo-Horizontal.png'),
-                          )),
-                        ),
-                      ],
+                          Spacer(),
+                          Container(
+                            height: 100,
+                            width: 170,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                              image:
+                                  AssetImage('images/MFP-Logo-Horizontal.png'),
+                            )),
+                          ),
+                        ],
+                      ),
                     ),
-                   if(!isKeyboard) 
-                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.18,
-                    ),
-                   
+                    if (!isKeyboard)
+                      SizedBox(
+                        height: SizeConfig.screenHeight / 3.8,
+                      ),
+
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -227,7 +231,7 @@ class _LoginemailState extends State<Loginemail> {
 
                     Container(
                       height: SizeConfig.screenHeight * 0.07,
-                      margin: EdgeInsets.only( left: 10, right: 10),
+                      margin: EdgeInsets.only(left: 10, right: 10),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(width: 1.2, color: Colors.black12),
@@ -236,10 +240,12 @@ class _LoginemailState extends State<Loginemail> {
                       child: _txtEmail,
                     ),
                     //-------------------รหัสผ่าน---------------------//
-                    SizedBox(height: 5,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       height: SizeConfig.screenHeight * 0.07,
-                      margin: EdgeInsets.only( left: 10, right: 10),
+                      margin: EdgeInsets.only(left: 10, right: 10),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           border: Border.all(width: 1.2, color: Colors.black12),
@@ -400,22 +406,22 @@ class _LoginemailState extends State<Loginemail> {
                         },
                       ),
                     ),
-
-                   
                   ],
                 ),
-              ),
-               Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Text(
-                        '© 2021 พรรคก้าวไกล. ALL RIGHTS RESERVED.',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: AppTheme.FontAnakotmaiLight,
-                        ),
-                      ),
+                Spacer(),
+                Container(
+                  child: Text(
+                    '© 2021 พรรคก้าวไกล. ALL RIGHTS RESERVED.',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: AppTheme.FontAnakotmaiLight,
                     ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       )),

@@ -119,7 +119,9 @@ Widget myAlbumCard(List<Gallery> list) {
               // ),
 
               list[0].signUrl != null
-                  ? Image.network(list[0].signUrl.toString())
+                  ? Hero(
+                    tag:"image"+ list[0].signUrl.toString(),
+                    child: Image.network(list[0].signUrl.toString()))
                   // CachedNetworkImage(
                   //     imageUrl: 'https://via.placeholder.com/350x150',
                   //     placeholder: (context, url) =>

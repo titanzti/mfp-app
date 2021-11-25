@@ -23,137 +23,124 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       color: MColors.primaryWhite,
       child: Scaffold(
         body: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 1,
+          width: MediaQuery.of(context).size.width * 1,
           decoration: BoxDecoration(
               image: DecorationImage(
-                  colorFilter:
-                      ColorFilter.mode(Color(0xFF0C3455), BlendMode.softLight),
-                  image: AssetImage('images/shutterstock_553511089.png'),
-                  fit: BoxFit.fill)),
-          child: Padding(
-            padding: const EdgeInsets.only(right: 15, left: 15),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 50),
-                  child: Column(
+            image: AssetImage('images/shutterstock_553511089.png'),
+            fit: BoxFit.cover,
+          )),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(right: 15, left: 15),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.18,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_sharp,
+                            size: 40,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            print('กด');
+                          },
+                        ),
+                        Spacer(),
+                        Container(
+                          height: 100,
+                          width: 170,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            image: AssetImage('images/MFP-Logo-Horizontal.png'),
+                          )),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.screenHeight / 9.0,
+                  ),
+                  Column(
                     children: [
+                      Center(
+                        child: Text(
+                          "เราอยากให้ทุกคนมี",
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                              fontFamily: AppTheme.FontAnakotmaiLight,
+                              fontSize: 25,
+                              // fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                      ),
+                      Text(
+                        "เสรีภาพ เสมอภาค ภราดรภาพ",
+                        overflow: TextOverflow.clip,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: AppTheme.FontAnakotmaiLight,
+                            fontSize: 25,
+                            // fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: screenhight / 6.0,
+                  ),
+                  Column(
+                    children: <Widget>[
                       Row(
                         children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              size: 40,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              print('กด');
-                            },
-                          ),
-                          Spacer(),
-                          Container(
-                            height: SizeConfig.screenHeight / 15.2,
-                            width: 170,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                              image:
-                                  AssetImage('images/MFP-Logo-Horizontal.png'),
-                            )),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: SizeConfig.screenHeight / 8.5,
-                      ),
-                      Column(
-                        children: [
-                          Center(
+                          Padding(
+                            padding: const EdgeInsets.only(left: 35),
                             child: Text(
-                              "เราอยากให้ทุกคนมี",
-                              textAlign: TextAlign.center,
+                              'เข้าสู่ระบบด้วย',
                               style: TextStyle(
                                   fontFamily: AppTheme.FontAnakotmaiLight,
-                                  fontSize: 25,
-                                  // fontWeight: FontWeight.bold,
+                                  fontSize: 18,
                                   color: Colors.white),
                             ),
                           ),
-                          Text(
-                            "เสรีภาพ เสมอภาค ภราดรภาพ",
-                            style: TextStyle(
-                                fontFamily: AppTheme.FontAnakotmaiLight,
-                                fontSize: 25,
-                                // fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
                         ],
                       ),
-                      SizedBox(
-                        height: screenhight / 8.6,
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 35),
-                                child: Text(
-                                  'เข้าสู่ระบบด้วย',
-                                  style: TextStyle(
-                                      fontFamily: AppTheme.FontAnakotmaiLight,
-                                      fontSize: 18,
-                                      color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-
-                     SizedBox(height:  SizeConfig.screenHeight * 0.11,),
-
-                      //-------------------------------เข้าสู่ระบบด้วย Email-------------------------------//
-
-                      //------------------------------เข้าสู่ระบบด้วย Twitter------------------------------//
-                      Container(
-                        margin: EdgeInsets.only(left: 10, right: 10),
-                        child: Column(
-                          children: <Widget>[
-                            _bution('เข้าสู่รับบด้วยEmail', 'images/Email.png',
-                                Loginemail(), Color(0xFFE5E5E5), MColors.primaryBlue),
-                            _bution(
-                                'เข้าสู่รับบด้วยFacebook',
-                                'images/facebook.png',
-                                null,
-                                Color(0xFF1877F2),
-                                Colors.white),
-                            _bution(
-                                'เข้าสู่รับบด้วยTwitter',
-                                'images/twitter.png',
-                                null,
-                                Color(0xFF1DA1F3),
-                                Colors.white),
-                          ],
-                        ),
-                      ),
-                      //-------------------------------------------------------------------------------//
                     ],
                   ),
-                ),
 
-                Align(
-               alignment: Alignment.bottomCenter,
+                  // SizedBox(
+                  //   height: SizeConfig.screenHeight * 0.11,
+                  // ),
 
-                  child: Text(
-                    '© 2021 พรรคก้าวไกล. ALL RIGHTS RESERVED.',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: AppTheme.FontAnakotmaiLight,
+                  //-------------------------------เข้าสู่ระบบด้วย Email-------------------------------//
+
+                  //------------------------------เข้าสู่ระบบด้วย Twitter------------------------------//
+                  _bution('เข้าสู่ระบบด้วยEmail', 'images/Email.png',
+                      Loginemail(), Color(0xFFE5E5E5), MColors.primaryBlue),
+                  _bution('เข้าสู่ระบบด้วยFacebook', 'images/facebook.png',
+                      null, Color(0xFF1877F2), Colors.white),
+                  _bution('เข้าสู่ระบบด้วยTwitter', 'images/twitter.png', null,
+                      Color(0xFF1DA1F3), Colors.white),
+
+                  Container(
+                    //color: Colors.black,
+                    child: Text(
+                      '© 2021 พรรคก้าวไกล. ALL RIGHTS RESERVED.',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: AppTheme.FontAnakotmaiLight,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -173,7 +160,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
             child: Row(
               children: [
                 Container(
-                  height: SizeConfig.screenHeight / 12.5,
+                  height: SizeConfig.screenHeight / 13.0,
                   width: SizeConfig.screenWidth / 7,
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -183,13 +170,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     shape: BoxShape.circle,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 5),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(left: 2),
+                // ),
                 Text(
                   text,
+                  overflow: TextOverflow.clip,
+                  maxLines: 1,
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 17,
                     fontFamily: AppTheme.FontAnakotmaiLight,
                   ),
                 ),

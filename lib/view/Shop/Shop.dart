@@ -139,121 +139,111 @@ class _ShopSCState extends State<ShopSC> {
                               ),
                             ),
                           ),
-                          GestureDetector(
-                              onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(builder: (context) => Confirmproduct()),
-                                // );
-                                print("กด");
-                              },
-                              child: Container(
-                                child: Column(
+                          Container(
+                            child: Column(
+                              children: [
+                                Row(
                                   children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 250.0,
-                                          width: 195.0,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                  'images/MFP-102.png'),
-                                              fit: BoxFit.fill,
-                                            ),
-                                            //shape: BoxShape.circle,
-                                          ),
+                                    Container(
+                                      height: 250.0,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.0,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image:
+                                              AssetImage('images/MFP-102.png'),
+                                          fit: BoxFit.fill,
                                         ),
-                                        Container(
-                                          height: 250.0,
-                                          width: 195.0,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                  'images/MFP-102.png'),
-                                              fit: BoxFit.fill,
-                                            ),
-                                            //shape: BoxShape.circle,
-                                          ),
-                                        ),
-                                      ],
+                                        //shape: BoxShape.circle,
+                                      ),
                                     ),
                                     Container(
-                                      color: Colors.grey[200],
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            color: Colors.grey[200],
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(20.0),
-                                              child: RichText(
-                                                text: TextSpan(
-                                                  text: '150 บาท\n',
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        AppTheme.BodyTextSize24,
-                                                    fontFamily: AppTheme
-                                                        .FontAnakotmaiBold,
-                                                    color: MColors.primaryColor,
-                                                  ),
-                                                  children: [
-                                                    TextSpan(
-                                                      text: 'หมวกปีกลายโลโก้',
-                                                      style: TextStyle(
-                                                        fontSize: AppTheme
-                                                            .BodyTextSize,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        fontFamily: AppTheme
-                                                            .FontAnakotmaiLight,
-                                                        color: MColors.textDark,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            color: Colors.grey[200],
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(20.0),
-                                              child: RichText(
-                                                text: TextSpan(
-                                                  text: '150 บาท\n',
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        AppTheme.BodyTextSize24,
-                                                    fontFamily: AppTheme
-                                                        .FontAnakotmaiBold,
-                                                    color: MColors.primaryColor,
-                                                  ),
-                                                  children: [
-                                                    TextSpan(
-                                                      text: 'หมวกปีกลายโลโก้',
-                                                      style: TextStyle(
-                                                        fontSize: AppTheme
-                                                            .BodyTextSize,
-                                                        fontWeight:
-                                                            FontWeight.w300,
-                                                        fontFamily: AppTheme
-                                                            .FontAnakotmaiLight,
-                                                        color: MColors.textDark,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                      height: 250.0,
+                                      width: MediaQuery.of(context).size.width /
+                                          2.0,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image:
+                                              AssetImage('images/MFP-102.png'),
+                                          fit: BoxFit.fill,
+                                        ),
+                                        //shape: BoxShape.circle,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
-                              ))
+                                Container(
+                                  color: Colors.grey[200],
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        color: Colors.grey[200],
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: '150 บาท\n',
+                                              style: TextStyle(
+                                                fontSize:
+                                                    AppTheme.BodyTextSize24,
+                                                fontFamily:
+                                                    AppTheme.FontAnakotmaiBold,
+                                                color: MColors.primaryColor,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: 'หมวกปีกลายโลโก้',
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiLight,
+                                                    color: MColors.textDark,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        color: Colors.grey[200],
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: RichText(
+                                            text: TextSpan(
+                                              text: '150 บาท\n',
+                                              style: TextStyle(
+                                                fontSize:
+                                                    AppTheme.BodyTextSize24,
+                                                fontFamily:
+                                                    AppTheme.FontAnakotmaiBold,
+                                                color: MColors.primaryColor,
+                                              ),
+                                              children: [
+                                                TextSpan(
+                                                  text: 'หมวกปีกลายโลโก้',
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiLight,
+                                                    color: MColors.textDark,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -278,7 +268,7 @@ class _ShopSCState extends State<ShopSC> {
                         if (await canLaunch(uri)) {
                           await launch(uri);
                         } else {
-                            throw  ScaffoldMessenger.of(context)
+                          throw ScaffoldMessenger.of(context)
                               .showSnackBar(new SnackBar(
                             content: Text("ยังไม่ได้ลงLINE"),
                             behavior: SnackBarBehavior.floating,
@@ -294,7 +284,7 @@ class _ShopSCState extends State<ShopSC> {
                         if (await canLaunch(uri)) {
                           await launch(uri);
                         } else {
-                            throw  ScaffoldMessenger.of(context)
+                          throw ScaffoldMessenger.of(context)
                               .showSnackBar(new SnackBar(
                             content: Text("ยังไม่ได้ลงLINE"),
                             behavior: SnackBarBehavior.floating,
@@ -303,7 +293,7 @@ class _ShopSCState extends State<ShopSC> {
                             ),
                             margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
                           ));
-                         }
+                        }
                       }
                     },
                     child: Text(

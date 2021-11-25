@@ -90,9 +90,9 @@ class _MenuSCState extends State<MenuSC> {
                     }));
                   },
                   child: Container(
-                    margin: EdgeInsets.all(14),
+                    margin: EdgeInsets.only(left: 10, right: 10),
                     width: 100,
-                    height: 140,
+                    height: MediaQuery.of(context).size.height / 5.3,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(18),
                         color: primaryColor,
@@ -107,20 +107,20 @@ class _MenuSCState extends State<MenuSC> {
                       children: <Widget>[
                         Positioned(
                           top: 10,
-                          right: 1,
+                          right: 0,
                           child: Image.asset("images/Group 11904.png"),
-                          width: 91,
-                          height: 92,
+                          width: 99,
+                          height: 99,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 30, left: 30),
+                          padding: EdgeInsets.only(top: 28, left: 20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
                                 'บริจาค',
                                 maxLines: 1,
-                                 overflow: TextOverflow.ellipsis,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -128,7 +128,7 @@ class _MenuSCState extends State<MenuSC> {
                                     fontSize: 24),
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 9,
                               ),
                               Text(
                                 'ซื้อสินค้าพรรคก้าวไกล สนับสนุนการ\nทำงานเพื่อประชาธิปไตย',
@@ -136,8 +136,9 @@ class _MenuSCState extends State<MenuSC> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 14,
-                                  fontFamily: 'Anakotmai',
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: AppTheme.SmallTextSize,
+                                  fontFamily: AppTheme.FontAnakotmaiLight,
                                 ),
                               ),
                             ],
@@ -152,7 +153,7 @@ class _MenuSCState extends State<MenuSC> {
                 child: Container(
                   margin: EdgeInsets.all(14),
                   width: 100,
-                  height: 140,
+                  height: MediaQuery.of(context).size.height / 5.3,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(18),
                       color: MColors.primaryBlue,
@@ -167,20 +168,20 @@ class _MenuSCState extends State<MenuSC> {
                     children: <Widget>[
                       Positioned(
                         top: 10,
-                        right: 10,
+                        right: 0,
                         child: Image.asset("images/Group 11925.png"),
-                        width: 92,
-                        height: 91,
+                        width: 99,
+                        height: 99,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 30, left: 30),
+                        padding: EdgeInsets.only(top: 28, left: 20),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               'เกี่ยวกับพรรค',
                               maxLines: 1,
-                               overflow: TextOverflow.ellipsis,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: AppTheme.FontAnakotmaiBold,
@@ -188,16 +189,18 @@ class _MenuSCState extends State<MenuSC> {
                               ),
                             ),
                             SizedBox(
-                              height: 20,
+                              height: 9,
                             ),
                             Text(
                               'ซื้อสินค้าพรรคก้าวไกล สนับสนุนการ\nทำงานเพื่อประชาธิปไตย',
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontFamily: 'Anakotmai'),
+                                color: Colors.white,
+                                fontSize: AppTheme.SmallTextSize,
+                                fontWeight: FontWeight.w300,
+                                fontFamily: AppTheme.FontAnakotmaiLight,
+                              ),
                             ),
                           ],
                         ),
@@ -213,7 +216,7 @@ class _MenuSCState extends State<MenuSC> {
                     child: Text(
                       ' ข้อมูลเกี่ยวกับพรรค',
                       maxLines: 1,
-                       overflow: TextOverflow.ellipsis,
+                      overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.black,
@@ -232,9 +235,10 @@ class _MenuSCState extends State<MenuSC> {
                       child: Column(
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width: 170,
+                                width: MediaQuery.of(context).size.width / 2.3,
                                 height: 130,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(14),
@@ -261,7 +265,7 @@ class _MenuSCState extends State<MenuSC> {
                                       Text(
                                         'ช่องทางการติดต่อ',
                                         maxLines: 1,
-                                         overflow: TextOverflow.ellipsis,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
@@ -273,11 +277,9 @@ class _MenuSCState extends State<MenuSC> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 16.0,
-                              ),
+                              Spacer(),
                               Container(
-                                width: 170,
+                                width: MediaQuery.of(context).size.width / 2.3,
                                 height: 130,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(14),
@@ -304,7 +306,7 @@ class _MenuSCState extends State<MenuSC> {
                                       Text(
                                         'ร้องเรียน',
                                         maxLines: 1,
-                                         overflow: TextOverflow.ellipsis,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
@@ -322,9 +324,10 @@ class _MenuSCState extends State<MenuSC> {
                             height: 20.0,
                           ),
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Container(
-                                width: 170,
+                                width: MediaQuery.of(context).size.width / 2.3,
                                 height: 130,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(14),
@@ -351,7 +354,7 @@ class _MenuSCState extends State<MenuSC> {
                                       Text(
                                         'อาสาสมัคร',
                                         maxLines: 1,
-                                         overflow: TextOverflow.ellipsis,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
@@ -363,11 +366,9 @@ class _MenuSCState extends State<MenuSC> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
-                                width: 16.0,
-                              ),
+                              Spacer(),
                               Container(
-                                width: 170,
+                                width: MediaQuery.of(context).size.width / 2.3,
                                 height: 130,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(14),
@@ -394,7 +395,7 @@ class _MenuSCState extends State<MenuSC> {
                                       Text(
                                         'บุคลากร',
                                         maxLines: 1,
-                                         overflow: TextOverflow.ellipsis,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             color: MColors.primaryBlue,
                                             fontWeight: FontWeight.bold,
