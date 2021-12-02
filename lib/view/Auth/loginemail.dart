@@ -22,14 +22,9 @@ class _LoginemailState extends State<Loginemail> {
   bool _isloading = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var tokenvalue;
   var mytoken, userid;
   bool iserror = false;
-  String _error;
-  bool _autoValidate = false;
-  bool _isButtonDisabled = false;
-  bool _obscureText = true;
   bool _isEnabled = true;
   String msgres = "";
   Future<http.Response> singin(String email, String pass) async {

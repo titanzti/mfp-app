@@ -66,6 +66,12 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   final TrackingScrollController _trackingScrollController =
       TrackingScrollController();
 
+  var image;
+
+  var datagetuserprofile;
+
+  var userid;
+
   @override
   void dispose() {
     _trackingScrollController.dispose();
@@ -104,6 +110,38 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       print(widget.id);
       print(widget.userid);
       print(widget.token);
+            Api.getmyuid().then((value) => ({
+            setState(() {
+              userid = value;
+            }),
+             Api.getuserprofile("$userid")
+                            .then((responseData) async => ({
+                                  if (responseData.statusCode == 200)
+                                    {
+                                      datagetuserprofile =
+                                          jsonDecode(responseData.body),
+                                      setState(() {
+                                        // displayName1 =
+                                        //     datagetuserprofile["data"]
+                                        //         ["displayName"];
+                                        // gender = datagetuserprofile["data"]
+                                        //     ["gender"];
+                                        // firstName = datagetuserprofile["data"]
+                                        //     ["firstName"];
+                                        // lastName = datagetuserprofile["data"]
+                                        //     ["lastName"];
+                                        // id = datagetuserprofile["data"]["id"];
+                                        // email =
+                                        //     datagetuserprofile["data"]["email"];
+                                        image = datagetuserprofile["data"]
+                                            ["imageURL"];
+                                      }),
+                
+                                      print('image$image'),
+                                    }
+                                })),
+            print('userid$userid'),
+          }));
 
       Api.getcommentlist(widget.id, widget.userid, widget.token)
           .then((responseData) => ({
@@ -226,7 +264,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
             child: CustomScrollView(
               controller: _trackingScrollController,
               slivers: [
-                primaryAppBar(context, widget.token, "", widget.userimage, Search(
+                primaryAppBar(context, widget.token, "",image, Search(
               userid: widget.userid,
             ),true,
                     ProfileSc(

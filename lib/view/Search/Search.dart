@@ -15,6 +15,7 @@ import 'package:mfp_app/model/searchhastag.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/Profile/Profile.dart';
+import 'package:mfp_app/view/Profile/Profliess.dart';
 
 class Search extends StatefulWidget {
   final String userid;
@@ -62,6 +63,10 @@ class _SearchState extends State<Search> {
 
   var myuid;
   bool isOpen = false;
+
+  var image;
+
+  var datagetuserprofile;
   @override
   void initState() {
     print('initState');
@@ -76,6 +81,32 @@ class _SearchState extends State<Search> {
             setState(() {
               userid = value;
             }),
+             Api.getuserprofile("$userid")
+                            .then((responseData) async => ({
+                                  if (responseData.statusCode == 200)
+                                    {
+                                      datagetuserprofile =
+                                          jsonDecode(responseData.body),
+                                      setState(() {
+                                        // displayName1 =
+                                        //     datagetuserprofile["data"]
+                                        //         ["displayName"];
+                                        // gender = datagetuserprofile["data"]
+                                        //     ["gender"];
+                                        // firstName = datagetuserprofile["data"]
+                                        //     ["firstName"];
+                                        // lastName = datagetuserprofile["data"]
+                                        //     ["lastName"];
+                                        // id = datagetuserprofile["data"]["id"];
+                                        // email =
+                                        //     datagetuserprofile["data"]["email"];
+                                        image = datagetuserprofile["data"]
+                                            ["imageURL"];
+                                      }),
+                
+                                      print('image$image'),
+                                    }
+                                })),
             print('userid$userid'),
           }));
       Api.getimageURL().then((value) => ({
@@ -95,7 +126,6 @@ class _SearchState extends State<Search> {
   }
 
   getdate(String quer, String userid) async {
-    Future.delayed(Duration(seconds: 2));
     var url = "https://today-api.moveforwardparty.org/api/main/search";
     final headers = {
       // "mode": "EMAIL",
@@ -126,8 +156,10 @@ class _SearchState extends State<Search> {
         print('ispage${dataht["data"]["type"]}');
 
         print('isUser$isType');
+        setState(() {
+                  listSearchHastag.add(SearchHastag.fromJson(i));
+        });
 
-        listSearchHastag.add(SearchHastag.fromJson(i));
 
         // if (listSearchHastag.indexOf(SearchHastag.fromJson(i)) <= -1) {
         // }
@@ -138,10 +170,10 @@ class _SearchState extends State<Search> {
         print('listSearchHastagจำนวน${listSearchHastag.length}');
         print('_searchResult${_searchResult.length}');
 
-        if (controller.text.isEmpty) {
-          print("controllerวางจริง");
-          listSearchHastag.clear();
-        }
+        // if (controller.text.isEmpty) {
+        //   print("controllerวางจริง");
+        //   listSearchHastag.clear();
+        // }
       }
 
       loading = false;
@@ -149,6 +181,7 @@ class _SearchState extends State<Search> {
   }
 
   getpage(String pageid) async {
+    // Future.delayed(Duration(seconds: 9));
     print('getPageisvalue$pageid');
     final headers = {
       // "limit": 1,
@@ -169,7 +202,10 @@ class _SearchState extends State<Search> {
         var dataht1 = jsonDecode(responseData.body);
         print('listPageModel${dataht1["data"]}');
         if (isType == "PAGE") {
-          _listPageModel.add(PageModel.fromJson(dataht1["data"]));
+          setState(() {
+                      _listPageModel.add(PageModel.fromJson(dataht1["data"]));
+
+          });
           print('listPageModellength${_listPageModel.length}');
         }
 
@@ -224,8 +260,8 @@ class _SearchState extends State<Search> {
                   ),
                   CircleButton(
                     icon: MdiIcons.bellOutline,
-                          color:MColors.primaryBlue,
-        iconSize: 27.0,
+                    color: MColors.primaryBlue,
+                    iconSize: 27.0,
                     onPressed: () => print('Messenger'),
                   ),
                   token != "" && token != null
@@ -243,7 +279,7 @@ class _SearchState extends State<Search> {
                             child: CircleAvatar(
                               radius: 25.0,
                               backgroundImage: NetworkImage(
-                                  'https://today-api.moveforwardparty.org/api$userimageUrl/image'),
+                                  'https://today-api.moveforwardparty.org/api$image/image'),
                               backgroundColor: Colors.transparent,
                             ),
                           ),
@@ -311,14 +347,53 @@ class _SearchState extends State<Search> {
                                           BorderSide(color: Colors.white),
                                     ),
                                   ),
-                                  onChanged: (text) {
-                                    if (controller.text.isEmpty) {
+                                  onChanged: (text) async {
+                                    Future.delayed(
+                                        const Duration(milliseconds: 1000), () {
+                                      setState(() {
+                                        text = text.toLowerCase();
+                                      });
+                                    });
+
+                                    if (controller.text != "") {
+                                      setState(() {
+                                        _searchResult =
+                                            listSearchHastag.where((ht) {
+                                          // distinctIds = _searchResult.toSet().toList();
+                                          // print('distinctIds${distinctIds.length}');
+                                          var htlable = ht.label.toLowerCase();
+                                          return htlable.contains(
+                                              controller.text.toLowerCase());
+                                        }).toList();
+                                      });
+                                      setState(() {
+                                        listSearchHastag.clear();
+                                      //  _listPageModel.clear();
+
+                                      });
+
+                                      getdate(controller.text.toLowerCase(),
+                                          widget.userid);
+                                      getpage(isvalue);
+                                    }
+                                    if (controller.text=="") {
                                       print("controllerวางจริง");
+                                      setState(() {
+                                     _listPageModel.clear();
+
+                                         isvalue = "";
+
+                                        controller.clear();
+                                        listSearchHastag.clear();
+                                        _searchResult.clear();
+                                      });
+                                    }
+
+                                    if (controller.text.isEmpty) {
+                                      print("onChangedวางจริง");
                                       setState(() {
                                         controller.clear();
                                         listSearchHastag.clear();
-                                        _listPageModel.clear();
-
                                         _searchResult.clear();
                                       });
                                     }
@@ -333,6 +408,12 @@ class _SearchState extends State<Search> {
                                   setState(() {
                                     loading = true;
                                   });
+                                  if (controller.text.isEmpty) {
+                                    listSearchHastag.clear();
+                                    _listPageModel.clear();
+                                    isvalue = "";
+                                  }
+
                                   if (listSearchHastag.length != 0 ||
                                       _listPageModel.length != 0) {
                                     listSearchHastag.clear();
@@ -376,30 +457,30 @@ class _SearchState extends State<Search> {
                 height: 3,
                 thickness: 6.0,
               )),
-              loading == true
+              // loading == true
+              //     ? SliverToBoxAdapter(
+              //         child: Center(child: CupertinoActivityIndicator()))
+              //     :
+              listSearchHastag.length != 0 || controller.text != ""
                   ? SliverToBoxAdapter(
-                      child: Center(child: CupertinoActivityIndicator()))
-                  : listSearchHastag.length != 0 || controller.text != ""
-                      ? SliverToBoxAdapter(
-                          child: new Builder(builder: (BuildContext context) {
-                            return ListView.builder(
-                              physics: ClampingScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              itemCount: listSearchHastag.length,
-                              itemBuilder: (context, i) {
-                                var data = listSearchHastag[i];
-                                var istype = data.type;
-                                var islabel = data.label;
-                                isType = data.type;
-                                if (isType == "PAGE") {
-                                  isvalue = data.value;
-                                }
-                                print('isty$isType');
-                                print("isva$isvalue");
-                                return FadeAnimation(
-                                    (1.0 + i) / 4,
-                                    new InkWell(
+                      child: new Builder(builder: (BuildContext context) {
+                        return ListView.builder(
+                          physics: ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: listSearchHastag.length,
+                          itemBuilder: (context, i) {
+                            var data = listSearchHastag[i];
+                            var istype = data.type;
+                            var islabel = data.label;
+                            isType = data.type;
+
+                            if (isType == "PAGE") {
+                              isvalue = data.value;
+                            }
+                            print('isty$isType');
+                            print("isva$isvalue");
+                            return InkWell(
                                       onTap: () {
                                         if (istype == "HASHTAG") {
                                           // Navigator.push(
@@ -443,12 +524,12 @@ class _SearchState extends State<Search> {
                                         ),
                                         margin: const EdgeInsets.all(2.0),
                                       ),
-                                    ));
-                              },
-                            );
-                          }),
-                        )
-                      : SliverToBoxAdapter(child: Container()),
+                                    );
+                          },
+                        );
+                      }),
+                    )
+                  : SliverToBoxAdapter(child: Container()),
               loading == true
                   ? SliverToBoxAdapter(
                       child: Center(child: CupertinoActivityIndicator()))
@@ -460,32 +541,25 @@ class _SearchState extends State<Search> {
                         itemCount: _listPageModel.length,
                         itemBuilder: (BuildContext context, int index) {
                           var data = _listPageModel[index];
-                          return FadeAnimation(
-                              (1.0 + index) / 4,
-                              new InkWell(
+                          return InkWell(
                                 onTap: () {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => ProfilessScreen(
-                                  //             id: data.id,
-                                  //             image: data.imageUrl,
-                                  //             name: data.name,
-                                  //           )),
-                                  // );
+                                  Navigate.pushPage(
+                                      context,
+                                      Profliess(
+                                        id: data.id,
+                                        image: data.imageUrl,
+                                        name: data.name,
+                                        isOfficial: data.isOfficial,
+                                        pageUsername: data.pageUsername,
+                                      ));
                                 },
                                 child: Card(
                                   child: new ListTile(
                                     leading: new CircleAvatar(
                                       radius: 20,
+                                      backgroundImage: NetworkImage(
+                                          "https://today-api.moveforwardparty.org/api${data.imageUrl}/image"),
                                       backgroundColor: Colors.transparent,
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: Image.network(
-                                            "https://today-api.moveforwardparty.org/api${data.imageUrl}/image",
-                                            width: 50,
-                                            height: 50),
-                                      ),
                                     ),
                                     title: new Text('${data.name}'),
                                     subtitle: new Text('@${data.pageUsername}'),
@@ -497,7 +571,7 @@ class _SearchState extends State<Search> {
                                   ),
                                   margin: const EdgeInsets.all(0.0),
                                 ),
-                              ));
+                              );
                         },
                       ),
                     )

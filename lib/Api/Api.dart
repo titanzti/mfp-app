@@ -58,6 +58,7 @@ class Api {
     String url = "${Api.url}api/main/content/search";
     final headers = {
       // "mode": "EMAIL",
+      "authority":"today-api.moveforwardparty.org",
       "content-type": "application/json",
     };
     Map data = {
@@ -69,7 +70,7 @@ class Api {
       "endActionCount": 6,
       "pageCategories": [],
       "sortBy": "LASTEST_DATE",
-      "filter": {"limit": 15, "offset": offset}
+      "filter": {"limit": 5, "offset": offset}
     };
     var body = jsonEncode(data);
 

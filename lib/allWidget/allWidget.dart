@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/PostButton.dart';
@@ -12,6 +13,7 @@ import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/postModel.dart';
 import 'package:mfp_app/allWidget/circle_button.dart';
 import 'package:mfp_app/model/searchpostlistModel.dart';
+import 'package:mfp_app/utils/internetConnectivity.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/style.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
@@ -40,6 +42,23 @@ import 'package:mfp_app/view/Search/Search.dart';
 //     actions: actions,
 //   );
 // }
+   Widget topImage(String image) {
+    return Container(
+      // height: 250.0,
+      width: double.infinity,
+      child: FullScreenWidget(
+        child: Center(
+          child: Hero(
+            tag: "image"+ image,
+            child: Image.network(
+              image,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 Widget myAlbumCard(List<Gallery> list) {
     if (list.length >= 4) {
       return Container(
@@ -118,9 +137,11 @@ Widget myAlbumCard(List<Gallery> list) {
               // ),
 
               list[0].signUrl != null
-                  ? Hero(
-                    tag:"image"+ list[0].signUrl.toString(),
-                    child: Image.network(list[0].signUrl.toString()))
+                  ? 
+                  // Hero(
+                  //   tag:"image"+ list[0].signUrl.toString(),
+                  //   child:
+                    topImage(list[0].signUrl.toString())
                   // CachedNetworkImage(
                   //     imageUrl: 'https://via.placeholder.com/350x150',
                   //     placeholder: (context, url) =>
@@ -407,4 +428,34 @@ Widget UIlikecommentshear(context, int like, int comment, int share) {
   //     ),
   //   ],
   // );
+}
+void showNoInternetSnack(
+  GlobalKey<ScaffoldState> _scaffoldKey,
+) {
+  _scaffoldKey.currentState.showSnackBar(
+    SnackBar(
+      behavior: SnackBarBehavior.floating,
+      duration: Duration(milliseconds: 10000),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      content: Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              "No internet connection! Please connect to the internet to continue.",
+              style: TextStyle(color: MColors.primaryColor,fontSize: 14),
+            ),
+          ),
+          InkWell(
+            onTap:() => checkInternetConnectivity(),
+            child: Icon(
+              Icons.error_outline,
+              color: Colors.amber,
+            ),
+          )
+        ],
+      ),
+    ),
+  );
 }
