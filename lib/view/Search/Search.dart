@@ -67,6 +67,8 @@ class _SearchState extends State<Search> {
   var image;
 
   var datagetuserprofile;
+
+  var userid1;
   @override
   void initState() {
     print('initState');
@@ -97,7 +99,7 @@ class _SearchState extends State<Search> {
                                         //     ["firstName"];
                                         // lastName = datagetuserprofile["data"]
                                         //     ["lastName"];
-                                        // id = datagetuserprofile["data"]["id"];
+                                        userid1 = datagetuserprofile["data"]["id"];
                                         // email =
                                         //     datagetuserprofile["data"]["email"];
                                         image = datagetuserprofile["data"]
@@ -107,6 +109,8 @@ class _SearchState extends State<Search> {
                                       print('image$image'),
                                     }
                                 })),
+
+
             print('userid$userid'),
           }));
       Api.getimageURL().then((value) => ({
@@ -551,6 +555,7 @@ class _SearchState extends State<Search> {
                                         name: data.name,
                                         isOfficial: data.isOfficial,
                                         pageUsername: data.pageUsername,
+                                        userid: userid1,
                                       ));
                                 },
                                 child: Card(

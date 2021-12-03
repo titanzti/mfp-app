@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
+import 'package:mfp_app/utils/internetConnectivity.dart';
+import 'package:mfp_app/utils/router.dart';
+import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:mfp_app/view/Profile/Profile.dart';
 import 'package:mfp_app/view/Search/Search.dart';
 
@@ -94,7 +97,7 @@ class _DoingSCState extends State<DoingSC> {
   Widget build(BuildContext context) {
     var hight = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-
+    
     return Container(
       color: Colors.white,
       child: SafeArea(

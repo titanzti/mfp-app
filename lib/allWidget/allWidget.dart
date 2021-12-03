@@ -42,194 +42,203 @@ import 'package:mfp_app/view/Search/Search.dart';
 //     actions: actions,
 //   );
 // }
-   Widget topImage(String image) {
+Widget topImage(String image) {
+  return Container(
+    // height: 250.0,
+    width: double.infinity,
+    child: FullScreenWidget(
+      child: Center(
+        child: Hero(
+          tag: "image" + image,
+          child: Image.network(
+            image,
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget myAlbumCard(List<Gallery> list) {
+  if (list.length >= 4) {
     return Container(
-      // height: 250.0,
+      height: 280,
       width: double.infinity,
-      child: FullScreenWidget(
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            getItems(list[0].signUrl, list[1].signUrl, 0),
+            getItems(list[2].signUrl, list[3].signUrl, list.length - 4),
+          ],
+        ),
+      ),
+    );
+  } else if (list.length >= 3) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+        height: 340,
+        width: 300,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            border: Border.all(color: Colors.grey, width: 0.2)),
         child: Center(
-          child: Hero(
-            tag: "image"+ image,
-            child: Image.network(
-              image,
-              fit: BoxFit.fill,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: 100,
+                ),
+                getItems(list[0].signUrl, list[1].signUrl, 0),
+                Expanded(
+                  child: getItems(
+                      list[2].signUrl, list[3].signUrl ?? "", list.length - 3),
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
-  }
-Widget myAlbumCard(List<Gallery> list) {
-    if (list.length >= 4) {
-      return Container(
-        height: 280,
-        width: double.infinity,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              getItems(list[0].signUrl, list[1].signUrl, 0),
-              getItems(list[2].signUrl, list[3].signUrl, list.length - 4),
-            ],
-          ),
-        ),
-      );
-    } else if (list.length >= 3) {
-      return Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-          height: 340,
-          width: 300,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: Colors.grey, width: 0.2)),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 100,
-                  ),
-                  getItems(list[0].signUrl, list[1].signUrl, 0),
-                  Expanded(
-                    child: getItems(list[2].signUrl, list[3].signUrl ?? "",
-                        list.length - 3),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    } else if (list.length >= 2) {
-      return Container(
-        height: 340,
-        width: double.infinity,
-        color: Colors.black,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              getItems(list[0].signUrl, list[1].signUrl, 0),
-            ],
-          ),
-        ),
-      );
-    } else if (list.length >= 1) {
-      return Container(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              // Padding(
-              //   padding: EdgeInsets.only(
-              //       left: 10.0, top: 2),
-              //   child: Text(
-              //     name,
-              //     style: TextStyle(
-              //         color: Colors.black,
-              //         fontSize: 14,
-              //         fontWeight: FontWeight.bold),
-              //   ),
-              // ),
-
-              list[0].signUrl != null
-                  ? 
-                  // Hero(
-                  //   tag:"image"+ list[0].signUrl.toString(),
-                  //   child:
-                    topImage(list[0].signUrl.toString())
-                  // CachedNetworkImage(
-                  //     imageUrl: 'https://via.placeholder.com/350x150',
-                  //     placeholder: (context, url) =>
-                  //         new CupertinoActivityIndicator(),
-                  //     errorWidget: (context, url, error) => Container(
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                  //       ),
-                  //       child:Image(image: CachedNetworkImageProvider(list[0].signUrl),)
-                  //     ),
-                  //   )
-                  : SizedBox.shrink(),
-            ],
-          ),
-        ),
-      );
-    }
-  }
-
-  Widget  getItems(img_path, img_path2, count) {
+  } else if (list.length >= 2) {
     return Container(
+      height: 340,
       width: double.infinity,
-      child: Row(
-        // crossAxisAlignment :CrossAxisAlignment.center,
-        // mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          // SizedBox(width: 5,),
-          ClipRRect(
-            child: Image.network(
-              img_path,
-              height: 140,
-              width: 190,
-              fit: BoxFit.cover,
-              filterQuality: FilterQuality.low,
-            ),
+      color: Colors.black,
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            getItems(list[0].signUrl, list[1].signUrl, 0),
+          ],
+        ),
+      ),
+    );
+  } else if (list.length >= 1) {
+    return Container(
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //       left: 10.0, top: 2),
+            //   child: Text(
+            //     name,
+            //     style: TextStyle(
+            //         color: Colors.black,
+            //         fontSize: 14,
+            //         fontWeight: FontWeight.bold),
+            //   ),
+            // ),
+
+            list[0].signUrl != null
+                ?
+                // Hero(
+                //   tag:"image"+ list[0].signUrl.toString(),
+                //   child:
+                topImage(list[0].signUrl.toString())
+                // CachedNetworkImage(
+                //     imageUrl: 'https://via.placeholder.com/350x150',
+                //     placeholder: (context, url) =>
+                //         new CupertinoActivityIndicator(),
+                //     errorWidget: (context, url, error) => Container(
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                //       ),
+                //       child:Image(image: CachedNetworkImageProvider(list[0].signUrl),)
+                //     ),
+                //   )
+                : SizedBox.shrink(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget getItems(img_path, img_path2, count) {
+  return Container(
+    width: double.infinity,
+    child: Row(
+      // crossAxisAlignment :CrossAxisAlignment.center,
+      // mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+        // SizedBox(width: 5,),
+        ClipRRect(
+          child: Image.network(
+            img_path,
+            height: 140,
+            width: 190,
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.low,
           ),
-          SizedBox(
-            width: 11,
-          ),
-          (count > 0)
-              ? Stack(
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    ClipRRect(
-                      // borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10),),
-                      child: Image.network(
-                        img_path2,
-                        height: 140,
-                        width: 190,
-                        fit: BoxFit.cover,
-                        filterQuality: FilterQuality.low,
-                      ),
+        ),
+        SizedBox(
+          width: 11,
+        ),
+        (count > 0)
+            ? Stack(
+                overflow: Overflow.visible,
+                children: <Widget>[
+                  ClipRRect(
+                    // borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10),),
+                    child: Image.network(
+                      img_path2,
+                      height: 140,
+                      width: 190,
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.low,
                     ),
-                    (count > 0)
-                        ? Positioned(
-                            child: Container(
-                              height: 140,
-                              width: 190,
-                              decoration: BoxDecoration(color: Colors.black38),
-                              child: Center(
-                                child: Text(
-                                  "$count +",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  ),
+                  ),
+                  (count > 0)
+                      ? Positioned(
+                          child: Container(
+                            height: 140,
+                            width: 190,
+                            decoration: BoxDecoration(color: Colors.black38),
+                            child: Center(
+                              child: Text(
+                                "$count +",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
                                 ),
                               ),
                             ),
-                          )
-                        : Center()
-                  ],
-                )
-              : ClipRRect(
-                  child: Image.network(
-                    img_path2,
-                    height: 140,
-                    width: 190,
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.low,
-                  ),
+                          ),
+                        )
+                      : Center()
+                ],
+              )
+            : ClipRRect(
+                child: Image.network(
+                  img_path2,
+                  height: 140,
+                  width: 190,
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.low,
                 ),
-        ],
-      ),
-    );
-  }
+              ),
+      ],
+    ),
+  );
+}
 
-Widget primaryAppBar(context, var token, var userid, var imageurl,Widget widgetsearch,bool isOpen,Widget widgetprofile,) {
+Widget primaryAppBar(
+  context,
+  var token,
+  var userid,
+  var imageurl,
+  Widget widgetsearch,
+  bool isOpen,
+  Widget widgetprofile,
+) {
   print('isOpen$isOpen');
   return SliverAppBar(
     brightness: Brightness.light,
@@ -249,24 +258,23 @@ Widget primaryAppBar(context, var token, var userid, var imageurl,Widget widgets
     actions: [
       CircleButton(
         icon: Icons.search,
-        color:MColors.primaryBlue,
+        color: MColors.primaryBlue,
         iconSize: 27.0,
-        onPressed: () => widgetsearch==null?null: Navigate.pushPage(
-            context,widgetsearch
-           ),
+        onPressed: () => widgetsearch == null
+            ? null
+            : Navigate.pushPage(context, widgetsearch),
       ),
       CircleButton(
         icon: MdiIcons.bellOutline,
         iconSize: 27.0,
-                color:MColors.primaryBlue,
-
+        color: MColors.primaryBlue,
         onPressed: () => print('Messenger'),
       ),
       token != "" && token != null
           ? InkWell(
-              onTap: ()=>widgetprofile==null?null: Navigate.pushPage(
-            context,widgetprofile
-           ),
+              onTap: () => widgetprofile == null
+                  ? null
+                  : Navigate.pushPage(context, widgetprofile),
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: CircleAvatar(
@@ -429,6 +437,7 @@ Widget UIlikecommentshear(context, int like, int comment, int share) {
   //   ],
   // );
 }
+
 void showNoInternetSnack(
   GlobalKey<ScaffoldState> _scaffoldKey,
 ) {
@@ -444,16 +453,89 @@ void showNoInternetSnack(
           Expanded(
             child: Text(
               "No internet connection! Please connect to the internet to continue.",
-              style: TextStyle(color: MColors.primaryColor,fontSize: 14),
+              style: TextStyle(color: MColors.primaryColor, fontSize: 14),
             ),
           ),
           InkWell(
-            onTap:() => checkInternetConnectivity(),
+            onTap: () => checkInternetConnectivity(),
             child: Icon(
               Icons.error_outline,
               color: Colors.amber,
             ),
           )
+        ],
+      ),
+    ),
+  );
+}
+
+Widget nonet(BuildContext context) {
+  return Scaffold(
+    body: Container(
+      color: Colors.white,
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 4.0,
+          ),
+
+          Image.asset(
+            'images/error_404.png',
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 2,
+            fit: BoxFit.cover,
+          ),
+          Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                'NetWork interruption',
+                style: TextStyle(),
+              )),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.4,
+            child: RaisedButton(
+              padding: EdgeInsets.only(top: 15, bottom: 15),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  side: BorderSide(color: Colors.red)),
+              child: Text(
+                'ลองอีกครั้ง',
+                style: TextStyle(fontSize: 18),
+              ),
+              textColor: Colors.white,
+              color: MColors.primaryColor,
+              onPressed: ()async {
+              await  checkInternetConnectivity().then((value) {
+                  value == true
+                      ? Navigate.pushPageDialog(context, NavScreen())
+                      : ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+                          content: Text('ลองอีกครั้ง'),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                          padding: EdgeInsets.all(20),
+                        ));
+                });
+                print('กด');
+              },
+            ),
+          ),
+          // Align(
+          //   alignment: FractionalOffset.bottomCenter,
+          //   child: Container(
+          //     child: Text(
+          //       'Nonet',
+          //       style: TextStyle(
+          //         fontSize: 10,
+          //         fontFamily: "Anakotmai-Light",
+          //         fontWeight: FontWeight.w300,
+          //         color: MColors.primaryWhite,
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     ),

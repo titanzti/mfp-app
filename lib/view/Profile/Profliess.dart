@@ -90,6 +90,10 @@ class _ProfliessState extends State<Profliess> {
 
   var image;
 
+  var pagecoverURL;
+
+  var pagefollowers=0;
+
   @override
   void initState() {
     print('initState');
@@ -130,7 +134,6 @@ class _ProfliessState extends State<Profliess> {
                                 isFollow = false;
                               });
                             }
-                            coverURL = dataht["data"]["coverURL"];
                             setState(() {
                               isLoading = false;
                             });
@@ -161,6 +164,33 @@ class _ProfliessState extends State<Profliess> {
                                         //     datagetuserprofile["data"]["email"];
                                         image = datagetuserprofile["data"]
                                             ["imageURL"];
+                                      }),
+                                   
+                                      print('image$image'),
+                                    }
+                                })),
+
+                                 Api.getPage("${widget.id}")
+                            .then((responseData) async => ({
+                                  if (responseData.statusCode == 200)
+                                    {
+                                      datagetuserprofile =
+                                          jsonDecode(responseData.body),
+                                      setState(() {
+                                        // displayName1 =
+                                        //     datagetuserprofile["data"]
+                                        //         ["displayName"];
+                                        // gender = datagetuserprofile["data"]
+                                        //     ["gender"];
+                                        // firstName = datagetuserprofile["data"]
+                                        //     ["firstName"];
+                                        // lastName = datagetuserprofile["data"]
+                                        //     ["lastName"];
+                                        // id = datagetuserprofile["data"]["id"];
+                                        pagecoverURL =
+                                            datagetuserprofile["data"]["coverURL"];
+                                        pagefollowers = datagetuserprofile["data"]
+                                            ["followers"];
                                       }),
                                    
                                       print('image$image'),
@@ -228,6 +258,7 @@ class _ProfliessState extends State<Profliess> {
 
   @override
   Widget build(BuildContext context) {
+    print('widgetpageid${widget.id}');
     return isLoading == true
         ? Container(
             color: Colors.white,
@@ -321,7 +352,7 @@ class _ProfliessState extends State<Profliess> {
                               FadeInImage.assetNetwork(
                                 placeholder: 'images/placeholder.png',
                                 image:
-                                    "https://today-api.moveforwardparty.org/api$coverURL/image",
+                                    "https://today-api.moveforwardparty.org/api$pagecoverURL/image",
                                 height: 180,
                                 fit: BoxFit.cover,
                               ),
@@ -464,7 +495,7 @@ class _ProfliessState extends State<Profliess> {
                               width: 3,
                             ),
                             Text(
-                              '$followers พัน',
+                              '$pagefollowers พัน',
                               style: TextStyle(
                                   color: MColors.primaryColor,
                                   fontSize: 16.0,
@@ -702,6 +733,7 @@ class _ProfliessState extends State<Profliess> {
                                         nDataList1.shareCount,
                                         nDataList1.coverImage,
                                         nDataList1.id,
+                                        
                                       );
                                     }),
                               );

@@ -25,6 +25,7 @@ import 'package:mfp_app/allWidget/PostButton.dart';
 import 'package:mfp_app/utils/internetConnectivity.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
+import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:mfp_app/view/Profile/Profile.dart';
 import 'package:mfp_app/view/Search/Search.dart';
 import 'package:mfp_app/view/Today/Dtemergencyevent.dart';
@@ -257,7 +258,7 @@ class _TodayScState extends State<TodaySc> {
                     });
               });
             }()
-          : showNoInternetSnack(_scaffoldKey);
+          : Navigate.pushPageDialog(context, nonet(context));
 
       if (value == false) {
         setState(() {
@@ -421,7 +422,6 @@ class _TodayScState extends State<TodaySc> {
     _scrollController.dispose();
     super.dispose();
   }
- 
 
   @override
   Widget build(BuildContext context) {
@@ -438,9 +438,15 @@ class _TodayScState extends State<TodaySc> {
             onRefresh: () => () async {
               HapticFeedback.mediumImpact();
               print('RefreshIndicator');
+               await checkInternetConnectivity().then((value) {
+                  value == true
+                      ? Navigate.pushPageReplacement(context, NavScreen())
+                      : Navigate.pushPageDialog(context, nonet(context));
+                });
               await _handleRefresh();
               await Api.getRecommendedUserPage();
               await Api.getPostList(_currentMax);
+            
             }(),
             child: CustomScrollView(
               controller: _scrollController,

@@ -31,6 +31,13 @@ class Api {
     return responseData;
   }
   /*--------------------ดึงค่าuserprofile--------------------------------------*/
+  static Future<Http.Response> getPage(String pageid) async {
+    print('getPage');
+
+    final responseData = await Http.get("${Api.url}api/page/$pageid");
+
+    return responseData;
+  }
 
   static Future gettoke() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
