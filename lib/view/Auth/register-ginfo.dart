@@ -60,8 +60,11 @@ class _GeneralinformationState extends State<Generalinformation> {
   String msg = "";
 
   var mytoken;
+  bool ischeckuniqueid;
 
   bool _isButtonDisabled = true;
+
+  var mybody1;
   void _validateInputs() {
     if (_formKey.currentState.validate()) {
       print('submit');
@@ -104,7 +107,7 @@ class _GeneralinformationState extends State<Generalinformation> {
       isclick = true;
     });
     try {
-      var url = "https://today-api.moveforwardparty.org/api/register";
+      var url =Uri.parse ("https://today-api.moveforwardparty.org/api/register");
       final headers = {
         "mode": "EMAIL",
         "content-type": "application/json",
@@ -150,6 +153,7 @@ class _GeneralinformationState extends State<Generalinformation> {
           });
         }
       }
+
       if (jsonResponse.statusCode == 400) {
         if (jsonResponse['status'] == 0) {
           setState(() {
@@ -171,10 +175,65 @@ class _GeneralinformationState extends State<Generalinformation> {
       });
     }
   }
+  Future<http.Response> checkuniqueId( String uniqueId,) async {
+
+    try {
+      var url =Uri.parse ("${Api.url}api/user/uniqueid/check");
+      final headers = {
+        "mode": "EMAIL",
+        "content-type": "application/json",
+      };
+
+      Map data = {
+ "uniqueId": uniqueId,
+      };
+      //encode Map to JSON
+      var body = jsonEncode(data);
+      print(body);
+
+      var responsepostRequest =
+          await http.post(url, headers: headers, body: body);
+      print("${responsepostRequest.statusCode}");
+      print("${responsepostRequest.body}");
+      final jsonResponse = jsonDecode(responsepostRequest.body);
+      print('Registerbody${responsepostRequest.body}');
+      msg = jsonResponse['message'];
+
+      if (responsepostRequest.statusCode == 200) {
+        mybody = jsonResponse["data"];
+        mybody1 = jsonResponse["error"];
+
+        if (jsonResponse['status'] == 1) {
+          setState(() {
+            ischeckuniqueid=mybody;
+          });
+          print('ischeckuniqueid$ischeckuniqueid');
+        }
+         if (jsonResponse['status'] == 0) {
+          setState(() {
+            ischeckuniqueid=mybody1;
+          });
+          print('ischeckuniqueid$ischeckuniqueid');
+        }
+      }
+      if (jsonResponse.statusCode == 400) {
+        if (jsonResponse['status'] == 0) {
+          setState(() {
+          });
+        }
+      }
+
+      return responsepostRequest;
+    } catch (e) {
+      print(e.toString());
+
+    }
+  }
+  
+
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
-
     Widget continueButton = TextButton(
       child: Text("Close"),
       onPressed: () {
@@ -207,6 +266,7 @@ class _GeneralinformationState extends State<Generalinformation> {
 
   @override
   Widget build(BuildContext context) {
+   
     //--------------------ชื่อที่ต้องการแสดง----------------------//
     final TextFormField _txtNameProfild = TextFormField(
       controller: _name,
@@ -250,14 +310,18 @@ class _GeneralinformationState extends State<Generalinformation> {
         if (value.isEmpty) {
           return 'กรุณาใส่ยูสเซอร์เนม';
         }
+      
         return null;
+        
       },
       onChanged: (value) {
         if (value != null) {
           setState(() {
             _isButtonDisabled = false;
           });
+          checkuniqueId(value);
         }
+       
         if (value == "") {
           setState(() {
             _isButtonDisabled = true;
@@ -504,12 +568,12 @@ class _GeneralinformationState extends State<Generalinformation> {
                       child: _txtNameProfild,
                     ),
                     //-------------------ยูสเซอร์เนม---------------------//
-                    Container(
+                Container(
                       height: 60,
                       margin: EdgeInsets.only(top: 10, left: 30, right: 30),
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 240, 240, 240),
-                          border: Border.all(width: 1.2, color: Colors.black12),
+                          border: Border.all(width:ischeckuniqueid==false?2.5: 1.2, color: ischeckuniqueid==false?Colors.red: Colors.black12),
                           borderRadius: const BorderRadius.all(
                               const Radius.circular(10.0))),
                       child: _txtuniqueid,
@@ -745,7 +809,20 @@ class _GeneralinformationState extends State<Generalinformation> {
                                         textColor: Colors.white,
                                         color: MColors.primaryColor,
                                         onPressed: () async {
-                                          _validateInputs();
+                                     ischeckuniqueid==false? ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+                          content: Text('ยูสเซอร์เนมซ้ำ',textAlign: TextAlign .center,),
+                          
+                          behavior: SnackBarBehavior.floating,
+                              width: 150,
+
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          backgroundColor:MColors.primaryColor,
+                          duration :Duration(milliseconds: 200) 
+                          // margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                          // padding: EdgeInsets.all(20),
+                        )):     _validateInputs();
                                           await Register(
                                             _email.text,
                                             widget.password,
@@ -761,7 +838,20 @@ class _GeneralinformationState extends State<Generalinformation> {
                                                 : "",
                                           );
                                           print('isregister$isregister');
-                                          isregister == true
+                                  ischeckuniqueid==false? ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+                          content: Text('ยูสเซอร์เนมซ้ำ',textAlign: TextAlign .center,),
+                          
+                          behavior: SnackBarBehavior.floating,
+                              width: 150,
+
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          backgroundColor:MColors.primaryColor,
+                          duration :Duration(milliseconds: 200) 
+                          // margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                          // padding: EdgeInsets.all(20),
+                        )):          isregister == true
                                               ? Navigator.push(
                                                   context,
                                                   MaterialPageRoute(

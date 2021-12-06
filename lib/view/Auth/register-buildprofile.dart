@@ -41,11 +41,13 @@ class _BuildprofileState extends State<Buildprofile> {
   var msg;
 
   var msgres;
+  bool isloading =false;
+
   Future<http.Response> singin(String email, String pass) async {
     print('singin');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    var url = "${Api.url}api/login";
+    var url =Uri.parse( "${Api.url}api/login");
     Map data = {"username": email, "password": pass};
     final headers = {
       "mode": "EMAIL",
@@ -73,11 +75,11 @@ class _BuildprofileState extends State<Buildprofile> {
           await getImage(widget.image, userid, mytoken);
           sharedPreferences.setString(
               "imageURL", '${jsonResponse["data"]["user"]["imageURL"]}');
-          // if (mytoken != null) {
-          //   _isloading = true;
-          // } else if (mytoken == null) {
-          //   iserror = true;
-          // }
+          if (mytoken != null) {
+            isloading = true;
+          } else if (mytoken == null) {
+            // iserror = true;
+          }
 
           Navigator.of(context).pushAndRemoveUntil(
               CupertinoPageRoute(
@@ -85,7 +87,7 @@ class _BuildprofileState extends State<Buildprofile> {
               (Route<dynamic> route) => false);
         } else {
           setState(() {
-            // _isloading = false;
+           isloading = false;
           });
         }
       }
@@ -279,7 +281,34 @@ class _BuildprofileState extends State<Buildprofile> {
                   height: MediaQuery.of(context).size.height * 0.08,
                   width: MediaQuery.of(context).size.width * 0.86,
                 ),
-                Container(
+                // isloading == true
+                //             ? Container(
+                  // width: MediaQuery.of(context).size.width * 0.9,
+                //                 child: Row(
+                //                   children: <Widget>[
+                //                     Expanded(
+                //                       child: ElevatedButton(
+                //                         style: TextButton.styleFrom(
+                //                           padding: EdgeInsets.only(
+                //                               top: 15, bottom: 15),
+                //                           shape: RoundedRectangleBorder(
+                //                               borderRadius:
+                //                                   BorderRadius.circular(30.0),
+                //                               side: BorderSide(
+                //                                   color: Colors.red)),
+                //                           primary: MColors.primaryColor,
+                //                         ),
+                //                         onPressed: null,
+                //                         child: Center(
+                //                           child: CircularProgressIndicator(color: MColors.primaryColor,),
+                //                         ),
+                //                       ),
+                //                     )
+                //                   ],
+                //                 ),
+                //               )
+                //             :
+                             Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: Row(
                     children: <Widget>[

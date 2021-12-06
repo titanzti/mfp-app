@@ -60,7 +60,7 @@ Widget topImage(String image) {
   );
 }
 
-Widget myAlbumCard(List<Gallery> list) {
+Widget myAlbumCard(List<GalleryPostSearchModel> list,BuildContext context) {
   if (list.length >= 4) {
     return Container(
       height: 280,
@@ -69,8 +69,8 @@ Widget myAlbumCard(List<Gallery> list) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            getItems(list[0].signUrl, list[1].signUrl, 0),
-            getItems(list[2].signUrl, list[3].signUrl, list.length - 4),
+            getItems(list[0].signUrl, list[1].signUrl, 0,context),
+            getItems(list[2].signUrl, list[3].signUrl, list.length - 4,context),
           ],
         ),
       ),
@@ -94,10 +94,10 @@ Widget myAlbumCard(List<Gallery> list) {
                 SizedBox(
                   height: 100,
                 ),
-                getItems(list[0].signUrl, list[1].signUrl, 0),
+                getItems(list[0].signUrl, list[1].signUrl, 0,context),
                 Expanded(
                   child: getItems(
-                      list[2].signUrl, list[3].signUrl ?? "", list.length - 3),
+                      list[2].signUrl, list[3].signUrl ?? "", list.length - 3,context),
                 ),
               ],
             ),
@@ -114,7 +114,7 @@ Widget myAlbumCard(List<Gallery> list) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            getItems(list[0].signUrl, list[1].signUrl, 0),
+            getItems(list[0].signUrl, list[1].signUrl, 0,context),
           ],
         ),
       ),
@@ -162,7 +162,7 @@ Widget myAlbumCard(List<Gallery> list) {
   }
 }
 
-Widget getItems(img_path, img_path2, count) {
+Widget getItems(img_path, img_path2, count,BuildContext context) {
   return Container(
     width: double.infinity,
     child: Row(
@@ -170,18 +170,20 @@ Widget getItems(img_path, img_path2, count) {
       // mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         // SizedBox(width: 5,),
+
         ClipRRect(
           child: Image.network(
             img_path,
-            height: 140,
-            width: 190,
+            height: MediaQuery.of(context).size.height/5.2,
+            width:   MediaQuery.of(context).size.width/2.0,
             fit: BoxFit.cover,
             filterQuality: FilterQuality.low,
           ),
         ),
-        SizedBox(
-          width: 11,
-        ),
+
+        // SizedBox(
+        //   width: 11,
+        // ),
         (count > 0)
             ? Stack(
                 overflow: Overflow.visible,
@@ -190,8 +192,8 @@ Widget getItems(img_path, img_path2, count) {
                     // borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10),),
                     child: Image.network(
                       img_path2,
-                      height: 140,
-                      width: 190,
+            height: MediaQuery.of(context).size.height/5.2,
+            width:   MediaQuery.of(context).size.width/2.0,
                       fit: BoxFit.cover,
                       filterQuality: FilterQuality.low,
                     ),
@@ -199,8 +201,8 @@ Widget getItems(img_path, img_path2, count) {
                   (count > 0)
                       ? Positioned(
                           child: Container(
-                            height: 140,
-                            width: 190,
+            height: MediaQuery.of(context).size.height/5.2,
+            width:   MediaQuery.of(context).size.width/2.0,
                             decoration: BoxDecoration(color: Colors.black38),
                             child: Center(
                               child: Text(
@@ -219,8 +221,8 @@ Widget getItems(img_path, img_path2, count) {
             : ClipRRect(
                 child: Image.network(
                   img_path2,
-                  height: 140,
-                  width: 190,
+            height: MediaQuery.of(context).size.height/5.2,
+            width:   MediaQuery.of(context).size.width/2.0,
                   fit: BoxFit.cover,
                   filterQuality: FilterQuality.low,
                 ),
@@ -236,10 +238,8 @@ Widget primaryAppBar(
   var userid,
   var imageurl,
   Widget widgetsearch,
-  bool isOpen,
   Widget widgetprofile,
 ) {
-  print('isOpen$isOpen');
   return SliverAppBar(
     brightness: Brightness.light,
     backgroundColor: Colors.white,
@@ -506,16 +506,22 @@ Widget nonet(BuildContext context) {
               color: MColors.primaryColor,
               onPressed: ()async {
               await  checkInternetConnectivity().then((value) {
-                  value == true
-                      ? Navigate.pushPageDialog(context, NavScreen())
-                      : ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                          content: Text('ลองอีกครั้ง'),
+                value == true
+                      ? Navigate.pushPageReplacement(context, NavScreen())
+                      : 
+                      ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+                          content: Text('ลองอีกครั้ง',textAlign: TextAlign .center,),
+                          
                           behavior: SnackBarBehavior.floating,
+                              width: 150,
+
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(24),
                           ),
-                          margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
-                          padding: EdgeInsets.all(20),
+                          backgroundColor:MColors.primaryColor,
+                          duration :Duration(milliseconds: 200) 
+                          // margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
+                          // padding: EdgeInsets.all(20),
                         ));
                 });
                 print('กด');

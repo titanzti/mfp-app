@@ -31,6 +31,8 @@ import 'package:mfp_app/view/Search/Search.dart';
 import 'package:mfp_app/view/Today/Dtemergencyevent.dart';
 
 import 'package:mfp_app/view/Today/PostDetailsSc.dart';
+import 'package:mfp_app/view/Today/StoryPage.dart';
+import 'package:mfp_app/view/Today/test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TodaySc extends StatefulWidget {
@@ -422,7 +424,16 @@ class _TodayScState extends State<TodaySc> {
     _scrollController.dispose();
     super.dispose();
   }
-
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // checkInternetConnectivity().then((value) {
+    //               value == true
+    //                   ? Navigate.pushPageReplacement(context, NavScreen())
+    //                   : Navigate.pushPageReplacement(context, nonet(context));
+    //    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     print('taptoload${widget.taptoload}');
@@ -438,11 +449,6 @@ class _TodayScState extends State<TodaySc> {
             onRefresh: () => () async {
               HapticFeedback.mediumImpact();
               print('RefreshIndicator');
-               await checkInternetConnectivity().then((value) {
-                  value == true
-                      ? Navigate.pushPageReplacement(context, NavScreen())
-                      : Navigate.pushPageDialog(context, nonet(context));
-                });
               await _handleRefresh();
               await Api.getRecommendedUserPage();
               await Api.getPostList(_currentMax);
@@ -468,7 +474,7 @@ class _TodayScState extends State<TodaySc> {
                     Search(
                       userid: userid,
                     ),
-                    true,
+                    
                     ProfileSc(
                       userid: widget.userid,
                       token: token,
@@ -575,6 +581,8 @@ class _TodayScState extends State<TodaySc> {
                                               nDataList1.post.likeCount,
                                               nDataList1.post.commentCount,
                                               nDataList1.post.shareCount,
+                                              nDataList1.post.repostCount,
+
                                               nDataList1.post.id,
                                               nDataList1.page.id,
                                               nDataList1.page.imageUrl,
@@ -583,6 +591,8 @@ class _TodayScState extends State<TodaySc> {
                                               nDataList1.page.pageUsername,
                                               nDataList1.page.isOfficial,
                                               nDataList1,
+                                           nDataList1.post.type,
+
                                             ));
                                       }),
                                 );
@@ -694,10 +704,11 @@ class _TodayScState extends State<TodaySc> {
     String subtitle,
     String authorposttext,
     DateTime dateTime,
-    List<Gallery> gallery,
+    List<GalleryPostSearchModel> gallery,
     int likeCount,
     int commentCount,
     int shareCount,
+    int repostCount,
     String postid,
     String pageid,
     String pageimage,
@@ -706,6 +717,7 @@ class _TodayScState extends State<TodaySc> {
     String pageUsername,
     bool isOfficial,
     nDataList1,
+    String type,
   ) {
     return InkWell(
       onTap: () {
@@ -742,7 +754,7 @@ class _TodayScState extends State<TodaySc> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            gallery.length != 0 ? myAlbumCard(gallery) : SizedBox.shrink(),
+            gallery.length != 0 ? myAlbumCard(gallery,context) : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),
             Card(
               child: Column(
@@ -757,7 +769,24 @@ class _TodayScState extends State<TodaySc> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: subtexttitlepost(subtitle, context),
+                    child: InkWell(
+                      onTap: ()async{
+                           Navigate.pushPage(context, StroyPageSc(postid: postid,
+                        titalpost: posttitle,
+                        imagUrl: gallery,
+                        type: type,
+                        createdDate:dateTime,
+                        postby:pagename,
+                        imagepage: pageimage,
+                          likeCount: likeCount,
+                  commentCount: commentCount,
+                  shareCount: shareCount,
+                  repostCount:repostCount,
+                        ));
+
+
+                      },
+                      child: subtexttitlepost(subtitle, context)),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -774,7 +803,7 @@ class _TodayScState extends State<TodaySc> {
                           isFollow,
                           pageUsername,
                           isOfficial,
-                          userid),
+                          id,true),
                       SizedBox(
                         width: 2,
                       ),

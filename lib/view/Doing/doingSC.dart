@@ -108,7 +108,6 @@ class _DoingSCState extends State<DoingSC> {
               primaryAppBar(context, token, userid, image,Search(
               userid: userid,
             ),
-            true,
                     ProfileSc(
                       userid:userid,
                       token:   token,

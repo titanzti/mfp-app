@@ -83,34 +83,28 @@ class _SearchState extends State<Search> {
             setState(() {
               userid = value;
             }),
-             Api.getuserprofile("$userid")
-                            .then((responseData) async => ({
-                                  if (responseData.statusCode == 200)
-                                    {
-                                      datagetuserprofile =
-                                          jsonDecode(responseData.body),
-                                      setState(() {
-                                        // displayName1 =
-                                        //     datagetuserprofile["data"]
-                                        //         ["displayName"];
-                                        // gender = datagetuserprofile["data"]
-                                        //     ["gender"];
-                                        // firstName = datagetuserprofile["data"]
-                                        //     ["firstName"];
-                                        // lastName = datagetuserprofile["data"]
-                                        //     ["lastName"];
-                                        userid1 = datagetuserprofile["data"]["id"];
-                                        // email =
-                                        //     datagetuserprofile["data"]["email"];
-                                        image = datagetuserprofile["data"]
-                                            ["imageURL"];
-                                      }),
-                
-                                      print('image$image'),
-                                    }
-                                })),
-
-
+            Api.getuserprofile("$userid").then((responseData) async => ({
+                  if (responseData.statusCode == 200)
+                    {
+                      datagetuserprofile = jsonDecode(responseData.body),
+                      setState(() {
+                        // displayName1 =
+                        //     datagetuserprofile["data"]
+                        //         ["displayName"];
+                        // gender = datagetuserprofile["data"]
+                        //     ["gender"];
+                        // firstName = datagetuserprofile["data"]
+                        //     ["firstName"];
+                        // lastName = datagetuserprofile["data"]
+                        //     ["lastName"];
+                        userid1 = datagetuserprofile["data"]["id"];
+                        // email =
+                        //     datagetuserprofile["data"]["email"];
+                        image = datagetuserprofile["data"]["imageURL"];
+                      }),
+                      print('image$image'),
+                    }
+                })),
             print('userid$userid'),
           }));
       Api.getimageURL().then((value) => ({
@@ -130,7 +124,7 @@ class _SearchState extends State<Search> {
   }
 
   getdate(String quer, String userid) async {
-    var url = "https://today-api.moveforwardparty.org/api/main/search";
+    var url =Uri.parse("${Api.url}api/main/search");
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
@@ -140,7 +134,6 @@ class _SearchState extends State<Search> {
       "user": userid,
     };
     var body = jsonEncode(data);
-
     final responseData = await http.post(
       url,
       headers: headers,
@@ -161,23 +154,10 @@ class _SearchState extends State<Search> {
 
         print('isUser$isType');
         setState(() {
-                  listSearchHastag.add(SearchHastag.fromJson(i));
+          listSearchHastag.add(SearchHastag.fromJson(i));
         });
-
-
-        // if (listSearchHastag.indexOf(SearchHastag.fromJson(i)) <= -1) {
-        // }
-        // if (listSearchHastag.indexOf(SearchHastag.fromJson(i)) <= 0) {
-        //   listSearchHastag.remove(listSearchHastag);
-        // }
-
         print('listSearchHastagจำนวน${listSearchHastag.length}');
         print('_searchResult${_searchResult.length}');
-
-        // if (controller.text.isEmpty) {
-        //   print("controllerวางจริง");
-        //   listSearchHastag.clear();
-        // }
       }
 
       loading = false;
@@ -185,7 +165,7 @@ class _SearchState extends State<Search> {
   }
 
   getpage(String pageid) async {
-    // Future.delayed(Duration(seconds: 9));
+    Future.delayed(Duration(seconds: 10));
     print('getPageisvalue$pageid');
     final headers = {
       // "limit": 1,
@@ -195,30 +175,33 @@ class _SearchState extends State<Search> {
     };
     // print('getData');
 
-    final responseData = await http.get(
-        "https://today-api.moveforwardparty.org/api/page/$pageid",
-        headers: headers);
-    if (responseData.statusCode == 200) {
-      setState(() {
-        loading = true;
-      });
+    try {
+      final responseData = await http.get(
+         Uri.parse ("${Api.url}api/page/$pageid"),
+          headers: headers);
       if (responseData.statusCode == 200) {
-        var dataht1 = jsonDecode(responseData.body);
-        print('listPageModel${dataht1["data"]}');
-        if (isType == "PAGE") {
-          setState(() {
-                      _listPageModel.add(PageModel.fromJson(dataht1["data"]));
-
-          });
-          print('listPageModellength${_listPageModel.length}');
+        setState(() {
+          loading = true;
+        });
+        if (responseData.statusCode == 200) {
+          var dataht1 = jsonDecode(responseData.body);
+          print('listPageModel${dataht1["data"]}');
+          if (isType == "PAGE") {
+            setState(() {
+              _listPageModel.add(PageModel.fromJson(dataht1["data"]));
+            });
+            print('listPageModellength${_listPageModel.length}');
+          }
+      
+          loading = false;
+          print('body$dataht1');
+          print('responseDatagetpage${responseData.body}');
         }
-
-        loading = false;
-        print('body$dataht1');
-        print('responseDatagetpage${responseData.body}');
+      } else if (responseData.statusCode == 404) {
+        throw Exception('Not Found');
       }
-    } else if (responseData.statusCode == 404) {
-      throw Exception('Not Found');
+    } on Exception catch (e) {
+      // TODO
     }
   }
 
@@ -352,12 +335,43 @@ class _SearchState extends State<Search> {
                                     ),
                                   ),
                                   onChanged: (text) async {
+                                                    if (text == "") {
+                                      print("controllerวางจริง");
+                                      setState(() {
+                                        _listPageModel.clear();
+
+                                        isvalue = "";
+
+                                        controller.clear();
+                                        listSearchHastag.clear();
+                                        _searchResult.clear();
+                                      });
+                                    }
+
+                                    if (text.isEmpty) {
+                                      print("onChangedวางจริง");
+                                      setState(() {
+                                      _listPageModel.clear();
+
+                                        isvalue = "";
+
+                                        controller.clear();
+                                        listSearchHastag.clear();
+                                        _searchResult.clear();
+                                      });
+                                    }
+                                       setState(() {
+                                                                              _searchResult.clear();
+                                        _listPageModel.clear();
+
+                                    });
                                     Future.delayed(
                                         const Duration(milliseconds: 1000), () {
                                       setState(() {
                                         text = text.toLowerCase();
                                       });
                                     });
+                                 
 
                                     if (controller.text != "") {
                                       setState(() {
@@ -372,35 +386,20 @@ class _SearchState extends State<Search> {
                                       });
                                       setState(() {
                                         listSearchHastag.clear();
-                                      //  _listPageModel.clear();
-
+                                            _listPageModel.clear();
+                                        // isvalue = "";
+                                        //  _listPageModel.clear();
                                       });
-
-                                      getdate(controller.text.toLowerCase(),
+                                        Future.delayed(
+                                        const Duration(milliseconds: 2000), () async {
+                                    await   getdate(text.toLowerCase(),
                                           widget.userid);
-                                      getpage(isvalue);
-                                    }
-                                    if (controller.text=="") {
-                                      print("controllerวางจริง");
-                                      setState(() {
-                                     _listPageModel.clear();
+                                    await  getpage(isvalue);
+                                    });
 
-                                         isvalue = "";
-
-                                        controller.clear();
-                                        listSearchHastag.clear();
-                                        _searchResult.clear();
-                                      });
+                                   
                                     }
-
-                                    if (controller.text.isEmpty) {
-                                      print("onChangedวางจริง");
-                                      setState(() {
-                                        controller.clear();
-                                        listSearchHastag.clear();
-                                        _searchResult.clear();
-                                      });
-                                    }
+                    
                                   },
                                 ),
                               ),
@@ -409,6 +408,8 @@ class _SearchState extends State<Search> {
                               padding: const EdgeInsets.all(6.0),
                               child: InkWell(
                                 onTap: () async {
+                                    listSearchHastag.clear();
+                                    _listPageModel.clear();
                                   setState(() {
                                     loading = true;
                                   });
@@ -485,50 +486,50 @@ class _SearchState extends State<Search> {
                             print('isty$isType');
                             print("isva$isvalue");
                             return InkWell(
-                                      onTap: () {
-                                        if (istype == "HASHTAG") {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //       builder: (context) => SearchList(
-                                          //             type: istype,
-                                          //             label: islabel,
-                                          //           )),
-                                          // );
-                                        }
-                                        if (istype == "PAGE") {
-                                          // Navigator.push(
-                                          //   context,
-                                          //   MaterialPageRoute(
-                                          //       builder: (context) => SearchList(
-                                          //             type: istype,
-                                          //             label: islabel,
-                                          //           )),
-                                          // );
-                                        }
-                                      },
-                                      child: Card(
-                                        // shape: RoundedRectangleBorder(
-                                        //     borderRadius: const BorderRadius.all(
-                                        //   Radius.circular(15.0),
-                                        // )),
-                                        child: new ListTile(
-                                          // leading: new CircleAvatar(
-                                          //   backgroundImage: new NetworkImage(
-                                          //     _userDetails[index].profileUrl,
-                                          //   ),
-                                          // ),
-                                          title: new Text('${data.label}'),
-                                          trailing: Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            size: 18,
-                                            color: MColors.textDark,
-                                          ),
-                                          // subtitle: new Text('>>>${data.type}'),
-                                        ),
-                                        margin: const EdgeInsets.all(2.0),
-                                      ),
-                                    );
+                              onTap: () {
+                                if (istype == "HASHTAG") {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => SearchList(
+                                  //             type: istype,
+                                  //             label: islabel,
+                                  //           )),
+                                  // );
+                                }
+                                if (istype == "PAGE") {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => SearchList(
+                                  //             type: istype,
+                                  //             label: islabel,
+                                  //           )),
+                                  // );
+                                }
+                              },
+                              child: Card(
+                                // shape: RoundedRectangleBorder(
+                                //     borderRadius: const BorderRadius.all(
+                                //   Radius.circular(15.0),
+                                // )),
+                                child: new ListTile(
+                                  // leading: new CircleAvatar(
+                                  //   backgroundImage: new NetworkImage(
+                                  //     _userDetails[index].profileUrl,
+                                  //   ),
+                                  // ),
+                                  title: new Text('${data.label}'),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 18,
+                                    color: MColors.textDark,
+                                  ),
+                                  // subtitle: new Text('>>>${data.type}'),
+                                ),
+                                margin: const EdgeInsets.all(2.0),
+                              ),
+                            );
                           },
                         );
                       }),
@@ -546,37 +547,37 @@ class _SearchState extends State<Search> {
                         itemBuilder: (BuildContext context, int index) {
                           var data = _listPageModel[index];
                           return InkWell(
-                                onTap: () {
-                                  Navigate.pushPage(
-                                      context,
-                                      Profliess(
-                                        id: data.id,
-                                        image: data.imageUrl,
-                                        name: data.name,
-                                        isOfficial: data.isOfficial,
-                                        pageUsername: data.pageUsername,
-                                        userid: userid1,
-                                      ));
-                                },
-                                child: Card(
-                                  child: new ListTile(
-                                    leading: new CircleAvatar(
-                                      radius: 20,
-                                      backgroundImage: NetworkImage(
-                                          "https://today-api.moveforwardparty.org/api${data.imageUrl}/image"),
-                                      backgroundColor: Colors.transparent,
-                                    ),
-                                    title: new Text('${data.name}'),
-                                    subtitle: new Text('@${data.pageUsername}'),
-                                    trailing: Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 18,
-                                      color: MColors.textDark,
-                                    ),
-                                  ),
-                                  margin: const EdgeInsets.all(0.0),
+                            onTap: () {
+                              Navigate.pushPage(
+                                  context,
+                                  Profliess(
+                                    id: data.id,
+                                    image: data.imageUrl,
+                                    name: data.name,
+                                    isOfficial: data.isOfficial,
+                                    pageUsername: data.pageUsername,
+                                    userid: userid1,
+                                  ));
+                            },
+                            child: Card(
+                              child: new ListTile(
+                                leading: new CircleAvatar(
+                                  radius: 20,
+                                  backgroundImage: NetworkImage(
+                                      "https://today-api.moveforwardparty.org/api${data.imageUrl}/image"),
+                                  backgroundColor: Colors.transparent,
                                 ),
-                              );
+                                title: new Text('${data.name}'),
+                                subtitle: new Text('@${data.pageUsername}'),
+                                trailing: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 18,
+                                  color: MColors.textDark,
+                                ),
+                              ),
+                              margin: const EdgeInsets.all(0.0),
+                            ),
+                          );
                         },
                       ),
                     )

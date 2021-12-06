@@ -28,10 +28,14 @@ class _LoginemailState extends State<Loginemail> {
   bool _isEnabled = true;
   String msgres = "";
   Future<http.Response> singin(String email, String pass) async {
+    setState(() {
+                  _isloading = true;
+
+    });
     print('singin');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    var url = "${Api.url}api/login";
+    var url =Uri.parse("${Api.url}api/login");
     Map data = {"username": email, "password": pass};
     final headers = {
       "mode": "EMAIL",
@@ -311,7 +315,7 @@ class _LoginemailState extends State<Loginemail> {
                                         ),
                                         onPressed: null,
                                         child: Center(
-                                          child: CircularProgressIndicator(),
+                                          child: CircularProgressIndicator(color: MColors.primaryColor,),
                                         ),
                                       ),
                                     )

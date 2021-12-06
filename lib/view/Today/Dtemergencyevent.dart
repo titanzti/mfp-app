@@ -166,7 +166,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
             slivers: [
               primaryAppBar(context, widget.token, "", image,Search(
               userid: widget.userid,
-            ),true,
+            ),
                     ProfileSc(
                       userid:  widget.userid,
                       token:   widget.token,

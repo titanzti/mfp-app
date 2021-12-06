@@ -99,7 +99,7 @@ class _MenuSCState extends State<MenuSC> {
             slivers: [
               primaryAppBar(context, token, userid, image,Search(
               userid: userid,
-            ),true,
+            ),
                     ProfileSc(
                       userid:  userid,
                       token:   token,

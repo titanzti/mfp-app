@@ -62,7 +62,7 @@ class _ProfliessState extends State<Profliess> {
 
   StreamController _postsController;
   var userimageUrl;
-  List<PostListSS> listpostss = [];
+  List<PostPageSS> listpostss = [];
   Future getPostss;
   var dataht;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -198,7 +198,7 @@ class _ProfliessState extends State<Profliess> {
                                 })),
           }));
 
-      _getPostListSS(widget.id, _currentMax);
+      _getPostListSS(widget.pageUsername, _currentMax);
     });
     _postsController = new StreamController();
   }
@@ -209,20 +209,30 @@ class _ProfliessState extends State<Profliess> {
     super.dispose();
   }
 
-  Future _getPostListSS(String idss, int offset) async {
-    final responseData = await Http.get(
-        "https://today-api.moveforwardparty.org/api/page/$idss/post/?offset=$offset&limit=10");
+  Future _getPostListSS(String name, int offset) async {
+       final headers = {
+      // "mode": "EMAIL",
+      "authority":"today-api.moveforwardparty.org",
+      "content-type": "application/json",
+    };
+    Map data = {"type":"","offset":offset,"limit":5};
+      var body = jsonEncode(data);
+
+    final responseData = await Http.post(Uri.parse(
+        "${Api.url}api/page/$name/post/search"), headers: headers,
+      body: body,);
 
     print('getPostListSS');
+    print(responseData.body);
     if (responseData.statusCode == 200) {
       setState(() {
         isLoading = true;
       });
       dataht = jsonDecode(responseData.body);
-      for (var i in dataht["data"]) {
+      for (var i in dataht["data"]["posts"]) {
         // i["story"] = '',
 
-        listpostss.add(PostListSS.fromJson(i));
+        listpostss.add(PostPageSS.fromJson(i));
         // story = dataht["data"]["story"]["story"],
         // print('story$story'),
         _postsController.add(dataht);
@@ -248,7 +258,7 @@ class _ProfliessState extends State<Profliess> {
         _isLoadMoreRunning = true; // Display a progress indicator at the bottom
 
         try {
-          _getPostListSS(widget.id, _currentMax);
+          _getPostListSS(widget.pageUsername, _currentMax);
         } catch (err) {
           print('Something went wrong!');
         }
@@ -258,7 +268,6 @@ class _ProfliessState extends State<Profliess> {
 
   @override
   Widget build(BuildContext context) {
-    print('widgetpageid${widget.id}');
     return isLoading == true
         ? Container(
             color: Colors.white,
@@ -278,7 +287,6 @@ class _ProfliessState extends State<Profliess> {
                         Search(
                           userid: widget.userid,
                         ),
-                        true,
                         ProfileSc(
                           userid: widget.userid,
                           token: token,
@@ -306,7 +314,7 @@ class _ProfliessState extends State<Profliess> {
                                   },
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(top: 10),
+                                  padding: const EdgeInsets.only(top: 5,bottom: 5),
                                   child: CircleAvatar(
                                     radius: 25.0,
                                     backgroundImage: NetworkImage(
@@ -758,13 +766,116 @@ class _ProfliessState extends State<Profliess> {
             ),
           );
   }
+  
+Widget myAlbumCardPagepost(List<GalleryPostPageSS> list) {
+  if (list.length >= 4) {
+    return Container(
+      height: MediaQuery.of(context).size.height/2.6,
+      width: MediaQuery.of(context).size.width/1.0,
+      child: Center(
+        child: Column(
+          mainAxisAlignment:MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            getItems(list[0].signUrl, list[1].signUrl, 0,context),
+            getItems(list[2].signUrl, list[3].signUrl, list.length - 4,context),
+          ],
+        ),
+      ),
+    );
+  } else if (list.length >= 3) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+        height: MediaQuery.of(context).size.height/2.6,
+      width: MediaQuery.of(context).size.width/1.0,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            border: Border.all(color: Colors.grey, width: 0.2)),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: 100,
+                ),
+                getItems(list[0].signUrl, list[1].signUrl, 0,context),
+                Expanded(
+                  child: getItems(
+                      list[2].signUrl, list[3].signUrl ?? "", list.length - 3,context),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  } else if (list.length >= 2) {
+    return Container(
+    height: MediaQuery.of(context).size.height/2.6,
+      width: MediaQuery.of(context).size.width/1.0,
+      color: Colors.white,
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            getItems(list[0].signUrl, list[1].signUrl, 0,context),
+          ],
+        ),
+      ),
+    );
+  } else if (list.length >= 1) {
+    return Container(
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            // Padding(
+            //   padding: EdgeInsets.only(
+            //       left: 10.0, top: 2),
+            //   child: Text(
+            //     name,
+            //     style: TextStyle(
+            //         color: Colors.black,
+            //         fontSize: 14,
+            //         fontWeight: FontWeight.bold),
+            //   ),
+            // ),
+
+            list[0].signUrl != null
+                ?
+                // Hero(
+                //   tag:"image"+ list[0].signUrl.toString(),
+                //   child:
+                topImage(list[0].signUrl.toString())
+                // CachedNetworkImage(
+                //     imageUrl: 'https://via.placeholder.com/350x150',
+                //     placeholder: (context, url) =>
+                //         new CupertinoActivityIndicator(),
+                //     errorWidget: (context, url, error) => Container(
+                //       decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                //       ),
+                //       child:Image(image: CachedNetworkImageProvider(list[0].signUrl),)
+                //     ),
+                //   )
+                : SizedBox.shrink(),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
   Widget PostList(
       String posttitle,
       String subtitle,
       String postbyname,
       DateTime dateTime,
-      List<Gallery> gallery,
+      List<GalleryPostPageSS> gallery,
       int likeCount,
       int commentCount,
       int shareCount,
@@ -778,10 +889,9 @@ class _ProfliessState extends State<Profliess> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            coverimage != "" || coverimage != null
-                ? Image.network(
-                    "https://today-api.moveforwardparty.org/api$coverimage/image")
-                : SizedBox.shrink(),
+                        gallery.length != 0 ? myAlbumCardPagepost(gallery) : SizedBox.shrink(),
+
+          
             // gallery.length != 0 ? myAlbumCard(gallery) : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),
             Card(
@@ -804,7 +914,7 @@ class _ProfliessState extends State<Profliess> {
                     children: [
                       fixtextauthor(),
                       authorpost(postbyname, context, dateTime, "", "", "fasle",
-                          false, "false", false, ""),
+                          false, "false", false, "",false),
                       texttimetimestamp(dateTime),
                     ],
                   ),

@@ -148,7 +148,6 @@ class _ShopSCState extends State<ShopSC> {
                         Search(
                           userid: userid,
                         ),
-                        true,
                         ProfileSc(
                           userid: userid,
                           token: token,
