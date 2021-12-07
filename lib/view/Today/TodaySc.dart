@@ -32,7 +32,6 @@ import 'package:mfp_app/view/Today/Dtemergencyevent.dart';
 
 import 'package:mfp_app/view/Today/PostDetailsSc.dart';
 import 'package:mfp_app/view/Today/StoryPage.dart';
-import 'package:mfp_app/view/Today/test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TodaySc extends StatefulWidget {
@@ -272,55 +271,55 @@ class _TodayScState extends State<TodaySc> {
     });
   }
 
-  Widget BuildVideorecom() {
-    return Card(
-      child: Container(
-        width: double.infinity,
-        height: 350.84,
-        // color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 14, top: 20),
-              child:
-                  texttitleVideorecommend("วิดีโอสำหรับคุณโดยเฉพาะ", context),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 14, top: 2),
-              child: textsubVideorecommend(
-                  "เพลิดเพลินกับเพลย์ลิสต์ที่ปรับให้เหมาะกับคุณจาก Youtube",
-                  context),
-            ),
-            SizedBox(
-              height: 240.0,
-              child: Builder(
-                builder: (BuildContext context) {
-                  return ListView.builder(
-                      physics: ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 5,
-                      itemBuilder: (
-                        BuildContext context,
-                        int index,
-                      ) {
-                        return Videorecommend();
-                      });
-                },
-              ),
-            ),
-            Center(
-              child: Text(
-                "ดูวิดีโอเพิ่มเติมบน Youtube",
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget BuildVideorecom() {
+  //   return Card(
+  //     child: Container(
+  //       width: double.infinity,
+  //       height: 350.84,
+  //       // color: Colors.white,
+  //       child: Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Padding(
+  //             padding: const EdgeInsets.only(left: 14, top: 20),
+  //             child:
+  //                 texttitleVideorecommend("วิดีโอสำหรับคุณโดยเฉพาะ", context),
+  //           ),
+  //           Padding(
+  //             padding: const EdgeInsets.only(left: 14, top: 2),
+  //             child: textsubVideorecommend(
+  //                 "เพลิดเพลินกับเพลย์ลิสต์ที่ปรับให้เหมาะกับคุณจาก Youtube",
+  //                 context),
+  //           ),
+  //           SizedBox(
+  //             height: 240.0,
+  //             child: Builder(
+  //               builder: (BuildContext context) {
+  //                 return ListView.builder(
+  //                     physics: ClampingScrollPhysics(),
+  //                     shrinkWrap: true,
+  //                     scrollDirection: Axis.horizontal,
+  //                     itemCount: 5,
+  //                     itemBuilder: (
+  //                       BuildContext context,
+  //                       int index,
+  //                     ) {
+  //                       return Videorecommend();
+  //                     });
+  //               },
+  //             ),
+  //           ),
+  //           Center(
+  //             child: Text(
+  //               "ดูวิดีโอเพิ่มเติมบน Youtube",
+  //               style: TextStyle(fontSize: 16),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Future<Null> _handleRefresh() async {
     new Future.delayed(const Duration(seconds: 3));
@@ -479,14 +478,14 @@ class _TodayScState extends State<TodaySc> {
                       userid: widget.userid,
                       token: token,
                     )),
-
+            
                 ///-----------APPBAR-----------------//
                 isLoadingHastag
                     ? SliverToBoxAdapter(child: CarouselLoading())
                     : SliverToBoxAdapter(
                         child: Carouselslider(
                             listemergencyEvents, context, userimageUrl)),
-
+            
                 // ///-----------เลื่อนสไลด์-----------------//
                 listModelPostClass.length == 0
                     ? SliverToBoxAdapter(child: Container())
@@ -500,9 +499,9 @@ class _TodayScState extends State<TodaySc> {
                           ),
                         ),
                       ),
-
+            
                 // ///-----------คำว่าไทม์ไลน์-----------------//
-
+            
                 isLoading == true
                     ? SliverToBoxAdapter(child: CarouselLoading())
                     : SliverToBoxAdapter(
@@ -534,16 +533,16 @@ class _TodayScState extends State<TodaySc> {
                                         // }
                                         final nDataList1 =
                                             listModelPostClass[index];
-
+            
                                         //   if(fistload==true){
                                         // if (index == listModelPostClass.length - 3) {
-
+            
                                         // return  BuildRecommendedUserPage();
                                         //  }
                                         // }else{
                                         //   return SizedBox.shrink();
                                         // }
-
+            
                                         print(
                                             'length${listModelPostClass.length}');
                                         if (index ==
@@ -556,7 +555,7 @@ class _TodayScState extends State<TodaySc> {
                                         //     listModelPostClass.length) {
                                         //   print('เท่ากัน');
                                         // }
-
+            
                                         //  else {
                                         //   PostList(
                                         //     nDataList1.post.title,
@@ -569,7 +568,7 @@ class _TodayScState extends State<TodaySc> {
                                         //     nDataList1.post.shareCount,
                                         //   );
                                         // }
-
+            
                                         return FadeAnimation(
                                             (1.0 + index / 4),
                                             PostList(
@@ -582,7 +581,7 @@ class _TodayScState extends State<TodaySc> {
                                               nDataList1.post.commentCount,
                                               nDataList1.post.shareCount,
                                               nDataList1.post.repostCount,
-
+            
                                               nDataList1.post.id,
                                               nDataList1.page.id,
                                               nDataList1.page.imageUrl,
@@ -592,7 +591,7 @@ class _TodayScState extends State<TodaySc> {
                                               nDataList1.page.isOfficial,
                                               nDataList1,
                                            nDataList1.post.type,
-
+            
                                             ));
                                       }),
                                 );
@@ -602,14 +601,14 @@ class _TodayScState extends State<TodaySc> {
                         ),
                       ),
                 // when the _loadMore function is running
-
+            
                 ///-----------ListViewPost-----------------//
-
+            
                 // /-----------SliverListปิดไปก่อนได้----------------//
                 // listModelPostClass.length == 0
                 //     ? SliverToBoxAdapter(child: Container())
                 //     : SliverToBoxAdapter(child: fistload==true? BuildRecommendedUserPage():SizedBox.shrink()),
-
+            
                 if (_isLoadMoreRunning == true)
                   SliverToBoxAdapter(
                     child: Center(

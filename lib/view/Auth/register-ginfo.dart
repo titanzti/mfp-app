@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -204,12 +205,20 @@ class _GeneralinformationState extends State<Generalinformation> {
         mybody1 = jsonResponse["error"];
 
         if (jsonResponse['status'] == 1) {
+          
           setState(() {
             ischeckuniqueid=mybody;
           });
           print('ischeckuniqueid$ischeckuniqueid');
         }
          if (jsonResponse['status'] == 0) {
+           if(msg=='uniqueId can not use'){
+             setState(() {
+           msg="ยูสเซอร์เนมถูกใช้งานแล้ว";
+          });
+
+
+          }
           setState(() {
             ischeckuniqueid=mybody1;
           });
@@ -263,9 +272,13 @@ class _GeneralinformationState extends State<Generalinformation> {
       },
     );
   }
+  
 
   @override
   Widget build(BuildContext context) {
+    // if(ischeckuniqueid==false){
+    //   return 
+    // }
    
     //--------------------ชื่อที่ต้องการแสดง----------------------//
     final TextFormField _txtNameProfild = TextFormField(
@@ -310,22 +323,27 @@ class _GeneralinformationState extends State<Generalinformation> {
         if (value.isEmpty) {
           return 'กรุณาใส่ยูสเซอร์เนม';
         }
+        
       
         return null;
         
       },
-      onChanged: (value) {
+      onChanged: (value)async {
+                await  checkuniqueId(value);
+
         if (value != null) {
           setState(() {
             _isButtonDisabled = false;
           });
-          checkuniqueId(value);
         }
        
         if (value == "") {
           setState(() {
             _isButtonDisabled = true;
           });
+        }
+        if(ischeckuniqueid==false){
+          return showAlertDialog(context);
         }
       },
     );
@@ -808,21 +826,8 @@ class _GeneralinformationState extends State<Generalinformation> {
                                         ),
                                         textColor: Colors.white,
                                         color: MColors.primaryColor,
-                                        onPressed: () async {
-                                     ischeckuniqueid==false? ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                          content: Text('ยูสเซอร์เนมซ้ำ',textAlign: TextAlign .center,),
-                          
-                          behavior: SnackBarBehavior.floating,
-                              width: 150,
-
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          backgroundColor:MColors.primaryColor,
-                          duration :Duration(milliseconds: 200) 
-                          // margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
-                          // padding: EdgeInsets.all(20),
-                        )):     _validateInputs();
+                                        onPressed:  ischeckuniqueid==false?null: () async {
+                                       _validateInputs();
                                           await Register(
                                             _email.text,
                                             widget.password,
@@ -838,20 +843,7 @@ class _GeneralinformationState extends State<Generalinformation> {
                                                 : "",
                                           );
                                           print('isregister$isregister');
-                                  ischeckuniqueid==false? ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                          content: Text('ยูสเซอร์เนมซ้ำ',textAlign: TextAlign .center,),
-                          
-                          behavior: SnackBarBehavior.floating,
-                              width: 150,
-
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          backgroundColor:MColors.primaryColor,
-                          duration :Duration(milliseconds: 200) 
-                          // margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
-                          // padding: EdgeInsets.all(20),
-                        )):          isregister == true
+                                  isregister == true
                                               ? Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
