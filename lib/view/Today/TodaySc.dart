@@ -824,9 +824,9 @@ class _TodayScState extends State<TodaySc> {
                                     icon: Icon(
                                       Icons.favorite_outline,
                                       color: MColors.primaryBlue,
-                                      size: 20.0,
+                                      // size: 15.0,
                                     ),
-                                    width: 100,
+                                    width: 8.0,
                                     label: '${nDataList1.post.likeCount} ถูกใจ',
                                     onTap: () async {
                                       HapticFeedback.lightImpact();
@@ -881,10 +881,10 @@ class _TodayScState extends State<TodaySc> {
                                     icon: Icon(
                                       Icons.favorite,
                                       color: MColors.primaryBlue,
-                                      size: 20.0,
+                                      // size: 15.0,
                                     ),
                                     label: '${nDataList1.post.likeCount} ถูกใจ',
-                                    width: 100,
+                                    width: 8.0,
                                     onTap: () async {
                                       HapticFeedback.lightImpact();
 
@@ -939,18 +939,20 @@ class _TodayScState extends State<TodaySc> {
                               icon: Icon(
                                 MdiIcons.commentOutline,
                                 color: MColors.primaryBlue,
-                                size: 20.0,
+                                // size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
-                              width: 110,
+                                    width: 4.1,
                               onTap: () => print('Comment'),
                             ),
                             PostButton(
                               icon: Icon(
                                 Icons.share,
                                 color: MColors.primaryBlue,
-                                size: 25.0,
+                                // size: 25.0,
                               ),
+                                    width: 8.0,
+
                               label: '$shareCount แชร์',
                               onTap: () => print('Share'),
                             ),
