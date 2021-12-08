@@ -1,11 +1,10 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class Detilmenu extends StatefulWidget {
-  // DoingSC({Key? key}) : super(key: key);
+  final String url;
+  Detilmenu({Key key, this.url}) : super(key: key);
 
   @override
   _DetilmenuState createState() => _DetilmenuState();
@@ -28,22 +27,18 @@ class _DetilmenuState extends State<Detilmenu> {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-
-            backgroundColor:Colors.white,
-           iconTheme: IconThemeData(
-    color: Colors.black, //change your color here
-  ),
-            title:Text('บริจาค'),
-      
-        
+            backgroundColor: Colors.white,
+            iconTheme: IconThemeData(
+              color: Colors.black, //change your color here
+            ),
+            title: Text('บริจาค'),
           ),
-          body:WebView(
-        initialUrl: "https://donation.moveforwardparty.org/donation/",
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
+          body: WebView(
+            initialUrl: widget.url,
+            javascriptMode: JavascriptMode.unrestricted,
+          ),
         ),
       ),
     );
-
   }
 }

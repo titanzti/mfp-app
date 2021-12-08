@@ -63,7 +63,7 @@ Widget topImage(String image) {
 Widget myAlbumCard(List<GalleryPostSearchModel> list,BuildContext context) {
   if (list.length >= 4) {
     return Container(
-      height: 280,
+      height: MediaQuery.of(context).size.height/2.6,
       width: double.infinity,
       child: Center(
         child: Column(

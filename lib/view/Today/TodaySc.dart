@@ -1071,7 +1071,7 @@ class _TodayScState extends State<TodaySc> {
                           child: ListTile(
                             leading: new CircleAvatar(
                               radius: 30,
-                              backgroundImage: data.imageUrl != null
+                              backgroundImage: data.imageUrl != null||data.imageUrl==""
                                   ? NetworkImage(
                                       "https://today-api.moveforwardparty.org/api${data.imageUrl}/image")
                                   : NetworkImage(
