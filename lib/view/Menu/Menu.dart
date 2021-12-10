@@ -6,7 +6,7 @@ import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/utils/app_theme.dart';
-import 'package:mfp_app/view/Menu/Detilmenu.dart';
+import 'package:mfp_app/view/Menu/webview.dart';
 import 'package:mfp_app/view/Profile/Profile.dart';
 import 'package:mfp_app/view/Search/Search.dart';
 
@@ -92,11 +92,6 @@ class _MenuSCState extends State<MenuSC> {
       child: Text("Close"),
       onPressed: () {
         Navigator.of(context).pop();
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => MyApp()),
-        //   );
       },
     );
 
@@ -161,7 +156,7 @@ class _MenuSCState extends State<MenuSC> {
                   onTap: () async {
                     Navigator.of(context).push(
                         CupertinoPageRoute(builder: (BuildContext context) {
-                      return Detilmenu(
+                      return WebviewSc(
                         url: "https://donation.moveforwardparty.org/donation/",
                       );
                     }));
@@ -231,7 +226,7 @@ class _MenuSCState extends State<MenuSC> {
                   onTap: () async {
                     Navigator.of(context).push(
                         CupertinoPageRoute(builder: (BuildContext context) {
-                      return Detilmenu(
+                      return WebviewSc(
                         url: "https://www.moveforwardparty.org/about/",
                       );
                     }));
@@ -473,7 +468,7 @@ class _MenuSCState extends State<MenuSC> {
                                 onTap: () async {
                                   Navigator.of(context).push(CupertinoPageRoute(
                                       builder: (BuildContext context) {
-                                    return Detilmenu(
+                                    return WebviewSc(
                                       url:
                                           "https://www.moveforwardparty.org/person/parliament/",
                                     );

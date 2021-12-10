@@ -176,7 +176,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       String postid, String mytoken, String mag, String myuid) async {
     print('sendcomment');
 
-    var url =Uri.parse( "${Api.url}api/post/$postid/comment");
+    var url = Uri.parse("${Api.url}api/post/$postid/comment");
     final headers = {
       "userid": myuid,
       "content-type": "application/json",
@@ -429,7 +429,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                           isFollow,
                           pageUsername,
                           isOfficial,
-                          widget.userid,true),
+                          widget.userid,
+                          true),
                       SizedBox(
                         width: 2,
                       ),
@@ -457,8 +458,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       color: MColors.primaryBlue,
                                     ),
                                     label: '${widget.likeCount} ถูกใจ',
-                                                                        width: 8.0,
-
+                                    width: 8.0,
                                     onTap: () async {
                                       HapticFeedback.lightImpact();
 
@@ -466,8 +466,11 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       widget.token == "" || widget.token == null
                                           ? Navigate.pushPage(
                                               context, Loginregister())
-                                          : await Api.islike(widget.id,
-                                                  widget.userid, widget.token)
+                                          : await Api.islike(
+                                                  widget.id,
+                                                  widget.userid,
+                                                  widget.token,
+                                                  "")
                                               .then((value) => ({
                                                     jsonResponse =
                                                         jsonDecode(value.body),
@@ -515,8 +518,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       Icons.favorite,
                                       color: MColors.primaryBlue,
                                     ),
-                                       width: 8.0,
-
+                                    width: 8.0,
                                     label: '$likeCount ถูกใจ',
                                     onTap: () async {
                                       HapticFeedback.lightImpact();
@@ -525,8 +527,11 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       widget.token == null
                                           ? Navigate.pushPage(
                                               context, Loginregister())
-                                          : await Api.islike(widget.id,
-                                                  widget.userid, widget.token)
+                                          : await Api.islike(
+                                                  widget.id,
+                                                  widget.userid,
+                                                  widget.token,
+                                                  "")
                                               .then((value) => ({
                                                     jsonResponse =
                                                         jsonDecode(value.body),
@@ -572,8 +577,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                 MdiIcons.commentOutline,
                                 color: MColors.primaryBlue,
                               ),
-                                                                  width: 4.1,
-
+                              width: 4.1,
                               label: '$commentCount ความคิดเห็น',
                               onTap: () => print('Comment'),
                             ),
@@ -582,8 +586,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                 Icons.share,
                                 color: MColors.primaryBlue,
                               ),
-                                                                  width: 8.0,
-
+                              width: 8.0,
                               label: '$shareCount แชร์',
                               onTap: () => print('Share'),
                             ),

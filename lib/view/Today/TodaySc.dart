@@ -11,7 +11,6 @@ import 'package:full_screen_image/full_screen_image.dart';
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mfp_app/Api/Api.dart';
-import 'package:mfp_app/Api/apipost.dart';
 import 'package:mfp_app/animation/FadeAnimation.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/RecommendedUserPageModel.dart';
@@ -48,7 +47,7 @@ class _TodayScState extends State<TodaySc> {
       TrackingScrollController();
   ScrollController _scrollController = ScrollController();
 
-  int _currentMax = 5;
+  int _currentMax = 0;
   Future refpost;
   String messger = "";
 
@@ -68,7 +67,7 @@ class _TodayScState extends State<TodaySc> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
   bool islike = false;
-  var token;
+  String token;
   bool isConnected;
 
   var datagetuserprofile;
@@ -92,6 +91,8 @@ class _TodayScState extends State<TodaySc> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   StreamSubscription subscription;
 
+  String mode = "";
+
   void _goToElement(int index) {
     _scrollController.animateTo(
         (100.0 *
@@ -105,61 +106,65 @@ class _TodayScState extends State<TodaySc> {
 
   @override
   void initState() {
-    super.initState();
     checkInternetConnectivity().then((value) {
       value == true
           ? () {
               setState(() {
                 _scrollController.addListener(_loadMore);
-                setState(() {
-                  Api.gettoke().then((value) => value({
-                        token = value,
-                        // print('checktoken$checktoken'),
-                      }));
-                  Api.getmyuid().then((value) => ({
-                        setState(() {
-                          userid = value;
-                        }),
-                        Api.getuserprofile("$userid")
-                            .then((responseData) async => ({
-                                  if (responseData.statusCode == 200)
-                                    {
-                                      datagetuserprofile =
-                                          jsonDecode(responseData.body),
-                                      setState(() {
-                                        displayName1 =
-                                            datagetuserprofile["data"]
-                                                ["displayName"];
-                                        gender = datagetuserprofile["data"]
-                                            ["gender"];
-                                        firstName = datagetuserprofile["data"]
-                                            ["firstName"];
-                                        lastName = datagetuserprofile["data"]
-                                            ["lastName"];
-                                        id = datagetuserprofile["data"]["id"];
-                                        email =
-                                            datagetuserprofile["data"]["email"];
-                                        image = datagetuserprofile["data"]
-                                            ["imageURL"];
-                                      }),
-                                      print('displayName1$displayName1'),
-                                      print('gender$gender'),
-                                      print('firstName$firstName'),
-                                      print('lastName$lastName'),
-                                      print('id$id'),
-                                      print('email$email'),
-                                      print('image$image'),
-                                    }
-                                })),
-                        // print('myuidhome$userid'),
-                      }));
-                  Api.getimageURL().then((value) => ({
-                        setState(() {
-                          userimageUrl = value;
-                        }),
-                        // print('myuidhome$userid'),
-                      }));
-                });
+                Api.gettoke().then((value) => value({
+                      setState(() {
+                        token = value;
+                      }),
+                      // print('token$token'),
+                    }));
+                Api.getmodelogin().then((value) => value({
+                      setState(() {
+                        mode = value;
+                      }),
+                      //  print('token$mode'),
+                    }));
+                Api.getmyuid().then((value) => ({
+                      setState(() {
+                        userid = value;
+                      }),
+                      // print('userid$userid'),
+                      Api.getuserprofile("$userid").then((responseData) async =>
+                          ({
+                            if (responseData.statusCode == 200)
+                              {
+                                datagetuserprofile =
+                                    jsonDecode(responseData.body),
+                                setState(() {
+                                  displayName1 =
+                                      datagetuserprofile["data"]["displayName"];
+                                  gender = datagetuserprofile["data"]["gender"];
+                                  firstName =
+                                      datagetuserprofile["data"]["firstName"];
+                                  lastName =
+                                      datagetuserprofile["data"]["lastName"];
+                                  id = datagetuserprofile["data"]["id"];
+                                  email = datagetuserprofile["data"]["email"];
+                                  image =
+                                      datagetuserprofile["data"]["imageURL"];
+                                }),
+                                // print('displayName1$displayName1'),
+                                // print('gender$gender'),
+                                // print('firstName$firstName'),
+                                // print('lastName$lastName'),
+                                // print('id$id'),
+                                // print('email$email'),
+                                // print('image$image'),
+                              }
+                          })),
+                      // print('myuidhome$userid'),
+                    }));
+                Api.getimageURL().then((value) => ({
+                      setState(() {
+                        userimageUrl = value;
+                      }),
+                      // print('myuidhome$userid'),
+                    }));
+
                 //   () async {
                 //   if (_scrollController.position.pixels ==
                 //       _scrollController.position.maxScrollExtent) {
@@ -197,7 +202,7 @@ class _TodayScState extends State<TodaySc> {
 
                 //-----------------------------//
                 Api.getPostemergencyEventsList().then((responseData) => ({
-                      print('getPostList'),
+                      // print('getPostList'),
                       setState(() {
                         isLoadingHastag = true;
                       }),
@@ -220,7 +225,7 @@ class _TodayScState extends State<TodaySc> {
                         {}
                     }));
 
-                refpost = Api.getPostList(5).then((value) => {
+                refpost = Api.getPostList(_currentMax).then((value) => {
                       if (value.statusCode == 200)
                         {
                           setState(() {
@@ -269,6 +274,7 @@ class _TodayScState extends State<TodaySc> {
       }
       _postsController = new StreamController();
     });
+    super.initState();
   }
 
   // Widget BuildVideorecom() {
@@ -331,7 +337,7 @@ class _TodayScState extends State<TodaySc> {
     });
     try {
       await Api.getPostemergencyEventsList().then((responseData) => ({
-            print('getPostList'),
+            // print('getPostList'),
             if (responseData.statusCode == 200)
               {
                 datapostlist = jsonDecode(responseData.body),
@@ -377,6 +383,7 @@ class _TodayScState extends State<TodaySc> {
   }
 
   void _loadMore() async {
+    print('_loadMore');
     if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
@@ -423,19 +430,15 @@ class _TodayScState extends State<TodaySc> {
     _scrollController.dispose();
     super.dispose();
   }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // checkInternetConnectivity().then((value) {
-    //               value == true
-    //                   ? Navigate.pushPageReplacement(context, NavScreen())
-    //                   : Navigate.pushPageReplacement(context, nonet(context));
-    //    });
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    print('taptoload${widget.taptoload}');
+    // print('taptoload${widget.taptoload}');
     if (widget.taptoload == true) {
       _goToElement(0);
     }
@@ -447,11 +450,31 @@ class _TodayScState extends State<TodaySc> {
           body: RefreshIndicator(
             onRefresh: () => () async {
               HapticFeedback.mediumImpact();
-              print('RefreshIndicator');
+              // print('RefreshIndicator');
+              await checkInternetConnectivity().then((value) {
+                value == true
+                    ? Navigate.pushPageReplacement(context, NavScreen())
+                    : ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
+                        content: Text(
+                          ' There Was A Problem With The Network',
+                          textAlign: TextAlign.center,
+                        ),
+
+                        behavior: SnackBarBehavior.floating,
+                        width: MediaQuery.of(context).size.width / 1.2,
+
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        backgroundColor: MColors.primaryColor,
+                        duration: Duration(milliseconds: 5000),
+                        // margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
+                        // padding: EdgeInsets.all(20),
+                      ));
+              });
               await _handleRefresh();
               await Api.getRecommendedUserPage();
               await Api.getPostList(_currentMax);
-            
             }(),
             child: CustomScrollView(
               controller: _scrollController,
@@ -473,19 +496,18 @@ class _TodayScState extends State<TodaySc> {
                     Search(
                       userid: userid,
                     ),
-                    
                     ProfileSc(
                       userid: widget.userid,
                       token: token,
                     )),
-            
+
                 ///-----------APPBAR-----------------//
                 isLoadingHastag
                     ? SliverToBoxAdapter(child: CarouselLoading())
                     : SliverToBoxAdapter(
-                        child: Carouselslider(
+                        child: carouselslider(
                             listemergencyEvents, context, userimageUrl)),
-            
+
                 // ///-----------เลื่อนสไลด์-----------------//
                 listModelPostClass.length == 0
                     ? SliverToBoxAdapter(child: Container())
@@ -499,9 +521,9 @@ class _TodayScState extends State<TodaySc> {
                           ),
                         ),
                       ),
-            
+
                 // ///-----------คำว่าไทม์ไลน์-----------------//
-            
+
                 isLoading == true
                     ? SliverToBoxAdapter(child: CarouselLoading())
                     : SliverToBoxAdapter(
@@ -533,29 +555,17 @@ class _TodayScState extends State<TodaySc> {
                                         // }
                                         final nDataList1 =
                                             listModelPostClass[index];
-            
-                                        //   if(fistload==true){
-                                        // if (index == listModelPostClass.length - 3) {
-            
-                                        // return  BuildRecommendedUserPage();
-                                        //  }
-                                        // }else{
-                                        //   return SizedBox.shrink();
+                                        // if (index ==
+                                        //     listModelPostClass.length - 3) {
+                                        //   return fistload == true
+                                        //       ? buildrecommendeduserpage()
+                                        //       : SizedBox.shrink();
                                         // }
-            
-                                        print(
-                                            'length${listModelPostClass.length}');
-                                        if (index ==
-                                            listModelPostClass.length - 3) {
-                                          return fistload == true
-                                              ? BuildRecommendedUserPage()
-                                              : SizedBox.shrink();
-                                        }
                                         // if (index ==
                                         //     listModelPostClass.length) {
                                         //   print('เท่ากัน');
                                         // }
-            
+
                                         //  else {
                                         //   PostList(
                                         //     nDataList1.post.title,
@@ -568,9 +578,9 @@ class _TodayScState extends State<TodaySc> {
                                         //     nDataList1.post.shareCount,
                                         //   );
                                         // }
-            
+
                                         return FadeAnimation(
-                                            (1.0 + index / 4),
+                                            (1.0 + index /4),
                                             PostList(
                                               nDataList1.post.title,
                                               nDataList1.post.detail,
@@ -581,7 +591,6 @@ class _TodayScState extends State<TodaySc> {
                                               nDataList1.post.commentCount,
                                               nDataList1.post.shareCount,
                                               nDataList1.post.repostCount,
-            
                                               nDataList1.post.id,
                                               nDataList1.page.id,
                                               nDataList1.page.imageUrl,
@@ -590,8 +599,7 @@ class _TodayScState extends State<TodaySc> {
                                               nDataList1.page.pageUsername,
                                               nDataList1.page.isOfficial,
                                               nDataList1,
-                                           nDataList1.post.type,
-            
+                                              nDataList1.post.type,
                                             ));
                                       }),
                                 );
@@ -601,14 +609,14 @@ class _TodayScState extends State<TodaySc> {
                         ),
                       ),
                 // when the _loadMore function is running
-            
+
                 ///-----------ListViewPost-----------------//
-            
+
                 // /-----------SliverListปิดไปก่อนได้----------------//
                 // listModelPostClass.length == 0
                 //     ? SliverToBoxAdapter(child: Container())
                 //     : SliverToBoxAdapter(child: fistload==true? BuildRecommendedUserPage():SizedBox.shrink()),
-            
+
                 if (_isLoadMoreRunning == true)
                   SliverToBoxAdapter(
                     child: Center(
@@ -753,8 +761,14 @@ class _TodayScState extends State<TodaySc> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            gallery.length != 0 ? myAlbumCard(gallery,context) : SizedBox.shrink(),
+            topImage(gallery[0].signUrl.toString()),
+            // gallery.length != 0
+            //     ? myAlbumCard(gallery, context)
+            //     : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),
+       
+  
+           
             Card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -768,24 +782,31 @@ class _TodayScState extends State<TodaySc> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
+                    child: subtexttitlepost(subtitle, context),
+                  ),
+                     Padding(
+                    padding: const EdgeInsets.all(10.0),
                     child: InkWell(
-                      onTap: ()async{
-                           Navigate.pushPage(context, StroyPageSc(postid: postid,
-                        titalpost: posttitle,
-                        imagUrl: gallery,
-                        type: type,
-                        createdDate:dateTime,
-                        postby:pagename,
-                        imagepage: pageimage,
-                          likeCount: likeCount,
-                  commentCount: commentCount,
-                  shareCount: shareCount,
-                  repostCount:repostCount,
-                        ));
-
-
-                      },
-                      child: subtexttitlepost(subtitle, context)),
+                        onTap: () async {
+                          Navigate.pushPage(
+                              context,
+                              StroyPageSc(
+                                postid: postid,
+                                titalpost: posttitle,
+                                imagUrl: gallery,
+                                type: type,
+                                createdDate: dateTime,
+                                postby: pagename,
+                                imagepage: pageimage,
+                                likeCount: likeCount,
+                                commentCount: commentCount,
+                                shareCount: shareCount,
+                                repostCount: repostCount,
+                                userid: userid,
+                                token: token,
+                              ));
+                        },
+                        child: textreadstory('อ่านสตอรี่..')),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -802,7 +823,8 @@ class _TodayScState extends State<TodaySc> {
                           isFollow,
                           pageUsername,
                           isOfficial,
-                          id,true),
+                          id,
+                          true),
                       SizedBox(
                         width: 2,
                       ),
@@ -834,47 +856,92 @@ class _TodayScState extends State<TodaySc> {
                                       token == null || token == ""
                                           ? Navigate.pushPage(
                                               context, Loginregister())
-                                          : await Api.islike(
-                                                  postid, userid, token)
-                                              .then((value) => ({
-                                                    jsonResponse =
-                                                        jsonDecode(value.body),
-                                                    print(
-                                                        'message${jsonResponse['message']}'),
-                                                    if (value.statusCode == 200)
-                                                      {
-                                                        if (jsonResponse[
-                                                                'message'] ==
-                                                            "Like Post Success")
+                                          : mode != "FB"
+                                              ? await Api.islike(
+                                                      postid, userid, token, "")
+                                                  .then((value) => ({
+                                                        jsonResponse =
+                                                            jsonDecode(
+                                                                value.body),
+                                                        // print(
+                                                        //     'message${jsonResponse['message']}'),
+                                                        if (value.statusCode ==
+                                                            200)
                                                           {
-                                                            setState(() {
-                                                              islike =
-                                                                  jsonResponse[
+                                                            if (jsonResponse[
+                                                                    'message'] ==
+                                                                "Like Post Success")
+                                                              {
+                                                                setState(() {
+                                                                  islike = jsonResponse[
                                                                           'data']
                                                                       [
                                                                       'isLike'];
-                                                              nDataList1.post
-                                                                  .likeCount++;
-                                                            }),
-                                                          }
-                                                        else if (jsonResponse[
-                                                                'message'] ==
-                                                            "UnLike Post Success")
-                                                          {
-                                                            setState(() {
-                                                              islike =
-                                                                  jsonResponse[
+                                                                  nDataList1
+                                                                      .post
+                                                                      .likeCount++;
+                                                                }),
+                                                              }
+                                                            else if (jsonResponse[
+                                                                    'message'] ==
+                                                                "UnLike Post Success")
+                                                              {
+                                                                setState(() {
+                                                                  islike = jsonResponse[
                                                                           'data']
                                                                       [
                                                                       'isLike'];
 
-                                                              nDataList1.post
-                                                                  .likeCount--;
-                                                            }),
+                                                                  nDataList1
+                                                                      .post
+                                                                      .likeCount--;
+                                                                }),
+                                                              }
                                                           }
-                                                      }
-                                                  }));
-                                      print("กดlike");
+                                                      }))
+                                              : await Api.islike(postid, userid,
+                                                      token, mode)
+                                                  .then((value) => ({
+                                                        jsonResponse =
+                                                            jsonDecode(
+                                                                value.body),
+                                                        // print(
+                                                        //     'message${jsonResponse['message']}'),
+                                                        if (value.statusCode ==
+                                                            200)
+                                                          {
+                                                            if (jsonResponse[
+                                                                    'message'] ==
+                                                                "Like Post Success")
+                                                              {
+                                                                setState(() {
+                                                                  islike = jsonResponse[
+                                                                          'data']
+                                                                      [
+                                                                      'isLike'];
+                                                                  nDataList1
+                                                                      .post
+                                                                      .likeCount++;
+                                                                }),
+                                                              }
+                                                            else if (jsonResponse[
+                                                                    'message'] ==
+                                                                "UnLike Post Success")
+                                                              {
+                                                                setState(() {
+                                                                  islike = jsonResponse[
+                                                                          'data']
+                                                                      [
+                                                                      'isLike'];
+
+                                                                  nDataList1
+                                                                      .post
+                                                                      .likeCount--;
+                                                                }),
+                                                              }
+                                                          }
+                                                      }));
+                                      // print("กดlike");
                                     },
                                   )
                                 : PostButton(
@@ -892,47 +959,92 @@ class _TodayScState extends State<TodaySc> {
                                       token == null
                                           ? Navigate.pushPage(
                                               context, Loginregister())
-                                          : await Api.islike(
-                                                  postid, userid, token)
-                                              .then((value) => ({
-                                                    jsonResponse =
-                                                        jsonDecode(value.body),
-                                                    print(
-                                                        'message${jsonResponse['message']}'),
-                                                    if (value.statusCode == 200)
-                                                      {
-                                                        if (jsonResponse[
-                                                                'message'] ==
-                                                            "Like Post Success")
+                                          : mode != "FB"
+                                              ? await Api.islike(
+                                                      postid, userid, token, "")
+                                                  .then((value) => ({
+                                                        jsonResponse =
+                                                            jsonDecode(
+                                                                value.body),
+                                                        // print(
+                                                        //     'message${jsonResponse['message']}'),
+                                                        if (value.statusCode ==
+                                                            200)
                                                           {
-                                                            setState(() {
-                                                              islike =
-                                                                  jsonResponse[
+                                                            if (jsonResponse[
+                                                                    'message'] ==
+                                                                "Like Post Success")
+                                                              {
+                                                                setState(() {
+                                                                  islike = jsonResponse[
                                                                           'data']
                                                                       [
                                                                       'isLike'];
-                                                              nDataList1.post
-                                                                  .likeCount++;
-                                                            }),
-                                                          }
-                                                        else if (jsonResponse[
-                                                                'message'] ==
-                                                            "UnLike Post Success")
-                                                          {
-                                                            setState(() {
-                                                              islike =
-                                                                  jsonResponse[
+                                                                  nDataList1
+                                                                      .post
+                                                                      .likeCount++;
+                                                                }),
+                                                              }
+                                                            else if (jsonResponse[
+                                                                    'message'] ==
+                                                                "UnLike Post Success")
+                                                              {
+                                                                setState(() {
+                                                                  islike = jsonResponse[
                                                                           'data']
                                                                       [
                                                                       'isLike'];
 
-                                                              nDataList1.post
-                                                                  .likeCount--;
-                                                            }),
+                                                                  nDataList1
+                                                                      .post
+                                                                      .likeCount--;
+                                                                }),
+                                                              }
                                                           }
-                                                      }
-                                                  }));
-                                      print("กดlike");
+                                                      }))
+                                              : await Api.islike(postid, userid,
+                                                      token, mode)
+                                                  .then((value) => ({
+                                                        jsonResponse =
+                                                            jsonDecode(
+                                                                value.body),
+                                                        // print(
+                                                        //     'message${jsonResponse['message']}'),
+                                                        if (value.statusCode ==
+                                                            200)
+                                                          {
+                                                            if (jsonResponse[
+                                                                    'message'] ==
+                                                                "Like Post Success")
+                                                              {
+                                                                setState(() {
+                                                                  islike = jsonResponse[
+                                                                          'data']
+                                                                      [
+                                                                      'isLike'];
+                                                                  nDataList1
+                                                                      .post
+                                                                      .likeCount++;
+                                                                }),
+                                                              }
+                                                            else if (jsonResponse[
+                                                                    'message'] ==
+                                                                "UnLike Post Success")
+                                                              {
+                                                                setState(() {
+                                                                  islike = jsonResponse[
+                                                                          'data']
+                                                                      [
+                                                                      'isLike'];
+
+                                                                  nDataList1
+                                                                      .post
+                                                                      .likeCount--;
+                                                                }),
+                                                              }
+                                                          }
+                                                      }));
+                                      // print("กดlike");
                                     },
                                   ),
                             PostButton(
@@ -942,7 +1054,7 @@ class _TodayScState extends State<TodaySc> {
                                 // size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
-                                    width: 4.1,
+                              width: 4.1,
                               onTap: () => print('Comment'),
                             ),
                             PostButton(
@@ -951,8 +1063,7 @@ class _TodayScState extends State<TodaySc> {
                                 color: MColors.primaryBlue,
                                 // size: 25.0,
                               ),
-                                    width: 8.0,
-
+                              width: 8.0,
                               label: '$shareCount แชร์',
                               onTap: () => print('Share'),
                             ),
@@ -973,7 +1084,7 @@ class _TodayScState extends State<TodaySc> {
     );
   }
 
-  Widget Videorecommend(
+  Widget videorecommend(
       // String posttitle, String subtitle, String authorposttext,
       //   DateTime dateTime, List<Gallery> gallery,int likeCount,int commentCount,int shareCount
       ) {
@@ -1038,7 +1149,7 @@ class _TodayScState extends State<TodaySc> {
     );
   }
 
-  Widget BuildRecommendedUserPage() {
+  Widget buildrecommendeduserpage() {
     return InkWell(
       onTap: () {},
       child: Card(
@@ -1046,13 +1157,13 @@ class _TodayScState extends State<TodaySc> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 10,
+              height: MediaQuery.of(context).size.height / 50.0,
             ),
             Center(
               child: texttitle("แนะนำให้ติดตามส.ส. กทม", context),
             ),
             SizedBox(
-              height: 10,
+              height: MediaQuery.of(context).size.height / 50.0,
             ),
             Builder(
               builder: (BuildContext context) {
@@ -1069,22 +1180,25 @@ class _TodayScState extends State<TodaySc> {
                       return Card(
                         child: Container(
                           child: ListTile(
-                            leading: new CircleAvatar(
-                              radius: 30,
-                              backgroundImage: data.imageUrl != null||data.imageUrl==""
-                                  ? NetworkImage(
-                                      "https://today-api.moveforwardparty.org/api${data.imageUrl}/image")
-                                  : NetworkImage(
-                                      "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png"),
-                              backgroundColor: Colors.transparent,
-
-                              // child: Container(
-                              //   height: 81,
-                              //   width: 347,
-                              //   color: Colors.white,
-                              //   child: Image.network(
-                              //       "https://today-api.moveforwardparty.org/api${data.imageUrl}/image"),
-                              // ),
+                            leading: CircleAvatar(
+                              radius: 26,
+                              backgroundColor: Colors.white,
+                              child: ClipOval(
+                                child:
+                                    data.imageUrl == null || data.imageUrl == ""
+                                        ? new Image.network(
+                                            "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png",
+                                            width: 60,
+                                            height: 60,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.network(
+                                            "https://today-api.moveforwardparty.org/api${data.imageUrl}/image",
+                                            width: 60,
+                                            height: 60,
+                                            fit: BoxFit.cover,
+                                          ),
+                              ),
                             ),
                             title: new Text(
                                 '${data.displayName == null ? data.name : data.displayName}'),
@@ -1102,7 +1216,6 @@ class _TodayScState extends State<TodaySc> {
                                 ),
                                 onPressed: () async {
                                   var jsonResponse;
-
                                   token == "" || token == null
                                       ? Navigate.pushPage(
                                           context, Loginregister())
@@ -1111,8 +1224,8 @@ class _TodayScState extends State<TodaySc> {
                                           .then((value) => ({
                                                 jsonResponse =
                                                     jsonDecode(value.body),
-                                                print(
-                                                    'message${jsonResponse['message']}'),
+                                                // print(
+                                                //     'message${jsonResponse['message']}'),
                                                 if (value.statusCode == 200)
                                                   {
                                                     if (jsonResponse[
@@ -1184,7 +1297,7 @@ class _TodayScState extends State<TodaySc> {
               },
             ),
             SizedBox(
-              height: 10,
+              height: MediaQuery.of(context).size.height / 50.0,
             ),
             Center(
               child: Text(
@@ -1192,13 +1305,16 @@ class _TodayScState extends State<TodaySc> {
                 style: TextStyle(fontSize: 16),
               ),
             ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 50.0,
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget Carouselslider(List<EmergencyEventsContent> emc, context, userimage) {
+  Widget carouselslider(List<EmergencyEventsContent> emc, context, userimage) {
     return CarouselSlider(
       carouselController: _controller,
       options: CarouselOptions(

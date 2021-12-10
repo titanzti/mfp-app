@@ -73,7 +73,7 @@ class _NavScreenState extends State<NavScreen> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-    
+
     return
         // Platform.isAndroid?isAnd():
         DefaultTabController(
@@ -104,7 +104,7 @@ class _NavScreenState extends State<NavScreen> {
                   : HapticFeedback.lightImpact();
               setState(() {
                 _selectedIndex = index;
-                print('_selectedIndex$_selectedIndex');
+                // print('_selectedIndex$_selectedIndex');
               });
               if (_selectedIndex == 0) {
                 setState(() {

@@ -11,6 +11,7 @@ import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/view/Auth/register-buildprofile.dart';
 import 'package:http/http.dart' as http;
+import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Generalinformation extends StatefulWidget {
@@ -19,9 +20,29 @@ class Generalinformation extends StatefulWidget {
   final String password;
   final String img64;
   final File fileimg;
+  final String name;
+  final String firstname;
+  final String lastname;
+  final DateTime birthdate;
+  final String fbid;
+  final String mode;
+  final String fbtoken;
+  final DateTime fbexpires;
 
   Generalinformation(
-      {Key key, this.email, this.password, this.img64, this.fileimg})
+      {Key key,
+      this.email,
+      this.password,
+      this.img64,
+      this.fileimg,
+      this.name,
+      this.firstname,
+      this.lastname,
+      this.birthdate,
+      this.fbid,
+      this.mode,
+      this.fbtoken,
+      this.fbexpires})
       : super(key: key);
 
   @override
@@ -33,12 +54,12 @@ class _GeneralinformationState extends State<Generalinformation> {
   bool isclick = false;
   String _selectedValue;
   TextEditingController _email;
-  final TextEditingController _name = TextEditingController();
+  TextEditingController _name;
   final TextEditingController _uniqueid = TextEditingController();
 
-  final TextEditingController _firstname = TextEditingController();
-  final TextEditingController _lastname = TextEditingController();
-  final TextEditingController _birthday = TextEditingController();
+  TextEditingController _firstname;
+  TextEditingController _lastname;
+  TextEditingController _birthday;
   final TextEditingController _customGender = TextEditingController();
 
   DateTime date;
@@ -66,6 +87,8 @@ class _GeneralinformationState extends State<Generalinformation> {
   bool _isButtonDisabled = true;
 
   var mybody1;
+
+  bool isregisterfb = false;
   void _validateInputs() {
     if (_formKey.currentState.validate()) {
       print('submit');
@@ -89,6 +112,10 @@ class _GeneralinformationState extends State<Generalinformation> {
   void initState() {
     super.initState();
     _email = new TextEditingController(text: widget.email);
+    _name = new TextEditingController(text: widget.name);
+    _firstname = new TextEditingController(text: widget.firstname);
+    _lastname = new TextEditingController(text: widget.lastname);
+    _birthday = new TextEditingController(text: widget.birthdate.toString());
   }
 
   Future<http.Response> Register(
@@ -108,7 +135,8 @@ class _GeneralinformationState extends State<Generalinformation> {
       isclick = true;
     });
     try {
-      var url =Uri.parse ("https://today-api.moveforwardparty.org/api/register");
+      var url =
+          Uri.parse("https://today-api.moveforwardparty.org/api/register");
       final headers = {
         "mode": "EMAIL",
         "content-type": "application/json",
@@ -145,6 +173,7 @@ class _GeneralinformationState extends State<Generalinformation> {
         if (jsonResponse['status'] == 1) {
           setState(() {
             isregister = true;
+            msg = msg;
 
             print("Response status :${jsonResponse.statusCode}");
             print("Response status :${jsonResponse.body}");
@@ -159,6 +188,105 @@ class _GeneralinformationState extends State<Generalinformation> {
         if (jsonResponse['status'] == 0) {
           setState(() {
             isregister = false;
+            msg = msg;
+
+            // _isloading = false;
+
+            // iserror = true;
+          });
+        }
+      }
+      print('msg$msg');
+
+      return responsepostRequest;
+    } catch (e) {
+      print(e.toString());
+      showAlertDialog(context);
+      setState(() {
+        isclick = false;
+      });
+    }
+  }
+
+  Future<http.Response> fbregister(
+    String email,
+    String password,
+    String displayName,
+    String username,
+    String firstName,
+    String lastName,
+    String uniqueId,
+    DateTime birthdate,
+    int gender,
+    String customGender,
+    String imageb64,
+    String fbid,
+    String fbToken,
+    DateTime fbexpires,
+  ) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      isclick = true;
+    });
+    try {
+      var url =
+          Uri.parse("https://today-api.moveforwardparty.org/api/register");
+      final headers = {
+        "mode": "FACEBOOK",
+        "content-type": "application/json",
+      };
+      Map data = {
+        "username": username,
+        "displayName": displayName,
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email,
+        "password": password,
+        "uniqueId": uniqueId,
+        "birthdate": birthdate.toIso8601String(),
+        "gender": gender,
+        "customGender": customGender,
+        "asset": {
+          "mimeType": "image/jpeg",
+          "data": imageb64,
+        },
+        "fbUserId": fbid,
+        'fbToken': fbToken,
+        'fbAccessExpirationTime': fbexpires.toIso8601String(),
+        "fbSignedRequest": "",
+      };
+      //encode Map to JSON
+      var body = jsonEncode(data);
+      print(body);
+
+      var responsepostRequest =
+          await http.post(url, headers: headers, body: body);
+      print("${responsepostRequest.statusCode}");
+      print("${responsepostRequest.body}");
+      final jsonResponse = jsonDecode(responsepostRequest.body);
+      print('Registerbody${responsepostRequest.body}');
+      msg = jsonResponse['message'];
+
+      if (responsepostRequest.statusCode == 200) {
+        mybody = jsonResponse["data"];
+
+        if (jsonResponse['status'] == 1) {
+          setState(() {
+            isregisterfb = true;
+
+            print("Response status :${jsonResponse.statusCode}");
+            print("Response status :${jsonResponse.body}");
+            sharedPreferences.setString(
+                "token", '${jsonResponse["data"]["token"]}');
+            mytoken = jsonResponse["data"]["token"];
+          });
+        }
+      }
+
+      if (jsonResponse.statusCode == 400) {
+        if (jsonResponse['status'] == 0) {
+          setState(() {
+            isregisterfb = false;
 
             // _isloading = false;
 
@@ -176,17 +304,19 @@ class _GeneralinformationState extends State<Generalinformation> {
       });
     }
   }
-  Future<http.Response> checkuniqueId( String uniqueId,) async {
 
+  Future<http.Response> checkuniqueId(
+    String uniqueId,
+  ) async {
     try {
-      var url =Uri.parse ("${Api.url}api/user/uniqueid/check");
+      var url = Uri.parse("${Api.url}api/user/uniqueid/check");
       final headers = {
         "mode": "EMAIL",
         "content-type": "application/json",
       };
 
       Map data = {
- "uniqueId": uniqueId,
+        "uniqueId": uniqueId,
       };
       //encode Map to JSON
       var body = jsonEncode(data);
@@ -205,41 +335,40 @@ class _GeneralinformationState extends State<Generalinformation> {
         mybody1 = jsonResponse["error"];
 
         if (jsonResponse['status'] == 1) {
-          
           setState(() {
-            ischeckuniqueid=mybody;
+            ischeckuniqueid = mybody;
           });
           print('ischeckuniqueid$ischeckuniqueid');
         }
-         if (jsonResponse['status'] == 0) {
-           if(msg=='uniqueId can not use'){
-             setState(() {
-           msg="ยูสเซอร์เนมถูกใช้งานแล้ว";
-          });
-
-
+        if (jsonResponse['status'] == 0) {
+          if (msg == 'uniqueId can not use') {
+            setState(() {
+              msg = "ยูสเซอร์เนมถูกใช้งานแล้ว";
+            });
           }
           setState(() {
-            ischeckuniqueid=mybody1;
+            ischeckuniqueid = mybody1;
           });
           print('ischeckuniqueid$ischeckuniqueid');
         }
       }
       if (jsonResponse.statusCode == 400) {
         if (jsonResponse['status'] == 0) {
-          setState(() {
-          });
+          setState(() {});
         }
       }
 
       return responsepostRequest;
     } catch (e) {
       print(e.toString());
-
     }
   }
-  
 
+  Future<String> networkImageToBase64(String imageUrl) async {
+    http.Response response = await http.get(imageUrl);
+    final bytes = response?.bodyBytes;
+    return (bytes != null ? base64Encode(bytes) : null);
+  }
 
   showAlertDialog(BuildContext context) {
     // set up the buttons
@@ -272,14 +401,13 @@ class _GeneralinformationState extends State<Generalinformation> {
       },
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
     // if(ischeckuniqueid==false){
-    //   return 
+    //   return
     // }
-   
+
     //--------------------ชื่อที่ต้องการแสดง----------------------//
     final TextFormField _txtNameProfild = TextFormField(
       controller: _name,
@@ -323,26 +451,24 @@ class _GeneralinformationState extends State<Generalinformation> {
         if (value.isEmpty) {
           return 'กรุณาใส่ยูสเซอร์เนม';
         }
-        
-      
+
         return null;
-        
       },
-      onChanged: (value)async {
-                await  checkuniqueId(value);
+      onChanged: (value) async {
+        await checkuniqueId(value);
 
         if (value != null) {
           setState(() {
             _isButtonDisabled = false;
           });
         }
-       
+
         if (value == "") {
           setState(() {
             _isButtonDisabled = true;
           });
         }
-        if(ischeckuniqueid==false){
+        if (ischeckuniqueid == false) {
           return showAlertDialog(context);
         }
       },
@@ -513,38 +639,38 @@ class _GeneralinformationState extends State<Generalinformation> {
             )),
             child: SingleChildScrollView(
               child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Column(
                   children: [
-                     Container(
-                        height: MediaQuery.of(context).size.height * 0.19,
-                        child: Row(
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.arrow_back_sharp,
-                                size: 40,
-                                color: Colors.white,
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                print('กด');
-                              },
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.19,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(
+                              Icons.arrow_back_sharp,
+                              size: 40,
+                              color: Colors.white,
                             ),
-                            Spacer(),
-                            Container(
-                              height: 100,
-                              width: 170,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                image:
-                                    AssetImage('images/MFP-Logo-Horizontal.png'),
-                              )),
-                            ),
-                          ],
-                        ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              print('กด');
+                            },
+                          ),
+                          Spacer(),
+                          Container(
+                            height: 100,
+                            width: 170,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                              image:
+                                  AssetImage('images/MFP-Logo-Horizontal.png'),
+                            )),
+                          ),
+                        ],
                       ),
-                    
+                    ),
+
                     Container(
                       //color: Colors.black,
                       height: MediaQuery.of(context).size.height * 0.11,
@@ -586,12 +712,16 @@ class _GeneralinformationState extends State<Generalinformation> {
                       child: _txtNameProfild,
                     ),
                     //-------------------ยูสเซอร์เนม---------------------//
-                Container(
+                    Container(
                       height: 60,
                       margin: EdgeInsets.only(top: 10, left: 30, right: 30),
                       decoration: BoxDecoration(
                           color: Color.fromARGB(255, 240, 240, 240),
-                          border: Border.all(width:ischeckuniqueid==false?2.5: 1.2, color: ischeckuniqueid==false?Colors.red: Colors.black12),
+                          border: Border.all(
+                              width: ischeckuniqueid == false ? 2.5 : 1.2,
+                              color: ischeckuniqueid == false
+                                  ? Colors.red
+                                  : Colors.black12),
                           borderRadius: const BorderRadius.all(
                               const Radius.circular(10.0))),
                       child: _txtuniqueid,
@@ -691,7 +821,8 @@ class _GeneralinformationState extends State<Generalinformation> {
                         margin: EdgeInsets.only(top: 10, left: 30, right: 30),
                         decoration: BoxDecoration(
                             color: Color.fromARGB(255, 240, 240, 240),
-                            border: Border.all(width: 1.2, color: Colors.black12),
+                            border:
+                                Border.all(width: 1.2, color: Colors.black12),
                             borderRadius: const BorderRadius.all(
                                 const Radius.circular(10.0))),
                         child: DropdownButtonHideUnderline(
@@ -746,11 +877,12 @@ class _GeneralinformationState extends State<Generalinformation> {
                     gendertypeint == 3
                         ? Container(
                             height: 60,
-                            margin: EdgeInsets.only(top: 10, left: 30, right: 30),
+                            margin:
+                                EdgeInsets.only(top: 10, left: 30, right: 30),
                             decoration: BoxDecoration(
                                 color: Color.fromARGB(255, 240, 240, 240),
-                                border:
-                                    Border.all(width: 1.2, color: Colors.black12),
+                                border: Border.all(
+                                    width: 1.2, color: Colors.black12),
                                 borderRadius: const BorderRadius.all(
                                     const Radius.circular(10.0))),
                             child: _txtcustomGender,
@@ -793,12 +925,13 @@ class _GeneralinformationState extends State<Generalinformation> {
                                   children: <Widget>[
                                     Expanded(
                                       child: RaisedButton(
-                                        padding:
-                                            EdgeInsets.only(top: 15, bottom: 15),
+                                        padding: EdgeInsets.only(
+                                            top: 15, bottom: 15),
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(30.0),
-                                            side: BorderSide(color: Colors.red)),
+                                            side:
+                                                BorderSide(color: Colors.red)),
                                         child: CircularProgressIndicator(
                                           color: MColors.primaryColor,
                                         ),
@@ -814,57 +947,106 @@ class _GeneralinformationState extends State<Generalinformation> {
                                   children: <Widget>[
                                     Expanded(
                                       child: RaisedButton(
-                                        padding:
-                                            EdgeInsets.only(top: 15, bottom: 15),
+                                        padding: EdgeInsets.only(
+                                            top: 15, bottom: 15),
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(30.0),
-                                            side: BorderSide(color: Colors.red)),
+                                            side:
+                                                BorderSide(color: Colors.red)),
                                         child: Text(
                                           'ถัดไป',
                                           style: TextStyle(fontSize: 20),
                                         ),
                                         textColor: Colors.white,
                                         color: MColors.primaryColor,
-                                        onPressed:  ischeckuniqueid==false?null: () async {
-                                       _validateInputs();
-                                          await Register(
-                                            _email.text,
-                                            widget.password,
-                                            _name.text,
-                                            _email.text,
-                                            _firstname.text,
-                                            _lastname.text,
-                                            _uniqueid.text,
-                                            DateTime.parse(_birthday.text),
-                                            gendertypeint,
-                                            gendertypeint == 3
-                                                ? _customGender.text
-                                                : "",
-                                          );
-                                          print('isregister$isregister');
-                                  isregister == true
-                                              ? Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Buildprofile(
-                                                            firstname:
-                                                                _firstname.text,
-                                                            lastname:
-                                                                _lastname.text,
-                                                            image: widget.fileimg,
-                                                            uniqueid:
-                                                                _uniqueid.text,
-                                                            email: widget.email,
-                                                            password:
-                                                                widget.password,
-                                                          )),
-                                                )
-                                              : showAlertDialog(context);
+                                        onPressed: ischeckuniqueid == false
+                                            ? null
+                                            : () async {
+                                                _validateInputs();
+                                                if (widget.mode == "FB") {
+                                                  await fbregister(
+                                                    _email.text,
+                                                    widget.password,
+                                                    _name.text,
+                                                    _email.text,
+                                                    _firstname.text,
+                                                    _lastname.text,
+                                                    '_uniqueid.text',
+                                                    DateTime.parse(
+                                                        _birthday.text),
+                                                    gendertypeint,
+                                                    gendertypeint == 3
+                                                        ? _customGender.text
+                                                        : "",
+                                                    widget.img64,
+                                                    widget.fbid,
+                                                    widget.fbtoken,
+                                                    DateTime.parse(widget
+                                                        .fbexpires
+                                                        .toString()),
+                                                  );
+                                                }
+                                                if (widget.mode == "EMAIL") {
+                                                  await Register(
+                                                    _email.text,
+                                                    widget.password,
+                                                    _name.text,
+                                                    _email.text,
+                                                    _firstname.text,
+                                                    _lastname.text,
+                                                    _uniqueid.text,
+                                                    DateTime.parse(
+                                                        _birthday.text),
+                                                    gendertypeint,
+                                                    gendertypeint == 3
+                                                        ? _customGender.text
+                                                        : "",
+                                                  );
+                                                }
+                                                print('isregister$isregister');
+                                                print(
+                                                    'isregisterfb$isregisterfb');
 
-                                          // print('กด');
-                                        },
+                                                isregisterfb == true
+                                                    ? Navigator.of(context)
+                                                        .pushAndRemoveUntil(
+                                                            CupertinoPageRoute(
+                                                                builder: (BuildContext
+                                                                        context) =>
+                                                                    NavScreen()),
+                                                            (Route<dynamic>
+                                                                    route) =>
+                                                                false)
+                                                    : showAlertDialog(context);
+
+                                                isregister == true
+                                                    ? Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                Buildprofile(
+                                                                  firstname:
+                                                                      _firstname
+                                                                          .text,
+                                                                  lastname:
+                                                                      _lastname
+                                                                          .text,
+                                                                  image: widget
+                                                                      .fileimg,
+                                                                  uniqueid:
+                                                                      _uniqueid
+                                                                          .text,
+                                                                  email: widget
+                                                                      .email,
+                                                                  password: widget
+                                                                      .password,
+                                                                )),
+                                                      )
+                                                    : showAlertDialog(context);
+
+                                                // print('กด');
+                                              },
                                       ),
                                     )
                                   ],

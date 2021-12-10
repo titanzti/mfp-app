@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class Detilmenu extends StatefulWidget {
+class WebviewSc extends StatefulWidget {
   final String url;
-  Detilmenu({Key key, this.url}) : super(key: key);
+  WebviewSc({Key key, this.url}) : super(key: key);
 
   @override
-  _DetilmenuState createState() => _DetilmenuState();
+  _WebviewScState createState() => _WebviewScState();
 }
 
-class _DetilmenuState extends State<Detilmenu> {
+class _WebviewScState extends State<WebviewSc> {
   final TrackingScrollController _trackingScrollController =
       TrackingScrollController();
 

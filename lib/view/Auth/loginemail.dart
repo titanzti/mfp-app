@@ -6,6 +6,8 @@ import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/sizeconfig.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/utils/app_theme.dart';
+import 'package:mfp_app/utils/router.dart';
+import 'package:mfp_app/view/Auth/register-email.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -401,7 +403,7 @@ class _LoginemailState extends State<Loginemail> {
                               fontFamily: AppTheme.FontAnakotmaiLight,
                             )),
                         onPressed: () {
-                          print('กด');
+                         Navigate.pushPage(context, Register());
                         },
                       ),
                     ),
