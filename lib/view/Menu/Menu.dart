@@ -7,8 +7,8 @@ import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/view/Menu/webview.dart';
-import 'package:mfp_app/view/Profile/Profile.dart';
-import 'package:mfp_app/view/Search/Search.dart';
+import 'package:mfp_app/view/Profile/profile.dart';
+import 'package:mfp_app/view/Search/search.dart';
 
 class MenuSC extends StatefulWidget {
   // MenuSC({Key? key}) : super(key: key);

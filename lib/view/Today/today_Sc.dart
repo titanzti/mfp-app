@@ -7,31 +7,29 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:full_screen_image/full_screen_image.dart';
-import 'package:http/http.dart' as http;
+import 'package:get/get.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/animation/FadeAnimation.dart';
 import 'package:mfp_app/constants/colors.dart';
-import 'package:mfp_app/model/RecommendedUserPageModel.dart';
+import 'package:mfp_app/controller/emergency_provider.dart';
+import 'package:mfp_app/controller/today_post_provider.dart';
 import 'package:mfp_app/model/postModel.dart';
 import 'package:mfp_app/model/searchpostlistModel.dart';
 import 'package:mfp_app/allWidget/CarouselsLoading.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/allWidget/fontsize.dart';
-import 'dart:io' show Platform;
 import 'package:mfp_app/allWidget/PostButton.dart';
 import 'package:mfp_app/utils/internetConnectivity.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:mfp_app/view/Profile/Profile.dart';
-import 'package:mfp_app/view/Search/Search.dart';
-import 'package:mfp_app/view/Today/Dtemergencyevent.dart';
+import 'package:mfp_app/view/Search/search.dart';
+import 'package:mfp_app/view/Today/detail_emergency.dart';
 
-import 'package:mfp_app/view/Today/PostDetailsSc.dart';
-import 'package:mfp_app/view/Today/StoryPage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mfp_app/view/Today/post_details.dart';
+import 'package:mfp_app/view/Today/story_page.dart';
 
 class TodaySc extends StatefulWidget {
   final String userid;
@@ -46,29 +44,16 @@ class _TodayScState extends State<TodaySc> {
   final TrackingScrollController _trackingScrollController =
       TrackingScrollController();
   ScrollController _scrollController = ScrollController();
-
   int _currentMax = 0;
-  Future refpost;
-  String messger = "";
-
-  StreamController _postsController;
-  List<PostSearchModel> listModelPostClass = [];
-  List<EmergencyEventsContent> listemergencyEvents = [];
-  List<RecomUserPageModel> listRecomUserPageModel = [];
-
-  bool loading = true;
-  var dataht, datapostlist, userid, dataht1;
-  Future getDataPostListFuture;
-  bool isLoading = true;
-  bool isLoadingHastag = true;
-  bool fistload = true;
-  int _page = 0;
+  final EmergencyController emergencyController =
+      Get.put(EmergencyController());
+  final TodayPostController todayController = Get.put(TodayPostController());
+  var userid;
   bool _isLoadMoreRunning = false;
   int _current = 0;
   final CarouselController _controller = CarouselController();
   bool islike = false;
   String token;
-  bool isConnected;
 
   var datagetuserprofile;
 
@@ -89,7 +74,6 @@ class _TodayScState extends State<TodaySc> {
   var userimageUrl;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  StreamSubscription subscription;
 
   String mode = "";
 
@@ -165,220 +149,86 @@ class _TodayScState extends State<TodaySc> {
                       // print('myuidhome$userid'),
                     }));
 
-                //   () async {
-                //   if (_scrollController.position.pixels ==
-                //       _scrollController.position.maxScrollExtent) {
-                //     print('At the End');
-                //     setState(() {
-                //       _currentMax = _currentMax + 5;
-                //       Api.getPostList(_currentMax).then((value) => {
-                //             if (value.statusCode == 200)
-                //               {
-                //                 datapostlist = jsonDecode(value.body),
-                //                 for (Map i in datapostlist["data"])
-                //                   {
-                //                     listModelPostClass.add(PostSearchModel.fromJson(i)),
-                //                     _postsController.add(value),
-                //                   },
-                //               }
-                //           });
-
-                //       //-------------------------------
-                //       Api.getRecommendedUserPage().then((value) => {
-                //             listRecomUserPageModel.clear(),
-                //             if (value.statusCode == 200)
-                //               {
-                //                 datapostlist = jsonDecode(value.body),
-                //                 for (Map i in datapostlist["data"])
-                //                   {
-                //                     listRecomUserPageModel
-                //                         .add(RecomUserPageModel.fromJson(i)),
-                //                   },
-                //               }
-                //           });
-                //     });
-                //   }
-                // });
-
-                //-----------------------------//
-                Api.getPostemergencyEventsList().then((responseData) => ({
-                      // print('getPostList'),
-                      setState(() {
-                        isLoadingHastag = true;
-                      }),
-                      if (responseData.statusCode == 200)
-                        {
-                          datapostlist = jsonDecode(responseData.body),
-                          for (Map i in datapostlist["data"]["emergencyEvents"]
-                              ["contents"])
-                            {
-                              setState(() {
-                                listemergencyEvents
-                                    .add(EmergencyEventsContent.fromJson(i));
-                              }),
-                            },
-                          setState(() {
-                            isLoadingHastag = false;
-                          }),
-                        }
-                      else if (responseData.statusCode == 400)
-                        {}
-                    }));
-
-                refpost = Api.getPostList(_currentMax).then((value) => {
-                      if (value.statusCode == 200)
-                        {
-                          setState(() {
-                            isLoading = true;
-                            fistload = true;
-                          }),
-                          datapostlist = jsonDecode(value.body),
-                          for (Map i in datapostlist["data"])
-                            {
-                              listModelPostClass
-                                  .add(PostSearchModel.fromJson(i)),
-                              _postsController.add(value),
-                            },
-                          setState(() {
-                            isLoading = false;
-                          }),
-                        }
-                      else if (value.statusCode == 400)
-                        {
-                          setState(() {
-                            isLoading = false;
-                          }),
-                        }
-                    });
-                //-------------//
-                Api.getRecommendedUserPage().then((value) => {
-                      if (value.statusCode == 200)
-                        {
-                          datapostlist = jsonDecode(value.body),
-                          for (Map i in datapostlist["data"])
-                            {
-                              listRecomUserPageModel
-                                  .add(RecomUserPageModel.fromJson(i)),
-                            },
-                        }
-                    });
+                Future.delayed(Duration.zero, () async {
+                  print('delayedgetpost');
+                  await todayController.getpost(0);
+                  await todayController.getrecompage();
+                });
               });
             }()
           : Navigate.pushPageDialog(context, nonet(context));
 
       if (value == false) {
         setState(() {
-          isLoading = false;
-          isLoadingHastag = false;
+          emergencyController.isLoading.value = false;
+          todayController.isLoading.value = false;
         });
       }
-      _postsController = new StreamController();
     });
+
     super.initState();
   }
 
-  // Widget BuildVideorecom() {
-  //   return Card(
-  //     child: Container(
-  //       width: double.infinity,
-  //       height: 350.84,
-  //       // color: Colors.white,
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Padding(
-  //             padding: const EdgeInsets.only(left: 14, top: 20),
-  //             child:
-  //                 texttitleVideorecommend("วิดีโอสำหรับคุณโดยเฉพาะ", context),
-  //           ),
-  //           Padding(
-  //             padding: const EdgeInsets.only(left: 14, top: 2),
-  //             child: textsubVideorecommend(
-  //                 "เพลิดเพลินกับเพลย์ลิสต์ที่ปรับให้เหมาะกับคุณจาก Youtube",
-  //                 context),
-  //           ),
-  //           SizedBox(
-  //             height: 240.0,
-  //             child: Builder(
-  //               builder: (BuildContext context) {
-  //                 return ListView.builder(
-  //                     physics: ClampingScrollPhysics(),
-  //                     shrinkWrap: true,
-  //                     scrollDirection: Axis.horizontal,
-  //                     itemCount: 5,
-  //                     itemBuilder: (
-  //                       BuildContext context,
-  //                       int index,
-  //                     ) {
-  //                       return Videorecommend();
-  //                     });
-  //               },
-  //             ),
-  //           ),
-  //           Center(
-  //             child: Text(
-  //               "ดูวิดีโอเพิ่มเติมบน Youtube",
-  //               style: TextStyle(fontSize: 16),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget videorecommend() {
+    return Card(
+      child: Container(
+        width: double.infinity,
+        height: 350.84,
+        // color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 14, top: 20),
+              child:
+                  texttitleVideorecommend("วิดีโอสำหรับคุณโดยเฉพาะ", context),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 14, top: 2),
+              child: textsubVideorecommend(
+                  "เพลิดเพลินกับเพลย์ลิสต์ที่ปรับให้เหมาะกับคุณจาก Youtube",
+                  context),
+            ),
+            SizedBox(
+              height: 240.0,
+              child: Builder(
+                builder: (BuildContext context) {
+                  return ListView.builder(
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 5,
+                      itemBuilder: (
+                        BuildContext context,
+                        int index,
+                      ) {
+                        return videorecommendList();
+                      });
+                },
+              ),
+            ),
+            Center(
+              child: Text(
+                "ดูวิดีโอเพิ่มเติมบน Youtube",
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   Future<Null> _handleRefresh() async {
-    new Future.delayed(const Duration(seconds: 3));
+    print('_handleRefresh');
     setState(() {
-      listemergencyEvents.clear();
-      listModelPostClass.clear();
-      listRecomUserPageModel.clear();
-      fistload = true;
+      emergencyController.emergencyevList.clear();
+      todayController.postList.clear();
+      todayController.recompageList.clear();
     });
     try {
-      await Api.getPostemergencyEventsList().then((responseData) => ({
-            // print('getPostList'),
-            if (responseData.statusCode == 200)
-              {
-                datapostlist = jsonDecode(responseData.body),
-                for (Map i in datapostlist["data"]["emergencyEvents"]
-                    ["contents"])
-                  {
-                    setState(() {
-                      listemergencyEvents
-                          .add(EmergencyEventsContent.fromJson(i));
-                    }),
-                  },
-              }
-            else if (responseData.statusCode == 400)
-              {}
-          }));
-      //-----------------------------------------------
-      await Api.getPostList(_currentMax).then((value) => {
-            if (value.statusCode == 200)
-              {
-                datapostlist = jsonDecode(value.body),
-                for (Map i in datapostlist["data"])
-                  {
-                    setState(() {
-                      listModelPostClass.add(PostSearchModel.fromJson(i));
-                      _postsController.add(value);
-                    }),
-                  },
-              }
-          });
-      //-----------------------------------------------
-
-      await Api.getRecommendedUserPage().then((value) => {
-            if (value.statusCode == 200)
-              {
-                datapostlist = jsonDecode(value.body),
-                for (Map i in datapostlist["data"])
-                  {
-                    listRecomUserPageModel.add(RecomUserPageModel.fromJson(i)),
-                  },
-              }
-          });
+      await emergencyController.getmergencyevents();
+      todayController.onInit();
     } finally {}
   }
 
@@ -392,43 +242,17 @@ class _TodayScState extends State<TodaySc> {
 
       setState(() {
         _currentMax = _currentMax + 5;
-        fistload = false;
+        todayController.firstload.value = false;
         _isLoadMoreRunning = true; // Display a progress indicator at the bottom
-
-        try {
-          Api.getPostList(_currentMax).then((value) => {
-                if (value.statusCode == 200)
-                  {
-                    setState(() {
-                      isLoading = true;
-                    }),
-                    datapostlist = jsonDecode(value.body),
-                    for (Map i in datapostlist["data"])
-                      {
-                        listModelPostClass.add(PostSearchModel.fromJson(i)),
-                        _postsController.add(value),
-                      },
-                    setState(() {
-                      isLoading = false;
-                      _isLoadMoreRunning =
-                          false; // Display a progress indicator at the bottom
-                    }),
-                  }
-              });
-        } catch (err) {
-          print('Something went wrong!');
-        }
       });
+
+      try {
+        print('_loadMoregetpost');
+        await todayController.getpost(_currentMax);
+      } catch (err) {
+        print('Something went wrong!');
+      }
     }
-  }
-
-  @override
-  void dispose() {
-    subscription.cancel();
-
-    _trackingScrollController.dispose();
-    _scrollController.dispose();
-    super.dispose();
   }
 
   @override
@@ -437,8 +261,14 @@ class _TodayScState extends State<TodaySc> {
   }
 
   @override
+  void dispose() {
+    _trackingScrollController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // print('taptoload${widget.taptoload}');
     if (widget.taptoload == true) {
       _goToElement(0);
     }
@@ -450,7 +280,6 @@ class _TodayScState extends State<TodaySc> {
           body: RefreshIndicator(
             onRefresh: () => () async {
               HapticFeedback.mediumImpact();
-              // print('RefreshIndicator');
               await checkInternetConnectivity().then((value) {
                 value == true
                     ? Navigate.pushPageReplacement(context, NavScreen())
@@ -459,7 +288,6 @@ class _TodayScState extends State<TodaySc> {
                           ' There Was A Problem With The Network',
                           textAlign: TextAlign.center,
                         ),
-
                         behavior: SnackBarBehavior.floating,
                         width: MediaQuery.of(context).size.width / 1.2,
 
@@ -473,8 +301,6 @@ class _TodayScState extends State<TodaySc> {
                       ));
               });
               await _handleRefresh();
-              await Api.getRecommendedUserPage();
-              await Api.getPostList(_currentMax);
             }(),
             child: CustomScrollView(
               controller: _scrollController,
@@ -502,121 +328,75 @@ class _TodayScState extends State<TodaySc> {
                     )),
 
                 ///-----------APPBAR-----------------//
-                isLoadingHastag
-                    ? SliverToBoxAdapter(child: CarouselLoading())
-                    : SliverToBoxAdapter(
-                        child: carouselslider(
-                            listemergencyEvents, context, userimageUrl)),
+                SliverToBoxAdapter(
+                  child: Obx(() {
+                    if (emergencyController.isLoading.value)
+                      return CarouselLoading();
+                    else
+                      return carouselslider(emergencyController.emergencyevList,
+                          context, userimageUrl);
+                  }),
+                ),
 
                 // ///-----------เลื่อนสไลด์-----------------//
-                listModelPostClass.length == 0
-                    ? SliverToBoxAdapter(child: Container())
-                    : SliverToBoxAdapter(
-                        child: Container(
-                          width: double.infinity,
-                          height: 50,
-                          color: MColors.primaryGrey,
-                          child: Center(
-                            child: titletimeline("ไทม์ไลน์"),
-                          ),
-                        ),
-                      ),
-
-                // ///-----------คำว่าไทม์ไลน์-----------------//
-
-                isLoading == true
-                    ? SliverToBoxAdapter(child: CarouselLoading())
-                    : SliverToBoxAdapter(
-                        child: StreamBuilder(
-                          stream: _postsController.stream,
-                          builder:
-                              (BuildContext context, AsyncSnapshot snapshot) {
-                            // if (snapshot.connectionState == ConnectionState.none) {
-                            //   return Center(child: Text(messger));
-                            // }
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return Scrollbar(
-                                  isAlwaysShown: true,
-                                  child: ListView.builder(
-                                      // controller: _scrollController,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      // padding: const EdgeInsets.all(8.0),
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: listModelPostClass.length,
-                                      itemBuilder: (
-                                        BuildContext context,
-                                        int index,
-                                      ) {
-                                        // if (listModelPostClass.length == 0) {
-                                        //   return Center(
-                                        //       child: CupertinoActivityIndicator());
-                                        // }
-                                        final nDataList1 =
-                                            listModelPostClass[index];
-                                        // if (index ==
-                                        //     listModelPostClass.length - 3) {
-                                        //   return fistload == true
-                                        //       ? buildrecommendeduserpage()
-                                        //       : SizedBox.shrink();
-                                        // }
-                                        // if (index ==
-                                        //     listModelPostClass.length) {
-                                        //   print('เท่ากัน');
-                                        // }
-
-                                        //  else {
-                                        //   PostList(
-                                        //     nDataList1.post.title,
-                                        //     nDataList1.post.detail,
-                                        //     nDataList1.page.name,
-                                        //     nDataList1.page.createdDate,
-                                        //     nDataList1.post.gallery,
-                                        //     nDataList1.post.likeCount,
-                                        //     nDataList1.post.commentCount,
-                                        //     nDataList1.post.shareCount,
-                                        //   );
-                                        // }
-
-                                        return FadeAnimation(
-                                            (1.0 + index /4),
-                                            PostList(
-                                              nDataList1.post.title,
-                                              nDataList1.post.detail,
-                                              nDataList1.page.name,
-                                              nDataList1.post.createdDate,
-                                              nDataList1.post.gallery,
-                                              nDataList1.post.likeCount,
-                                              nDataList1.post.commentCount,
-                                              nDataList1.post.shareCount,
-                                              nDataList1.post.repostCount,
-                                              nDataList1.post.id,
-                                              nDataList1.page.id,
-                                              nDataList1.page.imageUrl,
-                                              nDataList1.page.name,
-                                              false,
-                                              nDataList1.page.pageUsername,
-                                              nDataList1.page.isOfficial,
-                                              nDataList1,
-                                              nDataList1.post.type,
-                                            ));
-                                      }),
-                                );
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                // when the _loadMore function is running
-
-                ///-----------ListViewPost-----------------//
-
-                // /-----------SliverListปิดไปก่อนได้----------------//
+                SliverToBoxAdapter(
+                  child: Container(
+                    width: double.infinity,
+                    height: 50,
+                    color: MColors.primaryGrey,
+                    child: Center(
+                      child: titletimeline("ไทม์ไลน์"),
+                    ),
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: Obx(() {
+                    if (todayController.isLoading.value)
+                      return CarouselLoading();
+                    else
+                      return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: todayController.postList.length,
+                          itemBuilder: (
+                            BuildContext context,
+                            int index,
+                          ) {
+                            final nDataList1 = todayController.postList[index];
+                            if (index == todayController.postList.length - 3) {
+                              return todayController.firstload.value
+                                  ? buildrecommendeduserpage()
+                                  : SizedBox.shrink();
+                            }
+                            return FadeAnimation(
+                                (1.0 + index / 4),
+                                postlist(
+                                  nDataList1.post.title,
+                                  nDataList1.post.detail,
+                                  nDataList1.page.name,
+                                  nDataList1.post.createdDate,
+                                  nDataList1.post.gallery,
+                                  nDataList1.post.likeCount,
+                                  nDataList1.post.commentCount,
+                                  nDataList1.post.shareCount,
+                                  nDataList1.post.repostCount,
+                                  nDataList1.post.id,
+                                  nDataList1.page.id,
+                                  nDataList1.page.imageUrl,
+                                  nDataList1.page.name,
+                                  false,
+                                  nDataList1.page.pageUsername,
+                                  nDataList1.page.isOfficial,
+                                  nDataList1,
+                                  nDataList1.post.type,
+                                ));
+                          });
+                  }),
+                ),
                 // listModelPostClass.length == 0
                 //     ? SliverToBoxAdapter(child: Container())
-                //     : SliverToBoxAdapter(child: fistload==true? BuildRecommendedUserPage():SizedBox.shrink()),
-
+                //     : SliverToBoxAdapter( ==true? BuildRecommendedUserPage():SizedBox.shrink()),
                 if (_isLoadMoreRunning == true)
                   SliverToBoxAdapter(
                     child: Center(
@@ -638,75 +418,7 @@ class _TodayScState extends State<TodaySc> {
   Future cacheImage(BuildContext context, String urlImage) =>
       precacheImage(CachedNetworkImageProvider(urlImage), context);
 
-  // getItems(img_path, img_path2, count) {
-  //   return Container(
-  //     width: double.infinity,
-  //     child: Row(
-  //       // crossAxisAlignment :CrossAxisAlignment.center,
-  //       // mainAxisSize: MainAxisSize.max,
-  //       children: <Widget>[
-  //         // SizedBox(width: 5,),
-  //         ClipRRect(
-  //           child: Image.network(
-  //             img_path,
-  //             height: 140,
-  //             width: 190,
-  //             fit: BoxFit.cover,
-  //             filterQuality: FilterQuality.low,
-  //           ),
-  //         ),
-  //         SizedBox(
-  //           width: 11,
-  //         ),
-  //         (count > 0)
-  //             ? Stack(
-  //                 overflow: Overflow.visible,
-  //                 children: <Widget>[
-  //                   ClipRRect(
-  //                     // borderRadius: BorderRadius.only(bottomLeft:Radius.circular(10),),
-  //                     child: Image.network(
-  //                       img_path2,
-  //                       height: 140,
-  //                       width: 190,
-  //                       fit: BoxFit.cover,
-  //                       filterQuality: FilterQuality.low,
-  //                     ),
-  //                   ),
-  //                   (count > 0)
-  //                       ? Positioned(
-  //                           child: Container(
-  //                             height: 140,
-  //                             width: 190,
-  //                             decoration: BoxDecoration(color: Colors.black38),
-  //                             child: Center(
-  //                               child: Text(
-  //                                 "$count +",
-  //                                 style: TextStyle(
-  //                                   color: Colors.white,
-  //                                   fontSize: 20,
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         )
-  //                       : Center()
-  //                 ],
-  //               )
-  //             : ClipRRect(
-  //                 child: Image.network(
-  //                   img_path2,
-  //                   height: 140,
-  //                   width: 190,
-  //                   fit: BoxFit.cover,
-  //                   filterQuality: FilterQuality.low,
-  //                 ),
-  //               ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  Widget PostList(
+  Widget postlist(
     String posttitle,
     String subtitle,
     String authorposttext,
@@ -766,9 +478,6 @@ class _TodayScState extends State<TodaySc> {
             //     ? myAlbumCard(gallery, context)
             //     : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),
-       
-  
-           
             Card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -784,7 +493,7 @@ class _TodayScState extends State<TodaySc> {
                     padding: const EdgeInsets.all(10.0),
                     child: subtexttitlepost(subtitle, context),
                   ),
-                     Padding(
+                  Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: InkWell(
                         onTap: () async {
@@ -1084,7 +793,7 @@ class _TodayScState extends State<TodaySc> {
     );
   }
 
-  Widget videorecommend(
+  Widget videorecommendList(
       // String posttitle, String subtitle, String authorposttext,
       //   DateTime dateTime, List<Gallery> gallery,int likeCount,int commentCount,int shareCount
       ) {
@@ -1167,133 +876,136 @@ class _TodayScState extends State<TodaySc> {
             ),
             Builder(
               builder: (BuildContext context) {
-                return ListView.builder(
-                    physics: ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    itemCount: listRecomUserPageModel.length,
-                    itemBuilder: (
-                      BuildContext context,
-                      int index,
-                    ) {
-                      var data = listRecomUserPageModel[index];
-                      return Card(
-                        child: Container(
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 26,
-                              backgroundColor: Colors.white,
-                              child: ClipOval(
-                                child:
-                                    data.imageUrl == null || data.imageUrl == ""
-                                        ? new Image.network(
-                                            "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png",
-                                            width: 60,
-                                            height: 60,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.network(
-                                            "https://today-api.moveforwardparty.org/api${data.imageUrl}/image",
-                                            width: 60,
-                                            height: 60,
-                                            fit: BoxFit.cover,
-                                          ),
-                              ),
-                            ),
-                            title: new Text(
-                                '${data.displayName == null ? data.name : data.displayName}'),
-                            subtitle: new Text(
-                                '${data.pageUsername == null ? "" : data.pageUsername}'),
-                            trailing: Container(
-                              margin: EdgeInsets.all(10),
-                              height: 50.0,
-                              width: 95,
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25)),
-                                  side: BorderSide(color: MColors.primaryColor),
+                return Obx(() {
+                  return ListView.builder(
+                      physics: ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: todayController.recompageList.length,
+                      itemBuilder: (
+                        BuildContext context,
+                        int index,
+                      ) {
+                        var data = todayController.recompageList[index];
+                        return Card(
+                          child: Container(
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                radius: 26,
+                                backgroundColor: Colors.white,
+                                child: ClipOval(
+                                  child: data.imageUrl == null ||
+                                          data.imageUrl == ""
+                                      ? new Image.network(
+                                          "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png",
+                                          width: 60,
+                                          height: 60,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.network(
+                                          "https://today-api.moveforwardparty.org/api${data.imageUrl}/image",
+                                          width: 60,
+                                          height: 60,
+                                          fit: BoxFit.cover,
+                                        ),
                                 ),
-                                onPressed: () async {
-                                  var jsonResponse;
-                                  token == "" || token == null
-                                      ? Navigate.pushPage(
-                                          context, Loginregister())
-                                      : await Api.sendfollowPage(
-                                              data.id, token, userid)
-                                          .then((value) => ({
-                                                jsonResponse =
-                                                    jsonDecode(value.body),
-                                                // print(
-                                                //     'message${jsonResponse['message']}'),
-                                                if (value.statusCode == 200)
-                                                  {
-                                                    if (jsonResponse[
-                                                            'message'] ==
-                                                        "Followed Page Success")
-                                                      {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                new SnackBar(
-                                                          content: Text(
-                                                              jsonResponse[
-                                                                  'message']),
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        24),
-                                                          ),
-                                                          margin: EdgeInsets
-                                                              .fromLTRB(
-                                                                  0, 0, 0, 50),
-                                                        )),
-                                                      }
-                                                    else if (jsonResponse[
-                                                            'message'] ==
-                                                        "Unfollow Page Success")
-                                                      {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                new SnackBar(
-                                                          content: Text(
-                                                              jsonResponse[
-                                                                  'message']),
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                          shape:
-                                                              RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        24),
-                                                          ),
-                                                          margin: EdgeInsets
-                                                              .fromLTRB(
-                                                                  0, 0, 0, 50),
-                                                        )),
-                                                      }
-                                                  }
-                                              }));
-                                },
-                                color: Colors.white,
-                                child: Text("ติดตาม",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        color: MColors.primaryColor)),
+                              ),
+                              title: new Text(
+                                  '${data.displayName == null ? data.name : data.displayName}'),
+                              subtitle: new Text(
+                                  '${data.pageUsername == null ? "" : data.pageUsername}'),
+                              trailing: Container(
+                                margin: EdgeInsets.all(10),
+                                height: 50.0,
+                                width: 95,
+                                child: RaisedButton(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25)),
+                                    side:
+                                        BorderSide(color: MColors.primaryColor),
+                                  ),
+                                  onPressed: () async {
+                                    var jsonResponse;
+                                    token == "" || token == null
+                                        ? Navigate.pushPage(
+                                            context, Loginregister())
+                                        : await Api.sendfollowPage(
+                                                data.id, token, userid)
+                                            .then((value) => ({
+                                                  jsonResponse =
+                                                      jsonDecode(value.body),
+                                                  // print(
+                                                  //     'message${jsonResponse['message']}'),
+                                                  if (value.statusCode == 200)
+                                                    {
+                                                      if (jsonResponse[
+                                                              'message'] ==
+                                                          "Followed Page Success")
+                                                        {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  new SnackBar(
+                                                            content: Text(
+                                                                jsonResponse[
+                                                                    'message']),
+                                                            behavior:
+                                                                SnackBarBehavior
+                                                                    .floating,
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          24),
+                                                            ),
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(0, 0,
+                                                                    0, 50),
+                                                          )),
+                                                        }
+                                                      else if (jsonResponse[
+                                                              'message'] ==
+                                                          "Unfollow Page Success")
+                                                        {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                                  new SnackBar(
+                                                            content: Text(
+                                                                jsonResponse[
+                                                                    'message']),
+                                                            behavior:
+                                                                SnackBarBehavior
+                                                                    .floating,
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          24),
+                                                            ),
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(0, 0,
+                                                                    0, 50),
+                                                          )),
+                                                        }
+                                                    }
+                                                }));
+                                  },
+                                  color: Colors.white,
+                                  child: Text("ติดตาม",
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: MColors.primaryColor)),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    });
+                        );
+                      });
+                });
               },
             ),
             SizedBox(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mfp_app/constants/colors.dart';
-import 'package:mfp_app/view/Auth/register-pic.dart';
+import 'package:mfp_app/view/Auth/register_pic.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Registerpassword extends StatefulWidget {

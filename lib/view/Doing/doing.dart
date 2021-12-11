@@ -7,8 +7,8 @@ import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/utils/internetConnectivity.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
-import 'package:mfp_app/view/Profile/Profile.dart';
-import 'package:mfp_app/view/Search/Search.dart';
+import 'package:mfp_app/view/Profile/profile.dart';
+import 'package:mfp_app/view/Search/search.dart';
 
 class DoingSC extends StatefulWidget {
   // DoingSC({Key? key}) : super(key: key);

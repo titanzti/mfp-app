@@ -7,7 +7,7 @@ import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
-import 'package:mfp_app/view/Search/Search.dart';
+import 'package:mfp_app/view/Search/search.dart';
 
 class ProfileSc extends StatefulWidget {
   final String userid;

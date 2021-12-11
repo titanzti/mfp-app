@@ -18,8 +18,8 @@ import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/style.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
-import 'package:mfp_app/view/Profile/Profile.dart';
-import 'package:mfp_app/view/Search/Search.dart';
+import 'package:mfp_app/view/Profile/profile.dart';
+import 'package:mfp_app/view/Search/search.dart';
 
 //APPBARS-------------------------------------
 

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -9,9 +8,9 @@ import 'package:mfp_app/allWidget/sizeconfig.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/router.dart';
-import 'package:mfp_app/view/Auth/loginemail.dart';
 import 'package:http/http.dart' as http;
-import 'package:mfp_app/view/Auth/register-ginfo.dart';
+import 'package:mfp_app/view/Auth/loginemail.dart';
+import 'package:mfp_app/view/Auth/register_ginfo.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,7 +33,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
   var profileData;
 
-  var msg="";
+  var msg = "";
 
   var userid;
 
@@ -52,11 +51,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   void initState() {
     super.initState();
   }
-Future<String> networkImageToBase64(String imageUrl) async {
+
+  Future<String> networkImageToBase64(String imageUrl) async {
     http.Response response = await http.get(imageUrl);
     final bytes = response?.bodyBytes;
     return (bytes != null ? base64Encode(bytes) : null);
-}
+  }
+
   void initiateFacebookLogin() async {
     var facebookLogin = FacebookLogin();
     var facebookLoginResult =
@@ -73,7 +74,8 @@ Future<String> networkImageToBase64(String imageUrl) async {
         break;
       case FacebookLoginStatus.loggedIn:
         final FacebookAccessToken accessToken = facebookLoginResult.accessToken;
-        print('''
+        print(
+            '''
          Logged in!
          
          Token: ${accessToken.token}
@@ -94,24 +96,28 @@ Future<String> networkImageToBase64(String imageUrl) async {
         print('Logged in as: ${profile['name']}');
 
         onLoginStatusChanged(true, profileData: profile);
-        final imgBase64Str = await networkImageToBase64(profileData['picture']['data']['url'],);
+        final imgBase64Str = await networkImageToBase64(
+          profileData['picture']['data']['url'],
+        );
 
         print('name${profileData['name']}');
-        print('picture${ profileData['picture']['data']['url']}');
-      await  singinfb(accessToken.token,accessToken,imgBase64Str,profileData: profile);
-         
-       
+        print('picture${profileData['picture']['data']['url']}');
+        await singinfb(accessToken.token, accessToken, imgBase64Str,
+            profileData: profile);
+
         break;
     }
   }
 
   bool isLoggedIn = false;
 
- Future<http.Response> singinfb(String fbtoken, FacebookAccessToken accessToken,String imgBase64Str, {profileData} ) async {
+  Future<http.Response> singinfb(
+      String fbtoken, FacebookAccessToken accessToken, String imgBase64Str,
+      {profileData}) async {
     print('singinFB');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
-    var url =Uri.parse("${Api.url}api/login");
+    var url = Uri.parse("${Api.url}api/login");
     Map data = {"token": fbtoken};
     final headers = {
       "mode": "FACEBOOK",
@@ -134,8 +140,7 @@ Future<String> networkImageToBase64(String imageUrl) async {
               "myuid", '${jsonResponse["data"]["user"]["id"]}');
           sharedPreferences.setString(
               "imageURL", '${jsonResponse["data"]["user"]["imageURL"]}');
-               sharedPreferences.setString(
-              "mode", 'FB');
+          sharedPreferences.setString("mode", 'FB');
 
           sharedPreferences?.setBool("isLoggedIn", true);
           mytoken = jsonResponse["data"]["token"];
@@ -162,17 +167,20 @@ Future<String> networkImageToBase64(String imageUrl) async {
     if (res.statusCode == 400) {
       if (jsonResponse['status'] == 0) {
         print(jsonResponse['message']);
-         Navigate.pushPage(context, Generalinformation(email:profileData['email'],
-          password:"",
-          img64: imgBase64Str,
-          name: profileData['name'],
-          firstname:  profileData['first_name'],
-          lastname:  profileData['last_name'],
-          fbid: profileData['id'],
-          fbtoken: accessToken.token,
-          mode: 'FB',
-          fbexpires: accessToken.expires,
-          ));
+        Navigate.pushPage(
+            context,
+            Generalinformation(
+              email: profileData['email'],
+              password: "",
+              img64: imgBase64Str,
+              name: profileData['name'],
+              firstname: profileData['first_name'],
+              lastname: profileData['last_name'],
+              fbid: profileData['id'],
+              fbtoken: accessToken.token,
+              mode: 'FB',
+              fbexpires: accessToken.expires,
+            ));
         // setState(() {
         //   msg = jsonResponse['message'];
         //   // _isloading = false;
@@ -182,6 +190,7 @@ Future<String> networkImageToBase64(String imageUrl) async {
       }
     }
   }
+
   void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
     setState(() {
       this.isLoggedIn = isLoggedIn;
@@ -362,20 +371,26 @@ Future<String> networkImageToBase64(String imageUrl) async {
                       // );
                     },
                   ),
-                  _bution('เข้าสู่ระบบด้วยTwitter', 'images/twitter.png',
-                      Color(0xFF1DA1F3), Colors.white, () async {
-                    FacebookAuth.instance.login(
-                        permissions: ["public_profile", "email"]).then((value) {
-                      FacebookAuth.instance.getUserData().then((userData) {
-                        setState(() {
-                          _isLoggedIn = true;
-                          _userObj = userData;
+                  _bution(
+                    'เข้าสู่ระบบด้วยTwitter',
+                    'images/twitter.png',
+                    Color(0xFF1DA1F3),
+                    Colors.white,
+                    () async {
+                      FacebookAuth.instance
+                          .login(permissions: ["public_profile", "email"]).then(
+                              (value) {
+                        FacebookAuth.instance.getUserData().then((userData) {
+                          setState(() {
+                            _isLoggedIn = true;
+                            _userObj = userData;
+                          });
                         });
+                        FacebookAuth.instance.expressLogin();
+                        print(_userObj['name']);
                       });
-                      FacebookAuth.instance.expressLogin();
-                      print(_userObj['name']);
-                    });
-                  },),
+                    },
+                  ),
 
                   Container(
                     //color: Colors.black,

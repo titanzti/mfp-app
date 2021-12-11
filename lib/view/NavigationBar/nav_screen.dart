@@ -7,10 +7,10 @@ import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/allWidget/circle_button.dart';
 import 'package:mfp_app/allWidget/custom_tab_bar.dart';
-import 'package:mfp_app/view/Doing/doingSC.dart';
-import 'package:mfp_app/view/Menu/Menu.dart';
-import 'package:mfp_app/view/Shop/Shop.dart';
-import 'package:mfp_app/view/Today/TodaySc.dart';
+import 'package:mfp_app/view/Doing/doing.dart';
+import 'package:mfp_app/view/Menu/menu.dart';
+import 'package:mfp_app/view/Shop/shop.dart';
+import 'package:mfp_app/view/Today/today_Sc.dart';
 import 'dart:io' show Platform;
 
 class NavScreen extends StatefulWidget {

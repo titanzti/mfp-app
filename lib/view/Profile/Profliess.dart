@@ -20,7 +20,7 @@ import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:http/http.dart' as Http;
-import 'package:mfp_app/view/Profile/Profile.dart';
+import 'package:mfp_app/view/Profile/profile.dart';
 import 'package:mfp_app/view/Search/Search.dart';
 
 class Profliess extends StatefulWidget {

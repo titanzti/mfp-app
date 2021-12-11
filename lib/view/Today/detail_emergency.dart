@@ -11,8 +11,8 @@ import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/EmergencyEventModel.dart';
 import 'package:mfp_app/model/searchpostlistModel.dart';
-import 'package:mfp_app/view/Profile/Profile.dart';
-import 'package:mfp_app/view/Search/Search.dart';
+import 'package:mfp_app/view/Profile/profile.dart';
+import 'package:mfp_app/view/Search/search.dart';
 
 class DTEmergenSc extends StatefulWidget {
   final String hashtagstitle;

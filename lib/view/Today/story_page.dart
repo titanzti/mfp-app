@@ -4,9 +4,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/constants/colors.dart';
+import 'package:mfp_app/controller/today_post_provider.dart';
 import 'package:mfp_app/model/commentlistmodel.dart';
 import 'package:mfp_app/model/searchpostlistModel.dart';
 import 'package:mfp_app/utils/app_theme.dart';
@@ -50,14 +52,13 @@ class StroyPageSc extends StatefulWidget {
 
 class _StroyPageScState extends State<StroyPageSc> {
   var dataht;
-  var storytest, storyimage;
+  var storytest;
 
   String story1;
-  String base64Image;
-  var storytestreplaceAll;
-  Widget image;
+  // var storytestreplaceAll;
   List<GalleryPostSearchModel> imagelist = [];
   String type = "";
+  final TodayPostController todayController = Get.put(TodayPostController());
 
   var loading = false;
   List<CommentlistModel> listModel = [];
@@ -78,54 +79,48 @@ class _StroyPageScState extends State<StroyPageSc> {
     super.didChangeDependencies();
   }
 
-  Future getStory(String id) async {
-    try {
-      var url = Uri.parse("${Api.url}api/post/search");
-      final headers = {
-        "content-type": "application/json",
-      };
-      Map data = {
-        "limit": 10,
-        "count": false,
-        "whereConditions": {"_id": id}
-      };
-      var body = jsonEncode(data);
+  // Future getStory(String id) async {
+  //   try {
+  //     var url = Uri.parse("${Api.url}api/post/search");
+  //     final headers = {
+  //       "content-type": "application/json",
+  //     };
+  //     Map data = {
+  //       "limit": 10,
+  //       "count": false,
+  //       "whereConditions": {"_id": id}
+  //     };
+  //     var body = jsonEncode(data);
 
-      var responseRequest = await http.post(url, headers: headers, body: body);
+  //     var responseRequest = await http.post(url, headers: headers, body: body);
 
-      if (responseRequest.statusCode == 200) {
-        final jsonResponse = jsonDecode(responseRequest.body);
-        setState(() {
-          var date1 = jsonResponse["data"];
+  //     if (responseRequest.statusCode == 200) {
+  //       final jsonResponse = jsonDecode(responseRequest.body);
+  //       setState(() {
+  //         var date1 = jsonResponse["data"];
 
-          for (var i in date1) {
-            storytest = i["story"]["story"];
-            storyimage = i["story"]["coverImage"];
+  //         for (var i in date1) {
+  //           storytest = i["story"]["story"];
+  //           // storyimage = i["story"]["coverImage"];
 
-            storytestreplaceAll = storytest.replaceAll("<create-text>", "");
+  //           storytestreplaceAll = storytest.replaceAll("<create-text>", "");
 
-            print('storytest${storytest}');
-            // print(i);
-          }
-        });
-        List<int> imageBytes = storyimage.readAsBytesSync();
-        base64Image = base64Encode(imageBytes);
-        // print('base64Image$base64Image');
+         
+  //           // print(i);
+  //         }
+  //       });
 
-        final _byteImage = Base64Decoder().convert(base64Image);
-        image = Image.memory(_byteImage);
-        print('imageBase64Decoder$image');
 
-        print("Response status :${jsonResponse.statusCode}");
-      }
+  //       print("Response status :${jsonResponse.statusCode}");
+  //     }
 
-      // return responsepostRequest;
-    } catch (e) {}
-  }
+  //     // return responsepostRequest;
+  //   } catch (e) {}
+  // }
 
   @override
   void initState() {
-    getStory(widget.postid);
+    // getStory(widget.postid);
     imagelist = widget.imagUrl;
     Api.getcommentlist(widget.postid, widget.userid, widget.token)
         .then((responseData) => ({
@@ -149,6 +144,10 @@ class _StroyPageScState extends State<StroyPageSc> {
                 }
             }));
     _postsController = new StreamController();
+     Future.delayed(Duration.zero, () async {
+                  await todayController.getstory(widget.postid);
+              
+                });
 
     super.initState();
   }
@@ -189,14 +188,10 @@ class _StroyPageScState extends State<StroyPageSc> {
       ),
       body: Scrollbar(
         child: SingleChildScrollView(
-          child: storytestreplaceAll == null
-              ? Center(
-                  child: Center(
-                      child: CircularProgressIndicator(
-                    color: MColors.primaryColor,
-                  )),
-                )
-              : Container(
+          child: Obx(()=>todayController.isLoading.value?CircularProgressIndicator(
+                                              color: MColors.primaryColor,
+                                            ):
+          Container(
                   child: Column(
                     children: [
                       Stack(
@@ -422,9 +417,15 @@ class _StroyPageScState extends State<StroyPageSc> {
 
                       Padding(
                         padding: const EdgeInsets.all(10.0),
-                        child: Html(
+                        child: Obx((){
+                          if(todayController.idloadingstory.value)
+                          return CircularProgressIndicator(
+                                              color: MColors.primaryColor,
+                                            );
+                          else
+                          return Html(
                           data: """
-                    ${storytestreplaceAll == null ? Text('ไม่มีStroy') : storytestreplaceAll}
+                    ${todayController.storycontent == null ? 'ไม่มีStroy' : todayController.storycontent}
                     """,
                           defaultTextStyle: TextStyle(
                               fontFamily: AppTheme.FontAnakotmaiLight,
@@ -442,7 +443,10 @@ class _StroyPageScState extends State<StroyPageSc> {
                           //     }
                           //   }
                           // },
-                        ),
+                        );
+
+                        }),
+                        
                       ),
                       _buildCommentList(size)
                       // Text('data'),
@@ -450,6 +454,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                   ),
                 ),
           //  Text("$storytest"),
+        ),
         ),
       ),
     );
