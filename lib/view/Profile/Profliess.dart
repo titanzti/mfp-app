@@ -883,9 +883,11 @@ class _ProfliessState extends State<Profliess> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            gallery.length != 0
-                ? myAlbumCardPagepost(gallery)
-                : SizedBox.shrink(),
+             topImage(gallery[0].signUrl.toString()),
+
+            // gallery.length != 0
+            //     ? myAlbumCardPagepost(gallery)
+            //     : SizedBox.shrink(),
 
             // gallery.length != 0 ? myAlbumCard(gallery) : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),

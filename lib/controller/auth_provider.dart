@@ -9,15 +9,15 @@ class AuthController extends GetxController {
   var email = "";
   var password = "";
   var isLoading = false.obs;
-  var isLogin  = false.obs ;
-  var token ="";
+  var isLogin = false.obs;
+  var token = "";
 
   @override
   void onInit() {
     super.onInit();
     emailController = TextEditingController();
     passController = TextEditingController();
-    login(emailController.text,passController.text);
+    login(emailController.text, passController.text);
   }
 
   @override
@@ -25,7 +25,6 @@ class AuthController extends GetxController {
     emailController.dispose();
     passController.dispose();
     super.onClose();
-    
   }
 
   String validateemail(String value) {
@@ -42,7 +41,7 @@ class AuthController extends GetxController {
     return null;
   }
 
-   checkLogin() {
+  checkLogin() {
     final isValid = !loginFormKey.currentState.validate();
     if (!isValid) {
       return;
@@ -50,23 +49,19 @@ class AuthController extends GetxController {
     loginFormKey.currentState.save();
   }
 
-  Future login(String email, String password)async {
+  Future login(String email, String password) async {
     try {
       isLoading(true);
-      token = await Api.singin(email,password);
- 
-         
-      
-      if(token!=null){
-        isLogin.value =true;
+      token = await Api.singin(email, password);
+
+      if (token != null) {
+        isLogin.value = true;
       }
-       if(token==null){
-        isLogin.value =false;
+      if (token == null) {
+        isLogin.value = false;
       }
     } finally {
-           isLoading(false);
-
+      isLoading(false);
     }
-    
   }
 }

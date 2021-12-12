@@ -48,13 +48,13 @@ class _TodayScState extends State<TodaySc> {
   final EmergencyController emergencyController =
       Get.put(EmergencyController());
   final TodayPostController todayController = Get.put(TodayPostController());
+
   var userid;
   bool _isLoadMoreRunning = false;
   int _current = 0;
   final CarouselController _controller = CarouselController();
   bool islike = false;
   String token;
-
   var datagetuserprofile;
 
   var displayName1;
@@ -99,19 +99,16 @@ class _TodayScState extends State<TodaySc> {
                       setState(() {
                         token = value;
                       }),
-                      // print('token$token'),
                     }));
                 Api.getmodelogin().then((value) => value({
                       setState(() {
                         mode = value;
                       }),
-                      //  print('token$mode'),
                     }));
                 Api.getmyuid().then((value) => ({
                       setState(() {
                         userid = value;
                       }),
-                      // print('userid$userid'),
                       Api.getuserprofile("$userid").then((responseData) async =>
                           ({
                             if (responseData.statusCode == 200)
@@ -131,16 +128,8 @@ class _TodayScState extends State<TodaySc> {
                                   image =
                                       datagetuserprofile["data"]["imageURL"];
                                 }),
-                                // print('displayName1$displayName1'),
-                                // print('gender$gender'),
-                                // print('firstName$firstName'),
-                                // print('lastName$lastName'),
-                                // print('id$id'),
-                                // print('email$email'),
-                                // print('image$image'),
                               }
                           })),
-                      // print('myuidhome$userid'),
                     }));
                 Api.getimageURL().then((value) => ({
                       setState(() {
