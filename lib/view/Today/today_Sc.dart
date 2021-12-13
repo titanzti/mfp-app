@@ -482,7 +482,7 @@ class _TodayScState extends State<TodaySc> {
                     padding: const EdgeInsets.all(10.0),
                     child: subtexttitlepost(subtitle, context),
                   ),
-                // sroty!=null? 
+                sroty!=null? 
                  Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: InkWell(
@@ -506,8 +506,8 @@ class _TodayScState extends State<TodaySc> {
                               ));
                         }, 
                         child: textreadstory('อ่านสตอรี่..')),
-                  ),
-                  // :Container(),
+                  )
+                  :Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.start,
