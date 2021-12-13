@@ -140,6 +140,8 @@ class _TodayScState extends State<TodaySc> {
 
                 Future.delayed(Duration.zero, () async {
                   print('delayedgetpost');
+                  await emergencyController.getmergencyevents();
+
                   await todayController.getpost(0);
                   await todayController.getrecompage();
                 });
@@ -216,7 +218,7 @@ class _TodayScState extends State<TodaySc> {
       todayController.recompageList.clear();
     });
     try {
-      await emergencyController.getmergencyevents();
+      emergencyController.onInit();
       todayController.onInit();
     } finally {}
   }
@@ -315,7 +317,6 @@ class _TodayScState extends State<TodaySc> {
                       userid: widget.userid,
                       token: token,
                     )),
-
                 ///-----------APPBAR-----------------//
                 SliverToBoxAdapter(
                   child: Obx(() {
@@ -326,7 +327,6 @@ class _TodayScState extends State<TodaySc> {
                           context, userimageUrl);
                   }),
                 ),
-
                 // ///-----------เลื่อนสไลด์-----------------//
                 SliverToBoxAdapter(
                   child: Container(
@@ -358,9 +358,7 @@ class _TodayScState extends State<TodaySc> {
                                   ? buildrecommendeduserpage()
                                   : SizedBox.shrink();
                             }
-                            return FadeAnimation(
-                                (1.0 + index / 4),
-                                postlist(
+                            return postlist(
                                   nDataList1.post.title,
                                   nDataList1.post.detail,
                                   nDataList1.page.name,
@@ -379,7 +377,8 @@ class _TodayScState extends State<TodaySc> {
                                   nDataList1.page.isOfficial,
                                   nDataList1,
                                   nDataList1.post.type,
-                                ));
+                                   nDataList1.post.story,
+                                );
                           });
                   }),
                 ),
@@ -426,6 +425,7 @@ class _TodayScState extends State<TodaySc> {
     bool isOfficial,
     nDataList1,
     String type,
+    sroty,
   ) {
     return InkWell(
       onTap: () {
@@ -462,10 +462,10 @@ class _TodayScState extends State<TodaySc> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            topImage(gallery[0].signUrl.toString()),
-            // gallery.length != 0
-            //     ? myAlbumCard(gallery, context)
-            //     : SizedBox.shrink(),
+            // topImage(gallery[0].signUrl.toString()),
+            gallery.length != 0
+                ? myAlbumCard(gallery, context)
+                : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),
             Card(
               child: Column(
@@ -482,7 +482,8 @@ class _TodayScState extends State<TodaySc> {
                     padding: const EdgeInsets.all(10.0),
                     child: subtexttitlepost(subtitle, context),
                   ),
-                  Padding(
+                // sroty!=null? 
+                 Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: InkWell(
                         onTap: () async {
@@ -503,9 +504,10 @@ class _TodayScState extends State<TodaySc> {
                                 userid: userid,
                                 token: token,
                               ));
-                        },
+                        }, 
                         child: textreadstory('อ่านสตอรี่..')),
                   ),
+                  // :Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.start,

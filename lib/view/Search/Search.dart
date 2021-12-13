@@ -1,14 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import 'package:mfp_app/Api/Api.dart';
-import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/allWidget/circle_button.dart';
-import 'package:mfp_app/animation/FadeAnimation.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/pagemodel.dart';
 import 'package:mfp_app/model/searchhastag.dart';
@@ -16,6 +15,7 @@ import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/Profile/Profile.dart';
 import 'package:mfp_app/view/Profile/Profliess.dart';
+import 'package:mfp_app/view/Search/post_search.dart';
 
 class Search extends StatefulWidget {
   final String userid;
@@ -32,9 +32,26 @@ class Search extends StatefulWidget {
   _SearchState createState() => _SearchState();
 }
 
+class Debouncer {
+  int milliseconds;
+  VoidCallback action;
+  Timer timer;
+
+  run(VoidCallback action) {
+    if (null != timer) {
+      timer.cancel();
+    }
+    timer = Timer(
+      Duration(milliseconds: Duration.millisecondsPerSecond),
+      action,
+    );
+  }
+}
+
 class _SearchState extends State<Search> {
   final TrackingScrollController _trackingScrollController =
       TrackingScrollController();
+  final _debouncer = Debouncer();
 
   var token;
 
@@ -53,6 +70,8 @@ class _SearchState extends State<Search> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var loading = false;
+  var loadingpage = false;
+
   var dataht;
   Future getHashtagList;
   ScrollController scrollController;
@@ -69,6 +88,10 @@ class _SearchState extends State<Search> {
   var datagetuserprofile;
 
   var userid1;
+
+  var msg = "";
+
+  bool listisempty = false;
   @override
   void initState() {
     print('initState');
@@ -78,7 +101,6 @@ class _SearchState extends State<Search> {
             token = value,
             print('token$token'),
           }));
-
       Api.getmyuid().then((value) => ({
             setState(() {
               userid = value;
@@ -123,7 +145,16 @@ class _SearchState extends State<Search> {
     super.dispose();
   }
 
-  getdate(String quer, String userid) async {
+  getsearch(String quer, String userid) async {
+    var pagetype;
+    var pageid;
+    setState(() {
+      loading = true;
+      listSearchHastag.clear();
+      _searchResult.clear();
+      _listPageModel.clear();
+    });
+
     var url = Uri.parse("${Api.url}api/main/search");
     final headers = {
       // "mode": "EMAIL",
@@ -144,58 +175,59 @@ class _SearchState extends State<Search> {
     setState(() {
       loading = true;
     });
-    print('getHashtagList');
+
     if (responseData.statusCode == 200) {
       dataht = jsonDecode(responseData.body);
-      print('data${dataht["data"]}');
-      for (Map i in dataht["data"]["result"]) {
-        // Future.delayed(Duration(seconds: 30));
-        print('ispage${dataht["data"]["type"]}');
 
-        print('isUser$isType');
+      for (Map i in dataht["data"]["result"]) {
         setState(() {
           listSearchHastag.add(SearchHastag.fromJson(i));
+          pagetype = i["type"];
+          pageid = i["value"];
+          if (pagetype == "PAGE") {
+            getpage(pageid);
+          }
         });
+
         print('listSearchHastagจำนวน${listSearchHastag.length}');
         print('_searchResult${_searchResult.length}');
       }
 
-      loading = false;
+      setState(() {
+        loading = false;
+      });
     }
   }
 
   getpage(String pageid) async {
-    Future.delayed(Duration(seconds: 10));
     print('getPageisvalue$pageid');
+    setState(() {
+      loadingpage = true;
+      _listPageModel.clear();
+      //  isvalue="";
+    });
     final headers = {
       // "limit": 1,
       // "count": false,
       // "whereConditions": {"isHideStory": false},
       "content-type": "application/json"
     };
-    // print('getData');
-
     try {
       final responseData = await http
           .get(Uri.parse("${Api.url}api/page/$pageid"), headers: headers);
       if (responseData.statusCode == 200) {
-        setState(() {
-          loading = true;
-        });
-        if (responseData.statusCode == 200) {
-          var dataht1 = jsonDecode(responseData.body);
-          print('listPageModel${dataht1["data"]}');
-          if (isType == "PAGE") {
-            setState(() {
-              _listPageModel.add(PageModel.fromJson(dataht1["data"]));
-            });
-            print('listPageModellength${_listPageModel.length}');
-          }
+        var dataht1 = jsonDecode(responseData.body);
 
-          loading = false;
-          print('body$dataht1');
-          print('responseDatagetpage${responseData.body}');
-        }
+        setState(() {
+          _listPageModel.add(PageModel.fromJson(dataht1["data"]));
+        });
+        print('listPageModellength${_listPageModel.length}');
+
+        setState(() {
+          loadingpage = false;
+        });
+        print('body$dataht1');
+        print('responseDatagetpage${responseData.body}');
       } else if (responseData.statusCode == 404) {
         throw Exception('Not Found');
       }
@@ -206,7 +238,7 @@ class _SearchState extends State<Search> {
 
   @override
   void didChangeDependencies() {
-    getdate(controller.text.toLowerCase(), widget.userid);
+    getsearch(controller.text.toLowerCase(), widget.userid);
     getpage(isvalue);
 
     print('didChangeDependencies');
@@ -346,55 +378,16 @@ class _SearchState extends State<Search> {
                                         _searchResult.clear();
                                       });
                                     }
-
-                                    if (text.isEmpty) {
-                                      print("onChangedวางจริง");
-                                      setState(() {
-                                        _listPageModel.clear();
-
-                                        isvalue = "";
-
-                                        controller.clear();
-                                        listSearchHastag.clear();
-                                        _searchResult.clear();
-                                      });
-                                    }
-                                    setState(() {
-                                      _searchResult.clear();
-                                      _listPageModel.clear();
+                                    _debouncer.run(() async {
+                                      _searchResult =
+                                          listSearchHastag.where((ht) {
+                                        var htlable = ht.label.toLowerCase();
+                                        return htlable.contains(
+                                            controller.text.toLowerCase());
+                                      }).toList();
+                                      await getsearch(
+                                          text.toLowerCase(), widget.userid);
                                     });
-                                    Future.delayed(
-                                        const Duration(milliseconds: 1000), () {
-                                      setState(() {
-                                        text = text.toLowerCase();
-                                      });
-                                    });
-
-                                    if (controller.text != "") {
-                                      setState(() {
-                                        _searchResult =
-                                            listSearchHastag.where((ht) {
-                                          // distinctIds = _searchResult.toSet().toList();
-                                          // print('distinctIds${distinctIds.length}');
-                                          var htlable = ht.label.toLowerCase();
-                                          return htlable.contains(
-                                              controller.text.toLowerCase());
-                                        }).toList();
-                                      });
-                                      setState(() {
-                                        listSearchHastag.clear();
-                                        _listPageModel.clear();
-                                        // isvalue = "";
-                                        //  _listPageModel.clear();
-                                      });
-                                      Future.delayed(
-                                          const Duration(milliseconds: 2000),
-                                          () async {
-                                        await getdate(
-                                            text.toLowerCase(), widget.userid);
-                                        await getpage(isvalue);
-                                      });
-                                    }
                                   },
                                 ),
                               ),
@@ -419,9 +412,8 @@ class _SearchState extends State<Search> {
                                     listSearchHastag.clear();
                                     _listPageModel.clear();
                                   }
-                                  await getdate(controller.text.toLowerCase(),
+                                  await getsearch(controller.text.toLowerCase(),
                                       widget.userid);
-                                  await getpage(isvalue);
                                 },
                                 child: Container(
                                   height: 38,
@@ -474,33 +466,27 @@ class _SearchState extends State<Search> {
                             var istype = data.type;
                             var islabel = data.label;
                             isType = data.type;
-
-                            if (isType == "PAGE") {
-                              isvalue = data.value;
-                            }
                             print('isty$isType');
                             print("isva$isvalue");
                             return InkWell(
                               onTap: () {
                                 if (istype == "HASHTAG") {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => SearchList(
-                                  //             type: istype,
-                                  //             label: islabel,
-                                  //           )),
-                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => PostSearch(
+                                              label: data.label,
+                                            )),
+                                  );
                                 }
-                                if (istype == "PAGE") {
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => SearchList(
-                                  //             type: istype,
-                                  //             label: islabel,
-                                  //           )),
-                                  // );
+                                if (data.type == "PAGE") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Profliess(
+                                              id: data.value,
+                                            )),
+                                  );
                                 }
                               },
                               child: Card(
@@ -509,11 +495,9 @@ class _SearchState extends State<Search> {
                                 //   Radius.circular(15.0),
                                 // )),
                                 child: new ListTile(
-                                  // leading: new CircleAvatar(
-                                  //   backgroundImage: new NetworkImage(
-                                  //     _userDetails[index].profileUrl,
-                                  //   ),
-                                  // ),
+                                  leading: data.historyId != null
+                                      ? Icon(Icons.timer_outlined)
+                                      : Icon(Icons.search_outlined),
                                   title: new Text('${data.label}'),
                                   trailing: Icon(
                                     Icons.arrow_forward_ios_rounded,
@@ -530,7 +514,7 @@ class _SearchState extends State<Search> {
                       }),
                     )
                   : SliverToBoxAdapter(child: Container()),
-              loading == true
+              loadingpage == true
                   ? SliverToBoxAdapter(
                       child: Center(child: CupertinoActivityIndicator()))
                   : SliverToBoxAdapter(
@@ -576,7 +560,6 @@ class _SearchState extends State<Search> {
                         },
                       ),
                     ),
-
             ],
           ),
         ),

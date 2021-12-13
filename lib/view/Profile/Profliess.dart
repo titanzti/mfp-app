@@ -94,6 +94,12 @@ class _ProfliessState extends State<Profliess> {
 
   var pagefollowers = 0;
 
+  String profilepageimage="";
+  String name="";
+  String pageUsername="";
+
+  var pagename;
+
   @override
   void initState() {
     print('initState');
@@ -118,12 +124,16 @@ class _ProfliessState extends State<Profliess> {
             }),
             print('myuidhome$userid'),
             Api.getpagess("${userid.toString()}", token, widget.id)
-                .then((responseData) => ({
+                .then((responseData) async => ({
                       if (responseData.statusCode == 200)
                         {
                           dataht = jsonDecode(responseData.body),
                           setState(() {
                             followers = dataht["data"]["followers"];
+                            profilepageimage = dataht["data"]["imageURL"];
+                            name = dataht["data"]["name"];
+                            pageUsername = dataht["data"]["pageUsername"];
+
                             if (dataht["data"]["isFollow"] == true) {
                               setState(() {
                                 isFollow = true;
@@ -140,8 +150,28 @@ class _ProfliessState extends State<Profliess> {
 
                             print('isFollow$isFollow');
                           }),
+                          await _getPostListSS(pageUsername, _currentMax),
                         }
                     })),
+                        Api.getPage("${widget.id}").then((responseData) async => ({
+                  if (responseData.statusCode == 200)
+                    {
+                      datagetuserprofile = jsonDecode(responseData.body),
+                      setState(() {
+                        pagename = datagetuserprofile["data"]["pageUsername"];
+                        // gender = datagetuserprofile["data"]
+                        //     ["gender"];
+                        // firstName = datagetuserprofile["data"]
+                        //     ["firstName"];
+                        // lastName = datagetuserprofile["data"]
+                        //     ["lastName"];
+                        // id = datagetuserprofile["data"]["id"];
+                        pagecoverURL = datagetuserprofile["data"]["coverURL"];
+                        pagefollowers = datagetuserprofile["data"]["followers"];
+                      }),
+                      print('image$image'),
+                    }
+                })),
 //-------------------------------------
             Api.getuserprofile("$userid").then((responseData) async => ({
                   if (responseData.statusCode == 200)
@@ -166,30 +196,8 @@ class _ProfliessState extends State<Profliess> {
                     }
                 })),
 
-            Api.getPage("${widget.id}").then((responseData) async => ({
-                  if (responseData.statusCode == 200)
-                    {
-                      datagetuserprofile = jsonDecode(responseData.body),
-                      setState(() {
-                        // displayName1 =
-                        //     datagetuserprofile["data"]
-                        //         ["displayName"];
-                        // gender = datagetuserprofile["data"]
-                        //     ["gender"];
-                        // firstName = datagetuserprofile["data"]
-                        //     ["firstName"];
-                        // lastName = datagetuserprofile["data"]
-                        //     ["lastName"];
-                        // id = datagetuserprofile["data"]["id"];
-                        pagecoverURL = datagetuserprofile["data"]["coverURL"];
-                        pagefollowers = datagetuserprofile["data"]["followers"];
-                      }),
-                      print('image$image'),
-                    }
-                })),
+        
           }));
-
-      _getPostListSS(widget.pageUsername, _currentMax);
     });
     _postsController = new StreamController();
   }
@@ -237,6 +245,11 @@ class _ProfliessState extends State<Profliess> {
 
       // loading = false,
     }
+    else  if (responseData.statusCode == 400) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   void _loadMore() async {
@@ -261,11 +274,7 @@ class _ProfliessState extends State<Profliess> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading == true
-        ? Container(
-            color: Colors.white,
-            child: Center(child: CupertinoActivityIndicator()))
-        : Container(
+    return Container(
             color: Colors.white,
             child: SafeArea(
               child: Scaffold(
@@ -312,7 +321,7 @@ class _ProfliessState extends State<Profliess> {
                                   child: CircleAvatar(
                                     radius: 25.0,
                                     backgroundImage: NetworkImage(
-                                        "https://today-api.moveforwardparty.org/api${widget.image}/image"),
+                                        "https://today-api.moveforwardparty.org/api$profilepageimage/image"),
                                     backgroundColor: Colors.transparent,
                                   ),
                                 ),
@@ -326,7 +335,7 @@ class _ProfliessState extends State<Profliess> {
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
-                                        widget.name,
+                                        name,
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
@@ -351,20 +360,21 @@ class _ProfliessState extends State<Profliess> {
                             overflow: Overflow.visible,
                             alignment: Alignment.center,
                             children: <Widget>[
-                              FadeInImage.assetNetwork(
-                                placeholder: 'images/placeholder.png',
-                                image:
-                                    "https://today-api.moveforwardparty.org/api$pagecoverURL/image",
-                                height: 180,
-                                fit: BoxFit.cover,
-                              ),
+                            pagecoverURL==null?Container():  Image.network("https://today-api.moveforwardparty.org/api$pagecoverURL/image"),
+                              // FadeInImage.assetNetwork(
+                              //   placeholder: 'images/placeholder.png',
+                              //   image:
+                              //       ,
+                              //   height: 180,
+                              //   fit: BoxFit.cover,
+                              // ),
                               Positioned(
                                 bottom: -80.0,
                                 child: CircleAvatar(
                                   radius: 70.0,
                                   backgroundImage: NetworkImage(
-                                      "https://today-api.moveforwardparty.org/api${widget.image}/image"),
-                                  backgroundColor: Colors.black,
+                                      "https://today-api.moveforwardparty.org/api$profilepageimage/image"),
+                                  backgroundColor: Colors.transparent,
                                 ),
                               )
                             ],
@@ -382,7 +392,7 @@ class _ProfliessState extends State<Profliess> {
                             padding: const EdgeInsets.only(top: 10),
                             child: Center(
                               child: Text(
-                                widget.name,
+                                name,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -397,7 +407,7 @@ class _ProfliessState extends State<Profliess> {
                             padding: const EdgeInsets.only(top: 65.0),
                             child: Center(
                               child: Text(
-                                '@${widget.pageUsername}',
+                                '@$pageUsername',
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16.0,
@@ -665,6 +675,7 @@ class _ProfliessState extends State<Profliess> {
                       height: 15,
                       thickness: 6.0,
                     )),
+                    listpostss.length==0? SliverToBoxAdapter(child: Center(child: Text("ไม่มีโพส"))):
                     SliverToBoxAdapter(
                       child: StreamBuilder(
                         stream: _postsController.stream,
@@ -672,8 +683,9 @@ class _ProfliessState extends State<Profliess> {
                             (BuildContext context, AsyncSnapshot snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(child: CarouselLoading());
+                            return Center(child: CupertinoActivityIndicator());
                           }
+                    
                           // if (snapshot.connectionState == ConnectionState.none) {
                           //   return Center(child: Text(messger));
                           // }
@@ -707,23 +719,7 @@ class _ProfliessState extends State<Profliess> {
                                       //   return SizedBox.shrink();
                                       // }
 
-                                      if (index == listpostss.length) {
-                                        print('เท่ากัน');
-                                      }
-
-                                      //  else {
-                                      //   PostList(
-                                      //     nDataList1.post.title,
-                                      //     nDataList1.post.detail,
-                                      //     nDataList1.page.name,
-                                      //     nDataList1.page.createdDate,
-                                      //     nDataList1.post.gallery,
-                                      //     nDataList1.post.likeCount,
-                                      //     nDataList1.post.commentCount,
-                                      //     nDataList1.post.shareCount,
-                                      //   );
-                                      // }
-
+                                     
                                       return PostList(
                                         nDataList1.title,
                                         nDataList1.detail,
@@ -743,7 +739,7 @@ class _ProfliessState extends State<Profliess> {
                         },
                       ),
                     ),
-                    if (_isLoadMoreRunning == true)
+                 listpostss.length==0? SliverToBoxAdapter(child: Container()):    _isLoadMoreRunning == true?
                       SliverToBoxAdapter(
                         child: Center(
                             child: Container(
@@ -752,7 +748,7 @@ class _ProfliessState extends State<Profliess> {
                               valueColor: AlwaysStoppedAnimation<Color>(
                                   MColors.primaryColor)),
                         )),
-                      ),
+                      ):SliverToBoxAdapter(child: Container()),
                   ],
                 ),
               ),
@@ -778,32 +774,19 @@ class _ProfliessState extends State<Profliess> {
         ),
       );
     } else if (list.length >= 3) {
-      return Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-          height: MediaQuery.of(context).size.height / 2.6,
-          width: MediaQuery.of(context).size.width / 1.0,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.0),
-              border: Border.all(color: Colors.grey, width: 0.2)),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 100,
-                  ),
-                  getItems(list[0].signUrl, list[1].signUrl, 0, context),
-                  Expanded(
-                    child: getItems(list[2].signUrl, list[3].signUrl ?? "",
-                        list.length - 3, context),
-                  ),
-                ],
+      return Container(
+        height: MediaQuery.of(context).size.height / 2.6,
+        width: double.infinity,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              getItems(list[0].signUrl, list[1].signUrl, 0, context),
+              Expanded(
+                child: getItems(list[2].signUrl, list[2].signUrl ?? "",
+                    list.length - 3, context),
               ),
-            ),
+            ],
           ),
         ),
       );
@@ -883,11 +866,11 @@ class _ProfliessState extends State<Profliess> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-             topImage(gallery[0].signUrl.toString()),
+            //  topImage(gallery[0].signUrl.toString()),
 
-            // gallery.length != 0
-            //     ? myAlbumCardPagepost(gallery)
-            //     : SizedBox.shrink(),
+            gallery.length != 0
+                ? myAlbumCardPagepost(gallery)
+                : SizedBox.shrink(),
 
             // gallery.length != 0 ? myAlbumCard(gallery) : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),

@@ -3,6 +3,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:mfp_app/model/RecommendedUserPageModel.dart';
 import 'package:mfp_app/model/postModel.dart';
 import 'package:mfp_app/model/searchhastag.dart';
+import 'package:mfp_app/model/searchpostlist.dart';
 import 'package:mfp_app/model/searchpostlistModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as Http;
@@ -109,7 +110,7 @@ class Api {
     // print('getPostList');
     List<PostSearchModel> postlist = [];
 
-    String url = "${Api.url}api/main/content/search";
+    String url = "${Api.url}api/main/content/search?isHideStory=true";
     final headers = {
       // "mode": "EMAIL",
       "authority": "today-api.moveforwardparty.org",
@@ -171,11 +172,11 @@ class Api {
     }
   }
 
-  static Future<String> singin(String email, String pass) async {
+  static Future singin(String email, String pass) async {
     print('singin');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-var mytoken;
-bool islogin =false;
+    var mytoken;
+    bool islogin = false;
     var url = Uri.parse("${Api.url}api/login");
     Map data = {"username": email, "password": pass};
     final headers = {
@@ -185,66 +186,12 @@ bool islogin =false;
     var body = jsonEncode(data);
 
     var res = await Http.post(url, headers: headers, body: body);
-    final jsonResponse = jsonDecode(res.body);
-    print('body$body');
 
-    print('jsonResponse$jsonResponse');
-
-    if (res.statusCode == 200) {
-                  mytoken = jsonResponse["data"]["token"];
-
-      if (jsonResponse['status'] == 1) {
-        print(jsonResponse['message']);
-        var msgres = jsonResponse['message'];
-        if (jsonResponse != null) {
-          sharedPreferences.setString(
-              "token", '${jsonResponse["data"]["token"]}');
-          sharedPreferences.setString(
-              "myuid", '${jsonResponse["data"]["user"]["id"]}');
-          sharedPreferences.setString(
-              "imageURL", '${jsonResponse["data"]["user"]["imageURL"]}');
-
-          sharedPreferences?.setBool("isLoggedIn", true);
-       
-          var userid = jsonResponse["data"]["user"]["id"];
-
-          if (mytoken != null) {
-            islogin =true;
-            return mytoken;
-          } else if (mytoken == null) {
-             islogin =false;
-            return mytoken;
-          }
-          return mytoken;
-
-          // Navigator.of(context).pushAndRemoveUntil(
-          //     CupertinoPageRoute(
-          //         builder: (BuildContext context) => NavScreen()),
-          //     (Route<dynamic> route) => false);
-        } else {
-          // setState(() {
-          //   _isloading = false;
-          // });
-        }
-      }
-    }
-    if (res.statusCode == 400) {
-      if (jsonResponse['status'] == 0) {
-        print(jsonResponse['message']);
-        return null;
-        // setState(() {
-        //   msgres = jsonResponse['message'];
-        //   _isloading = false;
-
-        //   iserror = true;
-        // });
-      }
-    }
-    return mytoken;
+    return res;
   }
 
-static  Future getstory(String id) async {
-    var storytestreplaceAll,storytest;
+  static Future getstory(String id) async {
+    var storytestreplaceAll, storytest;
     try {
       var url = Uri.parse("${Api.url}api/post/search");
       final headers = {
@@ -257,20 +204,8 @@ static  Future getstory(String id) async {
       };
       var body = jsonEncode(data);
       var responseRequest = await Http.post(url, headers: headers, body: body);
-      if (responseRequest.statusCode == 200) {
-        final jsonResponse = jsonDecode(responseRequest.body);
-          var date1 = jsonResponse["data"];
-          for (var i in date1) {
-            storytest = i["story"]["story"];
-            // storyimage = i["story"]["coverImage"];
-            storytestreplaceAll = storytest.replaceAll("<create-text>", "");
-          }
-                  print("Response  :$storytestreplaceAll");
-
-          return storytestreplaceAll;
-      } if (responseRequest.statusCode == 400) {
-        return null;
-      }
+      return responseRequest;
+     
     } catch (e) {}
   }
 
@@ -492,8 +427,10 @@ static  Future getstory(String id) async {
     return responseData;
   }
 
-  static Future<Http.Response> apisearchlist(
+  static Future apisearchlist(
       String keyword, String hashtag, int offset) async {
+    List<SearchPostList> searchpostList = [];
+
     // print('getHashtagList');
     var url = "https://today-api.moveforwardparty.org/api/main/content/search";
     final headers = {
@@ -520,7 +457,15 @@ static  Future getstory(String id) async {
     // print('body$body');
     // print('responseData${responseData.body}');
 
-    return responseData;
+    if (responseData.statusCode == 200) {
+      var datapostlist = jsonDecode(responseData.body);
+      for (Map i in datapostlist["data"]) {
+        searchpostList.add(SearchPostList.fromJson(i));
+      }
+      return searchpostList;
+    } else if (responseData.statusCode == 400) {
+      return null;
+    }
   }
 
   static Future<Http.Response> getcommentlist(
@@ -862,7 +807,7 @@ static  Future getstory(String id) async {
     final responseData = await Http.get(
         "https://today-api.moveforwardparty.org/api/page/$pageid",
         headers: headers);
-    // print('responseDatagetpagess${responseData.body}');
+    print('responseDatagetpagess${responseData.body}');
 
     return responseData;
   }
