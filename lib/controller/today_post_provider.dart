@@ -18,7 +18,7 @@ class TodayPostController extends GetxController {
   var storycontent = "";
   var id = "";
   var postid;
-  RxString titalpost="".obs;
+  RxString titalpost = "".obs;
   var imagUrl;
   //  String type;
   var createdDate;
@@ -38,9 +38,10 @@ class TodayPostController extends GetxController {
     super.onInit();
   }
 
-  getpost(var offset) async {
+  getpost(var offset, {var pagenumber = 0}) async {
     print('getmergencyevents');
     try {
+       
       if (postList.length == 0) {
         isLoading(true);
         firstload(true);
@@ -88,7 +89,7 @@ class TodayPostController extends GetxController {
     }
   }
 
-   getstory(String id) async {
+  getstory(String id) async {
     print('getstory');
     try {
       idloadingstory.value = true;
@@ -97,13 +98,12 @@ class TodayPostController extends GetxController {
         final jsonResponse = jsonDecode(responseRequest.body);
         for (Map i in jsonResponse["data"]) {
           var storytest = i["story"]["story"];
-          var  tital =i["title"];
+          var tital = i["title"];
           storytestreplaceAll = storytest.replaceAll("<create-text>", "");
-          titalpost.value=tital;
+          titalpost.value = tital;
         }
         print("Response  :$storytestreplaceAll");
         print('titalpost$titalpost');
-        
       }
       if (responseRequest.statusCode == 400) {
         return null;

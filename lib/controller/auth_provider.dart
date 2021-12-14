@@ -92,6 +92,8 @@ class AuthController extends GetxController {
               "myuid", '${jsonResponse["data"]["user"]["id"]}');
           sharedPreferences.setString(
               "imageURL", '${jsonResponse["data"]["user"]["imageURL"]}');
+               sharedPreferences.setString(
+              "mode", 'EMAIL');
 
           sharedPreferences?.setBool("isLoggedIn", true);
        

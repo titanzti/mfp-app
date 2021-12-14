@@ -229,8 +229,9 @@ Widget topImage(String image) {
       child: Center(
         child: Hero(
           tag: "image" + image,
-          child: Image.network(
-            image,
+          child:image==null?Container(): Image.network(
+            image
+            ,
             fit: BoxFit.fill,
           ),
         ),
@@ -339,22 +340,8 @@ Widget primaryAppBar(
         color: MColors.primaryBlue,
         onPressed: () => print('Messenger'),
       ),
-      token != "" && token != null
-          ? InkWell(
-              onTap: () => widgetprofile == null
-                  ? null
-                  : Navigate.pushPage(context, widgetprofile),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: CircleAvatar(
-                  radius: 25.0,
-                  backgroundImage: NetworkImage(
-                      'https://today-api.moveforwardparty.org/api$imageurl/image'),
-                  backgroundColor: Colors.transparent,
-                ),
-              ),
-            )
-          : Padding(
+     token == null || token == ""
+          ? Padding(
               padding: const EdgeInsets.all(5.0),
               child: CircleAvatar(
                 radius: 25.0,
@@ -371,6 +358,20 @@ Widget primaryAppBar(
                 ),
               ),
             )
+          :InkWell(
+              onTap: () => widgetprofile == null
+                  ? null
+                  : Navigate.pushPage(context, widgetprofile),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: CircleAvatar(
+                  radius: 25.0,
+                  backgroundImage: NetworkImage(
+                      'https://today-api.moveforwardparty.org/api$imageurl/image'),
+                  backgroundColor: Colors.transparent,
+                ),
+              ),
+            ) 
     ],
   );
 }

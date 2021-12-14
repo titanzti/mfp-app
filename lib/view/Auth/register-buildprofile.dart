@@ -70,6 +70,8 @@ class _BuildprofileState extends State<Buildprofile> {
               "token", '${jsonResponse["data"]["token"]}');
           sharedPreferences.setString(
               "myuid", '${jsonResponse["data"]["user"]["id"]}');
+        sharedPreferences.setString(
+              "mode", 'EMAIL');
 
           sharedPreferences?.setBool("isLoggedIn", true);
           var mytoken = jsonResponse["data"]["token"];
@@ -137,28 +139,25 @@ class _BuildprofileState extends State<Buildprofile> {
     }
     // showMessage('Profile Image not uploaded', false);
   }
-  
+
   @override
   void initState() {
     // TODO: implement initState
     checkInternetConnectivity().then((value) {
       value == true
-          ? () {   
-            
-          }()
+          ? () {}()
           : Navigate.pushPageDialog(context, nonet(context));
-    
-   
-  });
-   super.initState();
+    });
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Column(
-              children: [
+      physics: ClampingScrollPhysics(),
+      child: Column(
+        children: [
           Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -296,70 +295,70 @@ class _BuildprofileState extends State<Buildprofile> {
                     width: MediaQuery.of(context).size.width * 0.86,
                   ),
                   isloading == true
-                              ? Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child: ElevatedButton(
-                                          style: TextButton.styleFrom(
-                                            padding: EdgeInsets.only(
-                                                top: 15, bottom: 15),
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(30.0),
-                                                side: BorderSide(
-                                                    color: Colors.red)),
-                                            primary: MColors.primaryColor,
-                                          ),
-                                          onPressed: null,
-                                          child: Center(
-                                            child: CircularProgressIndicator(color: MColors.primaryColor,),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                      ? Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: TextButton.styleFrom(
+                                    padding:
+                                        EdgeInsets.only(top: 15, bottom: 15),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                        side: BorderSide(color: Colors.red)),
+                                    primary: MColors.primaryColor,
                                   ),
-                                )
-                              :
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: RaisedButton(
-                            padding: EdgeInsets.only(top: 15, bottom: 15),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                                side: BorderSide(color: Colors.red)),
-                            child: Text(
-                              'สร้างโปรไฟล์',
-                              style: TextStyle(
-                                fontSize: AppTheme.BodyTextSize20,
-                                fontFamily: AppTheme.FontAnakotmaiMedium,
-                              ),
-                            ),
-                            textColor: Colors.white,
-                            color: MColors.primaryColor,
-                            onPressed: () async {
-                              await singin(widget.email, widget.password);
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(builder: (context) => Buildprofile()),
-                              // );
-                              print('กด');
-                            },
+                                  onPressed: null,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      color: MColors.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         )
-                      ],
-                    ),
-                  ),
+                      : Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: RaisedButton(
+                                  padding: EdgeInsets.only(top: 15, bottom: 15),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30.0),
+                                      side: BorderSide(color: Colors.red)),
+                                  child: Text(
+                                    'สร้างโปรไฟล์',
+                                    style: TextStyle(
+                                      fontSize: AppTheme.BodyTextSize20,
+                                      fontFamily: AppTheme.FontAnakotmaiMedium,
+                                    ),
+                                  ),
+                                  textColor: Colors.white,
+                                  color: MColors.primaryColor,
+                                  onPressed: () async {
+                                    await singin(widget.email, widget.password);
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(builder: (context) => Buildprofile()),
+                                    // );
+                                    print('กด');
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                 ],
               ),
             ),
           )
-              ],
-            ),
-        ));
+        ],
+      ),
+    ));
   }
 }

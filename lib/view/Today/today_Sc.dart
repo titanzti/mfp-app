@@ -54,7 +54,7 @@ class _TodayScState extends State<TodaySc> {
   int _current = 0;
   final CarouselController _controller = CarouselController();
   bool islike = false;
-  String token;
+  String token="";
   var datagetuserprofile;
 
   var displayName1;
@@ -75,7 +75,7 @@ class _TodayScState extends State<TodaySc> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  String mode = "";
+  var mode = "";
 
   void _goToElement(int index) {
     _scrollController.animateTo(
@@ -90,16 +90,25 @@ class _TodayScState extends State<TodaySc> {
 
   @override
   void initState() {
-    checkInternetConnectivity().then((value) {
+    Future.delayed(Duration.zero, () async {
+                  print('Futuredelayed');
+                  //--token
+                token=await   Api.gettoke();
+                print('tokenhome$token');
+                //--mode
+               mode= await  Api.getmodelogin();
+                  print('mode$mode');
+                //--userid
+               userid= await Api.getmyuid();
+                print('userid$userid');
+                  
+                });
+    checkInternetConnectivity().then((value)async {
       value == true
-          ? () {
+          ? ()async {
               setState(() {
                 _scrollController.addListener(_loadMore);
-                Api.gettoke().then((value) => value({
-                      setState(() {
-                        token = value;
-                      }),
-                    }));
+          
                 Api.getmodelogin().then((value) => value({
                       setState(() {
                         mode = value;
@@ -140,8 +149,12 @@ class _TodayScState extends State<TodaySc> {
 
                 Future.delayed(Duration.zero, () async {
                   print('delayedgetpost');
-                  await emergencyController.getmergencyevents();
+                  todayController.postList.clear();
+                  todayController.recompageList.clear();
+                  emergencyController.emergencyevList.clear();
+                     
 
+                  await emergencyController.getmergencyevents();
                   await todayController.getpost(0);
                   await todayController.getrecompage();
                 });
@@ -317,6 +330,7 @@ class _TodayScState extends State<TodaySc> {
                       userid: widget.userid,
                       token: token,
                     )),
+
                 ///-----------APPBAR-----------------//
                 SliverToBoxAdapter(
                   child: Obx(() {
@@ -359,26 +373,26 @@ class _TodayScState extends State<TodaySc> {
                                   : SizedBox.shrink();
                             }
                             return postlist(
-                                  nDataList1.post.title,
-                                  nDataList1.post.detail,
-                                  nDataList1.page.name,
-                                  nDataList1.post.createdDate,
-                                  nDataList1.post.gallery,
-                                  nDataList1.post.likeCount,
-                                  nDataList1.post.commentCount,
-                                  nDataList1.post.shareCount,
-                                  nDataList1.post.repostCount,
-                                  nDataList1.post.id,
-                                  nDataList1.page.id,
-                                  nDataList1.page.imageUrl,
-                                  nDataList1.page.name,
-                                  false,
-                                  nDataList1.page.pageUsername,
-                                  nDataList1.page.isOfficial,
-                                  nDataList1,
-                                  nDataList1.post.type,
-                                   nDataList1.post.story,
-                                );
+                              nDataList1.post.title,
+                              nDataList1.post.detail,
+                              nDataList1.page.name,
+                              nDataList1.post.createdDate,
+                              nDataList1.post.gallery,
+                              nDataList1.post.likeCount,
+                              nDataList1.post.commentCount,
+                              nDataList1.post.shareCount,
+                              nDataList1.post.repostCount,
+                              nDataList1.post.id,
+                              nDataList1.page.id,
+                              nDataList1.page.imageUrl,
+                              nDataList1.page.name,
+                              false,
+                              nDataList1.page.pageUsername,
+                              nDataList1.page.isOfficial,
+                              nDataList1,
+                              nDataList1.post.type,
+                              nDataList1.post.story,
+                            );
                           });
                   }),
                 ),
@@ -482,32 +496,32 @@ class _TodayScState extends State<TodaySc> {
                     padding: const EdgeInsets.all(10.0),
                     child: subtexttitlepost(subtitle, context),
                   ),
-                sroty!=null? 
-                 Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: InkWell(
-                        onTap: () async {
-                          Navigate.pushPage(
-                              context,
-                              StroyPageSc(
-                                postid: postid,
-                                titalpost: posttitle,
-                                imagUrl: gallery,
-                                type: type,
-                                createdDate: dateTime,
-                                postby: pagename,
-                                imagepage: pageimage,
-                                likeCount: likeCount,
-                                commentCount: commentCount,
-                                shareCount: shareCount,
-                                repostCount: repostCount,
-                                userid: userid,
-                                token: token,
-                              ));
-                        }, 
-                        child: textreadstory('อ่านสตอรี่..')),
-                  )
-                  :Container(),
+                  sroty != null
+                      ? Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: InkWell(
+                              onTap: () async {
+                                Navigate.pushPage(
+                                    context,
+                                    StroyPageSc(
+                                      postid: postid,
+                                      titalpost: posttitle,
+                                      imagUrl: gallery,
+                                      type: type,
+                                      createdDate: dateTime,
+                                      postby: pagename,
+                                      imagepage: pageimage,
+                                      likeCount: likeCount,
+                                      commentCount: commentCount,
+                                      shareCount: shareCount,
+                                      repostCount: repostCount,
+                                      userid: userid,
+                                      token: token,
+                                    ));
+                              },
+                              child: textreadstory('อ่านสตอรี่..')),
+                        )
+                      : Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.start,
@@ -754,7 +768,7 @@ class _TodayScState extends State<TodaySc> {
                                 // size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
-                              width: 4.1,
+                              width: 4.2,
                               onTap: () => print('Comment'),
                             ),
                             PostButton(

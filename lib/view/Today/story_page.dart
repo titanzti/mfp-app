@@ -18,7 +18,7 @@ import 'package:url_launcher/url_launcher.dart';
 class StroyPageSc extends StatefulWidget {
   final String postid;
   final String titalpost;
-  final List<GalleryPostSearchModel> imagUrl;
+  final List imagUrl;
   final String type;
   final DateTime createdDate;
   final String postby;
@@ -56,7 +56,7 @@ class _StroyPageScState extends State<StroyPageSc> {
 
   String story1;
   // var storytestreplaceAll;
-  List<GalleryPostSearchModel> imagelist = [];
+  List imagelist = [];
   String type = "";
   final TodayPostController todayController = Get.put(TodayPostController());
 
@@ -71,7 +71,7 @@ class _StroyPageScState extends State<StroyPageSc> {
   StreamController _postsController;
     String postid;
    String titalpost;
-   List<GalleryPostSearchModel> imagUrl;
+  //  List<GalleryPostSearchModel> imagUrl;
   //  String type;
    DateTime createdDate;
    String postby;
