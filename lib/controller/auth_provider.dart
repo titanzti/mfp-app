@@ -14,7 +14,7 @@ class AuthController extends GetxController {
   var isLoading = false.obs;
   var isLogin = false.obs;
   var token = "";
-  var msg="";
+  var msg = "";
   var iserror = false.obs;
 
   @override
@@ -70,71 +70,75 @@ class AuthController extends GetxController {
   //   }
   // }
   Future login(String email, String password) async {
-        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
     try {
       isLoading(true);
-            final res = await Api.singin(email, password);
+      final res = await Api.singin(email, password);
 
       final jsonResponse = jsonDecode(res.body);
 
+      if (res.statusCode == 200) {
+        token = jsonResponse["data"]["token"];
 
-    if (res.statusCode == 200) {
-    token = jsonResponse["data"]["token"];
+        if (jsonResponse['status'] == 1) {
+          print(jsonResponse['message']);
+          var msgres = jsonResponse['message'];
+          if (jsonResponse != null) {
+            sharedPreferences.setString(
+                "token", '${jsonResponse["data"]["token"]}');
+            sharedPreferences.setString(
+                "myuid", '${jsonResponse["data"]["user"]["id"]}');
+            sharedPreferences.setString(
+                "imageURL", '${jsonResponse["data"]["user"]["imageURL"]}');
+            sharedPreferences.setString("mode", 'EMAIL');
 
-      if (jsonResponse['status'] == 1) {
-        print(jsonResponse['message']);
-        var msgres = jsonResponse['message'];
-        if (jsonResponse != null) {
-          sharedPreferences.setString(
-              "token", '${jsonResponse["data"]["token"]}');
-          sharedPreferences.setString(
-              "myuid", '${jsonResponse["data"]["user"]["id"]}');
-          sharedPreferences.setString(
-              "imageURL", '${jsonResponse["data"]["user"]["imageURL"]}');
-               sharedPreferences.setString(
-              "mode", 'EMAIL');
+            sharedPreferences?.setBool("isLoggedIn", true);
 
-          sharedPreferences?.setBool("isLoggedIn", true);
-       
-          var userid = jsonResponse["data"]["user"]["id"];
+            var userid = jsonResponse["data"]["user"]["id"];
 
-          if (token != null) {
-            isLogin.value =true;
-             iserror.value= false;
-            msg=msgres;
-          
-          } else if (token == null) {
-            msg=msgres;
-            iserror.value= true;
-            isLogin.value =false;
+            if (token != null) {
+              isLogin.value = true;
+              iserror.value = false;
+              msg = msgres;
+            } else if (token == null) {
+              msg = msgres;
+              iserror.value = true;
+              isLogin.value = false;
+            }
+
+            // Navigator.of(context).pushAndRemoveUntil(
+            //     CupertinoPageRoute(
+            //         builder: (BuildContext context) => NavScreen()),
+            //     (Route<dynamic> route) => false);
+          } else {
+            // setState(() {
+            //   _isloading = false;
+            // });
+          }
+        }
+      }
+      if (res.statusCode == 400) {
+        if (jsonResponse['status'] == 0) {
+          iserror.value = true;
+          msg = jsonResponse['message'];
+          print(jsonResponse['message']);
+          if (msg == "Invalid Password") {
+            msg = "รหัสผ่านไม่ถูกต้อง";
+          }
+          if (msg == "Invalid username") {
+            msg = "ชื่อผู้ใช้หรืออีเมล์ไม่ถูกต้อง";
           }
 
-          // Navigator.of(context).pushAndRemoveUntil(
-          //     CupertinoPageRoute(
-          //         builder: (BuildContext context) => NavScreen()),
-          //     (Route<dynamic> route) => false);
-        } else {
+          return jsonResponse['message'];
           // setState(() {
+          //   msgres = jsonResponse['message'];
           //   _isloading = false;
+
+          //   iserror = true;
           // });
         }
       }
-    }
-    if (res.statusCode == 400) {
-      if (jsonResponse['status'] == 0) {
-          iserror.value= true;
-          msg=jsonResponse['message'];
-        print(jsonResponse['message']);
-        return jsonResponse['message'];
-        // setState(() {
-        //   msgres = jsonResponse['message'];
-        //   _isloading = false;
-
-        //   iserror = true;
-        // });
-      }
-    }
     } finally {
       isLoading(false);
     }

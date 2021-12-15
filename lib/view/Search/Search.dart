@@ -18,14 +18,10 @@ import 'package:mfp_app/view/Profile/Profliess.dart';
 import 'package:mfp_app/view/Search/post_search.dart';
 
 class Search extends StatefulWidget {
-  final String userid;
-  bool isOpen;
+// Search({
+//     Key key,
 
-  Search({
-    Key key,
-    this.userid,
-    this.isOpen,
-  }) : super(key: key);
+//   }) : super(key: key);
   // ShopSC({Key? key}) : super(key: key);
 
   @override
@@ -57,7 +53,6 @@ class _SearchState extends State<Search> {
 
   var userid;
 
-  var userimageUrl;
 
   TextEditingController controller = new TextEditingController();
   List<SearchHastag> listSearchHastag = [];
@@ -87,7 +82,6 @@ class _SearchState extends State<Search> {
 
   var datagetuserprofile;
 
-  var userid1;
 
   var msg = "";
 
@@ -96,16 +90,16 @@ class _SearchState extends State<Search> {
   void initState() {
     print('initState');
     super.initState();
-    setState(() {
-      Api.gettoke().then((value) => value({
-            token = value,
-            print('token$token'),
-          }));
-      Api.getmyuid().then((value) => ({
-            setState(() {
-              userid = value;
-            }),
-            Api.getuserprofile("$userid").then((responseData) async => ({
+    Future.delayed(Duration.zero, () async {
+      print('Futuredelayed');
+      //--token
+      token = await Api.gettoke();
+      print('tokenhome$token'); 
+      //--userid
+      userid = await Api.getmyuid();
+      print('useridsearch$userid');
+      //--
+      await Api.getuserprofile("$userid").then((responseData) async => ({
                   if (responseData.statusCode == 200)
                     {
                       datagetuserprofile = jsonDecode(responseData.body),
@@ -119,22 +113,14 @@ class _SearchState extends State<Search> {
                         //     ["firstName"];
                         // lastName = datagetuserprofile["data"]
                         //     ["lastName"];
-                        userid1 = datagetuserprofile["data"]["id"];
+                        // userid1 = datagetuserprofile["data"]["id"];
                         // email =
                         //     datagetuserprofile["data"]["email"];
                         image = datagetuserprofile["data"]["imageURL"];
                       }),
                       print('image$image'),
                     }
-                })),
-            print('userid$userid'),
-          }));
-      Api.getimageURL().then((value) => ({
-            setState(() {
-              userimageUrl = value;
-            }),
-            print('userimageUrl$userimageUrl'),
-          }));
+                }));
     });
   }
 
@@ -238,8 +224,8 @@ class _SearchState extends State<Search> {
 
   @override
   void didChangeDependencies() {
-    getsearch(controller.text.toLowerCase(), widget.userid);
-    getpage(isvalue);
+    // getsearch(controller.text.toLowerCase(), userid);
+    // getpage(isvalue);
 
     print('didChangeDependencies');
     super.didChangeDependencies();
@@ -366,13 +352,10 @@ class _SearchState extends State<Search> {
                                     ),
                                   ),
                                   onChanged: (text) async {
-                                    if (text == "") {
+                                    if (text == ""||controller.text=="") {
                                       print("controllerวางจริง");
                                       setState(() {
                                         _listPageModel.clear();
-
-                                        isvalue = "";
-
                                         controller.clear();
                                         listSearchHastag.clear();
                                         _searchResult.clear();
@@ -386,7 +369,7 @@ class _SearchState extends State<Search> {
                                             controller.text.toLowerCase());
                                       }).toList();
                                       await getsearch(
-                                          text.toLowerCase(), widget.userid);
+                                          text.toLowerCase(), userid);
                                     });
                                   },
                                 ),
@@ -413,7 +396,7 @@ class _SearchState extends State<Search> {
                                     _listPageModel.clear();
                                   }
                                   await getsearch(controller.text.toLowerCase(),
-                                      widget.userid);
+                                      userid);
                                 },
                                 child: Container(
                                   height: 38,
@@ -453,8 +436,8 @@ class _SearchState extends State<Search> {
               //     ? SliverToBoxAdapter(
               //         child: Center(child: CupertinoActivityIndicator()))
               //     :
-              listSearchHastag.length != 0 || controller.text != ""
-                  ? SliverToBoxAdapter(
+             controller.text != "" 
+                  ?  listSearchHastag.length!=0||controller.text!=""?SliverToBoxAdapter(
                       child: new Builder(builder: (BuildContext context) {
                         return ListView.builder(
                           physics: ClampingScrollPhysics(),
@@ -463,14 +446,9 @@ class _SearchState extends State<Search> {
                           itemCount: listSearchHastag.length,
                           itemBuilder: (context, i) {
                             var data = listSearchHastag[i];
-                            var istype = data.type;
-                            var islabel = data.label;
-                            isType = data.type;
-                            print('isty$isType');
-                            print("isva$isvalue");
                             return InkWell(
                               onTap: () {
-                                if (istype == "HASHTAG") {
+                                if (data.type == "HASHTAG") {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -513,11 +491,12 @@ class _SearchState extends State<Search> {
                         );
                       }),
                     )
-                  : SliverToBoxAdapter(child: Container()),
+                  : SliverToBoxAdapter(child: Container()):SliverToBoxAdapter(child: Center(child: Text('ไม่พบข้อมูล',style:TextStyle(fontSize: 18,)))),
               loadingpage == true
                   ? SliverToBoxAdapter(
                       child: Center(child: CupertinoActivityIndicator()))
-                  : SliverToBoxAdapter(
+                  :controller.text != ""
+                  ? SliverToBoxAdapter(
                       child: ListView.builder(
                         physics: ClampingScrollPhysics(),
                         shrinkWrap: true,
@@ -532,10 +511,6 @@ class _SearchState extends State<Search> {
                                   Profliess(
                                     id: data.id,
                                     image: data.imageUrl,
-                                    name: data.name,
-                                    isOfficial: data.isOfficial,
-                                    pageUsername: data.pageUsername,
-                                    userid: userid1,
                                   ));
                             },
                             child: Card(
@@ -559,7 +534,7 @@ class _SearchState extends State<Search> {
                           );
                         },
                       ),
-                    ),
+                    ):SliverToBoxAdapter(child: Container()),
             ],
           ),
         ),

@@ -166,9 +166,7 @@ class _DTemergenScState extends State<DTEmergenSc> {
                   widget.token,
                   "",
                   image,
-                  Search(
-                    userid: widget.userid,
-                  ),
+                  Search(),
                   ProfileSc(
                     userid: widget.userid,
                     token: widget.token,

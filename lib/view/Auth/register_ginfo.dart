@@ -62,7 +62,7 @@ class _GeneralinformationState extends State<Generalinformation> {
 
   TextEditingController _firstname;
   TextEditingController _lastname;
-  final TextEditingController _birthday= new TextEditingController();
+  final TextEditingController _birthday = new TextEditingController();
   final TextEditingController _customGender = TextEditingController();
 
   DateTime date;
@@ -111,8 +111,7 @@ class _GeneralinformationState extends State<Generalinformation> {
     }
   }
 
- 
- @override
+  @override
   void initState() {
     // TODO: implement initState
     _email = new TextEditingController(text: widget.email);
@@ -121,15 +120,12 @@ class _GeneralinformationState extends State<Generalinformation> {
     _lastname = new TextEditingController(text: widget.lastname);
     checkInternetConnectivity().then((value) {
       value == true
-          ? () {   
-            
-          }()
+          ? () {}()
           : Navigate.pushPageDialog(context, nonet(context));
-    
-   
-  });
-   super.initState();
+    });
+    super.initState();
   }
+
   Future<http.Response> Register(
     String email,
     String password,
@@ -284,13 +280,12 @@ class _GeneralinformationState extends State<Generalinformation> {
 
         if (jsonResponse['status'] == 1) {
           setState(() {
-            isregisterfb = true;
-
             print("Response status :${jsonResponse.statusCode}");
             print("Response status :${jsonResponse.body}");
             sharedPreferences.setString(
                 "token", '${jsonResponse["data"]["token"]}');
             mytoken = jsonResponse["data"]["token"];
+            isregisterfb = true;
           });
         }
       }
@@ -412,7 +407,6 @@ class _GeneralinformationState extends State<Generalinformation> {
       },
     );
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -619,7 +613,7 @@ class _GeneralinformationState extends State<Generalinformation> {
                   date = date;
 
                   _birthday.text = f.format(date).toString();
-                  
+
                   print('confirm $date');
                 }, currentTime: DateTime.now(), locale: LocaleType.th);
               },
@@ -1023,18 +1017,19 @@ class _GeneralinformationState extends State<Generalinformation> {
                                                 print('isregister$isregister');
                                                 print(
                                                     'isregisterfb$isregisterfb');
+                                                if (isregisterfb == true) {
+                                                  return Navigator.of(context)
+                                                      .pushAndRemoveUntil(
+                                                          CupertinoPageRoute(
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  NavScreen()),
+                                                          (Route<dynamic>
+                                                                  route) =>
+                                                              false);
+                                                }
 
-                                                isregisterfb == true
-                                                    ? Navigator.of(context)
-                                                        .pushAndRemoveUntil(
-                                                            CupertinoPageRoute(
-                                                                builder: (BuildContext
-                                                                        context) =>
-                                                                    NavScreen()),
-                                                            (Route<dynamic>
-                                                                    route) =>
-                                                                false)
-                                                    : showAlertDialog(context);
+                                                //  showAlertDialog(context);
 
                                                 isregister == true
                                                     ? Navigator.push(

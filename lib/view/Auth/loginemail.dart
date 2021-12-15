@@ -102,20 +102,17 @@ class _LoginemailState extends State<Loginemail> {
   //     }
   //   }
   // }
- @override
+  @override
   void initState() {
     // TODO: implement initState
     checkInternetConnectivity().then((value) {
       value == true
-          ? () {   
-            
-          }()
+          ? () {}()
           : Navigate.pushPageDialog(context, nonet(context));
-    
-   
-  });
-   super.initState();
+    });
+    super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
@@ -150,9 +147,9 @@ class _LoginemailState extends State<Loginemail> {
       onSaved: (value) {
         authController.emailController.text = value;
       },
-      validator: (value) {
-        return authController.validateemail(value);
-      },
+      // validator: (value) {
+      //   return authController.validateemail(value);
+      // },
     );
     //-------------------รหัสผ่าน---------------------//
     final TextFormField _txtPassword = TextFormField(
@@ -194,9 +191,9 @@ class _LoginemailState extends State<Loginemail> {
       onSaved: (value) {
         authController.passController.text = value;
       },
-      validator: (value) {
-        return authController.validatepassword(value);
-      },
+      // validator: (value) {
+      //   return authController.validatepassword(value);
+      // },
     );
     // if (_emailController.text != "" && _passController.text != "") {
     //   _isEnabled = false;

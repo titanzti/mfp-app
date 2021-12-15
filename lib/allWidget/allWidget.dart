@@ -548,9 +548,8 @@ Widget nonet(BuildContext context) {
           SizedBox(
             height: MediaQuery.of(context).size.height / 4.0,
           ),
-
           Image.asset(
-            'images/error_404.png',
+            'images/error_404.jpg',
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / 2,
             fit: BoxFit.cover,
@@ -558,9 +557,10 @@ Widget nonet(BuildContext context) {
           Align(
               alignment: Alignment.topCenter,
               child: Text(
-                'NetWork interruption',
+                'Network Interruption',
                 style: TextStyle(),
               )),
+              SizedBox(height: 20,),
           Container(
             width: MediaQuery.of(context).size.width * 0.4,
             child: RaisedButton(
@@ -578,21 +578,21 @@ Widget nonet(BuildContext context) {
                 await checkInternetConnectivity().then((value) {
                   value == true
                       ? Navigate.pushPageReplacement(context, NavScreen())
-                      : ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                          content: Text(
-                            'ลองอีกครั้ง',
-                            textAlign: TextAlign.center,
-                          ),
+                      : ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           behavior: SnackBarBehavior.floating,
-                          width: 150,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          backgroundColor: MColors.primaryColor,
-                          duration: Duration(milliseconds: 200)
-                          // margin: EdgeInsets.fromLTRB(0, 10, 0, 50),
-                          // padding: EdgeInsets.all(20),
-                          ));
+
+    backgroundColor: Colors.yellow,
+    content: Row(
+      children: [
+        Icon(Icons.warning,color: Colors.black,),
+        SizedBox(width: 5,),
+        Text('ลองอีกครั้ง',style: TextStyle(fontSize: 16,color: Colors.black),),
+        
+      ],
+    ),
+    duration: Duration(milliseconds: 1000),
+    dismissDirection: DismissDirection.horizontal,
+  ));
                 });
                 print('กด');
               },

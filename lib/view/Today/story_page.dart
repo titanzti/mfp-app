@@ -69,17 +69,17 @@ class _StroyPageScState extends State<StroyPageSc> {
   var jsonResponse;
   bool onref = false;
   StreamController _postsController;
-    String postid;
-   String titalpost;
+  String postid;
+  String titalpost;
   //  List<GalleryPostSearchModel> imagUrl;
   //  String type;
-   DateTime createdDate;
-   String postby;
-   String imagepage;
-   int likeCount;
-   int commentCount;
-   int shareCount;
-   int repostCount;
+  DateTime createdDate;
+  String postby;
+  String imagepage;
+  int likeCount;
+  int commentCount;
+  int shareCount;
+  int repostCount;
 
   @override
   void didChangeDependencies() {
@@ -93,7 +93,7 @@ class _StroyPageScState extends State<StroyPageSc> {
   @override
   void initState() {
     // getStory(widget.postid);
-    
+
     imagelist = widget.imagUrl;
     Api.getcommentlist(widget.postid, widget.userid, widget.token)
         .then((responseData) => ({
@@ -119,7 +119,6 @@ class _StroyPageScState extends State<StroyPageSc> {
     _postsController = new StreamController();
     Future.delayed(Duration.zero, () async {
       await todayController.getstory(widget.postid);
-
     });
 
     super.initState();
@@ -135,302 +134,297 @@ class _StroyPageScState extends State<StroyPageSc> {
     if (widget.type == "GENERAL") {
       type = "ทั่วไป";
     }
-    return  Obx(
-            () =>   Scaffold(
-      appBar: AppBar(
-        backgroundColor: MColors.primaryWhite,
-        elevation: 0,
-        centerTitle: true,
-        title:todayController.idloadingstory.value
+    return Obx(() => Scaffold(
+          appBar: AppBar(
+            backgroundColor: MColors.primaryWhite,
+            elevation: 0,
+            centerTitle: true,
+            title: todayController.idloadingstory.value
                 ? Container()
-                :  Text(
-          todayController.titalpost.value.toString(),
-          style: TextStyle(
-              color: MColors.textDark,
-              fontWeight: FontWeight.bold,
-              fontSize: 18),
-        ),
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: MColors.primaryColor,
+                : Text(
+                    todayController.titalpost.value.toString(),
+                    style: TextStyle(
+                        color: MColors.textDark,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: MColors.primaryColor,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          child:Container(
-                    child: Column(
+          body: Scrollbar(
+            child: SingleChildScrollView(
+              child: Container(
+                child: Column(
+                  children: [
+                    Stack(
                       children: [
-                        Stack(
-                          children: [
-                            Image.network("${imagelist[0].signUrl}",
-                                color: Color.fromRGBO(255, 255, 255, 0.7),
-                                colorBlendMode: BlendMode.dstATop),
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height / 1.9,
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    // SizedBox(
-                                    //   height:
-                                    //       MediaQuery.of(context).size.height / 10.0,
-                                    // ),
-                                    Center(
-                                      child: Container(
-                                        // color: Colors.grey[800],
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        // height:
-                                        //     MediaQuery.of(context).size.height / 10,
-                                        child: Center(
-                                          child: Column(
-                                            children: [
-                                             todayController.idloadingstory.value
-                ? Container()
-                :  Text(
-                                                todayController.titalpost.value.toString(),
-                                                textAlign: TextAlign.center,
-                                                maxLines: 3,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    fontFamily: AppTheme
-                                                        .FontAnakotmaiBold,
-                                                    color: MColors.textDark,
-                                                    fontSize:
-                                                        AppTheme.TitleTextSize),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 30, right: 30),
-                                                child: Divider(
-                                                    color: MColors.primaryWhite,
-                                                    height: 10,
-                                                    thickness: 2.0),
-                                              ),
-                                            ],
+                        Image.network("${imagelist[0].signUrl}",
+                            color: Color.fromRGBO(255, 255, 255, 0.7),
+                            colorBlendMode: BlendMode.dstATop),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 1.9,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // SizedBox(
+                                //   height:
+                                //       MediaQuery.of(context).size.height / 10.0,
+                                // ),
+                                Center(
+                                  child: Container(
+                                    // color: Colors.grey[800],
+                                    width: MediaQuery.of(context).size.width,
+                                    // height:
+                                    //     MediaQuery.of(context).size.height / 10,
+                                    child: Center(
+                                      child: Column(
+                                        children: [
+                                          todayController.idloadingstory.value
+                                              ? Container()
+                                              : Text(
+                                                  todayController
+                                                      .titalpost.value
+                                                      .toString(),
+                                                  textAlign: TextAlign.center,
+                                                  maxLines: 3,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontFamily: AppTheme
+                                                          .FontAnakotmaiBold,
+                                                      color: MColors.textDark,
+                                                      fontSize: AppTheme
+                                                          .TitleTextSize),
+                                                ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 30, right: 30),
+                                            child: Divider(
+                                                color: MColors.primaryWhite,
+                                                height: 10,
+                                                thickness: 2.0),
                                           ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+                                // SizedBox(
+                                //   height:
+                                //       MediaQuery.of(context).size.height / 5.5,
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      alignment: Alignment.bottomCenter,
+                      color: Colors.grey[800],
+                      height: MediaQuery.of(context).size.height / 20.0,
+                      width: MediaQuery.of(context).size.width / 1.0,
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 40),
+                          ),
+                          Text(
+                            widget.commentCount.toString(),
+                            //'${nDataList.post.commentCount}',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.comment,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              print('กด');
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 30),
+                          ),
+                          Text(
+                            widget.repostCount.toString(),
+                            //'${nDataList.post.repostCount}',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.favorite,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              print('กด');
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 30),
+                          ),
+                          Text(
+                            widget.likeCount.toString(),
+                            //'${nDataList.post.likeCount}',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.favorite_border,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              print('กด');
+                            },
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 30),
+                          ),
+                          Text(
+                            widget.shareCount.toString(),
+                            //'${nDataList.post.shareCount}',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.share_outlined,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              print('กด');
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Center(
+                      child: Text(
+                        'มีการเติมเต็ม 0 รายการ',
+                        style: TextStyle(
+                            fontFamily: AppTheme.FontAnakotmaiMedium,
+                            color: MColors.textDark,
+                            fontSize: AppTheme.BodyTextSize),
+                      ),
+                    ),
+                    Divider(
+                      color: Colors.grey[200],
+                      height: 3,
+                      thickness: 6.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5.0),
+                      child: Container(
+                        alignment: Alignment.centerLeft,
+                        width: MediaQuery.of(context).size.width / 1.0,
+                        height: MediaQuery.of(context).size.height / 8.0,
+                        color: Colors.grey[100],
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 1.0, right: 10.0, top: 5.0),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                  radius: 30.0,
+                                  backgroundImage: NetworkImage(
+                                      "https://today-api.moveforwardparty.org/api${widget.imagepage}/image")),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 45.0,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      "$type ${TimeUtils.readTimestamp(widget.createdDate.millisecondsSinceEpoch)}",
+                                      style: TextStyle(
+                                          fontFamily:
+                                              AppTheme.FontAnakotmaiBold,
+                                          color: MColors.textDark,
+                                          fontSize: AppTheme.BodyTextSize),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width /
+                                          2.0,
+                                      child: Text(
+                                        'เผยแพร่โดย:${widget.postby}',
+                                        textAlign: TextAlign.left,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontFamily:
+                                              AppTheme.FontAnakotmaiBold,
+                                          color: MColors.textGrey,
+                                          fontSize: AppTheme.BodyTextSize12,
                                         ),
                                       ),
                                     ),
-
-                                    // SizedBox(
-                                    //   height:
-                                    //       MediaQuery.of(context).size.height / 5.5,
-                                    // ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          alignment: Alignment.bottomCenter,
-                          color: Colors.grey[800],
-                          height: MediaQuery.of(context).size.height / 20.0,
-                          width: MediaQuery.of(context).size.width / 1.0,
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 40),
-                              ),
-                              Text(
-                                widget.commentCount.toString(),
-                                //'${nDataList.post.commentCount}',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.comment,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  print('กด');
-                                },
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 30),
-                              ),
-                              Text(
-                                widget.repostCount.toString(),
-                                //'${nDataList.post.repostCount}',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.favorite,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  print('กด');
-                                },
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 30),
-                              ),
-                              Text(
-                                widget.likeCount.toString(),
-                                //'${nDataList.post.likeCount}',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 20),
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  print('กด');
-                                },
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(left: 30),
-                              ),
-                              Text(
-                                widget.shareCount.toString(),
-                                //'${nDataList.post.shareCount}',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  Icons.share_outlined,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  print('กด');
-                                },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
-
-                        Center(
-                          child: Text(
-                            'มีการเติมเต็ม 0 รายการ',
-                            style: TextStyle(
-                                fontFamily: AppTheme.FontAnakotmaiMedium,
-                                color: MColors.textDark,
-                                fontSize: AppTheme.BodyTextSize),
-                          ),
-                        ),
-                        Divider(
-                          color: Colors.grey[200],
-                          height: 3,
-                          thickness: 6.0,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5.0),
-                          child: Container(
-                            alignment: Alignment.centerLeft,
-                            width: MediaQuery.of(context).size.width / 1.0,
-                            height: MediaQuery.of(context).size.height / 8.0,
-                            color: Colors.grey[100],
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 1.0, right: 10.0, top: 5.0),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                      radius: 30.0,
-                                      backgroundImage: NetworkImage(
-                                          "https://today-api.moveforwardparty.org/api${widget.imagepage}/image")),
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width /
-                                        45.0,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          "$type ${TimeUtils.readTimestamp(widget.createdDate.millisecondsSinceEpoch)}",
-                                          style: TextStyle(
-                                              fontFamily:
-                                                  AppTheme.FontAnakotmaiBold,
-                                              color: MColors.textDark,
-                                              fontSize: AppTheme.BodyTextSize),
-                                        ),
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.0,
-                                          child: Text(
-                                            'เผยแพร่โดย:${widget.postby}',
-                                            textAlign: TextAlign.left,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontFamily:
-                                                  AppTheme.FontAnakotmaiBold,
-                                              color: MColors.textGrey,
-                                              fontSize: AppTheme.BodyTextSize12,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Obx(() {
-                            if (todayController.idloadingstory.value)
-                              return CircularProgressIndicator(
-                                color: MColors.primaryColor,
-                              );
-                            else
-                              return todayController.storytestreplaceAll == null ?Text('ไม่มีสตอรี่') : Html(
-                                data: """ ${todayController.storytestreplaceAll} """,
-                                defaultTextStyle: TextStyle(
-                                    fontFamily: AppTheme.FontAnakotmaiLight,
-                                    color: MColors.textDark),
-                                // padding: EdgeInsets.all(8.0),
-                                onLinkTap: (url) async {
-                                  _launchURL(url);
-                                  print("Opening $url...");
-                                },
-                                // customRender: (node, children) {
-                                //   if (node is dom.Element) {
-                                //     switch (node.localName) {
-                                //       case "custom_tag": // using this, you can handle custom tags in your HTML
-                                //         return Column(children: children);
-                                //     }
-                                //   }
-                                // },
-                              );
-                          }),
-                        ),
-                        _buildCommentList(size)
-                        // Text('data'),
-                      ],
+                      ),
                     ),
-                  ),
-            //  Text("$storytest"),
-          
-        ),
-      ),
-    ));
+
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Obx(() {
+                        if (todayController.idloadingstory.value)
+                          return CircularProgressIndicator(
+                            color: MColors.primaryColor,
+                          );
+                        else
+                          return todayController.storytestreplaceAll == null
+                              ? Text('ไม่มีสตอรี่')
+                              : Html(
+                                  data:
+                                      """ ${todayController.storytestreplaceAll} """,
+                                  defaultTextStyle: TextStyle(
+                                      fontFamily: AppTheme.FontAnakotmaiLight,
+                                      color: MColors.textDark),
+                                  // padding: EdgeInsets.all(8.0),
+                                  onLinkTap: (url) async {
+                                    _launchURL(url);
+                                    print("Opening $url...");
+                                  },
+                                  // customRender: (node, children) {
+                                  //   if (node is dom.Element) {
+                                  //     switch (node.localName) {
+                                  //       case "custom_tag": // using this, you can handle custom tags in your HTML
+                                  //         return Column(children: children);
+                                  //     }
+                                  //   }
+                                  // },
+                                );
+                      }),
+                    ),
+                    _buildCommentList(size)
+                    // Text('data'),
+                  ],
+                ),
+              ),
+              //  Text("$storytest"),
+            ),
+          ),
+        ));
   }
 
   Widget _buildCommentList(Size size) {

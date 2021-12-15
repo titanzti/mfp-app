@@ -41,6 +41,10 @@ class _PostSearchState extends State<PostSearch> {
 
   int _currentMax = 0;
   var storytestreplaceAll;
+
+  var datagetuserprofile;
+
+  var userprofileimage="";
   @override
   void initState() {
     // TODO: implement initState
@@ -72,9 +76,31 @@ class _PostSearchState extends State<PostSearch> {
             }),
           }));
       storytestreplaceAll = widget.label.replaceAll("#", "");
+         await    Api.getuserprofile(userid).then((responseData) async =>
+                          ({
+                            if (responseData.statusCode == 200)
+                              {
+                                datagetuserprofile =
+                                    jsonDecode(responseData.body),
+                                setState(() {
+                                  // displayName1 =
+                                  //     datagetuserprofile["data"]["displayName"];
+                                  // gender = datagetuserprofile["data"]["gender"];
+                                  // firstName =
+                                  //     datagetuserprofile["data"]["firstName"];
+                                  // lastName =
+                                  //     datagetuserprofile["data"]["lastName"];
+                                  // id = datagetuserprofile["data"]["id"];
+                                  // email = datagetuserprofile["data"]["email"];
+                                  userprofileimage =
+                                      datagetuserprofile["data"]["imageURL"];
+                                }),
+                              }
+                          }));
       print('storytestreplaceAll$storytestreplaceAll');
       await todayController.getsearchpostList(storytestreplaceAll, "", 0,
           pagenumber: 0)();
+      
     });
   }
 
@@ -187,7 +213,7 @@ class _PostSearchState extends State<PostSearch> {
     String subtitle,
     String authorposttext,
     DateTime dateTime,
-    List<GallerySearchPost> gallery,
+    List gallery,
     int likeCount,
     int commentCount,
     int shareCount,
@@ -209,24 +235,23 @@ class _PostSearchState extends State<PostSearch> {
           MaterialPageRoute(
             builder: (BuildContext context) {
               return PostDetailsSC(
-                  posttitle: posttitle,
-                  subtitle: subtitle,
-                  authorposttext: authorposttext,
-                  dateTime: dateTime,
-                  // gallery: gallery,
-                  likeCount: likeCount,
-                  commentCount: commentCount,
-                  shareCoun: shareCount,
-                  id: postid,
-                  userid: userid,
-                  token: token,
-                  userimage: '',
-                  pageid: pageid,
-                  pageimage: pageimage,
-                  pagename: pagename,
-                  isFollow: isFollow,
-                  pageUsername: pageUsername,
-                  isOfficial: isOfficial);
+                posttitle: posttitle,
+                subtitle: subtitle,
+                authorposttext: authorposttext,
+                dateTime: dateTime,
+                gallery: gallery,
+                likeCount: likeCount,
+                commentCount: commentCount,
+                shareCoun: shareCount,
+                postid: postid,
+                userimage: '',
+                pageid: pageid,
+                pageimage: pageimage,
+                pagename: pagename,
+                isFollow: isFollow,
+                pageUsername: pageUsername,
+                isOfficial: isOfficial, onfocus: false,
+              );
             },
           ),
         );
@@ -261,23 +286,23 @@ class _PostSearchState extends State<PostSearch> {
                     padding: const EdgeInsets.all(10.0),
                     child: InkWell(
                         onTap: () async {
-                          // Navigate.pushPage(
-                          //     context,
-                          //     StroyPageSc(
-                          //       postid: postid,
-                          //       titalpost: posttitle,
-                          //       imagUrl: gallery,
-                          //       type: type,
-                          //       createdDate: dateTime,
-                          //       postby: pagename,
-                          //       imagepage: pageimage,
-                          //       likeCount: likeCount,
-                          //       commentCount: commentCount,
-                          //       shareCount: shareCount,
-                          //       repostCount: repostCount,
-                          //       userid: userid,
-                          //       token: token,
-                          //     ));
+                          Navigate.pushPage(
+                              context,
+                              StroyPageSc(
+                                postid: postid,
+                                titalpost: posttitle,
+                                imagUrl: gallery,
+                                type: type,
+                                createdDate: dateTime,
+                                postby: pagename,
+                                imagepage: pageimage,
+                                likeCount: likeCount,
+                                commentCount: commentCount,
+                                shareCount: shareCount,
+                                repostCount: repostCount,
+                                userid: userid,
+                                token: token,
+                              ));
                         },
                         child: textreadstory('อ่านสตอรี่..')),
                   ),
@@ -313,9 +338,8 @@ class _PostSearchState extends State<PostSearch> {
                     child: Column(
                       children: [
                         Row(
-                          children: [
-                            islike == false
-                                ? PostButton(
+                          children: <Widget>[ 
+                            PostButton(
                                     icon: Icon(
                                       Icons.favorite_outline,
                                       color: MColors.primaryBlue,
@@ -416,110 +440,8 @@ class _PostSearchState extends State<PostSearch> {
                                                       }));
                                       // print("กดlike");
                                     },
-                                  )
-                                : PostButton(
-                                    icon: Icon(
-                                      Icons.favorite,
-                                      color: MColors.primaryBlue,
-                                      // size: 15.0,
-                                    ),
-                                    label: '${nDataList1.post.likeCount} ถูกใจ',
-                                    width: 8.0,
-                                    onTap: () async {
-                                      HapticFeedback.lightImpact();
-
-                                      var jsonResponse;
-                                      token == null
-                                          ? Navigate.pushPage(
-                                              context, Loginregister())
-                                          : mode != "FB"
-                                              ? await Api.islike(
-                                                      postid, userid, token, "")
-                                                  .then((value) => ({
-                                                        jsonResponse =
-                                                            jsonDecode(
-                                                                value.body),
-                                                        // print(
-                                                        //     'message${jsonResponse['message']}'),
-                                                        if (value.statusCode ==
-                                                            200)
-                                                          {
-                                                            if (jsonResponse[
-                                                                    'message'] ==
-                                                                "Like Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount++;
-                                                                }),
-                                                              }
-                                                            else if (jsonResponse[
-                                                                    'message'] ==
-                                                                "UnLike Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount--;
-                                                                }),
-                                                              }
-                                                          }
-                                                      }))
-                                              : await Api.islike(postid, userid,
-                                                      token, mode)
-                                                  .then((value) => ({
-                                                        jsonResponse =
-                                                            jsonDecode(
-                                                                value.body),
-                                                        // print(
-                                                        //     'message${jsonResponse['message']}'),
-                                                        if (value.statusCode ==
-                                                            200)
-                                                          {
-                                                            if (jsonResponse[
-                                                                    'message'] ==
-                                                                "Like Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount++;
-                                                                }),
-                                                              }
-                                                            else if (jsonResponse[
-                                                                    'message'] ==
-                                                                "UnLike Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount--;
-                                                                }),
-                                                              }
-                                                          }
-                                                      }));
-                                      // print("กดlike");
-                                    },
                                   ),
+                               
                             PostButton(
                               icon: Icon(
                                 MdiIcons.commentOutline,
@@ -528,7 +450,33 @@ class _PostSearchState extends State<PostSearch> {
                               ),
                               label: '$commentCount ความคิดเห็น',
                               width: 4.1,
-                              onTap: () => print('Comment'),
+                              onTap: (){
+                                    Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return PostDetailsSC(
+                posttitle: posttitle,
+                subtitle: subtitle,
+                authorposttext: authorposttext,
+                dateTime: dateTime,
+                gallery: gallery,
+                likeCount: likeCount,
+                commentCount: commentCount,
+                shareCoun: shareCount,
+                postid: postid,
+                userimage: userprofileimage,
+                pageid: pageid,
+                pageimage: pageimage,
+                pagename: pagename,
+                isFollow: isFollow,
+                pageUsername: pageUsername,
+                isOfficial: isOfficial, onfocus: true,
+              );
+            },
+          ),
+        );
+                              },
                             ),
                             PostButton(
                               icon: Icon(

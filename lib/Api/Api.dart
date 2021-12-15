@@ -13,19 +13,21 @@ class Api {
 
   static Future logout() async {
     var facebookLogin = FacebookLogin();
-
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await SharedPreferences.getInstance();
     await preferences.remove("token");
+    await preferences.remove("userid");
+    await preferences.remove("mode");
+
     var clear = await preferences.clear();
     await facebookLogin.logOut();
 
-    preferences?.setBool("isLoggedIn", false);
-    preferences?.setString("token", "");
-    preferences?.setString("imageURL", "");
+    // preferences?.setBool("isLoggedIn", false);
+    // preferences?.setString("token", "");
+    // preferences?.setString("imageURL", "");
     // print("!remover secc");
 
-    return clear;
+    // return clear;
   }
   /*--------------------logout--------------------------------------*/
 
@@ -213,7 +215,7 @@ class Api {
   static Future<Http.Response> sendfollowPage(
       String pageid, String token, String userid) async {
     // print('getHashtagList');
-    var url = "https://today-api.moveforwardparty.org/api/page/$pageid/follow";
+    var url = "${Api.url}api/page/$pageid/follow";
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
@@ -239,14 +241,14 @@ class Api {
     // print('getData');
 
     final responseData = await Http.get(
-        "https://today-api.moveforwardparty.org/api/main/content");
+        "${Api.url}api/main/content");
 
     return responseData;
   }
 
   static Future<Http.Response> getHashtagList() async {
     // print('getHashtagList');
-    var url = "https://today-api.moveforwardparty.org/api/hashtag/trend/";
+    var url = "${Api.url}api/hashtag/trend/";
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
@@ -302,7 +304,7 @@ class Api {
     List<EmergencyEventsContent> listemergencyEvents = [];
     // print('getHashtagList');
     final responseData = await Http.get(
-        "https://today-api.moveforwardparty.org/api/main/content");
+        "${Api.url}api/main/content");
     if (responseData.statusCode == 200) {
       var datapostlist = jsonDecode(responseData.body);
       for (Map i in datapostlist["data"]["emergencyEvents"]["contents"]) {
@@ -317,7 +319,7 @@ class Api {
   static Future<Http.Response> getPostsectionModelsEventsList() async {
     // print('getHashtagList');
     final responseData = await Http.get(
-        "https://today-api.moveforwardparty.org/api/main/content");
+        "${Api.url}api/main/content");
     // print(responseData.body);
 
     return responseData;
@@ -327,14 +329,14 @@ class Api {
     // print('getPostDetailSS');
 
     final responseData = await Http.get(
-        "https://today-api.moveforwardparty.org/api/page/$id/post/?offset=0");
+        "${Api.url}api/page/$id/post/?offset=0");
 
     return responseData;
   }
 
   static Future<List<SearchHastag>> getHt(String query) async {
     // print('getHashtagList');
-    var url = "https://today-api.moveforwardparty.org/api/hashtag/trend/";
+    var url = "${Api.url}api/hashtag/trend/";
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
@@ -396,7 +398,7 @@ class Api {
 
   static Future<Http.Response> mantinitisearch(String uid) async {
     // print('getHashtagList');
-    var url = "https://today-api.moveforwardparty.org/api/hashtag/trend/";
+    var url = "${Api.url}api/hashtag/trend/";
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
@@ -432,7 +434,7 @@ class Api {
     List<SearchPostList> searchpostList = [];
 
     // print('getHashtagList');
-    var url = "https://today-api.moveforwardparty.org/api/main/content/search";
+    var url = "${Api.url}api/main/content/search";
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
@@ -524,7 +526,7 @@ class Api {
   static Future<Http.Response> updataimage(
       String id, String base64image, String fileName, String token) async {
     // print('updataimage');
-    var url = "https://today-api.moveforwardparty.org/api/profile/$id/image";
+    var url = "${Api.url}api/profile/$id/image";
     final headers = {
       "userid": id,
       "authorization": "Bearer $token",
@@ -557,7 +559,7 @@ class Api {
   static Future<Http.Response> repost(
       String postid, String uid, String token) async {
     // print('repost');
-    var url = "https://today-api.moveforwardparty.org/api/post/$postid/repost";
+    var url = "${Api.url}api/post/$postid/repost";
     final headers = {
       "userid": uid,
       "authorization": "Bearer $token",
@@ -583,7 +585,7 @@ class Api {
   static Future<Http.Response> repostwithdetail(
       String postid, String uid, String token, String detail) async {
     // print('repostwithdetail');
-    var url = "https://today-api.moveforwardparty.org/api/post/$postid/repost";
+    var url = "${Api.url}api/post/$postid/repost";
     final headers = {
       "userid": uid,
       "authorization": "Bearer $token",
@@ -665,11 +667,12 @@ class Api {
   }
 
   static Future<Http.Response> islikecomment(
-      String postid, String uid, String token, String commentid) async {
+      String postid, String uid, String token, String commentid,String mode) async {
     // print('islikecomment');
     var url = "${Api.url}api/post/$postid/comment/$commentid/like";
     final headers = {
       "userid": uid,
+      "mode":mode,
       "authorization": "Bearer $token",
       "content-type": "application/json",
       "accept": "application/json"
@@ -696,7 +699,7 @@ class Api {
       String token, String commentid, String commenttext) async {
     // print('iseditcomment');
     var url =
-        "https://today-api.moveforwardparty.org/api/post/$postid/comment/$commentid";
+        "${Api.url}api/post/$postid/comment/$commentid";
     final headers = {
       "userid": uid,
       "authorization": "Bearer $token",
@@ -722,7 +725,7 @@ class Api {
   static Future<Http.Response> isfollow(
       String postid, String uid, String token, String pageid) async {
     // print('isfollow');
-    var url = "https://today-api.moveforwardparty.org/api/page/$pageid/follow";
+    var url = "${Api.url}api/page/$pageid/follow";
     final headers = {
       "userid": uid,
       "authorization": "Bearer $token",
@@ -748,7 +751,7 @@ class Api {
   static Future<Http.Response> getprofilepost(String uid, String token) async {
     // print('getprofilepost$uid');
     var url =
-        "https://today-api.moveforwardparty.org/api/profile/$uid/post/search";
+        "${Api.url}api/profile/$uid/post/search";
     final headers = {
       "authorization": "Bearer $token",
       "userid": uid,
@@ -766,32 +769,32 @@ class Api {
     return responseData;
   }
 
-  // static Future<Http.Response> getpostsearch(
-  //     String uid, String token, String postid) async {
-  //   // print('getpostsearch$postid');
-  //   var url = "https://today-api.moveforwardparty.org/api/post/search";
-  //   final headers = {
-  //     "authorization": "Bearer $token",
-  //     "userid": uid,
-  //     "content-type": "application/json",
-  //     "accept": "application/json"
-  //     // "whereConditions": {"isHideStory": false},
-  //   };
-  //   Map data = {
-  //     "limit": 5,
-  //     "count": false,
-  //     "whereConditions": {"_id": postid}
-  //   };
-  //   var body = jsonEncode(data);
-  //   final responseData = await Http.post(
-  //     url,
-  //     headers: headers,
-  //     body: body,
-  //   );
-  //   print('body$body');
-  //   print('getpostsearch1${responseData.body}');
-  //   return responseData;
-  // }
+  static Future<Http.Response> postsearch(
+      String uid, String token, String postid,String mode) async {
+    var url = "${Api.url}api/post/search";
+    final headers = {
+      "authorization": "Bearer $token",
+      "userid": uid,
+      "mode":mode,
+      "content-type": "application/json",
+      "accept": "application/json"
+      // "whereConditions": {"isHideStory": false},
+    };
+    Map data = {
+      "limit": 10,
+      "count": false,
+      "whereConditions": {"_id": postid}
+    };
+    var body = jsonEncode(data);
+    final responseData = await Http.post(
+      url,
+      headers: headers,
+      body: body,
+    );
+    print('body$body');
+    print('getpostsearch1${responseData.body}');
+    return responseData;
+  }
 
   static Future<Http.Response> getpagess(
       String userid, String token, String pageid) async {
@@ -805,7 +808,7 @@ class Api {
     };
 
     final responseData = await Http.get(
-        "https://today-api.moveforwardparty.org/api/page/$pageid",
+        "${Api.url}api/page/$pageid",
         headers: headers);
     print('responseDatagetpagess${responseData.body}');
 
@@ -815,7 +818,7 @@ class Api {
   static Future<Http.Response> setimagecover(
       String uid, String base64image, String fileName, String token) async {
     // print('updataimage');
-    var url = "https://today-api.moveforwardparty.org/api/profile/$uid/cover";
+    var url = "${Api.url}api/profile/$uid/cover";
     final headers = {
       "userid": uid,
       "authorization": "Bearer $token",
@@ -848,7 +851,7 @@ class Api {
   static Future<Http.Response> createpost(
       String uid, String token, String title, String detail) async {
     // print('createpost');
-    var url = "https://today-api.moveforwardparty.org/api/page/null/post";
+    var url = "${Api.url}api/page/null/post";
     final headers = {
       "userid": uid,
       "authorization": "Bearer $token",
@@ -880,4 +883,32 @@ class Api {
 
     return responseData;
   }
+ static Future deletecomment(
+      String postid, String mytoken, String commentid, String myuid,String mode) async {
+    print('sendcomment');
+
+    var url =
+        "${Api.url}api/post/$postid/comment/$commentid";
+    final headers = {
+      "userid": myuid,
+      "mode":mode,
+      "content-type": "application/json",
+      "accept": "application/json",
+      "authorization": "Bearer $mytoken",
+    };
+
+    final responseData = await Http.delete(
+      url,
+      headers: headers,
+    );
+    print('responseDatacommentlist${responseData.body}');
+    final jsonResponse = jsonDecode(responseData.body);
+    if (responseData.statusCode == 200) {
+      print(jsonResponse['status']);
+      if (jsonResponse['status'] == 1) {
+      }
+      print("deletecomment สำเร็จ");
+    return jsonResponse;
+  }
+      }
 }

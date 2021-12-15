@@ -27,26 +27,10 @@ import 'package:mfp_app/view/Today/story_page.dart';
 class Profliess extends StatefulWidget {
   final String id;
   final String image;
-  final String name;
-  final String phonenumber;
-  final String lineId;
-  final String facebookUrl;
-  final String twitterUrl;
-  final bool isOfficial;
-  final String pageUsername;
-  final String userid;
   const Profliess({
     Key key,
     this.id,
     this.image,
-    this.name,
-    this.phonenumber,
-    this.lineId,
-    this.facebookUrl,
-    this.twitterUrl,
-    this.isOfficial,
-    this.pageUsername,
-    this.userid,
   }) : super(key: key);
 
   // ShopSC({Key? key}) : super(key: key);
@@ -99,6 +83,8 @@ class _ProfliessState extends State<Profliess> {
   var pagename = "";
   var pageUsername = "";
 
+  var pageid="";
+
   @override
   void initState() {
     print('initState');
@@ -119,6 +105,7 @@ class _ProfliessState extends State<Profliess> {
                 datagetuserprofile = jsonDecode(responseData.body),
                 print('datagetuserprofile$datagetuserprofile'),
                 setState(() {
+                  pageid=datagetuserprofile["data"]["id"];
                   pageUsername = datagetuserprofile["data"]["pageUsername"];
                   pageprofileimage = datagetuserprofile["data"]["imageURL"];
                   pagename = datagetuserprofile["data"]["name"];
@@ -266,9 +253,7 @@ class _ProfliessState extends State<Profliess> {
                   token,
                   userid,
                   image,
-                  Search(
-                    userid: userid,
-                  ),
+                  Search(),
                   ProfileSc(
                     userid: userid,
                     token: token,
@@ -420,7 +405,7 @@ class _ProfliessState extends State<Profliess> {
                           token == null || token == ""
                               ? Navigate.pushPage(context, Loginregister())
                               : await Api.isfollowpage(
-                                      widget.id, widget.userid, token)
+                                      widget.id, userid, token)
                                   .then((value) => ({
                                         jsonResponse = jsonDecode(value.body),
                                         print(
@@ -889,8 +874,8 @@ class _ProfliessState extends State<Profliess> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       fixtextauthor(),
-                      authorpost(postbyname, context, dateTime, "", "", "fasle",
-                          false, "false", false, "", false),
+                      authorpost(postbyname, context, dateTime, pageid, "", "fasle",
+                          false, "false", false, "", true),
                       texttimetimestamp(dateTime),
                     ],
                   ),

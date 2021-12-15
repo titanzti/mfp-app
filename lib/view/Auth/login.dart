@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/sizeconfig.dart';
@@ -26,7 +25,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   dynamic _userData;
   bool _checking = true;
   Map _userObj = {};
-  final FacebookLogin facebookSignIn = new FacebookLogin();
+  // final FacebookLogin facebookSignIn = new FacebookLogin();
 
   String _message = 'Log in/out by pressing the buttons below.';
 
@@ -57,7 +56,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     return (bytes != null ? base64Encode(bytes) : null);
   }
 
-    showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget continueButton = TextButton(
       child: Text("Close"),
@@ -423,24 +422,25 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     'images/twitter.png',
                     Color(0xFF1DA1F3),
                     Colors.white,
-                       isLoggedIn != true
+                    isLoggedIn != true
                         ? () async {
-                          ScaffoldMessenger.of(context).showSnackBar(new SnackBar(
-                        content: Text(
-                          'ยังไม่เปิดให้บริการ',
-                          textAlign: TextAlign.center,
-                        ),
-                        behavior: SnackBarBehavior.floating,
-                        width: MediaQuery.of(context).size.width / 1.2,
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(new SnackBar(
+                              content: Text(
+                                'ยังไม่เปิดให้บริการ',
+                                textAlign: TextAlign.center,
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              width: MediaQuery.of(context).size.width / 1.2,
 
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        backgroundColor: MColors.primaryColor,
-                        duration: Duration(milliseconds: 5000),
-                        // margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
-                        // padding: EdgeInsets.all(20),
-                      ));
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24),
+                              ),
+                              backgroundColor: MColors.primaryColor,
+                              duration: Duration(milliseconds: 5000),
+                              // margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
+                              // padding: EdgeInsets.all(20),
+                            ));
                           }
                         : null,
                     Container(),

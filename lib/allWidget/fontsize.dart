@@ -85,9 +85,6 @@ Widget authorpost(
               Profliess(
                 id: id,
                 image: imageUrl,
-                name: name,
-                isOfficial: isOfficial,
-                pageUsername: pageUsername,
               )),
       child: Text(
         '$string',

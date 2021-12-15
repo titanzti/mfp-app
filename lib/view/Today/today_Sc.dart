@@ -48,13 +48,12 @@ class _TodayScState extends State<TodaySc> {
   final EmergencyController emergencyController =
       Get.put(EmergencyController());
   final TodayPostController todayController = Get.put(TodayPostController());
-
+  bool islike = false;
   var userid;
   bool _isLoadMoreRunning = false;
   int _current = 0;
   final CarouselController _controller = CarouselController();
-  bool islike = false;
-  String token="";
+  String token = "";
   var datagetuserprofile;
 
   var displayName1;
@@ -91,24 +90,29 @@ class _TodayScState extends State<TodaySc> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-                  print('Futuredelayed');
-                  //--token
-                token=await   Api.gettoke();
-                print('tokenhome$token');
-                //--mode
-               mode= await  Api.getmodelogin();
-                  print('mode$mode');
-                //--userid
-               userid= await Api.getmyuid();
-                print('userid$userid');
-                  
-                });
-    checkInternetConnectivity().then((value)async {
+      print('Futuredelayed');
+      //--token
+      token = await Api.gettoke();
+      print('tokenhome$token');
+      //--mode
+      mode = await Api.getmodelogin();
+      print('mode$mode');
+      //--userid
+      userid = await Api.getmyuid();
+      print('userid$userid');
+      print('''
+         Logged in! 
+         userid: $userid
+        token: $token
+         mode: $mode
+         ''');
+    });
+    checkInternetConnectivity().then((value) async {
       value == true
-          ? ()async {
+          ? () async {
               setState(() {
                 _scrollController.addListener(_loadMore);
-          
+
                 Api.getmodelogin().then((value) => value({
                       setState(() {
                         mode = value;
@@ -152,7 +156,6 @@ class _TodayScState extends State<TodaySc> {
                   todayController.postList.clear();
                   todayController.recompageList.clear();
                   emergencyController.emergencyevList.clear();
-                     
 
                   await emergencyController.getmergencyevents();
                   await todayController.getpost(0);
@@ -323,9 +326,7 @@ class _TodayScState extends State<TodaySc> {
                     token,
                     userid,
                     image,
-                    Search(
-                      userid: userid,
-                    ),
+                    Search(),
                     ProfileSc(
                       userid: widget.userid,
                       token: token,
@@ -439,7 +440,7 @@ class _TodayScState extends State<TodaySc> {
     bool isOfficial,
     nDataList1,
     String type,
-    sroty,
+    story,
   ) {
     return InkWell(
       onTap: () {
@@ -448,24 +449,26 @@ class _TodayScState extends State<TodaySc> {
           MaterialPageRoute(
             builder: (BuildContext context) {
               return PostDetailsSC(
-                  posttitle: posttitle,
-                  subtitle: subtitle,
-                  authorposttext: authorposttext,
-                  dateTime: dateTime,
-                  gallery: gallery,
-                  likeCount: likeCount,
-                  commentCount: commentCount,
-                  shareCoun: shareCount,
-                  id: postid,
-                  userid: userid,
-                  token: token,
-                  userimage: userimageUrl,
-                  pageid: pageid,
-                  pageimage: pageimage,
-                  pagename: pagename,
-                  isFollow: isFollow,
-                  pageUsername: pageUsername,
-                  isOfficial: isOfficial);
+                posttitle: posttitle,
+                subtitle: subtitle,
+                authorposttext: authorposttext,
+                dateTime: dateTime,
+                gallery: gallery,
+                likeCount: likeCount,
+                commentCount: commentCount,
+                shareCoun: shareCount,
+                postid: postid,
+                userimage: userimageUrl,
+                pageid: pageid,
+                pageimage: pageimage,
+                pagename: pagename,
+                isFollow: isFollow,
+                pageUsername: pageUsername,
+                isOfficial: isOfficial,
+                story: story,
+                type: type,
+                onfocus: false,
+              );
             },
           ),
         );
@@ -496,7 +499,7 @@ class _TodayScState extends State<TodaySc> {
                     padding: const EdgeInsets.all(10.0),
                     child: subtexttitlepost(subtitle, context),
                   ),
-                  sroty != null
+                  story != null
                       ? Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: InkWell(
@@ -522,6 +525,7 @@ class _TodayScState extends State<TodaySc> {
                               child: textreadstory('อ่านสตอรี่..')),
                         )
                       : Container(),
+                     
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.start,
@@ -555,212 +559,101 @@ class _TodayScState extends State<TodaySc> {
                       children: [
                         Row(
                           children: [
-                            islike == false
-                                ? PostButton(
-                                    icon: Icon(
-                                      Icons.favorite_outline,
-                                      color: MColors.primaryBlue,
-                                      // size: 15.0,
-                                    ),
-                                    width: 8.0,
-                                    label: '${nDataList1.post.likeCount} ถูกใจ',
-                                    onTap: () async {
-                                      HapticFeedback.lightImpact();
-                                      var jsonResponse;
-                                      token == null || token == ""
-                                          ? Navigate.pushPage(
-                                              context, Loginregister())
-                                          : mode != "FB"
-                                              ? await Api.islike(
-                                                      postid, userid, token, "")
-                                                  .then((value) => ({
-                                                        jsonResponse =
-                                                            jsonDecode(
-                                                                value.body),
-                                                        // print(
-                                                        //     'message${jsonResponse['message']}'),
-                                                        if (value.statusCode ==
-                                                            200)
-                                                          {
-                                                            if (jsonResponse[
-                                                                    'message'] ==
-                                                                "Like Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount++;
-                                                                }),
-                                                              }
-                                                            else if (jsonResponse[
-                                                                    'message'] ==
-                                                                "UnLike Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
+                            PostButton(
+                              icon: Icon(
+                                Icons.favorite_outline,
+                                color: MColors.primaryBlue,
+                                // size: 15.0,
+                              ),
+                              width: 8.0,
+                              label: '${nDataList1.post.likeCount} ถูกใจ',
+                              onTap: () async {
+                                HapticFeedback.lightImpact();
+                                var jsonResponse;
+                                token == null || token == ""
+                                    ? Navigate.pushPage(
+                                        context, Loginregister())
+                                    : mode != "FB"
+                                        ? await Api.islike(
+                                                postid, userid, token, "")
+                                            .then((value) => ({
+                                                  jsonResponse =
+                                                      jsonDecode(value.body),
+                                                  // print(
+                                                  //     'message${jsonResponse['message']}'),
+                                                  if (value.statusCode == 200)
+                                                    {
+                                                      if (jsonResponse[
+                                                              'message'] ==
+                                                          "Like Post Success")
+                                                        {
+                                                          setState(() {
+                                                            islike =
+                                                                jsonResponse[
+                                                                        'data']
+                                                                    ['isLike'];
+                                                            islike = true;
+                                                            nDataList1.post
+                                                                .likeCount++;
+                                                          }),
+                                                        }
+                                                      else if (jsonResponse[
+                                                              'message'] ==
+                                                          "UnLike Post Success")
+                                                        {
+                                                          setState(() {
+                                                            islike =
+                                                                jsonResponse[
+                                                                        'data']
+                                                                    ['isLike'];
+                                                            islike = false;
+                                                            nDataList1.post
+                                                                .likeCount--;
+                                                          }),
+                                                        }
+                                                    }
+                                                }))
+                                        : await Api.islike(
+                                                postid, userid, token, mode)
+                                            .then((value) => ({
+                                                  jsonResponse =
+                                                      jsonDecode(value.body),
+                                                  // print(
+                                                  //     'message${jsonResponse['message']}'),
+                                                  if (value.statusCode == 200)
+                                                    {
+                                                      if (jsonResponse[
+                                                              'message'] ==
+                                                          "Like Post Success")
+                                                        {
+                                                          setState(() {
+                                                            islike =
+                                                                jsonResponse[
+                                                                        'data']
+                                                                    ['isLike'];
+                                                            nDataList1.post
+                                                                .likeCount++;
+                                                          }),
+                                                        }
+                                                      else if (jsonResponse[
+                                                              'message'] ==
+                                                          "UnLike Post Success")
+                                                        {
+                                                          setState(() {
+                                                            islike =
+                                                                jsonResponse[
+                                                                        'data']
+                                                                    ['isLike'];
 
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount--;
-                                                                }),
-                                                              }
-                                                          }
-                                                      }))
-                                              : await Api.islike(postid, userid,
-                                                      token, mode)
-                                                  .then((value) => ({
-                                                        jsonResponse =
-                                                            jsonDecode(
-                                                                value.body),
-                                                        // print(
-                                                        //     'message${jsonResponse['message']}'),
-                                                        if (value.statusCode ==
-                                                            200)
-                                                          {
-                                                            if (jsonResponse[
-                                                                    'message'] ==
-                                                                "Like Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount++;
-                                                                }),
-                                                              }
-                                                            else if (jsonResponse[
-                                                                    'message'] ==
-                                                                "UnLike Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount--;
-                                                                }),
-                                                              }
-                                                          }
-                                                      }));
-                                      // print("กดlike");
-                                    },
-                                  )
-                                : PostButton(
-                                    icon: Icon(
-                                      Icons.favorite,
-                                      color: MColors.primaryBlue,
-                                      // size: 15.0,
-                                    ),
-                                    label: '${nDataList1.post.likeCount} ถูกใจ',
-                                    width: 8.0,
-                                    onTap: () async {
-                                      HapticFeedback.lightImpact();
-
-                                      var jsonResponse;
-                                      token == null
-                                          ? Navigate.pushPage(
-                                              context, Loginregister())
-                                          : mode != "FB"
-                                              ? await Api.islike(
-                                                      postid, userid, token, "")
-                                                  .then((value) => ({
-                                                        jsonResponse =
-                                                            jsonDecode(
-                                                                value.body),
-                                                        // print(
-                                                        //     'message${jsonResponse['message']}'),
-                                                        if (value.statusCode ==
-                                                            200)
-                                                          {
-                                                            if (jsonResponse[
-                                                                    'message'] ==
-                                                                "Like Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount++;
-                                                                }),
-                                                              }
-                                                            else if (jsonResponse[
-                                                                    'message'] ==
-                                                                "UnLike Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount--;
-                                                                }),
-                                                              }
-                                                          }
-                                                      }))
-                                              : await Api.islike(postid, userid,
-                                                      token, mode)
-                                                  .then((value) => ({
-                                                        jsonResponse =
-                                                            jsonDecode(
-                                                                value.body),
-                                                        // print(
-                                                        //     'message${jsonResponse['message']}'),
-                                                        if (value.statusCode ==
-                                                            200)
-                                                          {
-                                                            if (jsonResponse[
-                                                                    'message'] ==
-                                                                "Like Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount++;
-                                                                }),
-                                                              }
-                                                            else if (jsonResponse[
-                                                                    'message'] ==
-                                                                "UnLike Post Success")
-                                                              {
-                                                                setState(() {
-                                                                  islike = jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-
-                                                                  nDataList1
-                                                                      .post
-                                                                      .likeCount--;
-                                                                }),
-                                                              }
-                                                          }
-                                                      }));
-                                      // print("กดlike");
-                                    },
-                                  ),
+                                                            nDataList1.post
+                                                                .likeCount--;
+                                                          }),
+                                                        }
+                                                    }
+                                                }));
+                                // print("กดlike");
+                              },
+                            ),
                             PostButton(
                               icon: Icon(
                                 MdiIcons.commentOutline,
@@ -769,7 +662,34 @@ class _TodayScState extends State<TodaySc> {
                               ),
                               label: '$commentCount ความคิดเห็น',
                               width: 4.2,
-                              onTap: () => print('Comment'),
+                              onTap: () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                      return PostDetailsSC(
+                                        posttitle: posttitle,
+                                        subtitle: subtitle,
+                                        authorposttext: authorposttext,
+                                        dateTime: dateTime,
+                                        gallery: gallery,
+                                        likeCount: likeCount,
+                                        commentCount: commentCount,
+                                        shareCoun: shareCount,
+                                        postid: postid,
+                                        userimage: userimageUrl,
+                                        pageid: pageid,
+                                        pageimage: pageimage,
+                                        pagename: pagename,
+                                        isFollow: isFollow,
+                                        pageUsername: pageUsername,
+                                        isOfficial: isOfficial,
+                                        onfocus: true,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
                             ),
                             PostButton(
                               icon: Icon(
