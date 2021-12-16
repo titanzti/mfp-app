@@ -105,7 +105,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   var jsonResponse;
   bool onref = false;
   StreamController _postsController;
-  final GlobalKey<PopupMenuButtonState> _menuKey = GlobalKey();
 
   @override
   void didChangeDependencies() {
@@ -118,6 +117,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
 
   @override
   void initState() {
+    print(widget.postid);
     Future.delayed(Duration.zero, () async {
       print('Futuredelayed');
       //--token
@@ -139,25 +139,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                 }),
               }
           }));
-      //--
-      //           await Api.postsearch(userid,token,widget.postid).then((responseData) async => ({
-      //           if (responseData.statusCode == 200)
-      //             {
-      //               datapostsearch = jsonDecode(responseData.body),
-      //               setState(() {
-      // postbypagename;
-      //  posttitle;
-      //  subtitle;
-      //  dateTime;
-      // gallery;
-      //  likeCount;
-      //   commentCount;
-      //   shareCoun;
-      //                 image = datagetuserprofile["data"]["imageURL"];
-      //               }),
-      //               print('image$image'),
-      //             }
-      //         }));
       //--getcommentlist
       await Api.getcommentlist(widget.postid, userid, token)
           .then((responseData) => ({
@@ -193,8 +174,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
             if (responseData.statusCode == 200)
               {
                 datapostsearch = jsonDecode(responseData.body),
-                // print('datapostsearch$datapostsearch'),
-
                 for (Map i in dataht["data"])
                   {
                     print('islike${i["isLike"]}'),
@@ -235,12 +214,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
     Map data = {
       "commentAsPage": myuid,
       "comment": mag,
-      //      "mediaURL": "",
-      // "post": postid,
-      // "user": "60c9cc216923656607919f06",
-      // "likeCount": 0,
-      // "deleted": false,
-      // "id": "60f583d3ef898e1a0a05ed3d"
     };
     var body = jsonEncode(data);
 
@@ -293,11 +266,9 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     if (onref == true) {
       _handleRefresh();
     }
-
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -336,7 +307,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     },
                   ),
                 ),
-
                 ///-----------APPBAR-----------------//
                 SliverToBoxAdapter(
                   child: PostList(
@@ -348,7 +318,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                       widget.likeCount,
                       widget.commentCount,
                       widget.shareCoun,
-                      widget.postid,
+                      widget.pageid,
                       widget.pageimage,
                       widget.pagename,
                       widget.isFollow,
@@ -356,42 +326,9 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                       widget.isOfficial,
                       widget.story),
                 ),
-
-                ///-----------SliverListปิดไปก่อนได้----------------//
                 SliverToBoxAdapter(
                   child: buildcommentlist1(),
                 ),
-                // SliverList(
-                //   delegate: SliverChildBuilderDelegate((context, index) {
-                //     return Builder(
-                //       builder: (BuildContext context) {
-                //         return ListView.builder(
-                //             physics: ClampingScrollPhysics(),
-                //             shrinkWrap: true,
-                //             padding: const EdgeInsets.all(8.0),
-                //             scrollDirection: Axis.vertical,
-                //             itemCount: 5,
-                //             itemBuilder: (
-                //               BuildContext context,
-                //               int index,
-                //             ) {
-                //               return ListTile(
-
-                //                 leading:  new  CircleAvatar(
-                //             radius: 25.0,
-                //             backgroundImage:
-                //                 NetworkImage('https://via.placeholder.com/150'),
-                //             backgroundColor: Colors.transparent,
-                //           ),
-                //                 title: Text('I like icecream$index'),
-                //                 subtitle: Text('Icream is good for health'),
-                //                 trailing: Icon(Icons.food_bank),
-                //               );
-                //             });
-                //       },
-                //     );
-                //   }, childCount: 1),
-                // ),
               ],
             ),
           ),
@@ -399,7 +336,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       ),
     );
   }
-
   Widget PostList(
       String posttitle,
       String subtitle,
@@ -494,7 +430,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                           authorposttext,
                           context,
                           dateTime,
-                          pageid,
+                          widget.pageid,
                           pageimage,
                           pagename,
                           isFollow,
@@ -699,9 +635,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                     _commenteditController.text = value;
                                     print(value);
                                   },
-
-                                  // initialValue:
-                                  //     _commenteditController.text,
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(20.0),
                                     hintText: "เขียนความคิดเห็น",
@@ -717,18 +650,11 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                             color: Colors.black,
                                           ),
                                           onPressed: () async {
-                                            // print("sendcomment");
-                                            print("${widget.postid}");
-
-                                            // setState(() {
-                                            //   onref = true;
-                                            // });
                                             await sendcomment(
                                                 widget.postid,
                                                 token,
                                                 _commentController.text,
                                                 userid,mode);
-
                                             setState(() {
                                               _commentController.clear();
                                             });
