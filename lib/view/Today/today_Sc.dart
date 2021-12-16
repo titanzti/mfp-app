@@ -303,8 +303,6 @@ class _TodayScState extends State<TodaySc> {
                         ),
                         backgroundColor: MColors.primaryColor,
                         duration: Duration(milliseconds: 5000),
-                        // margin: EdgeInsets.fromLTRB(0, 0, 0, 50),
-                        // padding: EdgeInsets.all(20),
                       ));
               });
               await _handleRefresh();
@@ -397,9 +395,6 @@ class _TodayScState extends State<TodaySc> {
                           });
                   }),
                 ),
-                // listModelPostClass.length == 0
-                //     ? SliverToBoxAdapter(child: Container())
-                //     : SliverToBoxAdapter( ==true? BuildRecommendedUserPage():SizedBox.shrink()),
                 if (_isLoadMoreRunning == true)
                   SliverToBoxAdapter(
                     child: Center(
@@ -528,7 +523,6 @@ class _TodayScState extends State<TodaySc> {
                      
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    // mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       fixtextauthor(),
                       authorpost(
@@ -661,7 +655,7 @@ class _TodayScState extends State<TodaySc> {
                                 // size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
-                              width: 4.2,
+                              width: 4.05,
                               onTap: () async {
                                 Navigator.push(
                                   context,
@@ -685,6 +679,7 @@ class _TodayScState extends State<TodaySc> {
                                         pageUsername: pageUsername,
                                         isOfficial: isOfficial,
                                         onfocus: true,
+                                        story: story,
                                       );
                                     },
                                   ),
@@ -718,10 +713,7 @@ class _TodayScState extends State<TodaySc> {
     );
   }
 
-  Widget videorecommendList(
-      // String posttitle, String subtitle, String authorposttext,
-      //   DateTime dateTime, List<Gallery> gallery,int likeCount,int commentCount,int shareCount
-      ) {
+  Widget videorecommendList() {
     return InkWell(
       onTap: () {},
       child: Container(
@@ -731,7 +723,6 @@ class _TodayScState extends State<TodaySc> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Image.network(gallery[0].signUrl),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Card(
@@ -765,9 +756,6 @@ class _TodayScState extends State<TodaySc> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text('อนาคตใหม่ - Future Forward'),
                         ),
-                        // fixtextauthor(),
-                        // authorpost(authorposttext, context),
-                        // texttimetimestamp(dateTime),
                       ],
                     ),
                     SizedBox(

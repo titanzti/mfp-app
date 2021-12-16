@@ -73,7 +73,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   final TrackingScrollController _trackingScrollController =
       TrackingScrollController();
 
-
   var datagetuserprofile;
 
   var datapostsearch;
@@ -84,9 +83,9 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
 
   var mode = "";
 
-  var postimage="";
+  var postimage = "";
 
-  var userprofileimage="";
+  var userprofileimage = "";
 
   @override
   void dispose() {
@@ -162,51 +161,48 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                   }
               }));
       //--.
-      await Api.postsearch(
-        userid,
-        token,
-        widget.postid,mode
-      ).then((responseData) => ({
-            setState(() {
-              loading = true;
-            }),
-            print('postsearch'),
-            if (responseData.statusCode == 200)
-              {
-                datapostsearch = jsonDecode(responseData.body),
-                for (Map i in dataht["data"])
+      await Api.postsearch(userid, token, widget.postid, mode)
+          .then((responseData) => ({
+                setState(() {
+                  loading = true;
+                }),
+                print('postsearch'),
+                if (responseData.statusCode == 200)
                   {
-                    print('islike${i["isLike"]}'),
-                    if (i["isLike"] == true)
+                    datapostsearch = jsonDecode(responseData.body),
+                    for (Map i in dataht["data"])
                       {
-                        setState(() {
-                          islike = true;
-                        }),
-                        print('islike$islike'),
-                      }
-                    else if (i["isLike"] == false)
-                      {
-                        setState(() {
-                          islike = false;
-                        }),
-                        print('islike$islike'),
-                      }
-                  },
-              }
-          }));
+                        print('islike${i["isLike"]}'),
+                        if (i["isLike"] == true)
+                          {
+                            setState(() {
+                              islike = true;
+                            }),
+                            print('islike$islike'),
+                          }
+                        else if (i["isLike"] == false)
+                          {
+                            setState(() {
+                              islike = false;
+                            }),
+                            print('islike$islike'),
+                          }
+                      },
+                  }
+              }));
     });
     _postsController = new StreamController();
     super.initState();
   }
 
-  Future sendcomment(
-      String postid, String mytoken, String mag, String myuid,String mode) async {
+  Future sendcomment(String postid, String mytoken, String mag, String myuid,
+      String mode) async {
     print('sendcomment');
 
     var url = Uri.parse("${Api.url}api/post/$postid/comment");
     final headers = {
       "userid": myuid,
-      "mode":mode,
+      "mode": mode,
       "content-type": "application/json",
       "accept": "application/json",
       "authorization": "Bearer $mytoken",
@@ -307,6 +303,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     },
                   ),
                 ),
+
                 ///-----------APPBAR-----------------//
                 SliverToBoxAdapter(
                   child: PostList(
@@ -336,6 +333,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       ),
     );
   }
+
   Widget PostList(
       String posttitle,
       String subtitle,
@@ -461,7 +459,9 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                             islike == false
                                 ? PostButton(
                                     icon: Icon(
-                                      islike!=true?Icons.favorite_outline:Icons.favorite,
+                                      islike != true
+                                          ? Icons.favorite_outline
+                                          : Icons.favorite,
                                       color: MColors.primaryBlue,
                                     ),
                                     label: '${widget.likeCount} ถูกใจ',
@@ -473,7 +473,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                           ? Navigate.pushPage(
                                               context, Loginregister())
                                           : await Api.islike(widget.postid,
-                                                  userid, token,mode)
+                                                  userid, token, mode)
                                               .then((value) => ({
                                                     jsonResponse =
                                                         jsonDecode(value.body),
@@ -518,7 +518,9 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                   )
                                 : PostButton(
                                     icon: Icon(
-                                    islike!=true?Icons.favorite_outline:Icons.favorite,
+                                      islike != true
+                                          ? Icons.favorite_outline
+                                          : Icons.favorite,
                                       color: MColors.primaryBlue,
                                     ),
                                     width: 8.0,
@@ -630,7 +632,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                   controller: _commentController,
                                   onSaved: (String value) {},
                                   autofocus: widget.onfocus,
-
                                   onChanged: (String value) {
                                     _commenteditController.text = value;
                                     print(value);
@@ -654,7 +655,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                 widget.postid,
                                                 token,
                                                 _commentController.text,
-                                                userid,mode);
+                                                userid,
+                                                mode);
                                             setState(() {
                                               _commentController.clear();
                                             });
@@ -745,7 +747,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                               widget.postid,
                                                               token,
                                                               commentid,
-                                                              userid,mode)
+                                                              userid,
+                                                              mode)
                                                           .then((value) => ({
                                                                 if (value[
                                                                         'status'] ==
@@ -840,46 +843,38 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                             Container(
                                 child: IconButton(
                               icon: Icon(
-                                   data.isLike != true
-                                          ?Icons.favorite_border
+                                  data.isLike != true
+                                      ? Icons.favorite_border
                                       : Icons.favorite,
                                   color: MColors.primaryColor),
                               onPressed: () {
-                               Api.islikecomment(widget.postid,
-                                                          userid,
-                                                          token,
-                                                          commentid,mode)
-                                                  .then((value) => ({
-                                                        jsonResponse =
-                                                            jsonDecode(
-                                                                value.body),
-                                                        print(
-                                                            'message${jsonResponse['message']}'),
-                                                        if (value.statusCode ==
-                                                            200)
-                                                          {
-                                                            if (jsonResponse[
-                                                                    'message'] ==
-                                                                "Like Post Comment Success")
-                                                              {
-                                                                setState(() {
-                                                                  data.likeCount++;
-                                                                  data.isLike =
-                                                                      true;
-                                                                }),
-                                                              }
-                                                            else if (jsonResponse[
-                                                                    'message'] ==
-                                                                "UnLike Post Comment Success")
-                                                              {
-                                                                setState(() {
-                                                                  data.likeCount--;
-                                                                  data.isLike =
-                                                                      false;
-                                                                }),
-                                                              }
-                                                          }
-                                                      }));
+                                Api.islikecomment(widget.postid, userid, token,
+                                        commentid, mode)
+                                    .then((value) => ({
+                                          jsonResponse = jsonDecode(value.body),
+                                          print(
+                                              'message${jsonResponse['message']}'),
+                                          if (value.statusCode == 200)
+                                            {
+                                              if (jsonResponse['message'] ==
+                                                  "Like Post Comment Success")
+                                                {
+                                                  setState(() {
+                                                    data.likeCount++;
+                                                    data.isLike = true;
+                                                  }),
+                                                }
+                                              else if (jsonResponse[
+                                                      'message'] ==
+                                                  "UnLike Post Comment Success")
+                                                {
+                                                  setState(() {
+                                                    data.likeCount--;
+                                                    data.isLike = false;
+                                                  }),
+                                                }
+                                            }
+                                        }));
                               },
                             )),
                             IconButton(
@@ -941,7 +936,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                                         ),
                                                                         onPressed:
                                                                             () async {
-                                                                          Api.deletecomment(widget.postid, token, commentid, userid,mode).then((value) =>
+                                                                          Api.deletecomment(widget.postid, token, commentid, userid, mode).then((value) =>
                                                                               ({
                                                                                 if (value['status'] == 1)
                                                                                   {

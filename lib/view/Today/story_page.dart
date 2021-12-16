@@ -71,8 +71,6 @@ class _StroyPageScState extends State<StroyPageSc> {
   StreamController _postsController;
   String postid;
   String titalpost;
-  //  List<GalleryPostSearchModel> imagUrl;
-  //  String type;
   DateTime createdDate;
   String postby;
   String imagepage;
@@ -176,16 +174,9 @@ class _StroyPageScState extends State<StroyPageSc> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                // SizedBox(
-                                //   height:
-                                //       MediaQuery.of(context).size.height / 10.0,
-                                // ),
                                 Center(
                                   child: Container(
-                                    // color: Colors.grey[800],
                                     width: MediaQuery.of(context).size.width,
-                                    // height:
-                                    //     MediaQuery.of(context).size.height / 10,
                                     child: Center(
                                       child: Column(
                                         children: [
@@ -219,11 +210,6 @@ class _StroyPageScState extends State<StroyPageSc> {
                                     ),
                                   ),
                                 ),
-
-                                // SizedBox(
-                                //   height:
-                                //       MediaQuery.of(context).size.height / 5.5,
-                                // ),
                               ],
                             ),
                           ),
@@ -405,14 +391,6 @@ class _StroyPageScState extends State<StroyPageSc> {
                                     _launchURL(url);
                                     print("Opening $url...");
                                   },
-                                  // customRender: (node, children) {
-                                  //   if (node is dom.Element) {
-                                  //     switch (node.localName) {
-                                  //       case "custom_tag": // using this, you can handle custom tags in your HTML
-                                  //         return Column(children: children);
-                                  //     }
-                                  //   }
-                                  // },
                                 );
                       }),
                     ),

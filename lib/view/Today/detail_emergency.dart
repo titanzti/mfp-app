@@ -400,13 +400,6 @@ class _DTemergenScState extends State<DTEmergenSc> {
     String hashTagName,
     String coverImage,
     String title,
-    // String followedCount,
-    // String subtitle,
-    // // List<Gallery> gallery,
-    // int likeCount,
-    // int commentCount,
-    // int shareCount,
-    // String postid,
   ) {
     return InkWell(
       child: Container(
@@ -424,10 +417,6 @@ class _DTemergenScState extends State<DTEmergenSc> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
-                // child: new Image.network(
-                //  "https://today-api.moveforwardparty.org/api$coverImage/image",
-                //   filterQuality: FilterQuality.low,
-                // ),
               ),
             ),
             Column(
