@@ -12,6 +12,7 @@ import 'package:mfp_app/view/Auth/loginemail.dart';
 import 'package:mfp_app/view/Auth/register_ginfo.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:twitter_login/twitter_login.dart';
 
 class Login extends StatefulWidget {
   Login({Key key}) : super(key: key);
@@ -51,7 +52,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   }
 
   Future<String> networkImageToBase64(String imageUrl) async {
-    http.Response response = await http.get(imageUrl);
+    http.Response response = await http.get(Uri.parse(imageUrl));
     final bytes = response?.bodyBytes;
     return (bytes != null ? base64Encode(bytes) : null);
   }
@@ -121,8 +122,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
         print("LoggedIn");
 
-        var graphResponse = await http.get(
-            'https://graph.facebook.com/v10.0/me?access_token=${facebookLoginResult.accessToken.token}&fields=name,first_name,last_name,birthday,picture,email,gender&method=get&pretty=0&sdk=joey&suppress_http_code=1');
+        var graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v10.0/me?access_token=${facebookLoginResult.accessToken.token}&fields=name,first_name,last_name,birthday,picture,email,gender&method=get&pretty=0&sdk=joey&suppress_http_code=1')
+            );
         var profile = json.decode(graphResponse.body);
         // profileData.add(profile);
         print(profile.toString());
@@ -140,6 +141,46 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
         break;
     }
+  }
+   void initiateFacebookTwitter() async {
+    setState(() {
+      isLoggedIn = true;
+    });
+     final twitterLogin = TwitterLogin(
+      /// Consumer API keys
+      apiKey: 'API_KEY',
+
+      /// Consumer API Secret keys
+      apiSecretKey: 'API_SECRET_KEY',
+
+      /// Registered Callback URLs in TwitterApp
+      /// Android is a deeplink
+      /// iOS is a URLScheme
+      redirectURI: 'example://',
+    );
+
+    /// Forces the user to enter their credentials
+    /// to ensure the correct users account is authorized.
+    /// If you want to implement Twitter account switching, set [force_login] to true
+    /// login(forceLogin: true);
+    final authResult = await twitterLogin.login();
+    switch (authResult.status) {
+      case TwitterLoginStatus.loggedIn:
+        // success
+        print('====== Login success ======');
+        break;
+      case TwitterLoginStatus.cancelledByUser:
+        // cancel
+        print('====== Login cancel ======');
+        break;
+      case TwitterLoginStatus.error:
+      break;
+      // case null:
+      //   // error
+      //   print('====== Login error ======');
+      //   break;
+    }
+  
   }
 
   bool isLoggedIn = false;

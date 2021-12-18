@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
-import 'package:splashscreen/splashscreen.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -19,7 +18,6 @@ class _SplashPageState extends State<SplashPage> {
         () => Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => NavScreen())));
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

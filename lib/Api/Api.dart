@@ -34,7 +34,7 @@ class Api {
   static Future<Http.Response> getuserprofile(String userid) async {
     // print('getuserprofile');
 
-    final responseData = await Http.get("${Api.url}api/profile/$userid");
+    final responseData = await Http.get( Uri.parse("${Api.url}api/profile/$userid"));
 
     return responseData;
   }
@@ -43,7 +43,7 @@ class Api {
   static Future<Http.Response> getPage(String pageid) async {
     // print('getPage');
 
-    final responseData = await Http.get("${Api.url}api/page/$pageid");
+    final responseData = await Http.get(Uri.parse("${Api.url}api/page/$pageid"));
 
     return responseData;
   }
@@ -77,7 +77,7 @@ class Api {
 
   static Future getPostList(int offset) async {
     // print('getPostList');
-    String url = "${Api.url}api/main/content/search";
+    String url =  "${Api.url}api/main/content/search";
     final headers = {
       // "mode": "EMAIL",
       "authority": "today-api.moveforwardparty.org",
@@ -98,7 +98,7 @@ class Api {
     print(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -132,7 +132,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -152,7 +152,7 @@ class Api {
 
   static Future getemergencycontent(String emergencyEventId) async {
     final responseData =
-        await Http.get("${Api.url}api/emergency/$emergencyEventId/timeline");
+        await Http.get(Uri.parse("${Api.url}api/emergency/$emergencyEventId/timeline"));
 
     return responseData;
   }
@@ -162,7 +162,7 @@ class Api {
     List<RecomUserPageModel> pagelist = [];
 
     final responseData =
-        await Http.get("${Api.url}api/recommend?limit=5&offset=0");
+        await Http.get(Uri.parse("${Api.url}api/recommend?limit=5&offset=0"));
     if (responseData.statusCode == 200) {
       var data = jsonDecode(responseData.body);
       for (Map i in data["data"]) {
@@ -226,7 +226,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -240,8 +240,7 @@ class Api {
   static Future<Http.Response> getHashtagData() async {
     // print('getData');
 
-    final responseData = await Http.get(
-        "${Api.url}api/main/content");
+    final responseData = await Http.get(Uri.parse( "${Api.url}api/main/content"));
 
     return responseData;
   }
@@ -266,7 +265,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -286,7 +285,7 @@ class Api {
     };
     var body = jsonEncode(data);
 
-    final responseData = await Http.post(url, body: body);
+    final responseData = await Http.post(Uri.parse(url), body: body);
 
     return responseData;
   }
@@ -303,8 +302,7 @@ class Api {
       getPostemergencyEventsList() async {
     List<EmergencyEventsContent> listemergencyEvents = [];
     // print('getHashtagList');
-    final responseData = await Http.get(
-        "${Api.url}api/main/content");
+    final responseData = await Http.get(Uri.parse( "${Api.url}api/main/content") );
     if (responseData.statusCode == 200) {
       var datapostlist = jsonDecode(responseData.body);
       for (Map i in datapostlist["data"]["emergencyEvents"]["contents"]) {
@@ -319,7 +317,7 @@ class Api {
   static Future<Http.Response> getPostsectionModelsEventsList() async {
     // print('getHashtagList');
     final responseData = await Http.get(
-        "${Api.url}api/main/content");
+        Uri.parse("${Api.url}api/main/content"));
     // print(responseData.body);
 
     return responseData;
@@ -328,8 +326,8 @@ class Api {
   static Future<Http.Response> getPostDetailSS(String id) async {
     // print('getPostDetailSS');
 
-    final responseData = await Http.get(
-        "${Api.url}api/page/$id/post/?offset=0");
+    final responseData = await Http.get(Uri.parse("${Api.url}api/page/$id/post/?offset=0")
+        );
 
     return responseData;
   }
@@ -354,7 +352,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -386,7 +384,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+     Uri.parse(url) ,
       headers: headers,
       body: body,
     );
@@ -419,7 +417,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -452,7 +450,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+     Uri.parse(url) ,
       headers: headers,
       body: body,
     );
@@ -487,7 +485,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -546,7 +544,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -572,7 +570,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+     Uri.parse(url) ,
       headers: headers,
       body: body,
     );
@@ -598,7 +596,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -631,7 +629,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -656,7 +654,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -683,7 +681,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -712,7 +710,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.put(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -738,7 +736,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -762,7 +760,7 @@ class Api {
     Map data = {"type": "", "offset": 0, "limit": 5};
     var body = jsonEncode(data);
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -787,7 +785,7 @@ class Api {
     };
     var body = jsonEncode(data);
     final responseData = await Http.post(
-      url,
+     Uri.parse(url) ,
       headers: headers,
       body: body,
     );
@@ -807,8 +805,8 @@ class Api {
       // "whereConditions": {"isHideStory": false},
     };
 
-    final responseData = await Http.get(
-        "${Api.url}api/page/$pageid",
+    final responseData = await Http.get(Uri.parse( "${Api.url}api/page/$pageid")
+       ,
         headers: headers);
     print('responseDatagetpagess${responseData.body}');
 
@@ -838,7 +836,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+      Uri.parse(url),
       headers: headers,
       body: body,
     );
@@ -874,7 +872,7 @@ class Api {
     var body = jsonEncode(data);
 
     final responseData = await Http.post(
-      url,
+     Uri.parse(url) ,
       headers: headers,
       body: body,
     );
@@ -898,7 +896,7 @@ class Api {
     };
 
     final responseData = await Http.delete(
-      url,
+     Uri.parse(url) ,
       headers: headers,
     );
     print('responseDatacommentlist${responseData.body}');

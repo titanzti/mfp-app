@@ -21,6 +21,8 @@ import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:mfp_app/view/Profile/profile.dart';
 import 'package:mfp_app/view/Search/search.dart';
+import 'package:mfp_app/view/info/info.dart';
+// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 //APPBARS-------------------------------------
 
@@ -52,8 +54,8 @@ Widget myAlbumCard(List<GalleryPostSearchModel> list,BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            getItems(list[0].signUrl, list[1].signUrl, 0,context),
-            getItems(list[2].signUrl, list[3].signUrl, list.length - 4,context),
+            getItems(list[0].signUrl!=null?list[0].signUrl:list[0].imageUrl,list[1].signUrl!=null?list[1].signUrl:list[1].imageUrl, 0,context),
+            getItems(list[2].signUrl!=null?list[2].signUrl:list[2].imageUrl, list[0].signUrl!=null?list[3].signUrl:list[3].imageUrl, list.length - 4,context),
           ],
         ),
       ),
@@ -67,9 +69,9 @@ Widget myAlbumCard(List<GalleryPostSearchModel> list,BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            getItems(list[0].signUrl, list[1].signUrl, 0,context),
+            getItems(list[0].signUrl!=null?list[0].signUrl:list[0].imageUrl,list[1].signUrl!=null?list[1].signUrl:list[1].imageUrl, 0,context),
             Expanded(
-              child: getItems( list[2].signUrl, list[2].signUrl ?? "", list.length - 3,context),
+              child: getItems(list[2].signUrl!=null?list[2].signUrl:list[2].imageUrl, list[2].signUrl!=null?list[2].signUrl:list[2].imageUrl ?? "", list.length - 3,context),
             ),
           ],
         ),
@@ -85,7 +87,7 @@ Widget myAlbumCard(List<GalleryPostSearchModel> list,BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            getItems(list[0].signUrl, list[1].signUrl, 0,context),
+            getItems(list[0].signUrl!=null?list[0].signUrl:list[0].imageUrl,list[1].signUrl!=null?list[1].signUrl:list[1].imageUrl, 0,context),
           ],
         ),
       ),
@@ -96,35 +98,9 @@ Widget myAlbumCard(List<GalleryPostSearchModel> list,BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            // Padding(
-            //   padding: EdgeInsets.only(
-            //       left: 10.0, top: 2),
-            //   child: Text(
-            //     name,
-            //     style: TextStyle(
-            //         color: Colors.black,
-            //         fontSize: 14,
-            //         fontWeight: FontWeight.bold),
-            //   ),
-            // ),
-
             list[0].signUrl != null
                 ?
-                // Hero(
-                //   tag:"image"+ list[0].signUrl.toString(),
-                //   child:
-                topImage(list[0].signUrl.toString())
-                // CachedNetworkImage(
-                //     imageUrl: 'https://via.placeholder.com/350x150',
-                //     placeholder: (context, url) =>
-                //         new CupertinoActivityIndicator(),
-                //     errorWidget: (context, url, error) => Container(
-                //       decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                //       ),
-                //       child:Image(image: CachedNetworkImageProvider(list[0].signUrl),)
-                //     ),
-                //   )
+                topImage(list[0].signUrl!=null?list[0].signUrl:list[0].imageUrl)
                 : SizedBox.shrink(),
           ],
         ),
@@ -231,6 +207,24 @@ Widget topImage(String image) {
           tag: "image" + image,
           child:image==null?Container(): Image.network(
             image
+            ,
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+    ),
+  );
+}
+Widget topImagePagesearch(String image) {
+  return Container(
+    // height: 250.0,
+    width: double.infinity,
+    child: FullScreenWidget(
+      child: Center(
+        child: Hero(
+          tag: "image" + image,
+          child:image==null?Container(): Image.network(
+            "https://today-api.moveforwardparty.org/api$image/image"
             ,
             fit: BoxFit.fill,
           ),
@@ -362,6 +356,16 @@ Widget primaryAppBar(
               onTap: () => widgetprofile == null
                   ? null
                   : Navigate.pushPage(context, widgetprofile),
+//                   onDoubleTap:(){
+//                   showCupertinoModalBottomSheet(
+//   context: context,
+//   builder: (context) =>  SingleChildScrollView(
+//     controller: ModalScrollController.of(context),
+//     child: Infoview()),
+  
+// );
+                    
+//                   },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: CircleAvatar(

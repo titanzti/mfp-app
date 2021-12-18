@@ -413,8 +413,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       commentCount: commentCount,
                                       shareCount: shareCount,
                                       repostCount: 0,
-                                      userid: userid,
-                                      token: token,
                                     ));
                               },
                               child: textreadstory('อ่านสตอรี่..')),

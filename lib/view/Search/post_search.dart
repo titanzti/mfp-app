@@ -240,7 +240,7 @@ class _PostSearchState extends State<PostSearch> {
                 commentCount: commentCount,
                 shareCoun: shareCount,
                 postid: postid,
-                userimage: '',
+                userimage: pageimage,
                 pageid: pageid,
                 pageimage: pageimage,
                 pagename: pagename,
@@ -259,10 +259,9 @@ class _PostSearchState extends State<PostSearch> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // topImage(gallery[0].signUrl.toString()),
-            gallery.length != 0
-                ? searchAlbumCard(gallery, context)
-                : SizedBox.shrink(),
+            // gallery.length != null
+            //     ? topImage(gallery[0].signUrl.toString())
+            //     : topImage(gallery[0].signUrl.toString()),
             // Image.network(gallery[0].signUrl),
             Card(
               child: Column(
@@ -297,8 +296,6 @@ class _PostSearchState extends State<PostSearch> {
                                 commentCount: commentCount,
                                 shareCount: shareCount,
                                 repostCount: repostCount,
-                                userid: userid,
-                                token: token,
                               ));
                         },
                         child: textreadstory('อ่านสตอรี่..')),

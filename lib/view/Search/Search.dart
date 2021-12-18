@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mfp_app/Api/Api.dart';
@@ -53,11 +52,9 @@ class _SearchState extends State<Search> {
 
   var userid;
 
-
   TextEditingController controller = new TextEditingController();
   List<SearchHastag> listSearchHastag = [];
   List<PageModel> _listPageModel = [];
-  List<PageModel> _listPageModelResult = [];
 
   List<SearchHastag> _searchResult = [];
 
@@ -82,7 +79,6 @@ class _SearchState extends State<Search> {
 
   var datagetuserprofile;
 
-
   var msg = "";
 
   bool listisempty = false;
@@ -94,33 +90,33 @@ class _SearchState extends State<Search> {
       print('Futuredelayed');
       //--token
       token = await Api.gettoke();
-      print('tokenhome$token'); 
+      print('tokenhome$token');
       //--userid
       userid = await Api.getmyuid();
       print('useridsearch$userid');
       //--
       await Api.getuserprofile("$userid").then((responseData) async => ({
-                  if (responseData.statusCode == 200)
-                    {
-                      datagetuserprofile = jsonDecode(responseData.body),
-                      setState(() {
-                        // displayName1 =
-                        //     datagetuserprofile["data"]
-                        //         ["displayName"];
-                        // gender = datagetuserprofile["data"]
-                        //     ["gender"];
-                        // firstName = datagetuserprofile["data"]
-                        //     ["firstName"];
-                        // lastName = datagetuserprofile["data"]
-                        //     ["lastName"];
-                        // userid1 = datagetuserprofile["data"]["id"];
-                        // email =
-                        //     datagetuserprofile["data"]["email"];
-                        image = datagetuserprofile["data"]["imageURL"];
-                      }),
-                      print('image$image'),
-                    }
-                }));
+            if (responseData.statusCode == 200)
+              {
+                datagetuserprofile = jsonDecode(responseData.body),
+                setState(() {
+                  // displayName1 =
+                  //     datagetuserprofile["data"]
+                  //         ["displayName"];
+                  // gender = datagetuserprofile["data"]
+                  //     ["gender"];
+                  // firstName = datagetuserprofile["data"]
+                  //     ["firstName"];
+                  // lastName = datagetuserprofile["data"]
+                  //     ["lastName"];
+                  // userid1 = datagetuserprofile["data"]["id"];
+                  // email =
+                  //     datagetuserprofile["data"]["email"];
+                  image = datagetuserprofile["data"]["imageURL"];
+                }),
+                print('image$image'),
+              }
+          }));
     });
   }
 
@@ -337,7 +333,6 @@ class _SearchState extends State<Search> {
                                       Icons.search,
                                       color: MColors.textDark,
                                     ),
-
                                     filled: true,
                                     fillColor: Colors.grey[200],
                                     enabledBorder: UnderlineInputBorder(
@@ -352,7 +347,7 @@ class _SearchState extends State<Search> {
                                     ),
                                   ),
                                   onChanged: (text) async {
-                                    if (text == ""||controller.text=="") {
+                                    if (text == "" || controller.text == "") {
                                       print("controllerวางจริง");
                                       setState(() {
                                         _listPageModel.clear();
@@ -395,8 +390,8 @@ class _SearchState extends State<Search> {
                                     listSearchHastag.clear();
                                     _listPageModel.clear();
                                   }
-                                  await getsearch(controller.text.toLowerCase(),
-                                      userid);
+                                  await getsearch(
+                                      controller.text.toLowerCase(), userid);
                                 },
                                 child: Container(
                                   height: 38,
@@ -436,105 +431,112 @@ class _SearchState extends State<Search> {
               //     ? SliverToBoxAdapter(
               //         child: Center(child: CupertinoActivityIndicator()))
               //     :
-             controller.text != "" 
-                  ?  listSearchHastag.length!=0||controller.text!=""?SliverToBoxAdapter(
-                      child: new Builder(builder: (BuildContext context) {
-                        return ListView.builder(
-                          physics: ClampingScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: listSearchHastag.length,
-                          itemBuilder: (context, i) {
-                            var data = listSearchHastag[i];
-                            return InkWell(
-                              onTap: () {
-                                if (data.type == "HASHTAG") {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => PostSearch(
-                                              label: data.label,
-                                            )),
-                                  );
-                                }
-                                if (data.type == "PAGE") {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Profliess(
-                                              id: data.value,
-                                            )),
-                                  );
-                                }
-                              },
-                              child: Card(
-                                // shape: RoundedRectangleBorder(
-                                //     borderRadius: const BorderRadius.all(
-                                //   Radius.circular(15.0),
-                                // )),
-                                child: new ListTile(
-                                  leading: data.historyId != null
-                                      ? Icon(Icons.timer_outlined)
-                                      : Icon(Icons.search_outlined),
-                                  title: new Text('${data.label}'),
-                                  trailing: Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    size: 18,
-                                    color: MColors.textDark,
+              controller.text != ""
+                  ? listSearchHastag.length != 0 || controller.text != ""
+                      ? SliverToBoxAdapter(
+                          child: new Builder(builder: (BuildContext context) {
+                            return ListView.builder(
+                              physics: ClampingScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: listSearchHastag.length,
+                              itemBuilder: (context, i) {
+                                var data = listSearchHastag[i];
+                                return InkWell(
+                                  onTap: () {
+                                    if (data.type == "HASHTAG") {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => PostSearch(
+                                                  label: data.label,
+                                                )),
+                                      );
+                                    }
+                                    if (data.type == "PAGE") {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Profliess(
+                                                  id: data.value,
+                                                )),
+                                      );
+                                    }
+                                  },
+                                  child: Card(
+                                    // shape: RoundedRectangleBorder(
+                                    //     borderRadius: const BorderRadius.all(
+                                    //   Radius.circular(15.0),
+                                    // )),
+                                    child: new ListTile(
+                                      leading: data.historyId != null
+                                          ? Icon(Icons.timer_outlined)
+                                          : Icon(Icons.search_outlined),
+                                      title: new Text('${data.label}'),
+                                      trailing: Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 18,
+                                        color: MColors.textDark,
+                                      ),
+                                      // subtitle: new Text('>>>${data.type}'),
+                                    ),
+                                    margin: const EdgeInsets.all(2.0),
                                   ),
-                                  // subtitle: new Text('>>>${data.type}'),
-                                ),
-                                margin: const EdgeInsets.all(2.0),
-                              ),
+                                );
+                              },
                             );
-                          },
-                        );
-                      }),
-                    )
-                  : SliverToBoxAdapter(child: Container()):SliverToBoxAdapter(child: Center(child: Text('ไม่พบข้อมูล',style:TextStyle(fontSize: 18,)))),
+                          }),
+                        )
+                      : SliverToBoxAdapter(child: Container())
+                  : SliverToBoxAdapter(
+                      child: Center(
+                          child: Text('ไม่พบข้อมูล',
+                              style: TextStyle(
+                                fontSize: 18,
+                              )))),
               loadingpage == true
                   ? SliverToBoxAdapter(
                       child: Center(child: CupertinoActivityIndicator()))
-                  :controller.text != ""
-                  ? SliverToBoxAdapter(
-                      child: ListView.builder(
-                        physics: ClampingScrollPhysics(),
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        itemCount: _listPageModel.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          var data = _listPageModel[index];
-                          return InkWell(
-                            onTap: () {
-                              Navigate.pushPage(
-                                  context,
-                                  Profliess(
-                                    id: data.id,
-                                    image: data.imageUrl,
-                                  ));
+                  : controller.text != ""
+                      ? SliverToBoxAdapter(
+                          child: ListView.builder(
+                            physics: ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: _listPageModel.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var data = _listPageModel[index];
+                              return InkWell(
+                                onTap: () {
+                                  Navigate.pushPage(
+                                      context,
+                                      Profliess(
+                                         id: data.id,
+                                      ));
+                                },
+                                child: Card(
+                                  child: new ListTile(
+                                    leading: new CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage: NetworkImage(
+                                          "https://today-api.moveforwardparty.org/api${data.imageUrl}/image"),
+                                      backgroundColor: Colors.transparent,
+                                    ),
+                                    title: new Text('${data.name}'),
+                                    subtitle: new Text('@${data.pageUsername}'),
+                                    trailing: Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      size: 18,
+                                      color: MColors.textDark,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.all(0.0),
+                                ),
+                              );
                             },
-                            child: Card(
-                              child: new ListTile(
-                                leading: new CircleAvatar(
-                                  radius: 20,
-                                  backgroundImage: NetworkImage(
-                                      "https://today-api.moveforwardparty.org/api${data.imageUrl}/image"),
-                                  backgroundColor: Colors.transparent,
-                                ),
-                                title: new Text('${data.name}'),
-                                subtitle: new Text('@${data.pageUsername}'),
-                                trailing: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  size: 18,
-                                  color: MColors.textDark,
-                                ),
-                              ),
-                              margin: const EdgeInsets.all(0.0),
-                            ),
-                          );
-                        },
-                      ),
-                    ):SliverToBoxAdapter(child: Container()),
+                          ),
+                        )
+                      : SliverToBoxAdapter(child: Container()),
             ],
           ),
         ),

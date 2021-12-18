@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/controller/today_post_provider.dart';
 import 'package:mfp_app/model/commentlistmodel.dart';
-import 'package:mfp_app/model/searchpostlistModel.dart';
 import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/timeutils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -62,7 +59,6 @@ class _StroyPageScState extends State<StroyPageSc> {
 
   var loading = false;
   List<CommentlistModel> listModel = [];
-  TextEditingController _commentController = TextEditingController();
   TextEditingController _commenteditController = TextEditingController();
   bool islike = false;
   bool idedit = false;
@@ -166,10 +162,13 @@ class _StroyPageScState extends State<StroyPageSc> {
                       children: [
                         Image.network("${imagelist[0].signUrl}",
                             color: Color.fromRGBO(255, 255, 255, 0.7),
-                            colorBlendMode: BlendMode.dstATop),
+                            colorBlendMode: BlendMode.dstATop,
+                            fit:BoxFit.cover,
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height / 3.0, ),
                         Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 1.9,
+                          height: MediaQuery.of(context).size.height / 3.0,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -220,29 +219,29 @@ class _StroyPageScState extends State<StroyPageSc> {
                       alignment: Alignment.bottomCenter,
                       color: Colors.grey[800],
                       height: MediaQuery.of(context).size.height / 20.0,
-                      width: MediaQuery.of(context).size.width / 1.0,
+                      width: MediaQuery.of(context).size.width,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 40),
-                          ),
-                          Text(
-                            widget.commentCount.toString(),
-                            //'${nDataList.post.commentCount}',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.comment,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              print('กด');
-                            },
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 30),
-                          ),
+                            Spacer(),
+                         
+                                                    Text(
+                                                        widget.commentCount.toString(),
+                                                        //'${nDataList.post.commentCount}',
+                                                        style: TextStyle(color: Colors.white, fontSize: 18),
+                                                      ),
+                                                       IconButton(
+                                                      icon: Icon(
+                                                        Icons.comment,
+                                                        color: Colors.white,
+                                                      ),
+                                                      onPressed: () {
+                                                        print('กด');
+                                                      },
+                                                    ),
+                                                      Spacer(),
+                         
+                     
                           Text(
                             widget.repostCount.toString(),
                             //'${nDataList.post.repostCount}',
@@ -257,9 +256,8 @@ class _StroyPageScState extends State<StroyPageSc> {
                               print('กด');
                             },
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 30),
-                          ),
+                            Spacer(),
+                         
                           Text(
                             widget.likeCount.toString(),
                             //'${nDataList.post.likeCount}',
@@ -274,9 +272,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                               print('กด');
                             },
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 30),
-                          ),
+                            Spacer(),
                           Text(
                             widget.shareCount.toString(),
                             //'${nDataList.post.shareCount}',
@@ -291,10 +287,10 @@ class _StroyPageScState extends State<StroyPageSc> {
                               print('กด');
                             },
                           ),
+                            Spacer(),
                         ],
                       ),
                     ),
-
                     Center(
                       child: Text(
                         'มีการเติมเต็ม 0 รายการ',
@@ -320,6 +316,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                           padding: const EdgeInsets.only(
                               left: 1.0, right: 10.0, top: 5.0),
                           child: Row(
+                            mainAxisAlignment:MainAxisAlignment.start ,
                             children: [
                               CircleAvatar(
                                   radius: 30.0,
@@ -351,7 +348,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                                       child: Text(
                                         'เผยแพร่โดย:${widget.postby}',
                                         textAlign: TextAlign.left,
-                                        maxLines: 2,
+                                        maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                           fontFamily:
@@ -416,7 +413,6 @@ class _StroyPageScState extends State<StroyPageSc> {
           itemCount: listModel.length,
           itemBuilder: (BuildContext context, int index) {
             var data = listModel[index];
-            var commentid = data.id;
             _commenteditController.text = data.comment;
             return new InkWell(
               child: Padding(

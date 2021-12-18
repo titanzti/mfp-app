@@ -76,6 +76,8 @@ class _TodayScState extends State<TodaySc> {
 
   var mode = "";
 
+  bool _hasNextPage = true;
+
   void _goToElement(int index) {
     _scrollController.animateTo(
         (100.0 *
@@ -245,12 +247,13 @@ class _TodayScState extends State<TodaySc> {
             _scrollController.position.maxScrollExtent &&
         !_scrollController.position.outOfRange) {
       print('AT end');
-      await new Future.delayed(const Duration(milliseconds: 100));
 
       setState(() {
         _currentMax = _currentMax + 5;
         todayController.firstload.value = false;
-        _isLoadMoreRunning = true; // Display a progress indicator at the bottom
+        _isLoadMoreRunning = true; 
+         _hasNextPage = true;
+       // Display a progress indicator at the bottom
       });
 
       try {
@@ -351,6 +354,8 @@ class _TodayScState extends State<TodaySc> {
                     ),
                   ),
                 ),
+                                            SliverToBoxAdapter(child:const SizedBox(height: 7,)),
+
                 SliverToBoxAdapter(
                   child: Obx(() {
                     if (todayController.isLoading.value)
@@ -371,6 +376,7 @@ class _TodayScState extends State<TodaySc> {
                                   ? buildrecommendeduserpage()
                                   : SizedBox.shrink();
                             }
+                          
                             return postlist(
                               nDataList1.post.title,
                               nDataList1.post.detail,
@@ -405,6 +411,17 @@ class _TodayScState extends State<TodaySc> {
                               MColors.primaryColor)),
                     )),
                   ),
+                             if (_hasNextPage == false)
+                  SliverToBoxAdapter(
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 30, bottom: 40),
+                      color: Colors.amber,
+                      child: Center(
+                        child: Text('You have fetched all of the content'),
+                      ),
+                    ),
+                  ),
+                  
               ],
             ),
           ),
@@ -477,7 +494,7 @@ class _TodayScState extends State<TodaySc> {
             // topImage(gallery[0].signUrl.toString()),
             gallery.length != 0
                 ? myAlbumCard(gallery, context)
-                : SizedBox.shrink(),
+                : Container(),
             // Image.network(gallery[0].signUrl),
             Card(
               child: Column(
@@ -513,8 +530,6 @@ class _TodayScState extends State<TodaySc> {
                                       commentCount: commentCount,
                                       shareCount: shareCount,
                                       repostCount: repostCount,
-                                      userid: userid,
-                                      token: token,
                                     ));
                               },
                               child: textreadstory('อ่านสตอรี่..')),
@@ -655,7 +670,7 @@ class _TodayScState extends State<TodaySc> {
                                 // size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
-                              width: 4.05,
+                              width: 4.7,
                               onTap: () async {
                                 Navigator.push(
                                   context,

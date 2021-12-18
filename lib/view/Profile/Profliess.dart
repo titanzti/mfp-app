@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,11 +27,9 @@ import 'package:mfp_app/view/Today/story_page.dart';
 
 class Profliess extends StatefulWidget {
   final String id;
-  final String image;
   const Profliess({
     Key key,
     this.id,
-    this.image,
   }) : super(key: key);
 
   // ShopSC({Key? key}) : super(key: key);
@@ -50,40 +49,33 @@ class _ProfliessState extends State<Profliess> {
   List<PostPageSS> listpostss = [];
   Future getPostss;
   var dataht;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _scrollController = ScrollController();
-  int _currentMax = 5;
+  ScrollController _scrolltotopController;
+
+  int _currentMax = 0;
   bool islike = false;
 
   bool isLoading = true;
   var story;
-  TextEditingController _detailController = TextEditingController();
   bool _isLoadMoreRunning = false;
-
   int page = 5;
-  GlobalKey _contentKey = GlobalKey();
-  GlobalKey _refresherKey = GlobalKey();
-
   var followers = 0;
-
-  var coverURL;
+  var coverURL = "";
   bool isFollow = false;
-
   String userid = "";
 
   var datagetuserprofile;
-
-  var image;
-
+  var image = "";
   var pagecoverURL;
-
   var pagefollowers = 0;
-
   var pageprofileimage = "";
   var pagename = "";
   var pageUsername = "";
+  var pageid = "";
 
-  var pageid="";
+  bool _showBackToTopButton = false;
+
+  bool _hasNextPage = true;
 
   @override
   void initState() {
@@ -105,7 +97,7 @@ class _ProfliessState extends State<Profliess> {
                 datagetuserprofile = jsonDecode(responseData.body),
                 print('datagetuserprofile$datagetuserprofile'),
                 setState(() {
-                  pageid=datagetuserprofile["data"]["id"];
+                  pageid = datagetuserprofile["data"]["id"];
                   pageUsername = datagetuserprofile["data"]["pageUsername"];
                   pageprofileimage = datagetuserprofile["data"]["imageURL"];
                   pagename = datagetuserprofile["data"]["name"];
@@ -135,7 +127,6 @@ class _ProfliessState extends State<Profliess> {
                   //     datagetuserprofile["data"]["email"];
                   image = datagetuserprofile["data"]["imageURL"];
                 }),
-                print('image$image'),
               }
           }));
       //--checkisFollow
@@ -166,13 +157,17 @@ class _ProfliessState extends State<Profliess> {
           }));
       await _getPostListSS(pageUsername, _currentMax);
     });
+
     super.initState();
+
     _postsController = new StreamController();
   }
 
   @override
   void dispose() {
     _trackingScrollController.dispose();
+    _scrollController.removeListener(_loadMore);
+
     super.dispose();
   }
 
@@ -199,12 +194,11 @@ class _ProfliessState extends State<Profliess> {
       });
       dataht = jsonDecode(responseData.body);
       for (var i in dataht["data"]["posts"]) {
-        // i["story"] = '',
+        setState(() {
+          listpostss.add(PostPageSS.fromJson(i));
+          _postsController.add(dataht);
+        });
 
-        listpostss.add(PostPageSS.fromJson(i));
-        // story = dataht["data"]["story"]["story"],
-        // print('story$story'),
-        _postsController.add(dataht);
         print(listpostss.length);
       }
       setState(() {
@@ -228,7 +222,10 @@ class _ProfliessState extends State<Profliess> {
 
       setState(() {
         _currentMax = _currentMax + 5;
-        _isLoadMoreRunning = true; // Display a progress indicator at the bottom
+        _isLoadMoreRunning = true;
+                 _hasNextPage = true;
+
+ // Display a progress indicator at the bottom
 
         try {
           _getPostListSS(pageUsername, _currentMax);
@@ -284,8 +281,11 @@ class _ProfliessState extends State<Profliess> {
                             padding: const EdgeInsets.only(top: 5, bottom: 5),
                             child: CircleAvatar(
                               radius: 25.0,
-                              backgroundImage: NetworkImage(
-                                  "https://today-api.moveforwardparty.org/api$pageprofileimage/image"),
+                              backgroundImage: (pageprofileimage == null)
+                                  ? NetworkImage(
+                                      'https://via.placeholder.com/150')
+                                  : NetworkImage(
+                                      "https://today-api.moveforwardparty.org/api$pageprofileimage/image"),
                               backgroundColor: Colors.transparent,
                             ),
                           ),
@@ -338,8 +338,11 @@ class _ProfliessState extends State<Profliess> {
                           bottom: -80.0,
                           child: CircleAvatar(
                             radius: 70.0,
-                            backgroundImage: NetworkImage(
-                                "https://today-api.moveforwardparty.org/api$pageprofileimage/image"),
+                            backgroundImage: pageprofileimage == null
+                                ? NetworkImage(
+                                    'https://via.placeholder.com/150')
+                                : NetworkImage(
+                                    "https://today-api.moveforwardparty.org/api$pageprofileimage/image"),
                             backgroundColor: Colors.transparent,
                           ),
                         )
@@ -387,9 +390,13 @@ class _ProfliessState extends State<Profliess> {
               )),
               SliverToBoxAdapter(
                   child: Divider(
-                color: Colors.transparent,
-                height: 3,
+                color: Colors.grey[100],
+                height: 9,
                 thickness: 6.0,
+              )),
+              SliverToBoxAdapter(
+                  child: SizedBox(
+                height: 5,
               )),
               SliverToBoxAdapter(
                 child: Container(
@@ -404,8 +411,7 @@ class _ProfliessState extends State<Profliess> {
                           var jsonResponse;
                           token == null || token == ""
                               ? Navigate.pushPage(context, Loginregister())
-                              : await Api.isfollowpage(
-                                      widget.id, userid, token)
+                              : await Api.isfollowpage(widget.id, userid, token)
                                   .then((value) => ({
                                         jsonResponse = jsonDecode(value.body),
                                         print(
@@ -493,10 +499,14 @@ class _ProfliessState extends State<Profliess> {
                 ),
               ),
               SliverToBoxAdapter(
+                  child: const SizedBox(
+                height: 5,
+              )),
+              SliverToBoxAdapter(
                   child: Divider(
-                color: Colors.transparent,
-                height: 3,
-                thickness: 6.0,
+                color: Colors.grey[100],
+                height: 9,
+                thickness: 10.0,
               )),
               SliverToBoxAdapter(
                 child: Container(
@@ -517,10 +527,9 @@ class _ProfliessState extends State<Profliess> {
                 ),
               ),
               SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 1,
-                ),
-              ),
+                  child: const SizedBox(
+                height: 5,
+              )),
               SliverToBoxAdapter(
                 child: Center(
                   child: Container(
@@ -538,7 +547,8 @@ class _ProfliessState extends State<Profliess> {
                                     MediaQuery.of(context).size.height / 5.8,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: Colors.grey[100],
+                                                                      color: Colors.white,
+
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(1),
@@ -579,7 +589,7 @@ class _ProfliessState extends State<Profliess> {
                                     MediaQuery.of(context).size.height / 5.8,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: Colors.grey[100],
+                                    color: Colors.white,
                                     boxShadow: [
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(1),
@@ -620,10 +630,14 @@ class _ProfliessState extends State<Profliess> {
                 ),
               ),
               SliverToBoxAdapter(
+                  child: const SizedBox(
+                height: 5,
+              )),
+              SliverToBoxAdapter(
                   child: Divider(
-                color: Colors.transparent,
-                height: 15,
-                thickness: 6.0,
+                color: Colors.grey[100],
+                height: 10,
+                thickness: 10.0,
               )),
               listpostss.length == 0
                   ? SliverToBoxAdapter(child: Center(child: Text("ไม่มีโพส")))
@@ -636,16 +650,11 @@ class _ProfliessState extends State<Profliess> {
                               ConnectionState.waiting) {
                             return Center(child: CupertinoActivityIndicator());
                           }
-
-                          // if (snapshot.connectionState == ConnectionState.none) {
-                          //   return Center(child: Text(messger));
-                          // }
                           return Builder(
                             builder: (BuildContext context) {
                               return Scrollbar(
                                 isAlwaysShown: true,
                                 child: ListView.builder(
-                                    // controller: _scrollController,
                                     physics: NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     // padding: const EdgeInsets.all(8.0),
@@ -655,21 +664,7 @@ class _ProfliessState extends State<Profliess> {
                                       BuildContext context,
                                       int index,
                                     ) {
-                                      // if (listModelPostClass.length == 0) {
-                                      //   return Center(
-                                      //       child: CupertinoActivityIndicator());
-                                      // }
                                       final nDataList1 = listpostss[index];
-
-                                      //   if(fistload==true){
-                                      // if (index == listModelPostClass.length - 3) {
-
-                                      // return  BuildRecommendedUserPage();
-                                      //  }
-                                      // }else{
-                                      //   return SizedBox.shrink();
-                                      // }
-
                                       return PostList(
                                           nDataList1.title,
                                           nDataList1.detail,
@@ -703,6 +698,16 @@ class _ProfliessState extends State<Profliess> {
                           )),
                         )
                       : SliverToBoxAdapter(child: Container()),
+                  if (_hasNextPage == false)
+                  SliverToBoxAdapter(
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 30, bottom: 40),
+                      color: Colors.amber,
+                      child: Center(
+                        child: Text('You have fetched all of the content'),
+                      ),
+                    ),
+                  ),
             ],
           ),
         ),
@@ -764,35 +769,93 @@ class _ProfliessState extends State<Profliess> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // Padding(
-              //   padding: EdgeInsets.only(
-              //       left: 10.0, top: 2),
-              //   child: Text(
-              //     name,
-              //     style: TextStyle(
-              //         color: Colors.black,
-              //         fontSize: 14,
-              //         fontWeight: FontWeight.bold),
-              //   ),
-              // ),
               list[0].signUrl != null
-                  ?
-                  // Hero(
-                  //   tag:"image"+ list[0].signUrl.toString(),
-                  //   child:
-                  topImage(list[0].signUrl.toString())
-                  // CachedNetworkImage(
-                  //     imageUrl: 'https://via.placeholder.com/350x150',
-                  //     placeholder: (context, url) =>
-                  //         new CupertinoActivityIndicator(),
-                  //     errorWidget: (context, url, error) => Container(
-                  //       decoration: BoxDecoration(
-                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
-                  //       ),
-                  //       child:Image(image: CachedNetworkImageProvider(list[0].signUrl),)
-                  //     ),
-                  //   )
+                  ? topImage(list[0].signUrl.toString())
                   : Container(),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  Widget mymultialbumcardpagepost(List<GalleryPostPageSS> list) {
+    if (list.length >= 4) {
+      return Container(
+        height: MediaQuery.of(context).size.height / 2.6,
+        width: MediaQuery.of(context).size.width / 1.0,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              getItems(
+                  "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                  "https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image",
+                  0,
+                  context),
+              getItems(
+                  "https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image",
+                  "https://today-api.moveforwardparty.org/api${list[3].imageUrl}/image",
+                  list.length - 4,
+                  context),
+            ],
+          ),
+        ),
+      );
+    } else if (list.length >= 3) {
+      return Container(
+        height: MediaQuery.of(context).size.height / 2.6,
+        width: double.infinity,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              getItems(
+                  "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                  "https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image",
+                  0,
+                  context),
+              Expanded(
+                child: getItems(
+                    "https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image",
+                    "https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image" ??
+                        "",
+                    list.length - 3,
+                    context),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else if (list.length >= 2) {
+      return Container(
+        height: MediaQuery.of(context).size.height / 2.6,
+        width: MediaQuery.of(context).size.width / 1.0,
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              getItems(
+                  "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                  "https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image",
+                  0,
+                  context),
+            ],
+          ),
+        ),
+      );
+    } else if (list.length >= 1) {
+      return Container(
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              list[0].imageUrl != null || list[0].imageUrl != ""
+                  ? Image.network(
+                      "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
+                  : SizedBox.shrink(),
             ],
           ),
         ),
@@ -823,10 +886,12 @@ class _ProfliessState extends State<Profliess> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // coverimage!=null? topImage(coverimage.toString()):
-            gallery.length != 0 || coverimage != null
-                ? myAlbumCardPagepost(gallery)
-                : topImage(coverimage.toString()),
-
+            //  gallery.length != 0 && gallery[0].signUrl != null && gallery[0].imageUrl!=null
+            //      ? myAlbumCardPagepost(gallery)
+            //      :
+            gallery.length == 0
+                ? Container()
+                : mymultialbumcardpagepost(gallery),
             // gallery.length != 0 ? myAlbumCardPagepost(gallery) : Container(),
             // Image.network(gallery[0].signUrl),
             Card(
@@ -863,8 +928,6 @@ class _ProfliessState extends State<Profliess> {
                                       commentCount: commentCount,
                                       shareCount: shareCount,
                                       repostCount: 0,
-                                      userid: userid,
-                                      token: token,
                                     ));
                               },
                               child: textreadstory('อ่านสตอรี่..')),
@@ -874,8 +937,8 @@ class _ProfliessState extends State<Profliess> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       fixtextauthor(),
-                      authorpost(postbyname, context, dateTime, pageid, "", "fasle",
-                          false, "false", false, "", true),
+                      authorpost(postbyname, context, dateTime, pageid, "",
+                          "fasle", false, "false", false, "", true),
                       texttimetimestamp(dateTime),
                     ],
                   ),
