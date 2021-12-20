@@ -113,24 +113,12 @@ class _ProfliessState extends State<Profliess> {
               {
                 datagetuserprofile = jsonDecode(responseData.body),
                 setState(() {
-                  // displayName1 =
-                  //     datagetuserprofile["data"]
-                  //         ["displayName"];
-                  // gender = datagetuserprofile["data"]
-                  //     ["gender"];
-                  // firstName = datagetuserprofile["data"]
-                  //     ["firstName"];
-                  // lastName = datagetuserprofile["data"]
-                  //     ["lastName"];
-                  // id = datagetuserprofile["data"]["id"];
-                  // email =
-                  //     datagetuserprofile["data"]["email"];
                   image = datagetuserprofile["data"]["imageURL"];
                 }),
               }
           }));
       //--checkisFollow
-      Api.getpagess(userid, token, widget.id).then((responseData) async => ({
+     await Api.getpagess(userid, token, widget.id).then((responseData) async => ({
             if (responseData.statusCode == 200)
               {
                 dataht = jsonDecode(responseData.body),
@@ -235,6 +223,14 @@ class _ProfliessState extends State<Profliess> {
       });
     }
   }
+    void _goToElement(int index) {
+    _scrollController.animateTo(
+        (100.0 *
+            index), // 100 is the height of container and index of 6th element is 5
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut);
+  
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -242,6 +238,11 @@ class _ProfliessState extends State<Profliess> {
       color: Colors.white,
       child: SafeArea(
         child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.arrow_drop_up),
+            backgroundColor: MColors.primaryColor,
+            
+            onPressed: ()=>_goToElement(0),),
           body: CustomScrollView(
             controller: _scrollController,
             slivers: [
@@ -636,8 +637,8 @@ class _ProfliessState extends State<Profliess> {
               SliverToBoxAdapter(
                   child: Divider(
                 color: Colors.grey[100],
-                height: 10,
-                thickness: 10.0,
+                height: 9,
+                thickness: 6.0,
               )),
               listpostss.length == 0
                   ? SliverToBoxAdapter(child: Center(child: Text("ไม่มีโพส")))
@@ -919,7 +920,7 @@ class _ProfliessState extends State<Profliess> {
                                     StroyPageSc(
                                       postid: postid,
                                       titalpost: posttitle,
-                                      imagUrl: gallery,
+                                      imagUrl: gallery.length==0?null:gallery,
                                       type: type,
                                       createdDate: dateTime,
                                       postby: pageUsername,

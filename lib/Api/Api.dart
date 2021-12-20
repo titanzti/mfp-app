@@ -30,13 +30,15 @@ class Api {
     // return clear;
   }
   /*--------------------logout--------------------------------------*/
+  
+  /*--------------------getuserprofile--------------------------------------*/
 
   static Future<Http.Response> getuserprofile(String userid) async {
     // print('getuserprofile');
 
-    final responseData = await Http.get( Uri.parse("${Api.url}api/profile/$userid"));
+  final responseData = await Http.get( Uri.parse("${Api.url}api/profile/$userid"));
 
-    return responseData;
+  return responseData;
   }
 
   /*--------------------ดึงค่าuserprofile--------------------------------------*/
@@ -429,7 +431,7 @@ class Api {
 
   static Future apisearchlist(
       String keyword, String hashtag, int offset) async {
-    List<SearchPostList> searchpostList = [];
+    List<PostSearchModel> searchpostList = [];
 
     // print('getHashtagList');
     var url = "${Api.url}api/main/content/search";
@@ -460,7 +462,7 @@ class Api {
     if (responseData.statusCode == 200) {
       var datapostlist = jsonDecode(responseData.body);
       for (Map i in datapostlist["data"]) {
-        searchpostList.add(SearchPostList.fromJson(i));
+        searchpostList.add(PostSearchModel.fromJson(i));
       }
       return searchpostList;
     } else if (responseData.statusCode == 400) {

@@ -58,7 +58,6 @@ class _SearchState extends State<Search> {
 
   List<SearchHastag> _searchResult = [];
 
-  List<SearchHastag> _searchinitiResult = [];
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var loading = false;
@@ -67,9 +66,7 @@ class _SearchState extends State<Search> {
   var dataht;
   Future getHashtagList;
   ScrollController scrollController;
-  List _allResults = [];
-  List _resultsList = [];
-  List distinctIds = [];
+
   var keyword, isType, isvalue;
 
   var myuid;
@@ -100,18 +97,6 @@ class _SearchState extends State<Search> {
               {
                 datagetuserprofile = jsonDecode(responseData.body),
                 setState(() {
-                  // displayName1 =
-                  //     datagetuserprofile["data"]
-                  //         ["displayName"];
-                  // gender = datagetuserprofile["data"]
-                  //     ["gender"];
-                  // firstName = datagetuserprofile["data"]
-                  //     ["firstName"];
-                  // lastName = datagetuserprofile["data"]
-                  //     ["lastName"];
-                  // userid1 = datagetuserprofile["data"]["id"];
-                  // email =
-                  //     datagetuserprofile["data"]["email"];
                   image = datagetuserprofile["data"]["imageURL"];
                 }),
                 print('image$image'),
@@ -264,8 +249,25 @@ class _SearchState extends State<Search> {
                     iconSize: 27.0,
                     onPressed: () => print('Messenger'),
                   ),
-                  token != "" && token != null
-                      ? InkWell(
+                token == null || token == ""
+                      ?  Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: CircleAvatar(
+                            radius: 25.0,
+                            backgroundColor: Colors.white70,
+                            child: IconButton(
+                              iconSize: 30,
+                              icon: (Icon(
+                                CupertinoIcons.person_crop_circle,
+                                color: MColors.primaryBlue,
+                              )),
+                              onPressed: () {
+                                Navigate.pushPage(context, Loginregister());
+                              },
+                            ),
+                          ),
+                        )
+                      :InkWell(
                           onTap: () {
                             Navigate.pushPage(
                                 context,
@@ -283,24 +285,7 @@ class _SearchState extends State<Search> {
                               backgroundColor: Colors.transparent,
                             ),
                           ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: CircleAvatar(
-                            radius: 25.0,
-                            backgroundColor: Colors.white70,
-                            child: IconButton(
-                              iconSize: 30,
-                              icon: (Icon(
-                                CupertinoIcons.person_crop_circle,
-                                color: MColors.primaryBlue,
-                              )),
-                              onPressed: () {
-                                Navigate.pushPage(context, Loginregister());
-                              },
-                            ),
-                          ),
-                        )
+                        ),
                 ],
               ),
               SliverToBoxAdapter(

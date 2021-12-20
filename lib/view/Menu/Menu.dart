@@ -88,20 +88,7 @@ class _MenuSCState extends State<MenuSC> {
 
   showAlertDialog(BuildContext context,String text,String text1,String text2,double width,double height) {
     // set up the buttons
-    Widget continueButton = TextButton(
-      child: Text("Close"),
-      onPressed: () {
-        Navigator.of(context).pop();
-      },
-    );
 
-    // set up the AlertDialog
-    // AlertDialog alert = AlertDialog(
-    //   content: Center(child: Text(msg)),
-    //   actions: [
-    //     continueButton,
-    //   ],
-    // );
   Dialog dialog=   Dialog(
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -124,8 +111,8 @@ class _MenuSCState extends State<MenuSC> {
             CircleAvatar(
               backgroundColor: MColors.primaryBlue.withOpacity(.05),
               radius: 25,
-              child: Image.network(
-                  "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/FlutterBricksLogo-Med.png?alt=media&token=7d03fedc-75b8-44d5-a4be-c1878de7ed52"),
+              child: Image.asset(
+                  "images/Group 11925.png",fit: BoxFit.fill,width: 25,height: 25,),
             ),
             const SizedBox(
               height: 15,
@@ -138,21 +125,27 @@ class _MenuSCState extends State<MenuSC> {
             const SizedBox(
               height: 3.5,
             ),
-             Text(text1,
-                style: TextStyle(
-                    color: MColors.primaryWhite,
-                    fontSize: 16,
-                    fontFamily:AppTheme.FontAnakotmaiMedium,
-                   )),
+             Padding(
+               padding: const EdgeInsets.all(10.0),
+               child: Text(text1,
+                  style: TextStyle(
+                      color: MColors.primaryWhite,
+                      fontSize: 16,
+                      fontFamily:AppTheme.FontAnakotmaiMedium,
+                     )),
+             ),
             const SizedBox(
               height: 3.5,
             ),
-             Text(text2,
-                style: TextStyle(
-                    color: MColors.primaryWhite,
-                    fontSize: 16,
-                    fontFamily:AppTheme.FontAnakotmaiMedium,
-                   )),
+             Padding(
+               padding: const EdgeInsets.all(10.0),
+               child: Text(text2,
+                  style: TextStyle(
+                      color: MColors.primaryWhite,
+                      fontSize: 16,
+                      fontFamily:AppTheme.FontAnakotmaiMedium,
+                     )),
+             ),
           ],
         ),
       ),
@@ -211,6 +204,7 @@ class _MenuSCState extends State<MenuSC> {
                         CupertinoPageRoute(builder: (BuildContext context) {
                       return WebviewSc(
                         url: "https://donation.moveforwardparty.org/donation/",
+                        texttitle: 'บริจาค',
                       );
                     }));
                   },
@@ -281,6 +275,7 @@ class _MenuSCState extends State<MenuSC> {
                         CupertinoPageRoute(builder: (BuildContext context) {
                       return WebviewSc(
                         url: "https://www.moveforwardparty.org/about/",
+                        texttitle: 'เกี่ยวกับพรรค',
                       );
                     }));
                   },
@@ -373,7 +368,7 @@ class _MenuSCState extends State<MenuSC> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               InkWell(
-                                onTap: () => showAlertDialog(context,"พรรคก้าวไกล","สำนักงานใหญ่\nเลขที่ 167 อาคารอนาคตใหม่ ชั้น 6\nรามคำแหง 42 แขวงหัวหมาก เขตบางกะปิ\nกรุงเทพมหานคร 10240\n","ติดต่อเรา\n☎️02-821-5874 (จันทร์-ศุกร์ 10:00-18:00 น.)\n📧office@moveforwardparty.org\nMoveForwardPartyThailand\n@MFPThailand\nพรรคก้าวไกล - Move Forward Party",1.2,2.0),
+                                onTap: () => showAlertDialog(context,"พรรคก้าวไกล","สำนักงานใหญ่\nเลขที่ 167 อาคารอนาคตใหม่ ชั้น 6\nรามคำแหง 42 แขวงหัวหมาก เขตบางกะปิ\nกรุงเทพมหานคร 10240\n","ติดต่อเรา\n☎️02-821-5874 (จันทร์-ศุกร์ 10:00-18:00 น.)\n📧office@moveforwardparty.org\nMoveForwardPartyThailand\n@MFPThailand\nพรรคก้าวไกล - Move Forward Party",1.2,1.8),
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.3,
@@ -419,7 +414,7 @@ class _MenuSCState extends State<MenuSC> {
                               ),
                               Spacer(),
                               InkWell(
-                                onTap: () => showAlertDialog(context,"พรรคก้าวไกล","ยังไม่เปิดให้บริการ","",1.5,5),
+                                onTap: () => showAlertDialog(context,"พรรคก้าวไกล","ยังไม่เปิดให้บริการ","",1.5,4),
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.3,
@@ -472,7 +467,14 @@ class _MenuSCState extends State<MenuSC> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               InkWell(
-                                onTap: () =>showAlertDialog(context,"พรรคก้าวไกล","ยังไม่เปิดให้บริการ","",1.5,5),
+                                onTap: () => Navigator.of(context).push(CupertinoPageRoute(
+                                      builder: (BuildContext context) {
+                                    return WebviewSc(
+                                      url:
+                                          "https://form.jotform.com/212451200314436",
+                                          texttitle: 'อาสาสมัคร',
+                                    );
+                                  })),
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.3,
@@ -524,6 +526,7 @@ class _MenuSCState extends State<MenuSC> {
                                     return WebviewSc(
                                       url:
                                           "https://www.moveforwardparty.org/person/parliament/",
+                                          texttitle: 'บุคลากร',
                                     );
                                   }));
                                 },

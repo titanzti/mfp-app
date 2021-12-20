@@ -570,7 +570,7 @@ class _TodayScState extends State<TodaySc> {
                           children: [
                             PostButton(
                               icon: Icon(
-                                Icons.favorite_outline,
+                               Icons.favorite_outline,
                                 color: MColors.primaryBlue,
                                 // size: 15.0,
                               ),

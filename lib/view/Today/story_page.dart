@@ -26,6 +26,7 @@ class StroyPageSc extends StatefulWidget {
   final int repostCount;
   final String userid;
   final String token;
+  final String coverimage;
   StroyPageSc({
     Key key,
     this.postid,
@@ -40,7 +41,7 @@ class StroyPageSc extends StatefulWidget {
     this.shareCount,
     this.repostCount,
     this.userid,
-    this.token,
+    this.token, this.coverimage,
   }) : super(key: key);
 
   @override
@@ -128,6 +129,7 @@ class _StroyPageScState extends State<StroyPageSc> {
     if (widget.type == "GENERAL") {
       type = "ทั่วไป";
     }
+
     return Obx(() => Scaffold(
           appBar: AppBar(
             backgroundColor: MColors.primaryWhite,
@@ -160,12 +162,14 @@ class _StroyPageScState extends State<StroyPageSc> {
                   children: [
                     Stack(
                       children: [
-                        Image.network("${imagelist[0].signUrl}",
-                            color: Color.fromRGBO(255, 255, 255, 0.7),
-                            colorBlendMode: BlendMode.dstATop,
-                            fit:BoxFit.cover,
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height / 3.0, ),
+                      Image.network(
+                         imagelist[0].signUrl,
+                          color: Color.fromRGBO(255, 255, 255, 0.7),
+                          colorBlendMode: BlendMode.dstATop,
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height / 3.0,
+                        ),
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height / 3.0,
@@ -181,9 +185,8 @@ class _StroyPageScState extends State<StroyPageSc> {
                                         children: [
                                           todayController.idloadingstory.value
                                               ? Container()
-                                              : Text(
-                                                  todayController
-                                                      .titalpost.value
+                                              : Text(todayController.
+                                                      titalpost.value
                                                       .toString(),
                                                   textAlign: TextAlign.center,
                                                   maxLines: 3,
@@ -223,25 +226,22 @@ class _StroyPageScState extends State<StroyPageSc> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                            Spacer(),
-                         
-                                                    Text(
-                                                        widget.commentCount.toString(),
-                                                        //'${nDataList.post.commentCount}',
-                                                        style: TextStyle(color: Colors.white, fontSize: 18),
-                                                      ),
-                                                       IconButton(
-                                                      icon: Icon(
-                                                        Icons.comment,
-                                                        color: Colors.white,
-                                                      ),
-                                                      onPressed: () {
-                                                        print('กด');
-                                                      },
-                                                    ),
-                                                      Spacer(),
-                         
-                     
+                          Spacer(),
+                          Text(
+                            widget.commentCount.toString(),
+                            //'${nDataList.post.commentCount}',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.comment,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              print('กด');
+                            },
+                          ),
+                          Spacer(),
                           Text(
                             widget.repostCount.toString(),
                             //'${nDataList.post.repostCount}',
@@ -256,8 +256,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                               print('กด');
                             },
                           ),
-                            Spacer(),
-                         
+                          Spacer(),
                           Text(
                             widget.likeCount.toString(),
                             //'${nDataList.post.likeCount}',
@@ -272,7 +271,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                               print('กด');
                             },
                           ),
-                            Spacer(),
+                          Spacer(),
                           Text(
                             widget.shareCount.toString(),
                             //'${nDataList.post.shareCount}',
@@ -287,7 +286,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                               print('กด');
                             },
                           ),
-                            Spacer(),
+                          Spacer(),
                         ],
                       ),
                     ),
@@ -316,7 +315,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                           padding: const EdgeInsets.only(
                               left: 1.0, right: 10.0, top: 5.0),
                           child: Row(
-                            mainAxisAlignment:MainAxisAlignment.start ,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               CircleAvatar(
                                   radius: 30.0,
