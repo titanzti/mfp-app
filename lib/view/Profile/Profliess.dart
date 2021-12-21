@@ -23,6 +23,7 @@ import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:http/http.dart' as Http;
 import 'package:mfp_app/view/Profile/profile.dart';
 import 'package:mfp_app/view/Search/Search.dart';
+import 'package:mfp_app/view/Today/post_details.dart';
 import 'package:mfp_app/view/Today/story_page.dart';
 
 class Profliess extends StatefulWidget {
@@ -105,6 +106,10 @@ class _ProfliessState extends State<Profliess> {
                   pagefollowers = datagetuserprofile["data"]["followers"];
                 }),
                 print('pageUsername$pageUsername'),
+              }else{
+                 setState(() {
+        isLoading = false;
+      }),
               }
           }));
       //---getuserprofile
@@ -115,6 +120,10 @@ class _ProfliessState extends State<Profliess> {
                 setState(() {
                   image = datagetuserprofile["data"]["imageURL"];
                 }),
+              }else{
+                 setState(() {
+        isLoading = false;
+      }),
               }
           }));
       //--checkisFollow
@@ -177,9 +186,7 @@ class _ProfliessState extends State<Profliess> {
     print('getPostListSS');
     print(responseData.body);
     if (responseData.statusCode == 200) {
-      setState(() {
-        isLoading = true;
-      });
+
       dataht = jsonDecode(responseData.body);
       for (var i in dataht["data"]["posts"]) {
         setState(() {
@@ -192,12 +199,11 @@ class _ProfliessState extends State<Profliess> {
       setState(() {
         isLoading = false;
       });
+ 
 
       // loading = false,
     } else if (responseData.statusCode == 400) {
-      setState(() {
-        isLoading = false;
-      });
+     
     }
   }
 
@@ -234,7 +240,13 @@ class _ProfliessState extends State<Profliess> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return isLoading == true
+        ? Container(
+            color: Colors.white,
+            child: Center(child: CircularProgressIndicator(
+                      color: MColors.primaryColor,
+                    ),))
+        : Container(
       color: Colors.white,
       child: SafeArea(
         child: Scaffold(
@@ -395,10 +407,7 @@ class _ProfliessState extends State<Profliess> {
                 height: 9,
                 thickness: 6.0,
               )),
-              SliverToBoxAdapter(
-                  child: SizedBox(
-                height: 5,
-              )),
+              
               SliverToBoxAdapter(
                 child: Container(
                   color: Colors.white,
@@ -499,15 +508,11 @@ class _ProfliessState extends State<Profliess> {
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
-                  child: const SizedBox(
-                height: 5,
-              )),
-              SliverToBoxAdapter(
+             SliverToBoxAdapter(
                   child: Divider(
                 color: Colors.grey[100],
                 height: 9,
-                thickness: 10.0,
+                thickness: 6.0,
               )),
               SliverToBoxAdapter(
                 child: Container(
@@ -563,8 +568,7 @@ class _ProfliessState extends State<Profliess> {
                                       padding: const EdgeInsets.only(top: 11),
                                       child: CircleAvatar(
                                         radius: 40.0,
-                                        backgroundImage: NetworkImage(
-                                            'https://via.placeholder.com/150'),
+                                        backgroundImage: AssetImage('images/morkimage6.png'),
                                         backgroundColor: Colors.transparent,
                                       ),
                                     ),
@@ -604,8 +608,7 @@ class _ProfliessState extends State<Profliess> {
                                       padding: const EdgeInsets.only(top: 11),
                                       child: CircleAvatar(
                                         radius: 40.0,
-                                        backgroundImage: NetworkImage(
-                                            'https://via.placeholder.com/150'),
+                                        backgroundImage: AssetImage('images/morkimage4.png'),
                                         backgroundColor: Colors.transparent,
                                       ),
                                     ),
@@ -879,7 +882,35 @@ class _ProfliessState extends State<Profliess> {
     String type,
   ) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+                Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+              return PostDetailsSC(
+                posttitle: posttitle,
+                subtitle: subtitle,
+                authorposttext: pagename,
+                dateTime: dateTime,
+                gallery: gallery,
+                likeCount: likeCount,
+                commentCount: commentCount,
+                shareCoun: shareCount,
+                postid: postid,
+                userimage: userimageUrl,
+                pageid: pageid,
+                pageimage: pageprofileimage,
+                pagename: pagename,
+                isFollow: isFollow,
+                pageUsername: pageUsername,
+                story: story,
+                type: type,
+                onfocus: false,
+              );
+            },
+          ),
+        );
+      },
       child: Container(
         width: 200,
         color: MColors.containerWhite,

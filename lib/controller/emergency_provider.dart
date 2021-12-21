@@ -25,6 +25,7 @@ class EmergencyController extends GetxController {
       var emergencys = await Api.getPostemergencyEventsList();
       if (emergencys != null) {
         emergencyevList.addAll(emergencys);
+        isLoading(false);
       }
     } finally {
       isLoading(false);

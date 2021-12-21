@@ -332,8 +332,7 @@ Widget primaryAppBar(
         onPressed: () => print('Messenger'),
       ),
       token == null || token == ""
-                                    
-          ?Padding(
+      ?Padding(
               padding: const EdgeInsets.all(5.0),
               child: CircleAvatar(
                 radius: 25.0,

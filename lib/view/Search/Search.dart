@@ -58,7 +58,6 @@ class _SearchState extends State<Search> {
 
   List<SearchHastag> _searchResult = [];
 
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   var loading = false;
   var loadingpage = false;
@@ -77,30 +76,50 @@ class _SearchState extends State<Search> {
   var datagetuserprofile;
 
   var msg = "";
+  bool isLoading = true;
 
   bool listisempty = false;
   @override
   void initState() {
     print('initState');
     super.initState();
+   
     Future.delayed(Duration.zero, () async {
       print('Futuredelayed');
+        token = await Api.gettoke();
+      if(token==null){
+         setState(() {
+                   isLoading=false;
+                });
+      }
       //--token
-      token = await Api.gettoke();
+     
+      
       print('tokenhome$token');
       //--userid
       userid = await Api.getmyuid();
       print('useridsearch$userid');
       //--
       await Api.getuserprofile("$userid").then((responseData) async => ({
+        setState(() {
+        isLoading=true;
+                }),
+        
             if (responseData.statusCode == 200)
               {
                 datagetuserprofile = jsonDecode(responseData.body),
                 setState(() {
                   image = datagetuserprofile["data"]["imageURL"];
+                   isLoading=false;
                 }),
+
                 print('image$image'),
               }
+              else{
+                 isLoading=false,
+              }
+               
+              
           }));
     });
   }
@@ -214,7 +233,14 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    
+    return isLoading == true
+        ? Container(
+            color: Colors.white,
+            child: Center(child: CircularProgressIndicator(
+                      color: MColors.primaryColor,
+                    ),))
+        : Container(
       color: Colors.white,
       child: SafeArea(
         child: Scaffold(
@@ -249,8 +275,8 @@ class _SearchState extends State<Search> {
                     iconSize: 27.0,
                     onPressed: () => print('Messenger'),
                   ),
-                token == null || token == ""
-                      ?  Padding(
+                  token == null || token == ""
+                      ? Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: CircleAvatar(
                             radius: 25.0,
@@ -267,7 +293,7 @@ class _SearchState extends State<Search> {
                             ),
                           ),
                         )
-                      :InkWell(
+                      : InkWell(
                           onTap: () {
                             Navigate.pushPage(
                                 context,
@@ -496,7 +522,7 @@ class _SearchState extends State<Search> {
                                   Navigate.pushPage(
                                       context,
                                       Profliess(
-                                         id: data.id,
+                                        id: data.id,
                                       ));
                                 },
                                 child: Card(

@@ -56,6 +56,8 @@ dependencies:
   get: ^3.26.0
   get_storage: ^1.4.0
   twitter_login: ^3.0.2
+  flutter_easyloading: ^2.2.2
+
   
 
 

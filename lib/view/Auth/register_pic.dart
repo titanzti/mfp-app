@@ -118,7 +118,7 @@ class _PicProfileState extends State<PicProfile> {
                               physics: BouncingScrollPhysics(),
 
       child: Container(
-        height: MediaQuery.of(context).size.height * 1,
+        height: MediaQuery.of(context).size.height ,
         width: MediaQuery.of(context).size.width * 1,
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -292,7 +292,34 @@ class _PicProfileState extends State<PicProfile> {
                         textColor: Colors.white,
                         color: MColors.primaryColor.withOpacity(0.1),
                         onPressed: () {
-                          Navigator.push(
+                          if(_image==null){
+                             ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              SnackBar(
+                                                        backgroundColor:
+                                                            Colors.red,
+                                                        content: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.close,
+                                                              color: MColors
+                                                                  .primaryWhite,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text('กรุณาใส่รูป')
+                                                          ],
+                                                        ),
+                                                        duration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    500),
+                                                      ));
+
+                          }else{
+                            Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Generalinformation(
@@ -303,6 +330,8 @@ class _PicProfileState extends State<PicProfile> {
                                       mode: "EMAIL",
                                     )),
                           );
+                          }
+                          
                           print('กด');
                         },
                       ),

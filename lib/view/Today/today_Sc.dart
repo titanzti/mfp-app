@@ -251,9 +251,9 @@ class _TodayScState extends State<TodaySc> {
       setState(() {
         _currentMax = _currentMax + 5;
         todayController.firstload.value = false;
-        _isLoadMoreRunning = true; 
-         _hasNextPage = true;
-       // Display a progress indicator at the bottom
+        _isLoadMoreRunning = true;
+        _hasNextPage = true;
+        // Display a progress indicator at the bottom
       });
 
       try {
@@ -300,7 +300,6 @@ class _TodayScState extends State<TodaySc> {
                         ),
                         behavior: SnackBarBehavior.floating,
                         width: MediaQuery.of(context).size.width / 1.2,
-
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(24),
                         ),
@@ -354,7 +353,10 @@ class _TodayScState extends State<TodaySc> {
                     ),
                   ),
                 ),
-                                            SliverToBoxAdapter(child:const SizedBox(height: 7,)),
+                SliverToBoxAdapter(
+                    child: const SizedBox(
+                  height: 7,
+                )),
 
                 SliverToBoxAdapter(
                   child: Obx(() {
@@ -376,7 +378,7 @@ class _TodayScState extends State<TodaySc> {
                                   ? buildrecommendeduserpage()
                                   : SizedBox.shrink();
                             }
-                          
+
                             return postlist(
                               nDataList1.post.title,
                               nDataList1.post.detail,
@@ -411,7 +413,7 @@ class _TodayScState extends State<TodaySc> {
                               MColors.primaryColor)),
                     )),
                   ),
-                             if (_hasNextPage == false)
+                if (_hasNextPage == false)
                   SliverToBoxAdapter(
                     child: Container(
                       padding: const EdgeInsets.only(top: 30, bottom: 40),
@@ -421,7 +423,6 @@ class _TodayScState extends State<TodaySc> {
                       ),
                     ),
                   ),
-                  
               ],
             ),
           ),
@@ -492,9 +493,7 @@ class _TodayScState extends State<TodaySc> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // topImage(gallery[0].signUrl.toString()),
-            gallery.length != 0
-                ? myAlbumCard(gallery, context)
-                : Container(),
+            gallery.length != 0 ? myAlbumCard(gallery, context) : Container(),
             // Image.network(gallery[0].signUrl),
             Card(
               child: Column(
@@ -535,7 +534,6 @@ class _TodayScState extends State<TodaySc> {
                               child: textreadstory('อ่านสตอรี่..')),
                         )
                       : Container(),
-                     
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -570,7 +568,7 @@ class _TodayScState extends State<TodaySc> {
                           children: [
                             PostButton(
                               icon: Icon(
-                               Icons.favorite_outline,
+                                Icons.favorite_outline,
                                 color: MColors.primaryBlue,
                                 // size: 15.0,
                               ),
