@@ -401,12 +401,7 @@ class _ProfliessState extends State<Profliess> {
                   ],
                 ),
               )),
-              SliverToBoxAdapter(
-                  child: Divider(
-                color: Colors.grey[100],
-                height: 9,
-                thickness: 6.0,
-              )),
+       
               
               SliverToBoxAdapter(
                 child: Container(
@@ -510,9 +505,9 @@ class _ProfliessState extends State<Profliess> {
               ),
              SliverToBoxAdapter(
                   child: Divider(
-                color: Colors.grey[100],
-                height: 9,
-                thickness: 6.0,
+                color: Colors.grey[200],
+                height: 20,
+                thickness: 8.0,
               )),
               SliverToBoxAdapter(
                 child: Container(
@@ -639,9 +634,9 @@ class _ProfliessState extends State<Profliess> {
               )),
               SliverToBoxAdapter(
                   child: Divider(
-                color: Colors.grey[100],
-                height: 9,
-                thickness: 6.0,
+                color: Colors.grey[200],
+                height: 30,
+                thickness: 8.0,
               )),
               listpostss.length == 0
                   ? SliverToBoxAdapter(child: Center(child: Text("ไม่มีโพส")))
@@ -675,13 +670,10 @@ class _ProfliessState extends State<Profliess> {
                                           pagename,
                                           nDataList1.createdDate,
                                           nDataList1.gallery,
-                                          nDataList1.likeCount,
-                                          nDataList1.commentCount,
-                                          nDataList1.shareCount,
                                           nDataList1.coverImage,
                                           nDataList1.id,
                                           nDataList1.story,
-                                          nDataList1.type);
+                                          nDataList1);
                                     }),
                               );
                             },
@@ -873,13 +865,10 @@ class _ProfliessState extends State<Profliess> {
     String postbyname,
     DateTime dateTime,
     List<GalleryPostPageSS> gallery,
-    int likeCount,
-    int commentCount,
-    int shareCount,
     String coverimage,
     String postid,
     story,
-    String type,
+    nDataList1
   ) {
     return InkWell(
       onTap: () {
@@ -893,9 +882,9 @@ class _ProfliessState extends State<Profliess> {
                 authorposttext: pagename,
                 dateTime: dateTime,
                 gallery: gallery,
-                likeCount: likeCount,
-                commentCount: commentCount,
-                shareCoun: shareCount,
+                likeCount: nDataList1.likeCount,
+                commentCount: nDataList1.commentCount,
+                shareCoun: nDataList1.shareCount,
                 postid: postid,
                 userimage: userimageUrl,
                 pageid: pageid,
@@ -904,7 +893,7 @@ class _ProfliessState extends State<Profliess> {
                 isFollow: isFollow,
                 pageUsername: pageUsername,
                 story: story,
-                type: type,
+                type: nDataList1.type,
                 onfocus: false,
               );
             },
@@ -951,15 +940,19 @@ class _ProfliessState extends State<Profliess> {
                                     StroyPageSc(
                                       postid: postid,
                                       titalpost: posttitle,
-                                      imagUrl: gallery.length==0?null:gallery,
-                                      type: type,
+                                      imagUrl: gallery,
+                                      type: nDataList1.type,
                                       createdDate: dateTime,
-                                      postby: pageUsername,
+                                      postby: pagename,
                                       imagepage: pageprofileimage,
-                                      likeCount: likeCount,
-                                      commentCount: commentCount,
-                                      shareCount: shareCount,
+                                      likeCount:  nDataList1.likeCount,
+                                      commentCount: nDataList1.commentCount,
+                                      shareCount: nDataList1.shareCount,
                                       repostCount: 0,
+                                      token: token,
+                                      userid: userid,
+                                      
+                                      
                                     ));
                               },
                               child: textreadstory('อ่านสตอรี่..')),
@@ -987,14 +980,13 @@ class _ProfliessState extends State<Profliess> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            islike == false
-                                ? PostButton(
+                            PostButton(
                                     icon: Icon(
                                       Icons.favorite_outline,
                                       color: MColors.primaryBlue,
                                     ),
                                     width: 8.0,
-                                    label: '$likeCount ถูกใจ',
+                                    label: '${nDataList1.likeCount} ถูกใจ',
                                     onTap: () async {
                                       HapticFeedback.lightImpact();
 
@@ -1022,7 +1014,8 @@ class _ProfliessState extends State<Profliess> {
                                                                       [
                                                                       'isLike'];
 
-                                                              likeCount++;
+                                                               nDataList1
+                                                                .likeCount++;
                                                             }),
                                                           }
                                                         else if (jsonResponse[
@@ -1036,63 +1029,8 @@ class _ProfliessState extends State<Profliess> {
                                                                       [
                                                                       'isLike'];
 
-                                                              likeCount--;
-                                                            }),
-                                                          }
-                                                      }
-                                                  }));
-                                      print("กดlike");
-                                    },
-                                  )
-                                : PostButton(
-                                    icon: Icon(
-                                      Icons.favorite,
-                                      color: MColors.primaryBlue,
-                                    ),
-                                    label: '$likeCount ถูกใจ',
-                                    width: 8.0,
-                                    onTap: () async {
-                                      HapticFeedback.lightImpact();
-
-                                      var jsonResponse;
-                                      token == null
-                                          ? Navigate.pushPage(
-                                              context, Loginregister())
-                                          : await Api.islike(
-                                                  postid, userid, token, "")
-                                              .then((value) => ({
-                                                    jsonResponse =
-                                                        jsonDecode(value.body),
-                                                    print(
-                                                        'message${jsonResponse['message']}'),
-                                                    if (value.statusCode == 200)
-                                                      {
-                                                        if (jsonResponse[
-                                                                'message'] ==
-                                                            "Like Post Success")
-                                                          {
-                                                            setState(() {
-                                                              islike =
-                                                                  jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-
-                                                              likeCount++;
-                                                            }),
-                                                          }
-                                                        else if (jsonResponse[
-                                                                'message'] ==
-                                                            "UnLike Post Success")
-                                                          {
-                                                            setState(() {
-                                                              islike =
-                                                                  jsonResponse[
-                                                                          'data']
-                                                                      [
-                                                                      'isLike'];
-
-                                                              likeCount--;
+                                                               nDataList1
+                                                                .likeCount--;
                                                             }),
                                                           }
                                                       }
@@ -1100,12 +1038,13 @@ class _ProfliessState extends State<Profliess> {
                                       print("กดlike");
                                     },
                                   ),
+                           
                             PostButton(
                               icon: Icon(
                                 MdiIcons.commentOutline,
                                 color: MColors.primaryBlue,
                               ),
-                              label: '$commentCount ความคิดเห็น',
+                              label: '${nDataList1.commentCount} ความคิดเห็น',
                               width: 4.2,
                               onTap: () => print('Comment'),
                             ),
@@ -1115,7 +1054,7 @@ class _ProfliessState extends State<Profliess> {
                                 color: MColors.primaryBlue,
                               ),
                               width: 8.0,
-                              label: '$shareCount แชร์',
+                              label: '${nDataList1.shareCount }แชร์',
                               onTap: () => print('Share'),
                             ),
                           ],

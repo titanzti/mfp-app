@@ -302,7 +302,8 @@ class _PostSearchState extends State<PostSearch> {
                                 commentCount: commentCount,
                                 shareCount: shareCount,
                                 repostCount: repostCount,
-                                coverimage: coverimage!=null?coverimage:"",
+                                token: token,
+                                userid: userid,
                               ));
                         },
                         child: textreadstory('อ่านสตอรี่..')),

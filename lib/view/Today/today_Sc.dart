@@ -267,8 +267,10 @@ class _TodayScState extends State<TodaySc> {
 
   @override
   void didChangeDependencies() {
+    
     super.didChangeDependencies();
   }
+
 
   @override
   void dispose() {
@@ -276,6 +278,7 @@ class _TodayScState extends State<TodaySc> {
     _scrollController.dispose();
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -431,8 +434,9 @@ class _TodayScState extends State<TodaySc> {
     );
   }
 
-  Future cacheImage(BuildContext context, String urlImage) =>
-      precacheImage(CachedNetworkImageProvider(urlImage), context);
+  
+
+      
 
   Widget postlist(
     String posttitle,
@@ -529,6 +533,9 @@ class _TodayScState extends State<TodaySc> {
                                       commentCount: commentCount,
                                       shareCount: shareCount,
                                       repostCount: repostCount,
+                                      token: token,
+                                      userid: userid,
+                                      mode: mode,
                                     ));
                               },
                               child: textreadstory('อ่านสตอรี่..')),

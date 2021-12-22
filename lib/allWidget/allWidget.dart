@@ -238,12 +238,22 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
     child: Row(
       children: <Widget>[
         ClipRRect(
-          child: Image.network(
+          child:
+          
+           Image.network(
             img_path,
+           errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+        return Container(
+             height: MediaQuery.of(context).size.height / 5.2,
+                      width: MediaQuery.of(context).size.width / 2.0,
+          child: Image.asset('images/placeholder.png'));
+    },
+
             height: MediaQuery.of(context).size.height / 5.2,
             width: MediaQuery.of(context).size.width / 2.0,
             fit: BoxFit.cover,
             filterQuality: FilterQuality.low,
+            
           ),
         ),
         (count > 0)
@@ -252,7 +262,12 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
                 children: <Widget>[
                   ClipRRect(
                     child: img_path2!=null? Image.network(
-                      img_path2,
+                      img_path2,   errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+        return Container(
+             height: MediaQuery.of(context).size.height / 5.2,
+                      width: MediaQuery.of(context).size.width / 2.0,
+        child: Image.asset('images/placeholder.png'));
+    },
                       height: MediaQuery.of(context).size.height / 5.2,
                       width: MediaQuery.of(context).size.width / 2.0,
                       fit: BoxFit.cover,
@@ -282,6 +297,12 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
             : ClipRRect(
                 child:img_path2!=null? Image.network(
                   img_path2,
+                    errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+        return Container(
+             height: MediaQuery.of(context).size.height / 5.2,
+                      width: MediaQuery.of(context).size.width / 2.0,
+      child: Image.asset('images/placeholder.png'));
+    },
                   height: MediaQuery.of(context).size.height / 5.2,
                   width: MediaQuery.of(context).size.width / 2.0,
                   fit: BoxFit.cover,

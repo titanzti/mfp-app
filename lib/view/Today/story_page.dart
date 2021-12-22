@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
@@ -26,7 +27,7 @@ class StroyPageSc extends StatefulWidget {
   final int repostCount;
   final String userid;
   final String token;
-  final String coverimage;
+  final String mode;
   StroyPageSc({
     Key key,
     this.postid,
@@ -41,7 +42,8 @@ class StroyPageSc extends StatefulWidget {
     this.shareCount,
     this.repostCount,
     this.userid,
-    this.token, this.coverimage,
+    this.token,
+    this.mode,
   }) : super(key: key);
 
   @override
@@ -88,32 +90,32 @@ class _StroyPageScState extends State<StroyPageSc> {
   @override
   void initState() {
     // getStory(widget.postid);
-
     imagelist = widget.imagUrl;
-    Api.getcommentlist(widget.postid, widget.userid, widget.token)
-        .then((responseData) => ({
-              setState(() {
-                loading = true;
-              }),
-              print('getHashtagData'),
-              if (responseData.statusCode == 200)
-                {
-                  dataht = jsonDecode(responseData.body),
-                  print("comlist${dataht["data"]}"),
-                  for (Map i in dataht["data"])
-                    {
-                      setState(() {
-                        listModel.add(CommentlistModel.fromJson(i));
-                        _postsController.add(responseData);
-                      }),
-                      print('listModel${listModel.length}'),
-                    },
-                  loading = false,
-                }
-            }));
+
     _postsController = new StreamController();
     Future.delayed(Duration.zero, () async {
       await todayController.getstory(widget.postid);
+      await Api.getcommentlist(widget.postid, widget.userid, widget.token)
+          .then((responseData) => ({
+                setState(() {
+                  loading = true;
+                }),
+                print('getcommentlist'),
+                if (responseData.statusCode == 200)
+                  {
+                    dataht = jsonDecode(responseData.body),
+                    print("comlist${dataht["data"]}"),
+                    for (Map i in dataht["data"])
+                      {
+                        setState(() {
+                          listModel.add(CommentlistModel.fromJson(i));
+                          _postsController.add(responseData);
+                        }),
+                        print('listModel${listModel.length}'),
+                      },
+                    loading = false,
+                  }
+              }));
     });
 
     super.initState();
@@ -129,6 +131,7 @@ class _StroyPageScState extends State<StroyPageSc> {
     if (widget.type == "GENERAL") {
       type = "ทั่วไป";
     }
+    print('imagelist.length${imagelist.length}');
 
     return Obx(() => Scaffold(
           appBar: AppBar(
@@ -162,14 +165,53 @@ class _StroyPageScState extends State<StroyPageSc> {
                   children: [
                     Stack(
                       children: [
-                      Image.network(
-                         imagelist[0].signUrl,
-                          color: Color.fromRGBO(255, 255, 255, 0.7),
-                          colorBlendMode: BlendMode.dstATop,
-                          fit: BoxFit.cover,
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 3.0,
-                        ),
+                        imagelist[0].signUrl != null
+                            ? imagelist[0].imageUrl != null
+                                ? Image.network(
+                                    imagelist[0].signUrl,
+                                    errorBuilder: (BuildContext context,
+                                        Object exception,
+                                        StackTrace stackTrace) {
+                                      return Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              3.0,
+                                          child: Image.asset(
+                                              'images/placeholder.jpg'));
+                                    },
+                                    color: Color.fromRGBO(255, 255, 255, 0.7),
+                                    colorBlendMode: BlendMode.dstATop,
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height /
+                                        3.0,
+                                  )
+                                : Container()
+                            : Container(),
+                        imagelist[0].signUrl == null
+                            ? Image.network(
+                                "https://today-api.moveforwardparty.org/api${imagelist[0].imageUrl}/image",
+                                errorBuilder: (BuildContext context,
+                                    Object exception, StackTrace stackTrace) {
+                                  return Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              3.0,
+                                      child: Image.asset(
+                                          'images/placeholder.jpg'));
+                                },
+                                color: Color.fromRGBO(255, 255, 255, 0.7),
+                                colorBlendMode: BlendMode.dstATop,
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height / 3.0,
+                              )
+                            : Container(),
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height / 3.0,
@@ -185,8 +227,9 @@ class _StroyPageScState extends State<StroyPageSc> {
                                         children: [
                                           todayController.idloadingstory.value
                                               ? Container()
-                                              : Text(todayController.
-                                                      titalpost.value
+                                              : Text(
+                                                  todayController
+                                                      .titalpost.value
                                                       .toString(),
                                                   textAlign: TextAlign.center,
                                                   maxLines: 3,
@@ -390,7 +433,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                                 );
                       }),
                     ),
-                    _buildCommentList(size)
+                    _buildCommentList()
                     // Text('data'),
                   ],
                 ),
@@ -401,7 +444,7 @@ class _StroyPageScState extends State<StroyPageSc> {
         ));
   }
 
-  Widget _buildCommentList(Size size) {
+  Widget _buildCommentList() {
     return StreamBuilder(
       stream: _postsController.stream,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -413,7 +456,113 @@ class _StroyPageScState extends State<StroyPageSc> {
           itemBuilder: (BuildContext context, int index) {
             var data = listModel[index];
             _commenteditController.text = data.comment;
+            var commentid = data.id;
+
             return new InkWell(
+              // onTap: () async {
+              //   data.user.id == widget.userid
+              //       ? showCupertinoModalPopup<void>(
+              //           context: context,
+              //           builder: (BuildContext context) => CupertinoActionSheet(
+              //                 actions: <CupertinoActionSheetAction>[
+              //                   CupertinoActionSheetAction(
+              //                     child: const Text('Edit'),
+              //                     onPressed: () {
+              //                       setState(() {
+              //                         idedit = true;
+              //                       });
+              //                       Navigator.pop(context);
+              //                     },
+              //                   ),
+              //                   CupertinoActionSheetAction(
+              //                     child: const Text('Delete',
+              //                         style: TextStyle(
+              //                           color: Colors.red,
+              //                         )),
+              //                     onPressed: () {
+              //                       Navigator.pop(context);
+              //                       showDialog(
+              //                           context: context,
+              //                           builder: (BuildContext context) =>
+              //                               new CupertinoAlertDialog(
+              //                                 title: new Text(
+              //                                   "Delete Comment",
+              //                                   style: TextStyle(
+              //                                       fontWeight:
+              //                                           FontWeight.bold),
+              //                                 ),
+              //                                 actions: [
+              //                                   CupertinoDialogAction(
+              //                                     isDefaultAction: true,
+              //                                     child: new Text("Cancel"),
+              //                                     onPressed: () =>
+              //                                         Navigator.pop(context),
+              //                                   ),
+              //                                   CupertinoDialogAction(
+              //                                       child: new Text(
+              //                                         "Delete",
+              //                                         style: TextStyle(
+              //                                             color: Colors.red),
+              //                                       ),
+              //                                       onPressed: () async {
+              //                                         Api.deletecomment(
+              //                                                 widget.postid,
+              //                                                 widget.token,
+              //                                                 commentid,
+              //                                                 widget.userid,
+              //                                                widget.mode)
+              //                                             .then((value) => ({
+              //                                                   if (value[
+              //                                                           'status'] ==
+              //                                                       1)
+              //                                                     {
+              //                                                       setState(
+              //                                                           () {
+              //                                                         onref =
+              //                                                             true;
+              //                                                       }),
+              //                                                     }
+              //                                                 }));
+              //                                         Navigator.pop(context);
+              //                                         ScaffoldMessenger.of(
+              //                                                 context)
+              //                                             .showSnackBar(
+              //                                                 SnackBar(
+              //                                           backgroundColor:
+              //                                               Colors.green,
+              //                                           content: Row(
+              //                                             children: [
+              //                                               Icon(
+              //                                                 Icons.check,
+              //                                                 color: MColors
+              //                                                     .primaryWhite,
+              //                                               ),
+              //                                               SizedBox(
+              //                                                 width: 5,
+              //                                               ),
+              //                                               Text('Success')
+              //                                             ],
+              //                                           ),
+              //                                           duration:
+              //                                               const Duration(
+              //                                                   milliseconds:
+              //                                                       2500),
+              //                                         ));
+              //                                       }),
+              //                                 ],
+              //                               ));
+              //                     },
+              //                   )
+              //                 ],
+              //                 cancelButton: CupertinoActionSheetAction(
+              //                   child: const Text('Cancel'),
+              //                   onPressed: () {
+              //                     Navigator.pop(context);
+              //                   },
+              //                 ),
+              //               ))
+              //       : Container();
+              // },
               child: Padding(
                 padding: EdgeInsets.all(8.0),
                 // widget.data['toCommentID'] == null ? EdgeInsets.all(8.0) : EdgeInsets.fromLTRB(34.0,8.0,8.0,8.0),
@@ -472,7 +621,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                                   ],
                                 ),
                               ),
-                              width: size.width - 90,
+                              width: MediaQuery.of(context).size.width - 90,
                               // widget.size.width- (widget.data['toCommentID'] == null ? 90 : 110),
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -488,12 +637,41 @@ class _StroyPageScState extends State<StroyPageSc> {
                               padding:
                                   const EdgeInsets.only(left: 10.0, top: 2.0),
                               child: Container(
-                                width: size.width * 0.38,
+                                width: MediaQuery.of(context).size.width * 0.38,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     GestureDetector(
+                                      //   onTap: ()async{
+                                      //          Api.islikecomment(widget.postid, widget.userid, widget.token,
+                                      //     commentid, widget.mode)
+                                      // .then((value) => ({
+                                      //       jsonResponse = jsonDecode(value.body),
+                                      //       print(
+                                      //           'message${jsonResponse['message']}'),
+                                      //       if (value.statusCode == 200)
+                                      //         {
+                                      //           if (jsonResponse['message'] ==
+                                      //               "Like Post Comment Success")
+                                      //             {
+                                      //               setState(() {
+                                      //                 data.likeCount++;
+                                      //                 data.isLike = true;
+                                      //               }),
+                                      //             }
+                                      //           else if (jsonResponse[
+                                      //                   'message'] ==
+                                      //               "UnLike Post Comment Success")
+                                      //             {
+                                      //               setState(() {
+                                      //                 data.likeCount--;
+                                      //                 data.isLike = false;
+                                      //               }),
+                                      //             }
+                                      //         }
+                                      //     }));
+                                      //   },
                                       child: Text(
                                         'ถูกใจ',
                                         style: TextStyle(
