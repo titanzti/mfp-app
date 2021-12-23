@@ -496,18 +496,18 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     'images/twitter.png',
                     Color(0xFF1DA1F3),
                     Colors.white,
-                     isTwitterLoggedIn!=true   ?   isfacebookLoggedIn==false  ?()  async {
-                                                initiateFacebookTwitter();
-                           setState(() {
-                        isTwitterLoggedIn = true;
-                      });
-                          }
-                        : null: null,
-                    isTwitterLoggedIn != true  ? isTwitterLoggedIn!=true  ?Container():    CircularProgressIndicator(
-                      color: MColors.primaryColor,
-                    ):    CircularProgressIndicator(
-                      color: MColors.primaryColor,
-                    ),
+                    //  isTwitterLoggedIn!=true   ?   isfacebookLoggedIn==false  ?()  async {
+                    //                             initiateFacebookTwitter();
+                    //        setState(() {
+                    //     isTwitterLoggedIn = true;
+                    //   });
+                    //       }
+                    //     : null: null,
+                    // isTwitterLoggedIn != true  ? isTwitterLoggedIn!=true  ?Container():    CircularProgressIndicator(
+                    //   color: MColors.primaryColor,
+                    // ):    CircularProgressIndicator(
+                    //   color: MColors.primaryColor,
+                    // ),
                   ),
 
                   Container(

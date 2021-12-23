@@ -246,7 +246,7 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
         return Container(
              height: MediaQuery.of(context).size.height / 5.2,
                       width: MediaQuery.of(context).size.width / 2.0,
-          child: Image.asset('images/placeholder.png'));
+          child: Image.asset('images/placeholder.jpg'));
     },
 
             height: MediaQuery.of(context).size.height / 5.2,
@@ -266,7 +266,7 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
         return Container(
              height: MediaQuery.of(context).size.height / 5.2,
                       width: MediaQuery.of(context).size.width / 2.0,
-        child: Image.asset('images/placeholder.png'));
+        child: Image.asset('images/placeholder.jpg'));
     },
                       height: MediaQuery.of(context).size.height / 5.2,
                       width: MediaQuery.of(context).size.width / 2.0,
@@ -301,7 +301,7 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
         return Container(
              height: MediaQuery.of(context).size.height / 5.2,
                       width: MediaQuery.of(context).size.width / 2.0,
-      child: Image.asset('images/placeholder.png'));
+      child: Image.asset('images/placeholder.jpg'));
     },
                   height: MediaQuery.of(context).size.height / 5.2,
                   width: MediaQuery.of(context).size.width / 2.0,
