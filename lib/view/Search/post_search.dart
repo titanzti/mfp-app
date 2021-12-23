@@ -169,7 +169,7 @@ class _PostSearchState extends State<PostSearch> {
                           return postlist(
                             nDataList1.post.title,
                             nDataList1.post.detail,
-                            nDataList1.page.name??"",
+                            nDataList1.page.name ?? "",
                             nDataList1.post.createdDate,
                             nDataList1.post.gallery,
                             nDataList1.post.likeCount,
@@ -186,7 +186,7 @@ class _PostSearchState extends State<PostSearch> {
                             nDataList1,
                             nDataList1.post.type,
                             nDataList1.post.coverImage,
-                             nDataList1.post.story,
+                            nDataList1.post.story,
                           );
                         });
                 }),
@@ -207,27 +207,26 @@ class _PostSearchState extends State<PostSearch> {
   }
 
   Widget postlist(
-    String posttitle,
-    String subtitle,
-    String authorposttext,
-    DateTime dateTime,
-    List gallery,
-    int likeCount,
-    int commentCount,
-    int shareCount,
-    int repostCount,
-    String postid,
-    String pageid,
-    String pageimage,
-    String pagename,
-    bool isFollow,
-    String pageUsername,
-    bool isOfficial,
-    nDataList1,
-    String type,
-    String coverimage,
-    story
-  ) {
+      String posttitle,
+      String subtitle,
+      String authorposttext,
+      DateTime dateTime,
+      List gallery,
+      int likeCount,
+      int commentCount,
+      int shareCount,
+      int repostCount,
+      String postid,
+      String pageid,
+      String pageimage,
+      String pagename,
+      bool isFollow,
+      String pageUsername,
+      bool isOfficial,
+      nDataList1,
+      String type,
+      String coverimage,
+      story) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -252,7 +251,6 @@ class _PostSearchState extends State<PostSearch> {
                 pageUsername: pageUsername,
                 isOfficial: isOfficial,
                 onfocus: false,
-                
               );
             },
           ),
@@ -264,11 +262,9 @@ class _PostSearchState extends State<PostSearch> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          //  coverimage!=null? Image.network("https://today-api.moveforwardparty.org/api$coverimage/image",width: double.infinity,):
-          // gallery[0].imageUrl!=null? Image.network("https://today-api.moveforwardparty.org/api${gallery[0].imageUrl}/image",):Image.network("https://today-api.moveforwardparty.org/api${gallery[0].signUrl}/image",),
- gallery.length != 0
-                ? myAlbumCard(gallery, context)
-                : Container(),
+            //  coverimage!=null? Image.network("https://today-api.moveforwardparty.org/api$coverimage/image",width: double.infinity,):
+            // gallery[0].imageUrl!=null? Image.network("https://today-api.moveforwardparty.org/api${gallery[0].imageUrl}/image",):Image.network("https://today-api.moveforwardparty.org/api${gallery[0].signUrl}/image",),
+            gallery.length != 0 ? myAlbumCard(gallery, context) : Container(),
             Card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,30 +280,32 @@ class _PostSearchState extends State<PostSearch> {
                     padding: const EdgeInsets.all(10.0),
                     child: subtexttitlepost(subtitle, context),
                   ),
-              story!=null  ?  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: InkWell(
-                        onTap: () async {
-                          Navigate.pushPage(
-                              context,
-                              StroyPageSc(
-                                postid: postid,
-                                titalpost: posttitle,
-                                imagUrl: gallery,
-                                type: type,
-                                createdDate: dateTime,
-                                postby: pagename,
-                                imagepage: pageimage,
-                                likeCount: likeCount,
-                                commentCount: commentCount,
-                                shareCount: shareCount,
-                                repostCount: repostCount,
-                                token: token,
-                                userid: userid,
-                              ));
-                        },
-                        child: textreadstory('อ่านสตอรี่..')),
-                  ):Container(),
+                  story != null
+                      ? Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: InkWell(
+                              onTap: () async {
+                                Navigate.pushPage(
+                                    context,
+                                    StroyPageSc(
+                                      postid: postid,
+                                      titalpost: posttitle,
+                                      imagUrl: gallery,
+                                      type: type,
+                                      createdDate: dateTime,
+                                      postby: pagename,
+                                      imagepage: pageimage,
+                                      likeCount: likeCount,
+                                      commentCount: commentCount,
+                                      shareCount: shareCount,
+                                      repostCount: repostCount,
+                                      token: token,
+                                      userid: userid,
+                                    ));
+                              },
+                              child: textreadstory('อ่านสตอรี่..')),
+                        )
+                      : Container(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.start,

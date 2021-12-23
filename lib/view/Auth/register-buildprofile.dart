@@ -47,10 +47,9 @@ class _BuildprofileState extends State<Buildprofile> {
   bool isloading = false;
 
   Future<http.Response> singin(String email, String pass) async {
-    
-     setState(() {
-        isloading = true;
-     });
+    setState(() {
+      isloading = true;
+    });
     print('singin');
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
 
@@ -74,8 +73,7 @@ class _BuildprofileState extends State<Buildprofile> {
               "token", '${jsonResponse["data"]["token"]}');
           sharedPreferences.setString(
               "myuid", '${jsonResponse["data"]["user"]["id"]}');
-        sharedPreferences.setString(
-              "mode", 'EMAIL');
+          sharedPreferences.setString("mode", 'EMAIL');
 
           sharedPreferences?.setBool("isLoggedIn", true);
           var mytoken = jsonResponse["data"]["token"];
@@ -85,7 +83,6 @@ class _BuildprofileState extends State<Buildprofile> {
           sharedPreferences.setString(
               "imageURL", '${jsonResponse["data"]["user"]["imageURL"]}');
           if (mytoken != null) {
-           
           } else if (mytoken == null) {
             // iserror = true;
           }
@@ -105,9 +102,8 @@ class _BuildprofileState extends State<Buildprofile> {
       if (jsonResponse['status'] == 0) {
         print(jsonResponse['message']);
         setState(() {
-        
-            isloading = false;
-          
+          isloading = false;
+
           // msgres = jsonResponse['message'];
           // _isloading = false;
 
@@ -298,7 +294,7 @@ class _BuildprofileState extends State<Buildprofile> {
                   ),
                   SizedBox(
                     //color: Colors.white,
-                    height: MediaQuery.of(context).size.height /25,
+                    height: MediaQuery.of(context).size.height / 25,
                   ),
                   isloading == true
                       ? Container(

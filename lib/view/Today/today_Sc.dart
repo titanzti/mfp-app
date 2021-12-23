@@ -267,10 +267,8 @@ class _TodayScState extends State<TodaySc> {
 
   @override
   void didChangeDependencies() {
-    
     super.didChangeDependencies();
   }
-
 
   @override
   void dispose() {
@@ -278,7 +276,6 @@ class _TodayScState extends State<TodaySc> {
     _scrollController.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -433,10 +430,6 @@ class _TodayScState extends State<TodaySc> {
       ),
     );
   }
-
-  
-
-      
 
   Widget postlist(
     String posttitle,

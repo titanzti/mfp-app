@@ -40,9 +40,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
   bool iserror;
 
-  bool isfacebookLoggedIn=false;
+  bool isfacebookLoggedIn = false;
 
-  bool isTwitterLoggedIn=false;
+  bool isTwitterLoggedIn = false;
 
   String prettyPrint(Map json) {
     JsonEncoder encoder = new JsonEncoder.withIndent('  ');
@@ -126,8 +126,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
         print("LoggedIn");
 
-        var graphResponse = await http.get(Uri.parse('https://graph.facebook.com/v10.0/me?access_token=${facebookLoginResult.accessToken.token}&fields=name,first_name,last_name,birthday,picture,email,gender&method=get&pretty=0&sdk=joey&suppress_http_code=1')
-            );
+        var graphResponse = await http.get(Uri.parse(
+            'https://graph.facebook.com/v10.0/me?access_token=${facebookLoginResult.accessToken.token}&fields=name,first_name,last_name,birthday,picture,email,gender&method=get&pretty=0&sdk=joey&suppress_http_code=1'));
         var profile = json.decode(graphResponse.body);
         // profileData.add(profile);
         print(profile.toString());
@@ -146,11 +146,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         break;
     }
   }
-   void initiateFacebookTwitter() async {
+
+  void initiateFacebookTwitter() async {
     setState(() {
       isTwitterLoggedIn = true;
     });
-     final twitterLogin = TwitterLogin(
+    final twitterLogin = TwitterLogin(
       /// Consumer API keys
       apiKey: '81eBPMrAFW20CN0PRnughGs4T',
 
@@ -168,8 +169,8 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     /// If you want to implement Twitter account switching, set [force_login] to true
     /// login(forceLogin: true);
     final authResult = await twitterLogin.login();
-          var session =authResult.user;
-  print('''
+    var session = authResult.user;
+    print('''
          Logged inTw!
          
          name: ${session.name}
@@ -178,7 +179,6 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         
 
          ''');
- 
 
     switch (authResult.status) {
       case TwitterLoginStatus.loggedIn:
@@ -191,30 +191,27 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         
 
          ''');
- 
-
 
         // success
         print('====== Login success ======');
         break;
       case TwitterLoginStatus.cancelledByUser:
-      setState(() {
-        isTwitterLoggedIn=false;
-      });
+        setState(() {
+          isTwitterLoggedIn = false;
+        });
         // cancel
         print('====== Login cancel ======');
         break;
       case TwitterLoginStatus.error:
-      setState(() {
+        setState(() {
           isTwitterLoggedIn = false;
         });
-      break;
+        break;
       // case null:
       //   // error
       //   print('====== Login error ======');
       //   break;
     }
-  
   }
 
   bool isLoggedIn = false;
@@ -462,14 +459,17 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     'images/Email.png',
                     Color(0xFFE5E5E5),
                     MColors.primaryBlue,
-                   isfacebookLoggedIn!=true   ? isTwitterLoggedIn!=true   ?() async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Loginemail()),
-                            );
-                          }
-                        : null : null,
+                    isfacebookLoggedIn != true
+                        ? isTwitterLoggedIn != true
+                            ? () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Loginemail()),
+                                );
+                              }
+                            : null
+                        : null,
                     Container(),
                   ),
                   _bution(
@@ -477,19 +477,23 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     'images/facebook.png',
                     Color(0xFF1877F2),
                     Colors.white,
-                isfacebookLoggedIn!=true   ? () async {
-                      initiateFacebookLogin();
-                      setState(() {
-                        isfacebookLoggedIn = true;
-                      });
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => widget),
-                      // );
-                    }   : null,
-                    isfacebookLoggedIn==false  ? Container():    CircularProgressIndicator(
-                      color: MColors.primaryColor,
-                    ),
+                    isfacebookLoggedIn != true
+                        ? () async {
+                            initiateFacebookLogin();
+                            setState(() {
+                              isfacebookLoggedIn = true;
+                            });
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => widget),
+                            // );
+                          }
+                        : null,
+                    isfacebookLoggedIn == false
+                        ? Container()
+                        : CircularProgressIndicator(
+                            color: MColors.primaryColor,
+                          ),
                   ),
                   _bution(
                     'เข้าสู่ระบบด้วยTwitter',

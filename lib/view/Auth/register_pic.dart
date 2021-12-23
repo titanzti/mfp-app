@@ -24,27 +24,24 @@ class PicProfile extends StatefulWidget {
 }
 
 class _PicProfileState extends State<PicProfile> {
-  File  _image;
+  File _image;
   String img64;
-   @override
+  @override
   void initState() {
     // TODO: implement initState
     checkInternetConnectivity().then((value) {
       value == true
-          ? () {   
-            
-          }()
+          ? () {}()
           : Navigate.pushPageDialog(context, nonet(context));
-    
-   
-  });
-   super.initState();
+    });
+    super.initState();
   }
+
   _imgFromCamera() async {
-         PickedFile image = await ImagePicker().getImage(
-        source: ImageSource.camera,
-        maxWidth: 1800,
-        maxHeight: 1800,
+    PickedFile image = await ImagePicker().getImage(
+      source: ImageSource.camera,
+      maxWidth: 1800,
+      maxHeight: 1800,
     );
 
     setState(() {
@@ -52,13 +49,12 @@ class _PicProfileState extends State<PicProfile> {
     });
   }
 
-
   Future getImage() async {
     print("getImage");
-     PickedFile image = await ImagePicker().getImage(
-        source: ImageSource.gallery,
-        maxWidth: 1800,
-        maxHeight: 1800,
+    PickedFile image = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
     );
     if (image != null) {
       setState(() {
@@ -115,10 +111,9 @@ class _PicProfileState extends State<PicProfile> {
 
     return Scaffold(
         body: SingleChildScrollView(
-                              physics: BouncingScrollPhysics(),
-
+      physics: BouncingScrollPhysics(),
       child: Container(
-        height: MediaQuery.of(context).size.height ,
+        height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width * 1,
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -197,8 +192,7 @@ class _PicProfileState extends State<PicProfile> {
                         backgroundColor: Colors.white,
                         child: CircleAvatar(
                           radius: 108.0,
-                          backgroundImage:
-                              AssetImage('images/placeholder.png'),
+                          backgroundImage: AssetImage('images/placeholder.png'),
                         ),
                       )),
               Container(
@@ -292,46 +286,37 @@ class _PicProfileState extends State<PicProfile> {
                         textColor: Colors.white,
                         color: MColors.primaryColor.withOpacity(0.1),
                         onPressed: () {
-                          if(_image==null){
-                             ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                              SnackBar(
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        content: Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons.close,
-                                                              color: MColors
-                                                                  .primaryWhite,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text('กรุณาใส่รูป')
-                                                          ],
-                                                        ),
-                                                        duration:
-                                                            const Duration(
-                                                                milliseconds:
-                                                                    500),
-                                                      ));
-
-                          }else{
+                          if (_image == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.red,
+                              content: Row(
+                                children: [
+                                  Icon(
+                                    Icons.close,
+                                    color: MColors.primaryWhite,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text('กรุณาใส่รูป')
+                                ],
+                              ),
+                              duration: const Duration(milliseconds: 500),
+                            ));
+                          } else {
                             Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Generalinformation(
-                                      email: widget.email,
-                                      password: widget.password,
-                                      img64: img64,
-                                      fileimg: _image,
-                                      mode: "EMAIL",
-                                    )),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Generalinformation(
+                                        email: widget.email,
+                                        password: widget.password,
+                                        img64: img64,
+                                        fileimg: _image,
+                                        mode: "EMAIL",
+                                      )),
+                            );
                           }
-                          
+
                           print('กด');
                         },
                       ),

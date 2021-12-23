@@ -21,7 +21,6 @@ import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
 import 'package:mfp_app/view/Profile/profile.dart';
 import 'package:mfp_app/view/Search/search.dart';
-import 'package:mfp_app/view/info/info.dart';
 // import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 //APPBARS-------------------------------------
@@ -45,126 +44,69 @@ import 'package:mfp_app/view/info/info.dart';
 //     actions: actions,
 //   );
 // }
-Widget myAlbumCard(List<GalleryPostSearchModel> list,BuildContext context) {
+Widget myAlbumCard(List<GalleryPostSearchModel> list, BuildContext context) {
   if (list.length >= 4) {
     return Container(
       //  color: Colors.yellow,
-      height: MediaQuery.of(context).size.height/2.6,
+      height: MediaQuery.of(context).size.height / 2.6,
       width: double.infinity,
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-         list[0].signUrl!=null?   getItems(list[0].signUrl==null?"https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image":list[0].signUrl,
-            list[1].signUrl==null?"https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image":list[1].signUrl, 0,context):SizedBox.shrink(),
-            list[2].signUrl!=null?   getItems(list[2].signUrl==null?"https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image":list[2].signUrl, 
-            list[3].signUrl==null?"https://today-api.moveforwardparty.org/api${list[3].imageUrl}/image": list[3].signUrl,
-             list.length - 4,context):SizedBox.shrink(),
-          ],
-        ),
-      ),
-    );
-  }
-   else if (list.length >= 3) {
-    return Container(
-     height: MediaQuery.of(context).size.height/2.6,
-    width: double.infinity,
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            getItems(list[0].signUrl!=null?list[0].signUrl:list[0].imageUrl,list[1].signUrl!=null?list[1].signUrl:list[1].imageUrl, 0,context),
-            Expanded(
-              child: getItems(list[2].signUrl!=null?list[2].signUrl:list[2].imageUrl, list[2].signUrl!=null?list[2].signUrl:list[2].imageUrl ?? "", list.length - 3,context),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-   else if (list.length >= 2) {
-    return Container(
-      height: 340,
-      width: double.infinity,
-      color: Colors.black,
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            getItems("https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image","https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image", 0,context),
-          ],
-        ),
-      ),
-    );
-  } else if (list.length >= 1) {
-    return Container(
-             color: Colors.blue,
-             width: double.infinity,
-
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             list[0].signUrl != null
-                ?
-                topImage("https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",)
+                ? getItems(
+                    list[0].signUrl == null
+                        ? "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image"
+                        : list[0].signUrl,
+                    list[1].signUrl == null
+                        ? "https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image"
+                        : list[1].signUrl,
+                    0,
+                    context)
+                : SizedBox.shrink(),
+            list[2].signUrl != null
+                ? getItems(
+                    list[2].signUrl == null
+                        ? "https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image"
+                        : list[2].signUrl,
+                    list[3].signUrl == null
+                        ? "https://today-api.moveforwardparty.org/api${list[3].imageUrl}/image"
+                        : list[3].signUrl,
+                    list.length - 4,
+                    context)
                 : SizedBox.shrink(),
           ],
         ),
       ),
     );
-  } else if (list.length==null||list.length==0) {
+  } else if (list.length >= 3) {
     return Container(
-
-             color: Colors.orange,
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-       topImage("https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",)
-              
-          ],
-        ),
-      ),
-    );
-  }
-
-}
-
-Widget searchAlbumCard(List<GallerySearchPost> list,BuildContext context) {
-  if (list.length >= 4) {
-    return Container(
-      height: MediaQuery.of(context).size.height/2.6,
+      height: MediaQuery.of(context).size.height / 2.6,
       width: double.infinity,
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            getItems(list[0].signUrl!=null?list[0].signUrl:list[0].imageUrl, list[1].signUrl!=null?list[1].signUrl:list[1].imageUrl, 0,context),
-            getItems(list[2].signUrl!=null?list[2].signUrl:list[2].imageUrl, list[3].signUrl!=null?list[3].signUrl:list[3].imageUrl, list.length - 4,context),
-          ],
-        ),
-      ),
-    );
-  }
-   else if (list.length >= 3) {
-    return Container(
-     height: MediaQuery.of(context).size.height/2.6,
-    width: double.infinity,
-      child: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            getItems(list[0].signUrl!=null?list[0].signUrl:"https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image", list[1].signUrl!=null?list[1].signUrl:"https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image", 0,context),
+            getItems(
+                list[0].signUrl != null ? list[0].signUrl : list[0].imageUrl,
+                list[1].signUrl != null ? list[1].signUrl : list[1].imageUrl,
+                0,
+                context),
             Expanded(
-              child: getItems( list[2].signUrl!=null?list[2].signUrl:"https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image", list[2].signUrl!=null?list[2].signUrl:"https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image" ?? "", list.length - 3,context),
+              child: getItems(
+                  list[2].signUrl != null ? list[2].signUrl : list[2].imageUrl,
+                  list[2].signUrl != null
+                      ? list[2].signUrl
+                      : list[2].imageUrl ?? "",
+                  list.length - 3,
+                  context),
             ),
           ],
         ),
       ),
     );
-  }
-   else if (list.length >= 2) {
+  } else if (list.length >= 2) {
     return Container(
       height: 340,
       width: double.infinity,
@@ -173,7 +115,123 @@ Widget searchAlbumCard(List<GallerySearchPost> list,BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            getItems(list[0].signUrl!=null?list[0].signUrl:"https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image", list[1].signUrl!=null?list[1].signUrl:"https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image", 0,context),
+            getItems(
+                "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                0,
+                context),
+          ],
+        ),
+      ),
+    );
+  } else if (list.length >= 1) {
+    return Container(
+      color: Colors.blue,
+      width: double.infinity,
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            list[0].signUrl != null
+                ? topImage(
+                    "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                  )
+                : SizedBox.shrink(),
+          ],
+        ),
+      ),
+    );
+  } else if (list.length == null || list.length == 0) {
+    return Container(
+      color: Colors.orange,
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            topImage(
+              "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+Widget searchAlbumCard(List<GallerySearchPost> list, BuildContext context) {
+  if (list.length >= 4) {
+    return Container(
+      height: MediaQuery.of(context).size.height / 2.6,
+      width: double.infinity,
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            getItems(
+                list[0].signUrl != null ? list[0].signUrl : list[0].imageUrl,
+                list[1].signUrl != null ? list[1].signUrl : list[1].imageUrl,
+                0,
+                context),
+            getItems(
+                list[2].signUrl != null ? list[2].signUrl : list[2].imageUrl,
+                list[3].signUrl != null ? list[3].signUrl : list[3].imageUrl,
+                list.length - 4,
+                context),
+          ],
+        ),
+      ),
+    );
+  } else if (list.length >= 3) {
+    return Container(
+      height: MediaQuery.of(context).size.height / 2.6,
+      width: double.infinity,
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            getItems(
+                list[0].signUrl != null
+                    ? list[0].signUrl
+                    : "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                list[1].signUrl != null
+                    ? list[1].signUrl
+                    : "https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image",
+                0,
+                context),
+            Expanded(
+              child: getItems(
+                  list[2].signUrl != null
+                      ? list[2].signUrl
+                      : "https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image",
+                  list[2].signUrl != null
+                      ? list[2].signUrl
+                      : "https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image" ??
+                          "",
+                  list.length - 3,
+                  context),
+            ),
+          ],
+        ),
+      ),
+    );
+  } else if (list.length >= 2) {
+    return Container(
+      height: 340,
+      width: double.infinity,
+      color: Colors.black,
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            getItems(
+                list[0].signUrl != null
+                    ? list[0].signUrl
+                    : "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                list[1].signUrl != null
+                    ? list[1].signUrl
+                    : "https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image",
+                0,
+                context),
           ],
         ),
       ),
@@ -184,9 +242,10 @@ Widget searchAlbumCard(List<GallerySearchPost> list,BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            
             list[0].signUrl != null
-                ?topImage(list[0].signUrl!=null?list[0].signUrl:"https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
+                ? topImage(list[0].signUrl != null
+                    ? list[0].signUrl
+                    : "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
                 : Container(),
           ],
         ),
@@ -194,6 +253,7 @@ Widget searchAlbumCard(List<GallerySearchPost> list,BuildContext context) {
     );
   }
 }
+
 Widget topImage(String image) {
   return Container(
     // height: 250.0,
@@ -202,16 +262,18 @@ Widget topImage(String image) {
       child: Center(
         child: Hero(
           tag: "image" + image,
-          child:image==null?Container(): Image.network(
-            image
-            ,
-            fit: BoxFit.fill,
-          ),
+          child: image == null
+              ? Container()
+              : Image.network(
+                  image,
+                  fit: BoxFit.fill,
+                ),
         ),
       ),
     ),
   );
 }
+
 Widget topImagePagesearch(String image) {
   return Container(
     // height: 250.0,
@@ -220,17 +282,17 @@ Widget topImagePagesearch(String image) {
       child: Center(
         child: Hero(
           tag: "image" + image,
-          child:image==null?Container(): Image.network(
-            "https://today-api.moveforwardparty.org/api$image/image"
-            ,
-            fit: BoxFit.fill,
-          ),
+          child: image == null
+              ? Container()
+              : Image.network(
+                  "https://today-api.moveforwardparty.org/api$image/image",
+                  fit: BoxFit.fill,
+                ),
         ),
       ),
     ),
   );
 }
-
 
 Widget getItems(img_path, img_path2, count, BuildContext context) {
   return Container(
@@ -238,22 +300,19 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
     child: Row(
       children: <Widget>[
         ClipRRect(
-          child:
-          
-           Image.network(
+          child: Image.network(
             img_path,
-           errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
-        return Container(
-             height: MediaQuery.of(context).size.height / 5.2,
-                      width: MediaQuery.of(context).size.width / 2.0,
-          child: Image.asset('images/placeholder.jpg'));
-    },
-
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace stackTrace) {
+              return Container(
+                  height: MediaQuery.of(context).size.height / 5.2,
+                  width: MediaQuery.of(context).size.width / 2.0,
+                  child: Image.asset('images/placeholder.jpg'));
+            },
             height: MediaQuery.of(context).size.height / 5.2,
             width: MediaQuery.of(context).size.width / 2.0,
             fit: BoxFit.cover,
             filterQuality: FilterQuality.low,
-            
           ),
         ),
         (count > 0)
@@ -261,18 +320,24 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
                 overflow: Overflow.visible,
                 children: <Widget>[
                   ClipRRect(
-                    child: img_path2!=null? Image.network(
-                      img_path2,   errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
-        return Container(
-             height: MediaQuery.of(context).size.height / 5.2,
-                      width: MediaQuery.of(context).size.width / 2.0,
-        child: Image.asset('images/placeholder.jpg'));
-    },
-                      height: MediaQuery.of(context).size.height / 5.2,
-                      width: MediaQuery.of(context).size.width / 2.0,
-                      fit: BoxFit.cover,
-                      filterQuality: FilterQuality.low,
-                    ):Container(),
+                    child: img_path2 != null
+                        ? Image.network(
+                            img_path2,
+                            errorBuilder: (BuildContext context,
+                                Object exception, StackTrace stackTrace) {
+                              return Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 5.2,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.0,
+                                  child: Image.asset('images/placeholder.jpg'));
+                            },
+                            height: MediaQuery.of(context).size.height / 5.2,
+                            width: MediaQuery.of(context).size.width / 2.0,
+                            fit: BoxFit.cover,
+                            filterQuality: FilterQuality.low,
+                          )
+                        : Container(),
                   ),
                   (count > 0)
                       ? Positioned(
@@ -295,19 +360,22 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
                 ],
               )
             : ClipRRect(
-                child:img_path2!=null? Image.network(
-                  img_path2,
-                    errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
-        return Container(
-             height: MediaQuery.of(context).size.height / 5.2,
-                      width: MediaQuery.of(context).size.width / 2.0,
-      child: Image.asset('images/placeholder.jpg'));
-    },
-                  height: MediaQuery.of(context).size.height / 5.2,
-                  width: MediaQuery.of(context).size.width / 2.0,
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.low,
-                ):Container(),
+                child: img_path2 != null
+                    ? Image.network(
+                        img_path2,
+                        errorBuilder: (BuildContext context, Object exception,
+                            StackTrace stackTrace) {
+                          return Container(
+                              height: MediaQuery.of(context).size.height / 5.2,
+                              width: MediaQuery.of(context).size.width / 2.0,
+                              child: Image.asset('images/placeholder.jpg'));
+                        },
+                        height: MediaQuery.of(context).size.height / 5.2,
+                        width: MediaQuery.of(context).size.width / 2.0,
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.low,
+                      )
+                    : Container(),
               ),
       ],
     ),
@@ -353,7 +421,7 @@ Widget primaryAppBar(
         onPressed: () => print('Messenger'),
       ),
       token == null || token == ""
-      ?Padding(
+          ? Padding(
               padding: const EdgeInsets.all(5.0),
               child: CircleAvatar(
                 radius: 25.0,
@@ -380,9 +448,9 @@ Widget primaryAppBar(
 //   builder: (context) =>  SingleChildScrollView(
 //     controller: ModalScrollController.of(context),
 //     child: Infoview()),
-  
+
 // );
-                    
+
 //                   },
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
@@ -393,7 +461,7 @@ Widget primaryAppBar(
                   backgroundColor: Colors.transparent,
                 ),
               ),
-            ) 
+            )
     ],
   );
 }
@@ -582,7 +650,9 @@ Widget nonet(BuildContext context) {
                 'Network Interruption',
                 style: TextStyle(),
               )),
-              SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Container(
             width: MediaQuery.of(context).size.width * 0.4,
             child: RaisedButton(
@@ -602,19 +672,26 @@ Widget nonet(BuildContext context) {
                       ? Navigate.pushPageReplacement(context, NavScreen())
                       : ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           behavior: SnackBarBehavior.floating,
-
-    backgroundColor: Colors.yellow,
-    content: Row(
-      children: [
-        Icon(Icons.warning,color: Colors.black,),
-        SizedBox(width: 5,),
-        Text('ลองอีกครั้ง',style: TextStyle(fontSize: 16,color: Colors.black),),
-        
-      ],
-    ),
-    duration: Duration(milliseconds: 1000),
-    dismissDirection: DismissDirection.horizontal,
-  ));
+                          backgroundColor: Colors.yellow,
+                          content: Row(
+                            children: [
+                              Icon(
+                                Icons.warning,
+                                color: Colors.black,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                'ลองอีกครั้ง',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                              ),
+                            ],
+                          ),
+                          duration: Duration(milliseconds: 1000),
+                          dismissDirection: DismissDirection.horizontal,
+                        ));
                 });
                 print('กด');
               },

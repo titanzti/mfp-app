@@ -34,10 +34,15 @@ class _WebviewScState extends State<WebviewSc> {
             iconTheme: IconThemeData(
               color: Colors.black, //change your color here
             ),
-            title: Text(widget.texttitle==null?"":widget.texttitle,style: TextStyle(fontSize: 18,fontFamily: AppTheme.FontAnakotmaiMedium,color: MColors.textDark),),
+            title: Text(
+              widget.texttitle == null ? "" : widget.texttitle,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: AppTheme.FontAnakotmaiMedium,
+                  color: MColors.textDark),
+            ),
           ),
           body: WebView(
-            
             initialUrl: widget.url,
             javascriptMode: JavascriptMode.unrestricted,
           ),

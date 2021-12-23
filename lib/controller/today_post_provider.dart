@@ -41,7 +41,7 @@ class TodayPostController extends GetxController {
 
   getpost(var offset, {var pagenumber = 0}) async {
     print('getmergencyevents');
-    try { 
+    try {
       if (postList.length == 0) {
         isLoading(true);
         firstload(true);
@@ -50,7 +50,6 @@ class TodayPostController extends GetxController {
       var posts = await Api.getpostlisttest(offset);
       if (posts != null) {
         postList.addAll(posts);
-       
       }
     } finally {
       isLoading(false);

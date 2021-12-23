@@ -52,7 +52,7 @@ class _ProfileScState extends State<ProfileSc> {
   void initState() {
     // TODO: implement initState
     super.initState();
-      Future.delayed(Duration.zero, () async {
+    Future.delayed(Duration.zero, () async {
       print('Futuredelayed');
       //--token
       token = await Api.gettoke();
@@ -69,30 +69,29 @@ class _ProfileScState extends State<ProfileSc> {
         token: $token
          mode: $mode
          ''');
-        await    Api.getuserprofile("${widget.userid}").then((responseData) => ({
-          if (responseData.statusCode == 200)
-            {
-              datagetuserprofile = jsonDecode(responseData.body),
-              setState(() {
-                displayName1 = datagetuserprofile["data"]["displayName"];
-                gender = datagetuserprofile["data"]["gender"];
-                firstName = datagetuserprofile["data"]["firstName"];
-                lastName = datagetuserprofile["data"]["lastName"];
-                id = datagetuserprofile["data"]["id"];
-                email = datagetuserprofile["data"]["email"];
-                image = datagetuserprofile["data"]["imageURL"];
-              }),
-              print('displayName1$displayName1'),
-              print('gender$gender'),
-              print('firstName$firstName'),
-              print('lastName$lastName'),
-              print('id$id'),
-              print('email$email'),
-              print('${datagetuserprofile["data"]["username"]}'),
-            }
-        }));
+      await Api.getuserprofile("${widget.userid}").then((responseData) => ({
+            if (responseData.statusCode == 200)
+              {
+                datagetuserprofile = jsonDecode(responseData.body),
+                setState(() {
+                  displayName1 = datagetuserprofile["data"]["displayName"];
+                  gender = datagetuserprofile["data"]["gender"];
+                  firstName = datagetuserprofile["data"]["firstName"];
+                  lastName = datagetuserprofile["data"]["lastName"];
+                  id = datagetuserprofile["data"]["id"];
+                  email = datagetuserprofile["data"]["email"];
+                  image = datagetuserprofile["data"]["imageURL"];
+                }),
+                print('displayName1$displayName1'),
+                print('gender$gender'),
+                print('firstName$firstName'),
+                print('lastName$lastName'),
+                print('id$id'),
+                print('email$email'),
+                print('${datagetuserprofile["data"]["username"]}'),
+              }
+          }));
     });
- 
   }
 
   @override
@@ -114,13 +113,8 @@ class _ProfileScState extends State<ProfileSc> {
               body: CustomScrollView(
                 controller: _trackingScrollController,
                 slivers: [
-                  primaryAppBar(
-                      context,
-                      widget.token,
-                      widget.userid,
-                      image,
-                      Search(),
-                      null),
+                  primaryAppBar(context, widget.token, widget.userid, image,
+                      Search(), null),
                   SliverToBoxAdapter(
                       child: Divider(
                     color: Colors.transparent,
@@ -148,7 +142,7 @@ class _ProfileScState extends State<ProfileSc> {
                                   backgroundColor: Colors.transparent,
                                 ),
                               ),
-                             const SizedBox(
+                              const SizedBox(
                                 width: 15.0,
                               ),
                               Padding(
@@ -158,7 +152,6 @@ class _ProfileScState extends State<ProfileSc> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-
                                     Text(
                                       displayName1,
                                       style: TextStyle(
@@ -168,32 +161,46 @@ class _ProfileScState extends State<ProfileSc> {
                                               AppTheme.FontAnakotmaiMedium,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Row(children: [
-                                    Text(
-                                      email,
-                                      style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 15.5,
-                                        fontFamily: AppTheme.FontAnakotmaiLight,
-                                      ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          email,
+                                          style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 15.5,
+                                            fontFamily:
+                                                AppTheme.FontAnakotmaiLight,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        mode == "FB"
+                                            ? Container(
+                                                color: MColors.textDark,
+                                                child: Image.asset(
+                                                  'images/facebook.png',
+                                                  width: 20,
+                                                  height: 20,
+                                                ))
+                                            : Container(),
+                                        mode == "EMAIL"
+                                            ? Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                  color: MColors.textDark,
+                                                )),
+                                                child: Image.asset(
+                                                  'images/Email.png',
+                                                  width: 20,
+                                                  height: 20,
+                                                ))
+                                            : Container(),
+                                        //  mode=="EMAIL"?   Container(
+                                        // color: MColors.textDark,
+                                        // child: Image.asset('images/twitter.png',width: 20,height: 20,))
+                                      ],
                                     ),
-                                    const SizedBox(width: 5,),
-                                    mode=="FB"?Container(
-                                      color: MColors.textDark,
-                                      child: Image.asset('images/facebook.png',width: 20,height: 20,)):Container(),
-                                     mode=="EMAIL"? Container(
-                                       decoration: BoxDecoration(
-    border: Border.all(color: MColors.textDark,)
-  ),
-                                      child: Image.asset('images/Email.png',width: 20,height: 20,)):Container(),
-                                      //  mode=="EMAIL"?   Container(
-                                      // color: MColors.textDark,
-                                      // child: Image.asset('images/twitter.png',width: 20,height: 20,))
-
-                                    ],),
-                                    
-                                    
-                                   
                                   ],
                                 ),
                               ),
@@ -244,8 +251,7 @@ class _ProfileScState extends State<ProfileSc> {
                                 children: [
                                   Container(
                                     child: Column(
-                                      children: [
-                                      ],
+                                      children: [],
                                     ),
                                   ),
                                   Container(
@@ -306,7 +312,9 @@ class _ProfileScState extends State<ProfileSc> {
                               ),
                             ),
                           ),
-                          Spacer(flex: 2,),
+                          Spacer(
+                            flex: 2,
+                          ),
                           Text(
                             'ยังไม่ได้เป็นสมาชิก',
                             maxLines: 1,
@@ -318,8 +326,7 @@ class _ProfileScState extends State<ProfileSc> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                         
-                           Padding(
+                          Padding(
                             padding: EdgeInsets.only(top: 4, right: 10.0),
                             child: Icon(
                               Icons.arrow_forward_ios_sharp,
@@ -327,8 +334,6 @@ class _ProfileScState extends State<ProfileSc> {
                               color: Colors.grey,
                             ),
                           ),
-                         
-                          
                         ],
                       ),
                     ),
