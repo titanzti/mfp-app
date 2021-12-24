@@ -347,64 +347,64 @@ class _StroyPageScState extends State<StroyPageSc> {
                       height: 3,
                       thickness: 6.0,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5.0),
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        width: MediaQuery.of(context).size.width / 1.0,
-                        height: MediaQuery.of(context).size.height / 8.0,
-                        color: Colors.grey[100],
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 1.0, right: 10.0, top: 5.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: MediaQuery.of(context).size.width ,
+                      height: MediaQuery.of(context).size.height / 8.0,
+                      color: Colors.grey[100],
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 1.0, right: 10.0, top: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: CircleAvatar(
                                   radius: 30.0,
                                   backgroundImage: NetworkImage(
                                       "https://today-api.moveforwardparty.org/api${widget.imagepage}/image")),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width / 45.0,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "$type ${TimeUtils.readTimestamp(widget.createdDate.millisecondsSinceEpoch)}",
-                                      style: TextStyle(
-                                          fontFamily:
-                                              AppTheme.FontAnakotmaiBold,
-                                          color: MColors.textDark,
-                                          fontSize: AppTheme.BodyTextSize),
-                                    ),
+                            ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width / 45.0,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "$type ${TimeUtils.readTimestamp(widget.createdDate.millisecondsSinceEpoch)}",
+                                    style: TextStyle(
+                                        fontFamily:
+                                            AppTheme.FontAnakotmaiBold,
+                                        color: MColors.textDark,
+                                        fontSize: AppTheme.BodyTextSize),
                                   ),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width /
-                                          2.0,
-                                      child: Text(
-                                        'เผยแพร่โดย:${widget.postby}',
-                                        textAlign: TextAlign.left,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                          fontFamily:
-                                              AppTheme.FontAnakotmaiBold,
-                                          color: MColors.textGrey,
-                                          fontSize: AppTheme.BodyTextSize12,
-                                        ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width /
+                                        2.0,
+                                    child: Text(
+                                      'เผยแพร่โดย:${widget.postby}',
+                                      textAlign: TextAlign.left,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontFamily:
+                                            AppTheme.FontAnakotmaiBold,
+                                        color: MColors.textGrey,
+                                        fontSize: AppTheme.BodyTextSize12,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
