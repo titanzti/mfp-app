@@ -110,7 +110,6 @@ Widget myAlbumCard(List<GalleryPostSearchModel> list, BuildContext context) {
     return Container(
       height: 340,
       width: double.infinity,
-      color: Colors.black,
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +125,6 @@ Widget myAlbumCard(List<GalleryPostSearchModel> list, BuildContext context) {
     );
   } else if (list.length >= 1) {
     return Container(
-      color: Colors.blue,
       width: double.infinity,
       child: Center(
         child: Column(
