@@ -99,14 +99,13 @@ class Api {
       "filter": {"limit": 5, "offset": offset}
     };
     var body = jsonEncode(data);
-    print(data);
 
     final responseData = await Http.post(
       Uri.parse(url),
       headers: headers,
       body: body,
     );
-    print(responseData.body);
+
 
     return responseData;
   }
@@ -638,8 +637,8 @@ class Api {
       headers: headers,
       body: body,
     );
-    print('body$body');
-    print('islike${responseData.body}');
+    // print('body$body');
+    // print('islike${responseData.body}');
 
     return responseData;
   }
@@ -792,8 +791,6 @@ class Api {
       headers: headers,
       body: body,
     );
-    print('body$body');
-    print('getpostsearch1${responseData.body}');
     return responseData;
   }
 
@@ -810,7 +807,6 @@ class Api {
 
     final responseData = await Http.get(Uri.parse("${Api.url}api/page/$pageid"),
         headers: headers);
-    print('responseDatagetpagess${responseData.body}');
 
     return responseData;
   }
@@ -901,7 +897,6 @@ class Api {
       Uri.parse(url),
       headers: headers,
     );
-    print('responseDatacommentlist${responseData.body}');
     final jsonResponse = jsonDecode(responseData.body);
     if (responseData.statusCode == 200) {
       print(jsonResponse['status']);
