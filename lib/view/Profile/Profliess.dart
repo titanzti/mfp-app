@@ -628,15 +628,18 @@ class _ProfliessState extends State<Profliess> {
                                                   Colors.transparent,
                                             ),
                                           ),
-                                          Text(
-                                            '# WALKTODAY',
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Anakotmai-Bold',
-                                                fontSize: 14),
+                                          Padding(
+                                            padding:   const EdgeInsets.only(top: 10),
+                                            child: Text(
+                                              '# WALKTODAY',
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'Anakotmai-Bold',
+                                                  fontSize: 14),
+                                            ),
                                           ),
                                         ],
                                       ),

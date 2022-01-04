@@ -590,8 +590,8 @@ class _GeneralinformationState extends State<Generalinformation> {
               onTap: () {
                 DatePicker.showDatePicker(context,
                     showTitleActions: true,
-                    minTime: DateTime(2133, 3, 5),
-                    maxTime: DateTime(2564, 6, 7),
+                    // minTime: DateTime(2133, 3, 5),
+                    // maxTime: DateTime.now(),
                     theme: DatePickerTheme(
                       headerColor: Colors.white,
                       backgroundColor: Colors.white,
@@ -615,7 +615,10 @@ class _GeneralinformationState extends State<Generalinformation> {
                   _birthday.text = f.format(date).toString();
 
                   print('confirm $date');
-                }, currentTime: DateTime.now(), locale: LocaleType.th);
+                }, 
+                currentTime: DateTime.now(), 
+                locale: LocaleType.th,
+                );
               },
               child: Icon(
                 Icons.calendar_today,
@@ -841,7 +844,7 @@ class _GeneralinformationState extends State<Generalinformation> {
                             items: _genderType
                                 .map((value) => DropdownMenuItem(
                                       child: Padding(
-                                        padding: const EdgeInsets.all(15.0),
+                                        padding: const EdgeInsets.only(left: 20.0),
                                         child: Text(
                                           value,
                                           style: TextStyle(color: Colors.black),
