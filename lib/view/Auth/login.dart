@@ -501,7 +501,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     Color(0xFF1DA1F3),
                     Colors.white,
                     null,
-                    null,
+                    Container(),
                     //  isTwitterLoggedIn!=true   ?   isfacebookLoggedIn==false  ?()  async {
                     //                             initiateFacebookTwitter();
                     //        setState(() {
@@ -569,7 +569,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ),
                 ),
                 Spacer(),
-                isLoggedIn == true ? widget : Container(),
+                widget,
               ],
             ),
             textColor: textColor,

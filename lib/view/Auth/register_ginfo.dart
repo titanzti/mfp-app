@@ -205,6 +205,7 @@ class _GeneralinformationState extends State<Generalinformation> {
         }
       }
       print('msg$msg');
+         print('msg$birthdate');
 
       return responsepostRequest;
     } catch (e) {
@@ -630,12 +631,6 @@ class _GeneralinformationState extends State<Generalinformation> {
         ),
         keyboardType: TextInputType.text,
         autocorrect: false,
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'กรุณาใส่วันเกิด';
-          }
-          return null;
-        },
       );
     }
 
@@ -1009,8 +1004,10 @@ class _GeneralinformationState extends State<Generalinformation> {
                                                     _firstname.text,
                                                     _lastname.text,
                                                     _uniqueid.text,
-                                                    DateTime.parse(
-                                                        _birthday.text),
+                                                   _birthday.text!=""? DateTime.parse(
+                                                        _birthday.text):
+                                                        DateTime.now(), 
+                                                        
                                                     gendertypeint,
                                                     gendertypeint == 3
                                                         ? _customGender.text
