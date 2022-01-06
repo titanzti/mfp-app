@@ -988,7 +988,7 @@ class _ProfliessState extends State<Profliess> {
                     children: [
                       fixtextauthor(),
                       authorpost(postbyname, context, dateTime, pageid, "",
-                          "fasle", false, "false", false, "", true),
+                          "fasle", false, "false", false, "", false),
                       texttimetimestamp(dateTime),
                     ],
                   ),
