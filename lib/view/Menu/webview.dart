@@ -55,6 +55,7 @@ class _WebviewScState extends State<WebviewSc> {
                     isLoading = false;
                   });
                 },
+                
               ),
               isLoading
                   ? LinearProgressIndicator(

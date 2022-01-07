@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:intl/intl.dart';
 import 'package:mfp_app/model/RecommendedUserPageModel.dart';
 import 'package:mfp_app/model/postModel.dart';
 import 'package:mfp_app/model/searchhastag.dart';
@@ -274,6 +275,35 @@ class Api {
     );
     // print('body$body');
     // print('responseData${responseData.body}');
+
+    return responseData;
+  }
+  static Future<Http.Response> getdoing(DateTime dateTime) async {
+          final f = new DateFormat("yyyy-MM-ddT HH:mm:ssZ");
+    print('dateTimegetdoing${dateTime.toIso8601String()}');
+
+    var url = "${Api.url}api/objective/search?sample=5";
+    final headers = {
+      // "mode": "EMAIL",
+      "content-type": "application/json",
+    };
+    Map data = {
+      "filter": {
+        "limit": 4,
+        "offset": 0,
+        "whereConditions": {"createdDate":dateTime.toIso8601String()},
+   
+      }
+    };
+    var body = jsonEncode(data);
+
+    final responseData = await Http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+    // print('body$body');
+    print('responseDatagetdoing${responseData.body}');
 
     return responseData;
   }

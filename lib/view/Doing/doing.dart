@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
+import 'package:mfp_app/model/pagemodel.dart';
 import 'package:mfp_app/utils/internetConnectivity.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/NavigationBar/nav_screen.dart';
@@ -31,6 +34,13 @@ class _DoingSCState extends State<DoingSC> {
 
   var image;
 
+  bool pageObjloading;
+
+  var jsonResponse;
+  List<PageObjective> pageobjslist = [];
+  StreamController _pageobjController;
+  Future getpageObj;
+  DateTime backward;
   @override
   void dispose() {
     _trackingScrollController.dispose();
@@ -39,55 +49,82 @@ class _DoingSCState extends State<DoingSC> {
 
   @override
   void initState() {
-    print('initState');
-    super.initState();
-    setState(() {
-      Api.gettoke().then((value) => value({
-            token = value,
+      DateTime currentDate = DateTime.now();
+
+
+
+    
+
+     Api.gettoke().then((value) => value({
+        setState(() {
+             token = value;
+        }),
+         
             print('token$token'),
           }));
-
-      Api.getmyuid().then((value) => ({
+      //--
+ Api.getmyuid().then((value) => ({
             setState(() {
               userid = value;
             }),
-            Api.getuserprofile("$userid").then((responseData) async => ({
-                  if (responseData.statusCode == 200)
-                    {
-                      datagetuserprofile = jsonDecode(responseData.body),
-                      setState(() {
-                        // displayName1 =
-                        //     datagetuserprofile["data"]
-                        //         ["displayName"];
-                        // gender = datagetuserprofile["data"]
-                        //     ["gender"];
-                        // firstName = datagetuserprofile["data"]
-                        //     ["firstName"];
-                        // lastName = datagetuserprofile["data"]
-                        //     ["lastName"];
-                        // id = datagetuserprofile["data"]["id"];
-                        // email =
-                        //     datagetuserprofile["data"]["email"];
-                        image = datagetuserprofile["data"]["imageURL"];
-                      }),
-                      // print('displayName1$displayName1'),
-                      // print('gender$gender'),
-                      // print('firstName$firstName'),
-                      // print('lastName$lastName'),
-                      // print('id$id'),
-                      // print('email$email'),
-                      print('image$image'),
-                    }
-                })),
             print('userid$userid'),
           }));
-      Api.getimageURL().then((value) => ({
+    Future.delayed(Duration.zero, () async {
+      print('delayedgetpost');
+    
+      //--
+  await  Api.getuserprofile("$userid").then((responseData) async => ({
+            if (responseData.statusCode == 200)
+              {
+                datagetuserprofile = jsonDecode(responseData.body),
+                setState(() {
+                  image = datagetuserprofile["data"]["imageURL"];
+                }),
+                print('image$image'),
+              }
+          }));
+      //--\
+    await  Api.getimageURL().then((value) => ({
             setState(() {
               userimageUrl = value;
             }),
             print('userimageUrl$userimageUrl'),
           }));
+      //--
+     
     });
+     Api.getdoing(Jiffy(currentDate).subtract(months: 1)).then((responseData) async => ({
+     print('getdoing'),
+            setState(() {
+              pageObjloading = true;
+            }),
+            if (responseData.statusCode == 200)
+              {
+                jsonResponse = jsonDecode(responseData.body),
+                print('jsonResponse$jsonResponse'),
+                for (Map i in jsonResponse["data"])
+                  {
+                    setState(() {
+                      // pagename =i['page'][0]['name'];
+                    }),
+
+                    pageobjslist.add(PageObjective.fromJson(i)),
+                    _pageobjController.add(responseData),
+
+                    // var stroycoverImage= i["coverImage"];
+                  },
+                // print("Response  :$storytestreplaceAll"),
+                // print('titalpost$titalpost'),
+                setState(() {
+                  pageObjloading = false;
+                }),
+              }
+            else if (responseData.statusCode == 400)
+              {}
+          }));
+    _pageobjController = new StreamController();
+     print('initState');
+    super.initState();
   }
 
   @override
@@ -149,191 +186,95 @@ class _DoingSCState extends State<DoingSC> {
                   ),
                 ),
               ),
-              SliverToBoxAdapter(
-                child: Center(
-                  child: Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 19, top: 8),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Container(
-                                width: width / 2.3,
-                                height: hight / 5.4,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.grey[100],
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(1),
-                                        blurRadius: 0.5,
-                                        spreadRadius: 0.5,
-                                      ),
-                                    ]),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 15.0),
-                                  child: Column(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 40.0,
-                                        backgroundImage:
-                                            AssetImage('images/morkimage1.png'),
-                                        backgroundColor: Colors.transparent,
-                                      ),
-                                      Text(
-                                        '#WaterBank',
+              SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                //   crossAxisCount: 1,
+                //   mainAxisSpacing: 5,
+                //  // horizontal spacing between the items
+                //   crossAxisSpacing: 5,
+                   crossAxisCount: 1,
+       mainAxisSpacing: 10,
+       crossAxisSpacing: 10,
+       childAspectRatio: 1
+                  
+                  // mainAxisSpacing: 5.0,
+                  // crossAxisSpacing: 5.0,
+                  // childAspectRatio: 3.0,
+                  
+                ),
+                
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return StreamBuilder(
+                      stream: _pageobjController.stream,
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        return GridView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: 4,
+                            scrollDirection: Axis.vertical,
+                            padding: EdgeInsets.all(5),
+
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount:2),
+                          itemBuilder: (BuildContext context, int index) {
+                            var e = pageobjslist[index];
+
+                            return Container(
+                              
+                              height: MediaQuery.of(context).size.height/10,
+                              // decoration: BoxDecoration(
+                              //     borderRadius: BorderRadius.circular(8),
+                              //     color: Colors.grey[100],
+                              //     boxShadow: [
+                              //       BoxShadow(
+                              //         color: Colors.grey.withOpacity(1),
+                              //         blurRadius: 0.5,
+                              //         spreadRadius: 0.5,
+                              //       ),
+                              //     ]),
+                              child: Column(
+                                mainAxisAlignment:MainAxisAlignment.center,
+                                children: [
+                                  CircleAvatar(
+                                    radius: 55.0,
+                                    backgroundImage:
+                                        NetworkImage('https://today-api.moveforwardparty.org/api${e.iconUrl}/image'),
+                                    backgroundColor: Colors.transparent,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10,left: 10),
+                                    child: Center(
+                                      child: Text(
+                                        e.title,
                                         maxLines: 1,
                                         overflow: TextOverflow.clip,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Anakotmai-Bold',
-                                            fontSize: 14),
+                                            fontSize: 15),
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                
+                                ],
                               ),
-                              SizedBox(
-                                width: 12.0,
-                              ),
-                              Container(
-                                width: width / 2.3,
-                                height: hight / 5.4,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.grey[100],
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(1),
-                                        blurRadius: 0.5,
-                                        spreadRadius: 0.5,
-                                      ),
-                                    ]),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 15.0),
-                                  child: Column(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 40.0,
-                                        backgroundImage:
-                                            AssetImage('images/morkimage2.png'),
-                                        backgroundColor: Colors.transparent,
-                                      ),
-                                      Text(
-                                        '# WALKTODAY',
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Anakotmai-Bold',
-                                            fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 12.0,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                width: width / 2.3,
-                                height: hight / 5.4,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.grey[100],
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(1),
-                                        blurRadius: 0.5,
-                                        spreadRadius: 0.5,
-                                      ),
-                                    ]),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 15.0),
-                                  child: Column(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 40.0,
-                                        backgroundImage:
-                                            AssetImage('images/morkimage3.png'),
-                                        backgroundColor: Colors.transparent,
-                                      ),
-                                      Text(
-                                        'มอบแรงใจสู้แรงงาน',
-                                        maxLines: 1,
-                                        overflow: TextOverflow.clip,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Anakotmai-Bold',
-                                            fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 12.0,
-                              ),
-                              Container(
-                                width: width / 2.3,
-                                height: hight / 5.4,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    color: Colors.grey[100],
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(1),
-                                        blurRadius: 0.5,
-                                        spreadRadius: 0.5,
-                                      ),
-                                    ]),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 15.0),
-                                  child: Column(
-                                    children: [
-                                      CircleAvatar(
-                                        radius: 40.0,
-                                        backgroundImage:
-                                            AssetImage('images/morkimage4.png'),
-                                        backgroundColor: Colors.transparent,
-                                      ),
-                                      Text(
-                                        'ชุดยังชีพ',
-                                        maxLines: 2,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'Anakotmai-Bold',
-                                            fontSize: 14),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 30.0,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                  childCount: 1,
                 ),
               ),
+         
               SliverToBoxAdapter(
                   child: Divider(
-                color: Colors.transparent,
+                color: Colors.grey[200],
                 height: 10,
-                thickness: 6,
+                thickness: 9,
               )),
               SliverToBoxAdapter(
                 child: Container(

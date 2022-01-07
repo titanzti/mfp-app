@@ -30,6 +30,7 @@ import 'package:mfp_app/view/Today/detail_emergency.dart';
 
 import 'package:mfp_app/view/Today/post_details.dart';
 import 'package:mfp_app/view/Today/story_page.dart';
+import 'package:mfp_app/view/Today/webview_emergency.dart';
 
 class TodaySc extends StatefulWidget {
   final String userid;
@@ -984,15 +985,23 @@ class _TodayScState extends State<TodaySc> {
           builder: (BuildContext context) {
             return InkWell(
               onTap: () {
-                Navigate.pushPage(
-                    context,
-                    DTEmergenSc(
-                      token: token,
-                      hashtagstitle: emcs.title,
-                      emergencyEventId: emcs.data.emergencyEventId,
-                      userimage: userimage,
-                      userid: userid,
-                    ));
+                Navigator.of(context).push(CupertinoPageRoute(
+                                      builder: (BuildContext context) {
+                                    return Webview_EmergencySC(
+                                      url:
+                                          "https://today.moveforwardparty.org/emergencyevent/${emcs.data.emergencyEventId}",
+                                      texttitle: emcs.title,
+                                    );
+                                  }));
+                // Navigate.pushPage(
+                //     context,
+                //     DTEmergenSc(
+                //       token: token,
+                //       hashtagstitle: emcs.title,
+                //       emergencyEventId: emcs.data.emergencyEventId,
+                //       userimage: userimage,
+                //       userid: userid,
+                //     ));
               },
               child: Column(
                 children: [
