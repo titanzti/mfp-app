@@ -712,7 +712,7 @@ class _TodayScState extends State<TodaySc> {
                                 color: MColors.primaryBlue,
                                 // size: 25.0,
                               ),
-                              width: 8.0,
+                              width: 10.0,
                               label: '$shareCount แชร์',
                               onTap: () => print('Share'),
                             ),
@@ -991,6 +991,7 @@ class _TodayScState extends State<TodaySc> {
                                       url:
                                           "https://today.moveforwardparty.org/emergencyevent/${emcs.data.emergencyEventId}",
                                       texttitle: emcs.title,
+                                      checkurl: "https://today.moveforwardparty.org/post/",
                                     );
                                   }));
                 // Navigate.pushPage(

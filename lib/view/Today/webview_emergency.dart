@@ -11,8 +11,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 class Webview_EmergencySC extends StatefulWidget {
   final String url;
   final String texttitle;
+  final String checkurl;
 
-  Webview_EmergencySC({Key key, this.url, this.texttitle}) : super(key: key);
+  Webview_EmergencySC({Key key, this.url, this.texttitle, this.checkurl}) : super(key: key);
 
   @override
   _Webview_EmergencySCState createState() => _Webview_EmergencySCState();
@@ -85,7 +86,7 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
                   if (action.url == action.url) {
                     // var str = action.url.toString();
                     var postid = action.url.toString().replaceAll(
-                        "https://today.moveforwardparty.org/post/", "");
+                        "${widget.checkurl}", "");
                     // var start = "https://today.moveforwardparty.org/post";
                     // var end = "/";
 
@@ -122,7 +123,7 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
 
               isLoading
                   ? LinearProgressIndicator(
-                      backgroundColor: Colors.red,
+                      backgroundColor: Colors.transparent,
                       valueColor: AlwaysStoppedAnimation<Color>(
                         MColors.primaryColor,
                       ),

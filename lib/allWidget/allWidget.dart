@@ -464,7 +464,7 @@ Widget primaryAppBar(
 }
 
 Widget AppBardetail(
-    context, String authorposttext, String lable, IconButton icon) {
+    context, String lable, String authorposttext, IconButton icon) {
   return SliverAppBar(
       brightness: Brightness.light,
       backgroundColor: Colors.white,

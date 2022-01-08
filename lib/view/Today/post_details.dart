@@ -601,12 +601,14 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                       "Like Post Success")
                                                     {
                                                       setState(() {
-                                                        islikepost =
-                                                            jsonResponse['data']
+                                                        islikepost =jsonResponse['data']
                                                                 ['isLike'];
+                                                        // ignore: unnecessary_statements
+                                                        likeCount+1;
 
-                                                        widget.likeCount++;
                                                       }),
+                                                         
+
                                                     }
                                                   else if (jsonResponse[
                                                           'message'] ==
@@ -617,7 +619,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                             jsonResponse['data']
                                                                 ['isLike'];
 
-                                                        --widget.likeCount;
+                                                        likeCount--;
                                                       }),
                                                     }
                                                 }

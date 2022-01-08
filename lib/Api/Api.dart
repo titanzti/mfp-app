@@ -307,6 +307,33 @@ class Api {
 
     return responseData;
   }
+   static Future<Http.Response> getobjectivdoinge(var offset ) async {
+
+    var url = "${Api.url}api/objective/search";
+    final headers = {
+      // "mode": "EMAIL",
+      "content-type": "application/json",
+    };
+    Map data = {
+      "filter": {
+        "limit": 5,
+        "offset": offset,
+        "orderBy": {"createdDate":-1},
+   
+      }
+    };
+    var body = jsonEncode(data);
+
+    final responseData = await Http.post(
+      Uri.parse(url),
+      headers: headers,
+      body: body,
+    );
+    // print('body$body');
+    print('responseDatagetdoing${responseData.body}');
+
+    return responseData;
+  }
 
   static Future<Http.Response> getProfileSS() async {
     var url = "https://today-api.moveforwardparty.org/api/page/search";
