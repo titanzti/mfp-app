@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:mfp_app/Api/Api.dart';
@@ -79,43 +80,53 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
                     isLoading = false;
                   });
                 },
-                onWebViewCreated: (WebViewController webViewController) {
-                  _controller.complete(webViewController);
-                },
+                // onWebViewCreated: (WebViewController webViewController) {
+                //   _controller.complete(webViewController);
+                // },
                 navigationDelegate: (action) {
+                  var postid = action.url
+                      .toString()
+                      .replaceAll("${widget.checkurl}", "");
+
                   if (action.url == action.url) {
-                    // var str = action.url.toString();
-                    var postid = action.url.toString().replaceAll(
-                        "${widget.checkurl}", "");
-                    // var start = "https://today.moveforwardparty.org/post";
-                    // var end = "/";
-
-                    // final startIndex = str.indexOf(start);
-                    // final endIndex =
-                    //     str.indexOf(end, startIndex + start.length);
-
-                    // print(str.substring(startIndex + start.length, endIndex));
                     print('ใช่');
                     print(action.url);
                     print('replaceurl$postid');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return PostDetailsSC(
-                            onfocus: false,
-                            
-                            postid: postid,
-                          );
-                        },
-                      ),
-                    );
-                    return NavigationDecision.prevent;
+                    Platform.isAndroid
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return PostDetailsSC(
+                                  onfocus: false,
+                                  postid: postid,
+                                );
+                              },
+                            ),
+                          )
+                        : postid == action.url
+                            ? () {}()
+                            : Future.delayed(Duration.zero, () async {
+                                Navigator.push(context, MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return PostDetailsSC(
+                                      onfocus: false,
+                                      postid: postid,
+                                    );
+                                  },
+                                ));
+                              });
+
+                    return Platform.isAndroid
+                        ? NavigationDecision.prevent
+                        : NavigationDecision.navigate;
                   } else {
-                    return NavigationDecision.navigate;
+                    return Platform.isAndroid
+                        ? NavigationDecision.prevent
+                        : NavigationDecision.prevent;
                   }
                 },
-                debuggingEnabled: true,
+                debuggingEnabled: false,
                 gestureNavigationEnabled: true,
               ),
               //           GestureDetector(
