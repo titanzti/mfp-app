@@ -31,6 +31,7 @@ class Generalinformation extends StatefulWidget {
   final String mode;
   final String fbtoken;
   final DateTime fbexpires;
+  final bool isfb ;
 
   Generalinformation(
       {Key key,
@@ -45,7 +46,7 @@ class Generalinformation extends StatefulWidget {
       this.fbid,
       this.mode,
       this.fbtoken,
-      this.fbexpires})
+      this.fbexpires, this.isfb})
       : super(key: key);
 
   @override
@@ -666,7 +667,7 @@ Map data;
                       height: MediaQuery.of(context).size.height * 0.19,
                       child: Row(
                         children: [
-                          IconButton(
+                        widget.isfb==true?  IconButton(
                             icon: const Icon(
                               Icons.arrow_back_sharp,
                               size: 40,
@@ -676,7 +677,7 @@ Map data;
                               Navigator.pop(context);
                               //('กด');
                             },
-                          ),
+                          ):Container(),
                           Spacer(),
                           Container(
                             height: 100,

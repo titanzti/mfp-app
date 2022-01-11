@@ -290,6 +290,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               fbtoken: accessToken.token,
               mode: 'FB',
               fbexpires: accessToken.expires,
+              isfb: false
             )),
               (Route<dynamic> route) => false);
       }

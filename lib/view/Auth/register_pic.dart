@@ -313,6 +313,7 @@ class _PicProfileState extends State<PicProfile> {
                                         img64: img64,
                                         fileimg: _image,
                                         mode: "EMAIL",
+                                        isfb: true,
                                       )),
                             );
                           }
