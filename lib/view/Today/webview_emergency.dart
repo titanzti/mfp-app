@@ -6,6 +6,7 @@ import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/utils/app_theme.dart';
+import 'package:mfp_app/view/Profile/Profliess.dart';
 import 'package:mfp_app/view/Search/post_search.dart';
 import 'package:mfp_app/view/Today/post_details.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -86,12 +87,18 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
                   var postid = action.url
                       .toString()
                       .replaceAll("${widget.checkurl}", "");
-                      var hashtag = Uri.decodeComponent(action.url)
+                  var hashtag = Uri.decodeComponent(action.url)
                       .toString()
-                      .replaceAll("${ Uri.decodeComponent("https://today.moveforwardparty.org/search?hashtag=")}", "");
-                      //('hashtag$hashtag');
+                      .replaceAll(
+                          "${Uri.decodeComponent("https://today.moveforwardparty.org/search?hashtag=")}",
+                          "");
+                  var page = Uri.decodeComponent(action.url).toString().replaceAll(
+                      "${Uri.decodeComponent("https://today.moveforwardparty.org/page/")}",
+                      "");
 
-                  if (action.url.replaceAll(postid, "")==widget.checkurl) {
+                  print('page$page');
+
+                  if (action.url.replaceAll(postid, "") == widget.checkurl) {
                     //('ใช่');
                     //(action.url);
                     //('replaceurl$postid');
@@ -124,30 +131,58 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
                         ? NavigationDecision.prevent
                         : NavigationDecision.navigate;
                   }
-                   if (Uri.decodeComponent(action.url).replaceAll(hashtag, "")=="https://today.moveforwardparty.org/search?hashtag=") {
+                  if (Uri.decodeComponent(action.url).replaceAll(hashtag, "") ==
+                      "https://today.moveforwardparty.org/search?hashtag=") {
                     //print('ใช่');
                     //(action.url);
                     //('replaceurl$postid');
                     Platform.isAndroid
                         ? Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PostSearch(
-                                                        label: hashtag,
-                                                      )),
-                                            )
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PostSearch(
+                                      label: hashtag,
+                                    )),
+                          )
                         : postid == action.url
                             ? () {}()
                             : Future.delayed(Duration.zero, () async {
                                 Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PostSearch(
-                                                        label: hashtag,
-                                                      )),
-                                            );
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PostSearch(
+                                            label: hashtag,
+                                          )),
+                                );
+                              });
+
+                    return Platform.isAndroid
+                        ? NavigationDecision.prevent
+                        : NavigationDecision.navigate;
+                  }
+                  if (Uri.decodeComponent(action.url).replaceAll(page, "") ==
+                      "https://today.moveforwardparty.org/page/") {
+                    //print('ใช่');
+                    //(action.url);
+                    //('replaceurl$postid');
+                    Platform.isAndroid
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Profliess(
+                                      id: page,
+                                    )),
+                          )
+                        : postid == action.url
+                            ? () {}()
+                            : Future.delayed(Duration.zero, () async {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Profliess(
+                                            id: page,
+                                          )),
+                                );
                               });
 
                     return Platform.isAndroid
@@ -159,7 +194,6 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
                         : NavigationDecision.prevent;
                   }
                 },
-                debuggingEnabled: false,
                 gestureNavigationEnabled: true,
               ),
               //           GestureDetector(
