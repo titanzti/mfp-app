@@ -86,19 +86,21 @@ Widget authorpost(
                 id: id,
               )),
       child: AutoSizeText(
-                      'ผู้เขียน: $string' '${TimeUtils.readTimestamp(dateTime.millisecondsSinceEpoch)}',
-                      maxLines: 2,
-                       minFontSize: 15,
-                       maxFontSize: 18,
+        'ผู้เขียน: $string'
+        '${TimeUtils.readTimestamp(dateTime.millisecondsSinceEpoch)}',
+        maxLines: 2,
+        minFontSize: 15,
+        maxFontSize: 18,
 
-                      // textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: MColors.primaryBlue,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: AppTheme.FontAnakotmaiMedium,
-                          fontSize: 15,
-                          overflow: TextOverflow.ellipsis,),
-                    ),
+        // textAlign: TextAlign.center,
+        style: TextStyle(
+          color: MColors.primaryBlue,
+          fontWeight: FontWeight.bold,
+          fontFamily: AppTheme.FontAnakotmaiMedium,
+          fontSize: 15,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
       // Text(
       //   '$string',
       //   style: Theme.of(context).textTheme.bodyText2,

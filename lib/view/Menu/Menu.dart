@@ -124,31 +124,26 @@ class _MenuSCState extends State<MenuSC> {
                   ),
                 ),
               ),
-              
-           
-             
               Padding(
-               padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
                 child: AutoSizeText(text1,
-                 maxLines: 5,
-                             minFontSize: 16,
-                             maxFontSize: 18,
-                             overflow: TextOverflow.ellipsis,
+                    maxLines: 5,
+                    minFontSize: 16,
+                    maxFontSize: 18,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: MColors.primaryWhite,
                       fontSize: 16,
                       fontFamily: AppTheme.FontAnakotmaiMedium,
                     )),
               ),
-            
               Padding(
-                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                child: AutoSizeText(
-                  text2,
-                   maxLines: 8,
-                             minFontSize: 16,
-                         maxFontSize: 18,
-                         overflow: TextOverflow.ellipsis,
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                child: AutoSizeText(text2,
+                    maxLines: 8,
+                    minFontSize: 16,
+                    maxFontSize: 18,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: MColors.primaryWhite,
                       fontSize: 14,
@@ -255,7 +250,7 @@ class _MenuSCState extends State<MenuSC> {
                                     fontFamily: 'Anakotmai-Bold',
                                     fontSize: 24),
                               ),
-                             const SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Expanded(
@@ -328,7 +323,7 @@ class _MenuSCState extends State<MenuSC> {
                                   fontSize: AppTheme.TitleTextSize,
                                 ),
                               ),
-                             const SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Expanded(
@@ -441,7 +436,7 @@ class _MenuSCState extends State<MenuSC> {
                                     "ยังไม่เปิดให้บริการ",
                                     "",
                                     1.5,
-                                    4),
+                                    5.5),
                                 child: Container(
                                   width:
                                       MediaQuery.of(context).size.width / 2.3,
@@ -472,7 +467,7 @@ class _MenuSCState extends State<MenuSC> {
                                           child: Text(
                                             'ร้องเรียน',
                                             maxLines: 1,
-                                           overflow: TextOverflow.ellipsis,
+                                            overflow: TextOverflow.ellipsis,
                                             style: TextStyle(
                                                 color: MColors.primaryBlue,
                                                 fontWeight: FontWeight.bold,
