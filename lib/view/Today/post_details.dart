@@ -348,16 +348,16 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                   child: CustomScrollView(
                     controller: _trackingScrollController,
                     slivers: [
-                      primaryAppBar(
-                          context,
-                          token,
-                          userid,
-                          userprofileimage,
-                          Search(),
-                          ProfileSc(
-                            userid: userid,
-                            token: token,
-                          )),
+                      // primaryAppBar(
+                      //     context,
+                      //     token,
+                      //     userid,
+                      //     userprofileimage,
+                      //     Search(),
+                      //     ProfileSc(
+                      //       userid: userid,
+                      //       token: token,
+                      //     )),
                       AppBardetail(
                         context,
                         "โพสของ",
@@ -540,9 +540,12 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      fixtextauthor(),
-                      authorpost(
-                          page[0].name,
+                      Container(
+                        width: MediaQuery.of(context).size.width/1.1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: authorpost(
+                             page[0].name,
                           context,
                           dateTime,
                           widget.pageid,
@@ -553,11 +556,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                           false,
                           userid,
                           true),
-                      SizedBox(
-                        width: 2,
+                        ),
                       ),
-                      texttimetimestamp(dateTime),
-                      // texttimetimestamp(dateTime),
                     ],
                   ),
                   Padding(
@@ -894,8 +894,10 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       padding: const EdgeInsets.all(4.0),
                                       child: Text(
                                         data.user.displayName,
+                                        maxLines: 1,
                                         style: TextStyle(
                                             fontSize: 16,
+                                            overflow: TextOverflow.ellipsis,
                                             fontWeight: FontWeight.bold,
                                             color: MColors.primaryBlue),
                                       ),
@@ -904,8 +906,10 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       padding: const EdgeInsets.only(left: 4.0),
                                       child: Text(
                                         data.comment,
-                                        maxLines: null,
+                                        maxLines: 1,
                                         style: TextStyle(
+                                                                                      overflow: TextOverflow.ellipsis,
+
                                             color: MColors.primaryBlue),
                                       ),
                                     ),

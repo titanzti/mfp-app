@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:full_screen_image/full_screen_image.dart';
@@ -181,24 +182,29 @@ class _ShopSCState extends State<ShopSC> {
                                             child: Text(
                                               '200 บาท',
                                               style: TextStyle(
-                                                fontSize:
-                                                    AppTheme.BodyTextSize24,
-                                                fontFamily:
-                                                    AppTheme.FontAnakotmaiBold,
-                                                color: MColors.primaryColor,
-                                              ),
+                                                  fontSize:
+                                                      AppTheme.BodyTextSize24,
+                                                  fontFamily: AppTheme
+                                                      .FontAnakotmaiBold,
+                                                  color: MColors.primaryColor,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
                                             ),
                                           ),
                                           Container(
                                             alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              'เสื้อยืดคอกลมลายโลโก้ สีน้ำเงินเข้ม',
-                                              style: TextStyle(
-                                                fontSize: AppTheme.BodyTextSize,
-                                                fontWeight: FontWeight.w300,
-                                                fontFamily:
-                                                    AppTheme.FontAnakotmaiLight,
-                                                color: MColors.textDark,
+                                            child: Expanded(
+                                              child: Text(
+                                                'เสื้อยืดคอกลมลายโลโก้ สีน้ำเงินเข้ม',
+                                                style: TextStyle(
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiLight,
+                                                    color: MColors.textDark,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                             ),
                                           ),
@@ -268,23 +274,25 @@ class _ShopSCState extends State<ShopSC> {
                                                 '150 บาท',
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
-                                                  fontSize:
-                                                      AppTheme.BodyTextSize24,
-                                                  fontFamily: AppTheme
-                                                      .FontAnakotmaiBold,
-                                                  color: MColors.primaryColor,
-                                                ),
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize24,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiBold,
+                                                    color: MColors.primaryColor,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                               Text(
                                                 'หมวกปักลายโลโก้',
                                                 style: TextStyle(
-                                                  fontSize:
-                                                      AppTheme.BodyTextSize,
-                                                  fontWeight: FontWeight.w300,
-                                                  fontFamily: AppTheme
-                                                      .FontAnakotmaiLight,
-                                                  color: MColors.textDark,
-                                                ),
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiLight,
+                                                    color: MColors.textDark,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                             ],
                                           ),
@@ -292,9 +300,11 @@ class _ShopSCState extends State<ShopSC> {
                                       ),
                                       Spacer(),
                                       Container(
+                                        width: MediaQuery.of(context).size.width/3.0,
                                         color: Colors.grey[200],
                                         child: Padding(
-                                          padding: const EdgeInsets.all(25.0),
+                                          padding: const EdgeInsets.only(
+                                              right: 25.0),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -302,25 +312,33 @@ class _ShopSCState extends State<ShopSC> {
                                             children: [
                                               Text(
                                                 '79 บาท',
+                                                maxLines: 1,
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
-                                                  fontSize:
-                                                      AppTheme.BodyTextSize24,
-                                                  fontFamily: AppTheme
-                                                      .FontAnakotmaiBold,
-                                                  color: MColors.primaryColor,
-                                                ),
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize24,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiBold,
+                                                    color: MColors.primaryColor,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
-                                              Text(
+                                              AutoSizeText(
                                                 'ถุงผ้าพิมพ์ลาย',
+                                                maxLines: 1,
+                                                textAlign: TextAlign.left,
+                                                minFontSize: 14,
+                                                maxFontSize: 18,
+                                                overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
-                                                  fontSize:
-                                                      AppTheme.BodyTextSize,
-                                                  fontWeight: FontWeight.w300,
-                                                  fontFamily: AppTheme
-                                                      .FontAnakotmaiLight,
-                                                  color: MColors.textDark,
-                                                ),
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiLight,
+                                                    color: MColors.textDark,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                             ],
                                           ),
@@ -375,6 +393,7 @@ class _ShopSCState extends State<ShopSC> {
                                   ],
                                 ),
                                 Container(
+
                                   color: Colors.grey[200],
                                   child: Row(
                                     // mainAxisAlignment:
@@ -391,25 +410,30 @@ class _ShopSCState extends State<ShopSC> {
                                             children: [
                                               Text(
                                                 '500 บาท',
+                                                maxLines: 1,
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
-                                                  fontSize:
-                                                      AppTheme.BodyTextSize24,
-                                                  fontFamily: AppTheme
-                                                      .FontAnakotmaiBold,
-                                                  color: MColors.primaryColor,
-                                                ),
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize24,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiBold,
+                                                    color: MColors.primaryColor,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                               Text(
                                                 'เนคไทปักโลโก้',
+                                                maxLines: 1,
+
                                                 style: TextStyle(
-                                                  fontSize:
-                                                      AppTheme.BodyTextSize,
-                                                  fontWeight: FontWeight.w300,
-                                                  fontFamily: AppTheme
-                                                      .FontAnakotmaiLight,
-                                                  color: MColors.textDark,
-                                                ),
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiLight,
+                                                    color: MColors.textDark,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                             ],
                                           ),
@@ -417,9 +441,12 @@ class _ShopSCState extends State<ShopSC> {
                                       ),
                                       Spacer(),
                                       Container(
+                                      width: MediaQuery.of(context).size.width/2.5,
+
                                         color: Colors.grey[200],
                                         child: Padding(
-                                          padding: const EdgeInsets.all(25.0),
+                                          padding: const EdgeInsets.only(
+                                              right: 25.0),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
@@ -427,25 +454,29 @@ class _ShopSCState extends State<ShopSC> {
                                             children: [
                                               Text(
                                                 '250 บาท',
+                                                maxLines: 1,
                                                 textAlign: TextAlign.start,
                                                 style: TextStyle(
-                                                  fontSize:
-                                                      AppTheme.BodyTextSize24,
-                                                  fontFamily: AppTheme
-                                                      .FontAnakotmaiBold,
-                                                  color: MColors.primaryColor,
-                                                ),
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize24,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiBold,
+                                                    color: MColors.primaryColor,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                               Text(
                                                 'เสื้อโปโลสีน้ำเงินเข้ม',
+                                                maxLines: 1,
                                                 style: TextStyle(
-                                                  fontSize:
-                                                      AppTheme.BodyTextSize,
-                                                  fontWeight: FontWeight.w300,
-                                                  fontFamily: AppTheme
-                                                      .FontAnakotmaiLight,
-                                                  color: MColors.textDark,
-                                                ),
+                                                    fontSize:
+                                                        AppTheme.BodyTextSize,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiLight,
+                                                    color: MColors.textDark,
+                                                    overflow:
+                                                        TextOverflow.ellipsis),
                                               ),
                                             ],
                                           ),

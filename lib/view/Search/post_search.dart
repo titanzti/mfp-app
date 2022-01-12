@@ -142,6 +142,17 @@ class _PostSearchState extends State<PostSearch> {
         appBar: AppBar(
           backgroundColor: Color(0xffF47932),
           title: Text('${widget.label}'),
+          leading:  IconButton(
+                              icon: const Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                              ),
+                              onPressed: () {
+                                  Get.reset();
+                                Navigator.pop(context);
+                                //('กด');
+                              },
+                            ),
         ),
         body: SingleChildScrollView(
           controller: _scrollController,
@@ -310,8 +321,12 @@ class _PostSearchState extends State<PostSearch> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     // mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      fixtextauthor(),
-                      authorpost(
+                
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child:  authorpost(
                           authorposttext,
                           context,
                           dateTime,
@@ -323,10 +338,11 @@ class _PostSearchState extends State<PostSearch> {
                           isOfficial,
                           userid,
                           true),
+                        ),
+                      ),
                       SizedBox(
                         width: 2,
                       ),
-                      texttimetimestamp(dateTime),
                     ],
                   ),
                   Padding(

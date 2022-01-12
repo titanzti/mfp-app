@@ -35,8 +35,7 @@ class _LoginregisterState extends State<Loginregister>
                   children: [
                     IconButton(
                       icon: const Icon(
-                        Icons.arrow_back_sharp,
-                        size: 40,
+                        Icons.arrow_back_ios,
                         color: MColors.primaryColor,
                       ),
                       onPressed: () {
@@ -64,12 +63,19 @@ class _LoginregisterState extends State<Loginregister>
               ),
               Column(
                 children: <Widget>[
-                  _Buttion(
-                      'สร้างบัญชีก้าวไกล', Register(), MColors.primaryBlue),
+                  _Buttion('เข้าสู่ระบบ', Login(), MColors.primaryColor),
                   SizedBox(
                     height: 5,
                   ),
-                  _Buttion('เข้าสู่ระบบ', Login(), MColors.primaryColor),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Register()),
+                );
+                        
+                      },
+                      child: Text('สร้างบัญชีก้าวไกล',style: TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiMedium,color: MColors.primaryColor,fontWeight:FontWeight .bold ),))
                 ],
               ),
 

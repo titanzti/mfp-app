@@ -265,7 +265,7 @@ class _ProfliessState extends State<Profliess> {
             child: SafeArea(
               child: Scaffold(
                 floatingActionButton: FloatingActionButton(
-                  child: const Icon(Icons.arrow_drop_up),
+                  child: const Icon(Icons.arrow_drop_up_outlined),
                   backgroundColor: MColors.primaryColor,
                   onPressed: () => _goToElement(0),
                 ),
@@ -322,21 +322,20 @@ class _ProfliessState extends State<Profliess> {
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 5),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        pagename,
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 16.0,
-                                            fontFamily: 'Anakotmai',
-                                            fontWeight: FontWeight.bold),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width*0.7,
+                                    child: Text(
+                                      pagename,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16.0,
+                                          fontFamily: AppTheme.FontAnakotmaiMedium,
+                                          fontWeight: FontWeight.bold,
+                                    overflow: TextOverflow.ellipsis,                                          
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -421,14 +420,18 @@ class _ProfliessState extends State<Profliess> {
                           Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: Center(
-                              child: Text(
-                                pagename,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: primaryColor,
-                                  fontSize: 22,
-                                  fontFamily: 'Anakotmai-Bold',
+                              child:Container(
+                                alignment:Alignment.center,
+                                    width: MediaQuery.of(context).size.width*0.9,
+                                child: Text(
+                                  pagename,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                    fontSize: 22,
+                                    fontFamily: 'Anakotmai-Bold',
+                                  ),
                                 ),
                               ),
                             ),
@@ -605,8 +608,9 @@ class _ProfliessState extends State<Profliess> {
                                       builder: (BuildContext context) {
                                     return Webview_EmergencySC(
                                       url:
-                                          "https://today.moveforwardparty.org/objective/${pageobj.id}",
+                                          "https://today.moveforwardparty.org/objective/${pageobj.id}?hidebar=true",
                                       texttitle: pageobj.title,
+                                      iconimage: pageobj.iconUrl,
                                       checkurl: "https://today.moveforwardparty.org/objective/",
                                     );
                                   }));
@@ -1024,10 +1028,18 @@ class _ProfliessState extends State<Profliess> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      fixtextauthor(),
-                      authorpost(postbyname, context, dateTime, pageid, "",
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child:authorpost(postbyname, context, dateTime, pageid, "",
                           "fasle", false, "false", false, "", false),
-                      texttimetimestamp(dateTime),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 2,
+                      ),
+
                     ],
                   ),
                   Padding(

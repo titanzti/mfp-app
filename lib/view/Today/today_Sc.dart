@@ -540,23 +540,29 @@ class _TodayScState extends State<TodaySc> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      fixtextauthor(),
-                      authorpost(
-                          authorposttext,
-                          context,
-                          dateTime,
-                          pageid,
-                          pageimage,
-                          pagename,
-                          isFollow,
-                          pageUsername,
-                          isOfficial,
-                          id,
-                          true),
+                      // fixtextauthor(),
+                      Container(
+                        width: MediaQuery.of(context).size.width/1.1,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: authorpost(
+                              authorposttext,
+                              context,
+                              dateTime,
+                              pageid,
+                              pageimage,
+                              pagename,
+                              isFollow,
+                              pageUsername,
+                              isOfficial,
+                              id,
+                              true),
+                        ),
+                      ),
                       SizedBox(
                         width: 2,
                       ),
-                      texttimetimestamp(dateTime),
+                      // texttimetimestamp(dateTime),
                     ],
                   ),
                   Padding(
@@ -989,8 +995,9 @@ class _TodayScState extends State<TodaySc> {
                                       builder: (BuildContext context) {
                                     return Webview_EmergencySC(
                                       url:
-                                          "https://today.moveforwardparty.org/emergencyevent/${emcs.data.emergencyEventId}",
+                                          "https://today.moveforwardparty.org/emergencyevent/${emcs.data.emergencyEventId}?hidebar=true",
                                       texttitle: emcs.title,
+                                      iconimage: emcs.coverPageUrl,
                                       checkurl: "https://today.moveforwardparty.org/post/",
                                     );
                                   }));

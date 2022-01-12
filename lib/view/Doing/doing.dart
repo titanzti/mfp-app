@@ -316,8 +316,9 @@ class _DoingSCState extends State<DoingSC> {
                                       builder: (BuildContext context) {
                                     return Webview_EmergencySC(
                                       url:
-                                          "https://today.moveforwardparty.org/objective/${e.id}",
+                                          "https://today.moveforwardparty.org/objective/${e.id}?hidebar=true",
                                       texttitle: e.title,
+                                      iconimage: e.iconUrl,
                                       checkurl: "https://today.moveforwardparty.org/post/",
                                     );
                                   }));
@@ -418,8 +419,9 @@ class _DoingSCState extends State<DoingSC> {
                                       builder: (BuildContext context) {
                                     return Webview_EmergencySC(
                                       url:
-                                          "https://today.moveforwardparty.org/objective/${data.id}",
+                                          "https://today.moveforwardparty.org/objective/${data.id}?hidebar=true",
                                       texttitle: data.title,
+                                      iconimage: data.iconUrl,
                                       checkurl: "https://today.moveforwardparty.org/post/",
                                     );
                                   }));
@@ -432,7 +434,7 @@ class _DoingSCState extends State<DoingSC> {
                                     margin: EdgeInsets.all(5),
                                     width: MediaQuery.of(context).size.width,
                                     height:
-                                        MediaQuery.of(context).size.height / 7.0,
+                                        MediaQuery.of(context).size.height / 6.5,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: Colors.grey[50],
@@ -460,37 +462,39 @@ class _DoingSCState extends State<DoingSC> {
                                             const SizedBox(
                                               height: 10,
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 110),
-                                              child: AutoSizeText(
-                                                data.hashTag,
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: AppTheme
-                                                        .FontAnakotmaiBold,
-                                                    fontSize: 18,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    ),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 110),
+                                                child: AutoSizeText(
+                                                  data.hashTag,
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontFamily: AppTheme
+                                                          .FontAnakotmaiBold,
+                                                      fontSize: 18,
+                                                      overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                ),
                                               ),
                                             ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 110),
-                                              child: AutoSizeText(
-                                                data.title,
-                                                maxLines: 2,
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 14,
-                                                  fontFamily: AppTheme
-                                                      .FontAnakotmaiMedium,
-                                                      overflow: TextOverflow.ellipsis
+                                            
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 110),
+                                                child: AutoSizeText(
+                                                  data.title,
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 15,
+                                                    fontFamily: AppTheme
+                                                        .FontAnakotmaiMedium,
+                                                        overflow: TextOverflow.ellipsis
+                                                  ),
                                                 ),
                                               ),
                                             ),

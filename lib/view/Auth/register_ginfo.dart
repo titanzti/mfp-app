@@ -669,8 +669,7 @@ Map data;
                         children: [
                         widget.isfb==true?  IconButton(
                             icon: const Icon(
-                              Icons.arrow_back_sharp,
-                              size: 40,
+                              Icons.arrow_back_ios,
                               color: Colors.white,
                             ),
                             onPressed: () {

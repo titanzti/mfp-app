@@ -51,7 +51,7 @@ class AppTheme {
   static const TextStyle display2 = TextStyle(
     // h4 -> display1 // post titel
     fontFamily: FontAnakotmaiBold,
-    fontSize: TitleTextSize,
+    fontSize: BodyTextSize20,
     fontWeight: FontWeight.bold,
     color: MColors.primaryBlue,
   );
@@ -59,8 +59,7 @@ class AppTheme {
   static const TextStyle display1 = TextStyle(
     // h4 -> display1
     fontFamily: FontAnakotmaiMedium,
-    fontSize: BodyTextSize,
-    fontWeight: FontWeight.bold,
+    fontSize: BodyTextSize20,
 
     color: MColors.primaryBlue,
   );

@@ -207,8 +207,8 @@ class _LoginemailState extends State<Loginemail> {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    colorFilter: ColorFilter.mode(
-                        Color(0xFF0C3455), BlendMode.softLight),
+                    colorFilter: ColorFilter.mode(Colors.grey[500], BlendMode.modulate),
+
                     image: AssetImage('images/shutterstock_553511089.png'),
                     fit: BoxFit.cover)),
             child: Padding(
@@ -223,8 +223,7 @@ class _LoginemailState extends State<Loginemail> {
                           children: [
                             IconButton(
                               icon: const Icon(
-                                Icons.arrow_back_sharp,
-                                size: 40,
+                                Icons.arrow_back_ios,
                                 color: Colors.white,
                               ),
                               onPressed: () {
@@ -251,14 +250,17 @@ class _LoginemailState extends State<Loginemail> {
                           height: SizeConfig.screenHeight / 3.8,
                         ),
 
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'เข้าสู่ระบบด้วย Email',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white,
-                            fontFamily: AppTheme.FontAnakotmaiLight,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'เข้าสู่ระบบด้วย Email',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontFamily: AppTheme.FontAnakotmaiLight,
+                            ),
                           ),
                         ),
                       ),

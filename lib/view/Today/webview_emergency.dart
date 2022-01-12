@@ -15,8 +15,9 @@ class Webview_EmergencySC extends StatefulWidget {
   final String url;
   final String texttitle;
   final String checkurl;
+  final String iconimage;
 
-  Webview_EmergencySC({Key key, this.url, this.texttitle, this.checkurl})
+  Webview_EmergencySC({Key key, this.url, this.texttitle, this.checkurl, this.iconimage})
       : super(key: key);
 
   @override
@@ -64,13 +65,44 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
             iconTheme: IconThemeData(
               color: Colors.black, //change your color here
             ),
-            title: Text(
-              widget.texttitle == null ? "" : widget.texttitle,
-              style: TextStyle(
-                  fontSize: 18,
-                  fontFamily: AppTheme.FontAnakotmaiMedium,
-                  color: MColors.textDark),
-            ),
+            title: Row(children: [
+              CircleAvatar(
+                radius: 25.0,
+                backgroundImage: NetworkImage(
+                        "https://today-api.moveforwardparty.org/api${widget.iconimage}/image"),
+                backgroundColor: Colors.transparent,
+              ),
+              const SizedBox(width: 5,),
+              Expanded(
+                child: Text(
+                widget.texttitle == null ? "" : widget.texttitle,
+                maxLines: 1,
+                style: TextStyle(
+                    fontSize: 16,
+                    fontFamily: AppTheme.FontAnakotmaiMedium,
+                    color: MColors.textDark,
+                    overflow: TextOverflow.ellipsis
+                    ),
+                          ),
+              ),
+              
+            ],),
+            // leading:    Row(children: [
+            //   IconButton(
+            //                 icon: const Icon(
+            //                   Icons.arrow_back_sharp,
+            //                   color: Colors.black,
+            //                 ),
+            //                 onPressed: () {
+            //                   Navigator.pop(context);
+            //                   //('กด');
+            //                 },
+            //               ),
+            
+            // ],
+            // ),
+            leadingWidth: 50,
+           
           ),
           body: Stack(
             children: <Widget>[

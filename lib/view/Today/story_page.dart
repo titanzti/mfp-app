@@ -154,6 +154,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                 color: MColors.primaryColor,
               ),
               onPressed: () {
+                Get.reset();
                 Navigator.of(context).pop();
               },
             ),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/utils/app_theme.dart';
@@ -84,12 +85,26 @@ Widget authorpost(
               Profliess(
                 id: id,
               )),
-      child: Text(
-        '$string',
-        style: Theme.of(context).textTheme.bodyText2,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
+      child: AutoSizeText(
+                      'ผู้เขียน:$string''${TimeUtils.readTimestamp(dateTime.millisecondsSinceEpoch)}',
+                      maxLines: 1,
+                       minFontSize: 15,
+                       maxFontSize: 18,
+
+                      // textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: MColors.primaryBlue,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: AppTheme.FontAnakotmaiMedium,
+                          fontSize: 15,
+                          overflow: TextOverflow.ellipsis,),
+                    ),
+      // Text(
+      //   '$string',
+      //   style: Theme.of(context).textTheme.bodyText2,
+      //   maxLines: 2,
+      //   overflow: TextOverflow.ellipsis,
+      // ),
     );
 Widget texthashtags(String string) => Text(
       string,
