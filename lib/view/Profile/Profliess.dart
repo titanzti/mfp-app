@@ -263,6 +263,8 @@ class _ProfliessState extends State<Profliess> {
         : Container(
             color: Colors.white,
             child: SafeArea(
+                 bottom: false,
+
               child: Scaffold(
                 floatingActionButton: FloatingActionButton(
                   child: const Icon(Icons.arrow_drop_up_outlined),
@@ -272,16 +274,16 @@ class _ProfliessState extends State<Profliess> {
                 body: CustomScrollView(
                   controller: _scrollController,
                   slivers: [
-                    primaryAppBar(
-                        context,
-                        token,
-                        userid,
-                        image,
-                        Search(),
-                        ProfileSc(
-                          userid: userid,
-                          token: token,
-                        )),
+                    // primaryAppBar(
+                    //     context,
+                    //     token,
+                    //     userid,
+                    //     image,
+                    //     Search(),
+                    //     ProfileSc(
+                    //       userid: userid,
+                    //       token: token,
+                    //     )),
                     SliverToBoxAdapter(
                         child: Divider(
                       color: Colors.grey[100],
