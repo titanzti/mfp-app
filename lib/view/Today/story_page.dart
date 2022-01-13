@@ -336,7 +336,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                       child: Text(
                         'มีการเติมเต็ม 0 รายการ',
                         style: TextStyle(
-                            fontFamily: AppTheme.FontAnakotmaiMedium,
+                            fontFamily: AppTheme.FontAnakotmaiLight,
                             color: MColors.textDark,
                             fontSize: AppTheme.BodyTextSize),
                       ),

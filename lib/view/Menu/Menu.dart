@@ -195,7 +195,7 @@ class _MenuSCState extends State<MenuSC> {
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Anakotmai-Bold',
+                          fontFamily: AppTheme.FontAnakotmaiLight,
                           fontSize: 20),
                     ),
                   ),
@@ -358,7 +358,7 @@ class _MenuSCState extends State<MenuSC> {
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Colors.black,
-                        fontFamily: AppTheme.FontAnakotmaiMedium,
+                        fontFamily: AppTheme.FontAnakotmaiLight,
                         fontSize: AppTheme.BodyTextSize16,
                       ),
                     ),

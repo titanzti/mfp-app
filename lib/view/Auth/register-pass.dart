@@ -86,7 +86,7 @@ class _RegisterpasswordState extends State<Registerpassword> {
     final TextFormField _txtCPassword = TextFormField(
       controller: _confirmPass,
       obscureText: true,
-            style:TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiMedium),
+            style:TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiLight),
 
       decoration: InputDecoration(
         hintText: 'ใส่รหัสผ่านอีกครั้ง',

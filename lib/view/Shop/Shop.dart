@@ -605,7 +605,7 @@ class _ShopSCState extends State<ShopSC> {
                       style: TextStyle(
                         color: MColors.primaryWhite,
                         fontSize: AppTheme.BodyTextSize,
-                        fontFamily: AppTheme.FontAnakotmaiMedium,
+                        fontFamily: AppTheme.FontAnakotmaiLight,
                       ),
                     ),
                   ),

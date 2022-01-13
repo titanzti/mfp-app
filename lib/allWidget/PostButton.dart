@@ -46,7 +46,8 @@ class PostButton extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width*0.2,
                   child: AutoSizeText(label,
-                      style: TextStyle(fontFamily: AppTheme.FontAnakotmaiMedium,
+                      style: TextStyle(   fontFamily: AppTheme.FontAnakotmaiLight,
+
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: MColors.primaryBlue,

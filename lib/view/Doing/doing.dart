@@ -261,7 +261,7 @@ class _DoingSCState extends State<DoingSC> {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontFamily: AppTheme.FontAnakotmaiMedium,
+                          fontFamily: AppTheme.FontAnakotmaiLight,
                           fontSize: 19),
                     ),
                   ),
@@ -279,7 +279,7 @@ class _DoingSCState extends State<DoingSC> {
                       style: TextStyle(
                           color: MColors.primaryBlue,
                           fontWeight: FontWeight.bold,
-                          fontFamily: AppTheme.FontAnakotmaiMedium,
+                          fontFamily: AppTheme.FontAnakotmaiLight,
                           fontSize: 17),
                     ),
                   ),
@@ -392,7 +392,7 @@ class _DoingSCState extends State<DoingSC> {
                       style: TextStyle(
                           color: MColors.primaryBlue,
                           fontWeight: FontWeight.bold,
-                          fontFamily: 'Anakotmai',
+                          fontFamily: AppTheme.FontAnakotmaiLight,
                           fontSize: 17,
                           overflow: TextOverflow.ellipsis
                           ),

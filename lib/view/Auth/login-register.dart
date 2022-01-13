@@ -75,7 +75,7 @@ class _LoginregisterState extends State<Loginregister>
                 );
                         
                       },
-                      child: Text('สร้างบัญชีก้าวไกล',style: TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiMedium,color: MColors.primaryColor,fontWeight:FontWeight .bold ),))
+                      child: Text('สร้างบัญชีก้าวไกล',style: TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiLight,color: MColors.primaryColor,fontWeight:FontWeight .bold ),))
                 ],
               ),
 

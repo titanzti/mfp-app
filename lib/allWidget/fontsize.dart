@@ -95,8 +95,7 @@ Widget authorpost(
         // textAlign: TextAlign.center,
         style: TextStyle(
           color: MColors.primaryBlue,
-          fontWeight: FontWeight.bold,
-          fontFamily: AppTheme.FontAnakotmaiMedium,
+          fontFamily: AppTheme.FontAnakotmaiLight,
           fontSize: 15,
           overflow: TextOverflow.ellipsis,
         ),

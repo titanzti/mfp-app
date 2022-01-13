@@ -47,10 +47,10 @@ class _RegisterState extends State<Register> {
     //--------------------อีเมล----------------------//
     final TextFormField _txtEmail = TextFormField(
       controller: _email,
-      style:TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiMedium),
+      style:TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiLight),
       decoration: InputDecoration(
         hintText: 'Email',
-        hintStyle: TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiMedium),
+        hintStyle: TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiLight),
         contentPadding: EdgeInsets.only(left: 10,bottom: 5,top: 15),
         border: InputBorder.none,
         

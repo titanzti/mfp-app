@@ -230,7 +230,7 @@ class _BuildprofileState extends State<Buildprofile> {
                       '${widget.firstname} ${widget.lastname}',
                       style: TextStyle(
                           fontSize: AppTheme.BodyTextSize20,
-                          fontFamily: AppTheme.FontAnakotmaiMedium,
+                          fontFamily: AppTheme.FontAnakotmaiLight,
                           color: Colors.white),
                     )),
                   ),
@@ -289,7 +289,7 @@ class _BuildprofileState extends State<Buildprofile> {
                         child: Text('ก้าวไกลทูเดย์',
                             style: TextStyle(
                                 fontSize: AppTheme.BodyTextSize20,
-                                fontFamily: AppTheme.FontAnakotmaiMedium,
+                                fontFamily: AppTheme.FontAnakotmaiLight,
                                 color: Colors.grey))),
                   ),
                   SizedBox(
@@ -337,7 +337,7 @@ class _BuildprofileState extends State<Buildprofile> {
                                     'สร้างโปรไฟล์',
                                     style: TextStyle(
                                       fontSize: AppTheme.BodyTextSize20,
-                                      fontFamily: AppTheme.FontAnakotmaiMedium,
+                                      fontFamily: AppTheme.FontAnakotmaiLight,
                                     ),
                                   ),
                                   textColor: Colors.white,

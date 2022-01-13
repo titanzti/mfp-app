@@ -235,7 +235,7 @@ class _ProfileScState extends State<ProfileSc> {
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: AppTheme.BodyTextSize,
-                          fontFamily: AppTheme.FontAnakotmaiMedium,
+                          fontFamily: AppTheme.FontAnakotmaiLight,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -310,7 +310,7 @@ class _ProfileScState extends State<ProfileSc> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: AppTheme.BodyTextSize,
-                                fontFamily: AppTheme.FontAnakotmaiMedium,
+                                fontFamily: AppTheme.FontAnakotmaiLight,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -325,7 +325,7 @@ class _ProfileScState extends State<ProfileSc> {
                             style: TextStyle(
                               color: primaryColor,
                               fontSize: AppTheme.BodyTextSize,
-                              fontFamily: AppTheme.FontAnakotmaiMedium,
+                              fontFamily: AppTheme.FontAnakotmaiLight,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -361,7 +361,7 @@ class _ProfileScState extends State<ProfileSc> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: AppTheme.BodyTextSize,
-                                fontFamily: AppTheme.FontAnakotmaiMedium,
+                                fontFamily: AppTheme.FontAnakotmaiLight,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -398,7 +398,7 @@ class _ProfileScState extends State<ProfileSc> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: AppTheme.BodyTextSize,
-                                fontFamily: AppTheme.FontAnakotmaiMedium,
+                                fontFamily: AppTheme.FontAnakotmaiLight,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -435,7 +435,7 @@ class _ProfileScState extends State<ProfileSc> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: AppTheme.BodyTextSize,
-                                fontFamily: AppTheme.FontAnakotmaiMedium,
+                                fontFamily: AppTheme.FontAnakotmaiLight,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -472,7 +472,7 @@ class _ProfileScState extends State<ProfileSc> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: AppTheme.BodyTextSize,
-                                fontFamily: AppTheme.FontAnakotmaiMedium,
+                                fontFamily: AppTheme.FontAnakotmaiLight,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -551,7 +551,7 @@ class _ProfileScState extends State<ProfileSc> {
                                         color: Colors.black,
                                         fontSize: AppTheme.BodyTextSize,
                                         fontFamily:
-                                            AppTheme.FontAnakotmaiMedium,
+                                            AppTheme.FontAnakotmaiLight,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
