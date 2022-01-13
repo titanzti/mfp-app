@@ -17,6 +17,7 @@ import 'package:mfp_app/model/searchpostlistModel.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/Today/post_details.dart';
+import 'package:mfp_app/view/Today/show_full_image.dart';
 import 'package:mfp_app/view/Today/story_page.dart';
 
 class PostSearch extends StatefulWidget {
@@ -275,7 +276,10 @@ class _PostSearchState extends State<PostSearch> {
           children: [
             //  coverimage!=null? Image.network("https://today-api.moveforwardparty.org/api$coverimage/image",width: double.infinity,):
             // gallery[0].imageUrl!=null? Image.network("https://today-api.moveforwardparty.org/api${gallery[0].imageUrl}/image",):Image.network("https://today-api.moveforwardparty.org/api${gallery[0].signUrl}/image",),
-            gallery.length != 0 ? myAlbumCard(gallery, context) : Container(),
+            gallery.length != 0 ? InkWell(
+         onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => SliderShowFullmages(listImagesModel: gallery, current: 0))),
+
+              child: myAlbumCard(gallery, context)) : Container(),
             Card(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -361,7 +365,7 @@ class _PostSearchState extends State<PostSearch> {
                                 color: MColors.primaryBlue,
                                 // size: 15.0,
                               ),
-                              width: 8.0,
+                              width: 0.12,
                               label: '${nDataList1.post.likeCount} ถูกใจ',
                               onTap: () async {
                                 HapticFeedback.lightImpact();
@@ -456,7 +460,7 @@ class _PostSearchState extends State<PostSearch> {
                                 // size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
-                              width: 4.1,
+                            width: 0.24,
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -492,7 +496,7 @@ class _PostSearchState extends State<PostSearch> {
                                 color: MColors.primaryBlue,
                                 // size: 25.0,
                               ),
-                              width: 8.0,
+                              width: 0.12,
                               label: '$shareCount แชร์',
                               onTap: () => {},
                             ),

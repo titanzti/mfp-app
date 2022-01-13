@@ -16,6 +16,7 @@ import 'package:mfp_app/model/commentlistmodel.dart';
 import 'package:mfp_app/model/post_details_model.dart';
 import 'package:mfp_app/model/searchpostlistModel.dart';
 import 'package:http/http.dart' as Http;
+import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/timeutils.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
@@ -90,7 +91,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   var userprofileimage = "";
   Future futuregetpostdetiail;
 
-  bool postloading=true;
+  bool postloading = true;
   @override
   void dispose() {
     _trackingScrollController.dispose();
@@ -112,13 +113,13 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   bool onref = false;
   StreamController _commerntController;
   StreamController _postdetailController;
-  var pagename="";
+  var pagename = "";
 
   @override
   void didChangeDependencies() {
     setState(() {
       Api.getcommentlist(widget.postid, userid, token);
-       Api.getstory(widget.postid);
+      Api.getstory(widget.postid);
     });
 
     super.didChangeDependencies();
@@ -166,22 +167,22 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
               }
           }));
       //--
-   await Api.getstory(widget.postid).then((responseData) async => ({
-     setState(() {
-                  postloading = true;
-                }),
-            if (responseData.statusCode == 200){
+      await Api.getstory(widget.postid).then((responseData) async => ({
+            setState(() {
+              postloading = true;
+            }),
+            if (responseData.statusCode == 200)
+              {
                 jsonResponse = jsonDecode(responseData.body),
                 // //('jsonResponse$jsonResponse'),
                 for (Map i in jsonResponse["data"])
                   {
                     setState(() {
-                        pagename =i['page'][0]['name'];
+                      pagename = i['page'][0]['name'];
                     }),
-                  
-                    postdetailslist.add(PostDetailsModel.fromJson(i)),
-                     _postdetailController.add(responseData),
 
+                    postdetailslist.add(PostDetailsModel.fromJson(i)),
+                    _postdetailController.add(responseData),
 
                     // var stroycoverImage= i["coverImage"];
                   },
@@ -249,7 +250,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
               }));
     });
     _commerntController = new StreamController();
-    _postdetailController= new StreamController();
+    _postdetailController = new StreamController();
     super.initState();
   }
 
@@ -305,8 +306,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
               for (Map i in dataht["data"])
                 {
                   setState(() {
-
-
                     listModel.add(CommentlistModel.fromJson(i));
                     _commerntController.add(responseData);
                   }),
@@ -361,7 +360,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                       AppBardetail(
                         context,
                         "โพสของ",
-                        pagename==""?"":pagename,
+                        pagename == "" ? "" : pagename,
                         IconButton(
                           icon: Icon(
                             Icons.arrow_back_ios,
@@ -374,42 +373,45 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                       ),
 
                       ///-----------APPBAR-----------------//
-                  postloading==true?SliverToBoxAdapter(child: CarouselLoading()):    SliverToBoxAdapter(
-                        child: StreamBuilder(
-                          stream: _postdetailController.stream,
-                          builder: (BuildContext context, AsyncSnapshot snapshot) {
-                           return Builder(
-                             builder:(BuildContext context){
-                               return ListView.builder(
-                                   physics: ClampingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    // padding: const EdgeInsets.all(8.0),
-                                    scrollDirection: Axis.vertical,
-                              itemCount: postdetailslist.length,
-                              itemBuilder: (BuildContext context, int index) {
-                          final  datapostdetail = postdetailslist[index];
-                              // pagename=datapostdetail.page[index].name;
+                      postloading == true
+                          ? SliverToBoxAdapter(child: CarouselLoading())
+                          : SliverToBoxAdapter(
+                              child: StreamBuilder(
+                                stream: _postdetailController.stream,
+                                builder: (BuildContext context,
+                                    AsyncSnapshot snapshot) {
+                                  return Builder(
+                                      builder: (BuildContext context) {
+                                    return ListView.builder(
+                                      physics: ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      // padding: const EdgeInsets.all(8.0),
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: postdetailslist.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final datapostdetail =
+                                            postdetailslist[index];
+                                        // pagename=datapostdetail.page[index].name;
 
-                                return  PostList(
-                                  
-                              datapostdetail.title,
-                              datapostdetail.detail,
-                              datapostdetail.page,
-                              datapostdetail.createdDate,
-                              datapostdetail.gallery,
-                              datapostdetail.likeCount,
-                              datapostdetail.commentCount,
-                              datapostdetail.shareCount,
-                              widget.story);
-                              },
-                            );
-
-                             });
-                          },
-                        ),
-                      ),
+                                        return PostList(
+                                            datapostdetail.title,
+                                            datapostdetail.detail,
+                                            datapostdetail.page,
+                                            datapostdetail.createdDate,
+                                            datapostdetail.gallery,
+                                            datapostdetail.likeCount,
+                                            datapostdetail.commentCount,
+                                            datapostdetail.shareCount,
+                                            widget.story);
+                                      },
+                                    );
+                                  });
+                                },
+                              ),
+                            ),
                       // SliverToBoxAdapter(
-                      //   child: 
+                      //   child:
                       // ),
                       SliverToBoxAdapter(
                         child: _buildCommentList(),
@@ -438,8 +440,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       // String pageUsername,
       // bool isOfficial,
       story) {
-              
-      
     return InkWell(
       onTap: () {},
       child: Container(
@@ -471,27 +471,24 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
             //         : SizedBox.shrink()
             //     : SizedBox.shrink(),
             gallery[0].imageUrl != null
-                
-                    ? Hero(
-                        tag: "image" + gallery[0].imageUrl,
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              'https://today-api.moveforwardparty.org/api${gallery[0].imageUrl}/image',
-                          placeholder: (context, url) =>
-                              new CupertinoActivityIndicator(),
-                          errorWidget: (context, url, error) => Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(8)),
-                            ),
-                            child: new Image.network(
-                              'https://today-api.moveforwardparty.org/api${gallery[0].imageUrl}/image',
-                              filterQuality: FilterQuality.low,
-                            ),
-                          ),
+                ? Hero(
+                    tag: "image" + gallery[0].imageUrl,
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          'https://today-api.moveforwardparty.org/api${gallery[0].imageUrl}/image',
+                      placeholder: (context, url) =>
+                          new CupertinoActivityIndicator(),
+                      errorWidget: (context, url, error) => Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
-                      )
-                   
+                        child: new Image.network(
+                          'https://today-api.moveforwardparty.org/api${gallery[0].imageUrl}/image',
+                          filterQuality: FilterQuality.low,
+                        ),
+                      ),
+                    ),
+                  )
                 : SizedBox.shrink(),
             // gallery.length != 0 ? _myAlbumCard(gallery) : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),
@@ -541,21 +538,21 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width/1.1,
+                        width: MediaQuery.of(context).size.width / 1.1,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 10.0),
                           child: authorpost(
-                             page[0].name,
-                          context,
-                          dateTime,
-                          widget.pageid,
-                         page[0].imageUrl,
-                          page[0].name,
-                          false,
-                          "pageUsername",
-                          false,
-                          userid,
-                          true),
+                              page[0].name,
+                              context,
+                              dateTime,
+                              widget.pageid,
+                              page[0].imageUrl,
+                              page[0].name,
+                              false,
+                              "pageUsername",
+                              false,
+                              userid,
+                              true),
                         ),
                       ),
                     ],
@@ -581,7 +578,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                 color: MColors.primaryBlue,
                               ),
                               label: '$likeCount ถูกใจ',
-                              width: 8.0,
+                              width: 0.12,
                               onTap: () async {
                                 HapticFeedback.lightImpact();
                                 var jsonResponse;
@@ -601,14 +598,12 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                       "Like Post Success")
                                                     {
                                                       setState(() {
-                                                        islikepost =jsonResponse['data']
+                                                        islikepost =
+                                                            jsonResponse['data']
                                                                 ['isLike'];
                                                         // ignore: unnecessary_statements
-                                                        likeCount+1;
-
+                                                        likeCount + 1;
                                                       }),
-                                                         
-
                                                     }
                                                   else if (jsonResponse[
                                                           'message'] ==
@@ -632,7 +627,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                 MdiIcons.commentOutline,
                                 color: MColors.primaryBlue,
                               ),
-                              width: 4.1,
+                              width: 0.24,
                               label: '$commentCount ความคิดเห็น',
                               onTap: () => {},
                             ),
@@ -641,9 +636,9 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                 Icons.share,
                                 color: MColors.primaryBlue,
                               ),
-                              width: 8.0,
+                              width: 0.12,
                               label: '$shareCount แชร์',
-                              onTap: () =>{},
+                              onTap: () => {},
                             ),
                           ],
                         ),
@@ -908,8 +903,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                         data.comment,
                                         maxLines: 1,
                                         style: TextStyle(
-                                                                                      overflow: TextOverflow.ellipsis,
-
+                                            overflow: TextOverflow.ellipsis,
                                             color: MColors.primaryBlue),
                                       ),
                                     ),
@@ -932,10 +926,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                               padding:
                                   const EdgeInsets.only(left: 10.0, top: 2.0),
                               child: Container(
-                                width: MediaQuery.of(context).size.width * 0.38,
+                                width: MediaQuery.of(context).size.width / 2,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     GestureDetector(
                                       onTap: () async {
@@ -994,8 +986,14 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                     Text(
                                       TimeUtils.readTimestamp(data
                                           .createdDate.millisecondsSinceEpoch),
-                                      style:
-                                          TextStyle(color: MColors.primaryBlue),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: MColors.primaryBlue,
+                                          fontFamily:
+                                              AppTheme.FontAnakotmaiLight,
+                                          fontSize: 13,
+                                          overflow: TextOverflow.ellipsis),
                                     ),
                                   ],
                                 ),

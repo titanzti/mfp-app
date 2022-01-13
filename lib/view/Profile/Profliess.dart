@@ -23,6 +23,7 @@ import 'package:http/http.dart' as Http;
 import 'package:mfp_app/view/Profile/profile.dart';
 import 'package:mfp_app/view/Search/Search.dart';
 import 'package:mfp_app/view/Today/post_details.dart';
+import 'package:mfp_app/view/Today/show_full_image.dart';
 import 'package:mfp_app/view/Today/story_page.dart';
 import 'package:mfp_app/view/Today/webview_emergency.dart';
 
@@ -921,8 +922,11 @@ class _ProfliessState extends State<Profliess> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               list[0].imageUrl != null || list[0].imageUrl != ""
-                  ? Image.network(
-                      "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
+                  ? topImage(
+                    "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                  )
+                  // Image.network(
+                  //     "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
                   : SizedBox.shrink(),
             ],
           ),
@@ -983,7 +987,9 @@ class _ProfliessState extends State<Profliess> {
             //      :
             gallery.length == 0
                 ? Container()
-                : mymultialbumcardpagepost(gallery),
+                : InkWell(
+                    onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => SliderShowFullmages(listImagesModel: gallery, current: 0))),
+                  child: mymultialbumcardpagepost(gallery)),
             // gallery.length != 0 ? myAlbumCardPagepost(gallery) : Container(),
             // Image.network(gallery[0].signUrl),
             Card(
@@ -1062,7 +1068,7 @@ class _ProfliessState extends State<Profliess> {
                                 Icons.favorite_outline,
                                 color: MColors.primaryBlue,
                               ),
-                              width: 8.0,
+                              width: 0.12,
                               label: '${nDataList1.likeCount} ถูกใจ',
                               onTap: () async {
                                 HapticFeedback.lightImpact();
@@ -1113,7 +1119,7 @@ class _ProfliessState extends State<Profliess> {
                                 color: MColors.primaryBlue,
                               ),
                               label: '${nDataList1.commentCount} ความคิดเห็น',
-                              width: 4.2,
+                             width: 0.24,
                               onTap: () =>{},
                             ),
                             PostButton(
@@ -1121,7 +1127,7 @@ class _ProfliessState extends State<Profliess> {
                                 Icons.share,
                                 color: MColors.primaryBlue,
                               ),
-                              width: 8.0,
+                              width: 0.12,
                               label: '${nDataList1.shareCount}แชร์',
                               onTap: () => {},
                             ),

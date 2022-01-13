@@ -29,6 +29,7 @@ import 'package:mfp_app/view/Search/search.dart';
 import 'package:mfp_app/view/Today/detail_emergency.dart';
 
 import 'package:mfp_app/view/Today/post_details.dart';
+import 'package:mfp_app/view/Today/show_full_image.dart';
 import 'package:mfp_app/view/Today/story_page.dart';
 import 'package:mfp_app/view/Today/webview_emergency.dart';
 
@@ -493,7 +494,10 @@ class _TodayScState extends State<TodaySc> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // topImage(gallery[0].signUrl.toString()),
-            gallery.length != 0 ? myAlbumCard(gallery, context) : Container(),
+            gallery.length != 0 ? InkWell(
+              onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => SliderShowFullmages(listImagesModel: gallery, current: _current))),
+
+              child: myAlbumCard(gallery, context)) : Container(),
             // Image.network(gallery[0].signUrl),
             Card(
               child: Column(
@@ -585,7 +589,7 @@ class _TodayScState extends State<TodaySc> {
                                 color: MColors.primaryBlue,
                                 // size: 15.0,
                               ),
-                              width: 8.0,
+                              width: 0.12,
                               label: '${nDataList1.post.likeCount} ถูกใจ',
                               onTap: () async {
                                 HapticFeedback.lightImpact();
@@ -681,7 +685,7 @@ class _TodayScState extends State<TodaySc> {
                                 // size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
-                              width: 4.7,
+                              width: 0.24,
                               onTap: () async {
                                 Navigator.push(
                                   context,
@@ -718,7 +722,7 @@ class _TodayScState extends State<TodaySc> {
                                 color: MColors.primaryBlue,
                                 // size: 25.0,
                               ),
-                              width: 10.0,
+                              width: 0.12,
                               label: '$shareCount แชร์',
                               onTap: () => {},
                             ),
