@@ -181,6 +181,7 @@ class _ShopSCState extends State<ShopSC> {
                                             alignment: Alignment.centerLeft,
                                             child: Text(
                                               '200 บาท',
+                                              maxLines: 1,
                                               style: TextStyle(
                                                   fontSize:
                                                       AppTheme.BodyTextSize24,
@@ -515,12 +516,14 @@ class _ShopSCState extends State<ShopSC> {
                                             alignment: Alignment.centerLeft,
                                             child: Text(
                                               '79 บาท',
+                                              maxLines: 1,
                                               style: TextStyle(
                                                 fontSize:
                                                     AppTheme.BodyTextSize24,
                                                 fontFamily:
                                                     AppTheme.FontAnakotmaiBold,
                                                 color: MColors.primaryColor,
+                                                overflow: TextOverflow.ellipsis
                                               ),
                                             ),
                                           ),
@@ -528,12 +531,14 @@ class _ShopSCState extends State<ShopSC> {
                                             alignment: Alignment.centerLeft,
                                             child: Text(
                                               'แมสก์พร้อมสายคล้องคอปรับได้',
+                                              maxLines: 1,
                                               style: TextStyle(
                                                 fontSize: AppTheme.BodyTextSize,
                                                 fontWeight: FontWeight.w300,
                                                 fontFamily:
                                                     AppTheme.FontAnakotmaiLight,
                                                 color: MColors.textDark,
+                                                overflow: TextOverflow.ellipsis
                                               ),
                                             ),
                                           ),
