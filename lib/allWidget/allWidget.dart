@@ -13,6 +13,7 @@ import 'package:mfp_app/model/postModel.dart';
 import 'package:mfp_app/allWidget/circle_button.dart';
 import 'package:mfp_app/model/searchpostlist.dart';
 import 'package:mfp_app/model/searchpostlistModel.dart';
+import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/internetConnectivity.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/style.dart';
@@ -472,7 +473,7 @@ Widget AppBardetail(
           style: TextStyle(
               fontSize: 16,
               color: MColors.textDark,
-              fontFamily: 'Anakotmai-Medium')),
+              fontFamily: AppTheme.FontAnakotmaiLight)),
       // Text(
       //   'facebook',
       //   style: const TextStyle(

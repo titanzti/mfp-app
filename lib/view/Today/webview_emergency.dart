@@ -72,14 +72,14 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
                         "https://today-api.moveforwardparty.org/api${widget.iconimage}/image"),
                 backgroundColor: Colors.transparent,
               ),
-              const SizedBox(width: 5,),
+              const SizedBox(width: 8,),
               Expanded(
                 child: Text(
                 widget.texttitle == null ? "" : widget.texttitle,
                 maxLines: 1,
                 style: TextStyle(
                     fontSize: 16,
-                    fontFamily: AppTheme.FontAnakotmaiMedium,
+                    fontFamily: AppTheme.FontAnakotmaiLight,
                     color: MColors.textDark,
                     overflow: TextOverflow.ellipsis
                     ),

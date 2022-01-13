@@ -86,12 +86,11 @@ Widget authorpost(
                 id: id,
               )),
       child: AutoSizeText(
-        'ผู้เขียน: $string ''${TimeUtils.readTimestamp(dateTime.millisecondsSinceEpoch)}',
+        'ผู้เขียน: $string '
+        '${TimeUtils.readTimestamp(dateTime.millisecondsSinceEpoch)}',
         maxLines: 2,
         minFontSize: 15,
         maxFontSize: 18,
-
-        // textAlign: TextAlign.center,
         style: TextStyle(
           color: MColors.primaryBlue,
           fontFamily: AppTheme.FontAnakotmaiLight,
@@ -119,7 +118,7 @@ Widget textreadstory(String string) => Text(
       string,
       style: TextStyle(
         fontFamily: AppTheme.FontAnakotmaiLight,
-        fontSize: 19,
+        fontSize: 18,
         // fontWeight: FontWeight.bold,
         color: MColors.primaryColor,
       ),

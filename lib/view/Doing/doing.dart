@@ -473,7 +473,7 @@ class _DoingSCState extends State<DoingSC> {
                                                       color: Colors.black,
                                                       fontWeight: FontWeight.bold,
                                                       fontFamily: AppTheme
-                                                          .FontAnakotmaiBold,
+                                                          .FontAnakotmaiLight,
                                                       fontSize: 18,
                                                       overflow: TextOverflow.ellipsis,
                                                       ),
@@ -492,7 +492,7 @@ class _DoingSCState extends State<DoingSC> {
                                                     color: Colors.grey,
                                                     fontSize: 15,
                                                     fontFamily: AppTheme
-                                                        .FontAnakotmaiMedium,
+                                                        .FontAnakotmaiLight,
                                                         overflow: TextOverflow.ellipsis
                                                   ),
                                                 ),

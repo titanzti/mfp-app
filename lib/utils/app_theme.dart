@@ -58,7 +58,7 @@ class AppTheme {
 
   static const TextStyle display1 = TextStyle(
     // h4 -> display1
-    fontFamily: FontAnakotmaiMedium,
+    fontFamily: FontAnakotmaiLight,
     fontSize: BodyTextSize20,
 
     color: MColors.primaryBlue,
