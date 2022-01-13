@@ -193,19 +193,17 @@ class _ShopSCState extends State<ShopSC> {
                                           ),
                                           Container(
                                             alignment: Alignment.centerLeft,
-                                            child: Expanded(
-                                              child: Text(
-                                                'เสื้อยืดคอกลมลายโลโก้ สีน้ำเงินเข้ม',
-                                                style: TextStyle(
-                                                    fontSize:
-                                                        AppTheme.BodyTextSize,
-                                                    fontWeight: FontWeight.w300,
-                                                    fontFamily: AppTheme
-                                                        .FontAnakotmaiLight,
-                                                    color: MColors.textDark,
-                                                    overflow:
-                                                        TextOverflow.ellipsis),
-                                              ),
+                                            child: Text(
+                                              'เสื้อยืดคอกลมลายโลโก้ สีน้ำเงินเข้ม',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      AppTheme.BodyTextSize,
+                                                  fontWeight: FontWeight.w300,
+                                                  fontFamily: AppTheme
+                                                      .FontAnakotmaiLight,
+                                                  color: MColors.textDark,
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
                                             ),
                                           ),
                                         ],
@@ -300,7 +298,9 @@ class _ShopSCState extends State<ShopSC> {
                                       ),
                                       Spacer(),
                                       Container(
-                                        width: MediaQuery.of(context).size.width/3.0,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                3.0,
                                         color: Colors.grey[200],
                                         child: Padding(
                                           padding: const EdgeInsets.only(
@@ -393,7 +393,6 @@ class _ShopSCState extends State<ShopSC> {
                                   ],
                                 ),
                                 Container(
-
                                   color: Colors.grey[200],
                                   child: Row(
                                     // mainAxisAlignment:
@@ -424,7 +423,6 @@ class _ShopSCState extends State<ShopSC> {
                                               Text(
                                                 'เนคไทปักโลโก้',
                                                 maxLines: 1,
-
                                                 style: TextStyle(
                                                     fontSize:
                                                         AppTheme.BodyTextSize,
@@ -441,8 +439,9 @@ class _ShopSCState extends State<ShopSC> {
                                       ),
                                       Spacer(),
                                       Container(
-                                      width: MediaQuery.of(context).size.width/2.5,
-
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2.5,
                                         color: Colors.grey[200],
                                         child: Padding(
                                           padding: const EdgeInsets.only(
