@@ -118,7 +118,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
         final FacebookAccessToken accessToken = facebookLoginResult.accessToken;
         // print('''
         //  Logged in!
-         
+
         //  Token: ${accessToken.token}
         //  User id: ${accessToken.userId}
         //  Expires: ${accessToken.expires}
@@ -175,11 +175,10 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     var session = authResult.user;
     // print('''
     //      Logged inTw!
-         
+
     //      name: ${session.name}
     //     email: ${session.email}
     //      authToken: ${authResult.authToken}
-        
 
     //      ''');
 
@@ -187,11 +186,10 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       case TwitterLoginStatus.loggedIn:
         // print('''
         //  Logged inTw!
-         
+
         //  name: ${session.name}
         // email: ${session.email}
         //  authToken: ${authResult.authToken}
-        
 
         //  ''');
 
@@ -278,21 +276,20 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       if (jsonResponse['status'] == 0) {
         // print(jsonResponse['message']);
         Navigator.of(context).pushAndRemoveUntil(
-              CupertinoPageRoute(
-                  builder: (BuildContext context) => Generalinformation(
-              email: profileData['email'],
-              password: "",
-              img64: imgBase64Str,
-              name: profileData['name'],
-              firstname: profileData['first_name'],
-              lastname: profileData['last_name'],
-              fbid: profileData['id'],
-              fbtoken: accessToken.token,
-              mode: 'FB',
-              fbexpires: accessToken.expires,
-              isfb: false
-            )),
-              (Route<dynamic> route) => false);
+            CupertinoPageRoute(
+                builder: (BuildContext context) => Generalinformation(
+                    email: profileData['email'],
+                    password: "",
+                    img64: imgBase64Str,
+                    name: profileData['name'],
+                    firstname: profileData['first_name'],
+                    lastname: profileData['last_name'],
+                    fbid: profileData['id'],
+                    fbtoken: accessToken.token,
+                    mode: 'FB',
+                    fbexpires: accessToken.expires,
+                    isfb: false)),
+            (Route<dynamic> route) => false);
       }
     }
   }
@@ -358,14 +355,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           width: MediaQuery.of(context).size.width * 1,
           decoration: BoxDecoration(
               image: DecorationImage(
-                    colorFilter: ColorFilter.mode(Colors.grey[500], BlendMode.modulate),
-
+            colorFilter: ColorFilter.mode(Colors.grey[500], BlendMode.modulate),
             image: AssetImage('images/shutterstock_553511089.png'),
             fit: BoxFit.cover,
           )),
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(right: 15, left: 15),
+          padding: const EdgeInsets.only(left: 10, right: 10),
               child: Column(
                 children: <Widget>[
                   Container(
@@ -373,12 +369,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     child: Row(
                       children: [
                         IconButton(
+                          splashRadius: AppTheme.splashRadius,
                           icon: const Icon(
                             Icons.arrow_back_ios,
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            
                             Navigator.pop(context);
                             // print('กด');
                           },
@@ -477,7 +473,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     'images/twitter.png',
                     Color(0xFF1DA1F3),
                     Colors.white,
-                    (){},
+                    () {},
                     Container(),
                     //  isTwitterLoggedIn!=true   ?   isfacebookLoggedIn==false  ?()  async {
                     //                             initiateFacebookTwitter();
@@ -492,7 +488,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     //   color: MColors.primaryColor,
                     // ),
                   ),
-                const  SizedBox(height: 10,),
+                  const SizedBox(
+                    height: 10,
+                  ),
 
                   Container(
                     //color: Colors.black,
@@ -538,7 +536,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                   ),
                 ),
                 Container(
-                  width:  MediaQuery.of(context).size.width/1.9,
+                  width: MediaQuery.of(context).size.width / 1.9,
                   child: Text(
                     text,
                     overflow: TextOverflow.ellipsis,

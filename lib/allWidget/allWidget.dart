@@ -425,10 +425,13 @@ Widget primaryAppBar(
                 radius: 25.0,
                 backgroundColor: Colors.white70,
                 child: IconButton(
+                  
                   iconSize: 30,
+                  splashRadius: AppTheme.splashRadius,
                   icon: (Icon(
                     CupertinoIcons.person_crop_circle,
                     color: MColors.primaryBlue,
+                    
                   )),
                   onPressed: () {
                     Navigate.pushPage(context, Loginregister());
@@ -469,6 +472,8 @@ Widget AppBardetail(
   return SliverAppBar(
       brightness: Brightness.light,
       backgroundColor: Colors.white,
+          titleSpacing: 0.0,
+
       title: Text('$lable $authorposttext',
           style: TextStyle(
               fontSize: 16,

@@ -54,12 +54,19 @@ class _RegisterpasswordState extends State<Registerpassword> {
       obscureText: true,
       decoration: InputDecoration(
         hintText: 'รหัสผ่าน',
-        contentPadding: EdgeInsets.only(left: 10,bottom: 10,top: 5),
+        contentPadding: EdgeInsets.all(13),
         border: InputBorder.none,
+          labelStyle: TextStyle(
+          fontFamily: AppTheme.FontAnakotmaiLight,
+        ),
+        hintStyle: TextStyle(
+          fontFamily: AppTheme.FontAnakotmaiLight,
+          fontSize: 14
+        ),
         suffixIcon: InkWell(
             // onTap: _togglePasswordView,
             child: Padding(
-                padding: const EdgeInsets.only(top: 13),
+                padding: const EdgeInsets.all( 13),
                 child: isvis == false
                     ? null
                     : Icon(
@@ -86,16 +93,23 @@ class _RegisterpasswordState extends State<Registerpassword> {
     final TextFormField _txtCPassword = TextFormField(
       controller: _confirmPass,
       obscureText: true,
-            style:TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiLight),
+      style:TextStyle(fontSize: 14,fontFamily: AppTheme.FontAnakotmaiLight),
 
       decoration: InputDecoration(
         hintText: 'ใส่รหัสผ่านอีกครั้ง',
-        contentPadding: EdgeInsets.only(left: 10,bottom: 10,top: 5),
+        contentPadding: EdgeInsets.all(13),
+          labelStyle: TextStyle(
+          fontFamily: AppTheme.FontAnakotmaiLight,
+        ),
+        hintStyle: TextStyle(
+          fontFamily: AppTheme.FontAnakotmaiLight,
+          fontSize: 14,
+        ),
         border: InputBorder.none,
         suffixIcon: InkWell(
             // onTap: _togglePasswordView,
             child: Padding(
-          padding: const EdgeInsets.only(top: 13),
+          padding: const EdgeInsets.all( 13),
           child: isvis == false
               ? null
               : Icon(
@@ -134,7 +148,7 @@ class _RegisterpasswordState extends State<Registerpassword> {
               fit: BoxFit.cover,
             )),
             child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10),
               child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
                 child: Column(
@@ -144,6 +158,7 @@ class _RegisterpasswordState extends State<Registerpassword> {
                       child: Row(
                         children: [
                           IconButton(
+                            splashRadius: AppTheme.splashRadius,
                             icon: const Icon(
                               Icons.arrow_back_ios,
                               color: Colors.white,
@@ -216,31 +231,26 @@ class _RegisterpasswordState extends State<Registerpassword> {
                         ),
                       ),
                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width /1,
-                        child: Text(
-                          'กรุณาใส่รหัสผ่าน',
-                          maxLines: 1,
-                          style: TextStyle(fontSize: 17, color: Colors.white70,overflow: TextOverflow.ellipsis),
-                        ),
+                    Container(
+                           width: MediaQuery.of(context).size.width /1,
+                   margin: EdgeInsets.only(left: 10, right: 5),
+                      child: Text(
+                        'กรุณาใส่รหัสผ่าน',
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 17, color: Colors.white70,overflow: TextOverflow.ellipsis),
                       ),
                     ),
                     const SizedBox(height: 5,),
                     //--------------------อีเมล----------------------//
                     Container(
-                      height: MediaQuery.of(context).size.height /13.0,
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(width: 1.2, color: Colors.black12),
-                          borderRadius:
-                              const BorderRadius.all(const Radius.circular(10.0))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: _txtPassword,
-                      ),
+                            margin: EdgeInsets.only(left: 5, right: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border:
+                                Border.all(width: 1.2, color: Colors.black12),
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      child: _txtPassword,
                     ),
                     Container(
                       //color: Colors.black,
@@ -249,17 +259,14 @@ class _RegisterpasswordState extends State<Registerpassword> {
                     ),
                     //--------------------อีเมล----------------------//
                     Container(
-                      height: MediaQuery.of(context).size.height /13.0,
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(width: 1.2, color: Colors.black12),
-                          borderRadius:
-                              const BorderRadius.all(const Radius.circular(10.0))),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: _txtCPassword,
-                      ),
+                                margin: EdgeInsets.only(left: 5, right: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border:
+                                Border.all(width: 1.2, color: Colors.black12),
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
+                      child: _txtCPassword,
                     ),
                     iserror == true
                         ? Padding(

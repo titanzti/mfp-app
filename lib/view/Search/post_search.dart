@@ -14,6 +14,7 @@ import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/controller/today_post_provider.dart';
 import 'package:mfp_app/model/searchpostlist.dart';
 import 'package:mfp_app/model/searchpostlistModel.dart';
+import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/Today/post_details.dart';
@@ -144,6 +145,7 @@ class _PostSearchState extends State<PostSearch> {
           backgroundColor: Color(0xffF47932),
           title: Text('${widget.label}'),
           leading:  IconButton(
+            splashRadius: AppTheme.splashRadius,
                               icon: const Icon(
                                 Icons.arrow_back_ios,
                                 color: Colors.white,
@@ -318,7 +320,7 @@ class _PostSearchState extends State<PostSearch> {
                                       userid: userid,
                                     ));
                               },
-                              child: textreadstory('อ่านสตอรี่..')),
+                              child: textreadstory('อ่านสตอรี่...')),
                         )
                       : Container(),
                   Row(
@@ -365,7 +367,8 @@ class _PostSearchState extends State<PostSearch> {
                                 color: MColors.primaryBlue,
                                 // size: 15.0,
                               ),
-                              width: 0.12,
+                             width: 0.14,
+                            containerwidth: 3.3,
                               label: '${nDataList1.post.likeCount} ถูกใจ',
                               onTap: () async {
                                 HapticFeedback.lightImpact();
@@ -460,7 +463,8 @@ class _PostSearchState extends State<PostSearch> {
                                 // size: 20.0,
                               ),
                               label: '$commentCount ความคิดเห็น',
-                            width: 0.24,
+                             width: 0.24,
+                                                        containerwidth: 3.1,
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -496,9 +500,10 @@ class _PostSearchState extends State<PostSearch> {
                                 color: MColors.primaryBlue,
                                 // size: 25.0,
                               ),
-                              width: 0.12,
+                            width: 0.12,
+                            containerwidth: 3.3,
                               label: '$shareCount แชร์',
-                              onTap: () => {},
+                              onTap: null,
                             ),
                           ],
                         ),

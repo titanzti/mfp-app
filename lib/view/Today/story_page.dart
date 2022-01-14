@@ -149,6 +149,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                   ),
             automaticallyImplyLeading: false,
             leading: IconButton(
+              splashRadius: AppTheme.splashRadius,
               icon: Icon(
                 Icons.arrow_back_ios,
                 color: MColors.primaryColor,
@@ -275,6 +276,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           IconButton(
+                            splashRadius: AppTheme.splashRadius,
                             icon: Icon(
                               Icons.comment,
                               color: Colors.white,
@@ -290,6 +292,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           IconButton(
+                            splashRadius: AppTheme.splashRadius,
                             icon: Icon(
                               Icons.favorite,
                               color: Colors.white,
@@ -305,6 +308,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                           IconButton(
+                            splashRadius: AppTheme.splashRadius,
                             icon: Icon(
                               Icons.favorite_border,
                               color: Colors.white,
@@ -320,13 +324,12 @@ class _StroyPageScState extends State<StroyPageSc> {
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           IconButton(
+                            splashRadius: AppTheme.splashRadius,
                             icon: Icon(
                               Icons.share_outlined,
                               color: Colors.white,
                             ),
-                            onPressed: () {
-                              //print('กด');
-                            },
+                            onPressed: null,
                           ),
                           Spacer(),
                         ],

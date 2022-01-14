@@ -184,6 +184,7 @@ class Post {
         this.coverImageSignUrl,
         this.userTags,
         this.story,
+        this.islike
     });
 
     String id;
@@ -217,6 +218,7 @@ class Post {
     String coverImageSignUrl;
     List<dynamic> userTags;
     Story story;
+    bool islike =false;
 
     factory Post.fromJson(Map<String, dynamic> json) => Post(
         id: json["_id"],

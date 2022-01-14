@@ -457,6 +457,7 @@ class _TodayScState extends State<TodaySc> {
   ) {
     bool islike = false;
     return InkWell(
+ 
       onTap: () {
         Navigator.push(
           context,
@@ -536,15 +537,15 @@ class _TodayScState extends State<TodaySc> {
                                     mode: mode,
                                   ));
                             },
-                            child: textreadstory('อ่านสตอรี่..')),
+                            child: textreadstory('อ่านสตอรี่...')),
                       )
                     : Container(),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     // fixtextauthor(),
                     Container(
-                      width: MediaQuery.of(context).size.width/1.1,
+                      // color: Colors.black,
+                      width: MediaQuery.of(context).size.width/1.5,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: authorpost(
@@ -564,30 +565,34 @@ class _TodayScState extends State<TodaySc> {
                     SizedBox(
                       width: 2,
                     ),
-                    // texttimetimestamp(dateTime),
+                    Container(
+                      child: texttimetimestamp(dateTime)),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Divider(),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(left: 10, right: 10),
+                //   child: Divider(),
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Column(
                     children: [
+                        Divider(),
                       Row(
                         children: [
+                        
                           PostButton(
-                            icon: islike==false? Icon(
-                              Icons.favorite_outline,
+                            icon: Icon(
+                             nDataList1.post.islike!= true
+                                    ? Icons.favorite_outline
+                                    : Icons.favorite,
                               color: MColors.primaryBlue,
-                              // size: 15.0,
-                            ):Icon(
-                              Icons.favorite,
-                              color: MColors.primaryBlue,
+                                                            size: 20.0,
+
                               // size: 15.0,
                             ),
-                            width: 0.12,
+                            width: 0.14,
+                            containerwidth: 3.3,
                             label: '${nDataList1.post.likeCount} ถูกใจ',
                             onTap: () async {
                               HapticFeedback.lightImpact();
@@ -614,7 +619,7 @@ class _TodayScState extends State<TodaySc> {
                                                               jsonResponse[
                                                                       'data']
                                                                   ['isLike'];
-                                                          islike = true;
+                                                          nDataList1.post.islike = true;
                                                           nDataList1.post
                                                               .likeCount++;
                                                         }),
@@ -628,7 +633,7 @@ class _TodayScState extends State<TodaySc> {
                                                               jsonResponse[
                                                                       'data']
                                                                   ['isLike'];
-                                                          islike = false;
+                                                          nDataList1.post.islike = false;
                                                           nDataList1.post
                                                               .likeCount--;
                                                         }),
@@ -653,6 +658,7 @@ class _TodayScState extends State<TodaySc> {
                                                               jsonResponse[
                                                                       'data']
                                                                   ['isLike'];
+                                                                  nDataList1.post.islike=true;
                                                           nDataList1.post
                                                               .likeCount++;
                                                         }),
@@ -666,7 +672,7 @@ class _TodayScState extends State<TodaySc> {
                                                               jsonResponse[
                                                                       'data']
                                                                   ['isLike'];
-
+                                                      nDataList1.post.islike=false;
                                                           nDataList1.post
                                                               .likeCount--;
                                                         }),
@@ -680,10 +686,12 @@ class _TodayScState extends State<TodaySc> {
                             icon: Icon(
                               MdiIcons.commentOutline,
                               color: MColors.primaryBlue,
-                              // size: 20.0,
+                              size: 19.0,
                             ),
                             label: '$commentCount ความคิดเห็น',
                             width: 0.24,
+                                                        containerwidth: 3.1,
+
                             onTap: () async {
                               Navigator.push(
                                 context,
@@ -718,11 +726,14 @@ class _TodayScState extends State<TodaySc> {
                             icon: Icon(
                               Icons.share,
                               color: MColors.primaryBlue,
-                              // size: 25.0,
+                                                            size: 19.0,
+
                             ),
                             width: 0.12,
+                            containerwidth: 3.3,
+
                             label: '$shareCount แชร์',
-                            onTap: () => {},
+                            onTap: null,
                           ),
                         ],
                       ),
@@ -797,169 +808,166 @@ class _TodayScState extends State<TodaySc> {
   }
 
   Widget buildrecommendeduserpage() {
-    return InkWell(
-      onTap: () {},
-      child: Card(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 50.0,
-            ),
-            Center(
-              child: texttitle("แนะนำให้ติดตามส.ส. กทม", context),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 50.0,
-            ),
-            Builder(
-              builder: (BuildContext context) {
-                return Obx(() {
-                  return ListView.builder(
-                      physics: ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: todayController.recompageList.length,
-                      itemBuilder: (
-                        BuildContext context,
-                        int index,
-                      ) {
-                        var data = todayController.recompageList[index];
-                        return Card(
-                          child: Container(
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                radius: 26,
-                                backgroundColor: Colors.white,
-                                child: ClipOval(
-                                  child: data.imageUrl == null ||
-                                          data.imageUrl == ""
-                                      ? new Image.network(
-                                          "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png",
-                                          width: 60,
-                                          height: 60,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.network(
-                                          "https://today-api.moveforwardparty.org/api${data.imageUrl}/image",
-                                          width: 60,
-                                          height: 60,
-                                          fit: BoxFit.cover,
-                                        ),
-                                ),
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 50.0,
+          ),
+          Center(
+            child: texttitle("แนะนำให้ติดตามส.ส. กทม", context),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 50.0,
+          ),
+          Builder(
+            builder: (BuildContext context) {
+              return Obx(() {
+                return ListView.builder(
+                    physics: ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: todayController.recompageList.length,
+                    itemBuilder: (
+                      BuildContext context,
+                      int index,
+                    ) {
+                      var data = todayController.recompageList[index];
+                      return Card(
+                        child: Container(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              radius: 26,
+                              backgroundColor: Colors.white,
+                              child: ClipOval(
+                                child: data.imageUrl == null ||
+                                        data.imageUrl == ""
+                                    ? new Image.network(
+                                        "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png",
+                                        width: 60,
+                                        height: 60,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.network(
+                                        "https://today-api.moveforwardparty.org/api${data.imageUrl}/image",
+                                        width: 60,
+                                        height: 60,
+                                        fit: BoxFit.cover,
+                                      ),
                               ),
-                              title: new Text(
-                                  '${data.displayName == null ? data.name : data.displayName}'),
-                              subtitle: new Text(
-                                  '${data.pageUsername == null ? "" : data.pageUsername}'),
-                              trailing: Container(
-                                margin: EdgeInsets.all(10),
-                                height: 50.0,
-                                width: 95,
-                                child: RaisedButton(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(25)),
-                                    side:
-                                        BorderSide(color: MColors.primaryColor),
-                                  ),
-                                  onPressed: () async {
-                                    var jsonResponse;
-                                    token == "" || token == null
-                                        ? Navigate.pushPage(
-                                            context, Loginregister())
-                                        : await Api.sendfollowPage(
-                                                data.id, token, userid)
-                                            .then((value) => ({
-                                                  jsonResponse =
-                                                      jsonDecode(value.body),
-                                                  // print(
-                                                  //     'message${jsonResponse['message']}'),
-                                                  if (value.statusCode == 200)
-                                                    {
-                                                      if (jsonResponse[
-                                                              'message'] ==
-                                                          "Followed Page Success")
-                                                        {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  new SnackBar(
-                                                            content: Text(
-                                                                jsonResponse[
-                                                                    'message']),
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          24),
-                                                            ),
-                                                            margin: EdgeInsets
-                                                                .fromLTRB(0, 0,
-                                                                    0, 50),
-                                                          )),
-                                                        }
-                                                      else if (jsonResponse[
-                                                              'message'] ==
-                                                          "Unfollow Page Success")
-                                                        {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  new SnackBar(
-                                                            content: Text(
-                                                                jsonResponse[
-                                                                    'message']),
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                            shape:
-                                                                RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          24),
-                                                            ),
-                                                            margin: EdgeInsets
-                                                                .fromLTRB(0, 0,
-                                                                    0, 50),
-                                                          )),
-                                                        }
-                                                    }
-                                                }));
-                                  },
-                                  color: Colors.white,
-                                  child: Text("ติดตาม",
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          color: MColors.primaryColor)),
+                            ),
+                            title: new Text(
+                                '${data.displayName == null ? data.name : data.displayName}'),
+                            subtitle: new Text(
+                                '${data.pageUsername == null ? "" : data.pageUsername}'),
+                            trailing: Container(
+                              margin: EdgeInsets.all(10),
+                              height: 50.0,
+                              width: 95,
+                              child: RaisedButton(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25)),
+                                  side:
+                                      BorderSide(color: MColors.primaryColor),
                                 ),
+                                onPressed: () async {
+                                  var jsonResponse;
+                                  token == "" || token == null
+                                      ? Navigate.pushPage(
+                                          context, Loginregister())
+                                      : await Api.sendfollowPage(
+                                              data.id, token, userid)
+                                          .then((value) => ({
+                                                jsonResponse =
+                                                    jsonDecode(value.body),
+                                                // print(
+                                                //     'message${jsonResponse['message']}'),
+                                                if (value.statusCode == 200)
+                                                  {
+                                                    if (jsonResponse[
+                                                            'message'] ==
+                                                        "Followed Page Success")
+                                                      {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                new SnackBar(
+                                                          content: Text(
+                                                              jsonResponse[
+                                                                  'message']),
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        24),
+                                                          ),
+                                                          margin: EdgeInsets
+                                                              .fromLTRB(0, 0,
+                                                                  0, 50),
+                                                        )),
+                                                      }
+                                                    else if (jsonResponse[
+                                                            'message'] ==
+                                                        "Unfollow Page Success")
+                                                      {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                new SnackBar(
+                                                          content: Text(
+                                                              jsonResponse[
+                                                                  'message']),
+                                                          behavior:
+                                                              SnackBarBehavior
+                                                                  .floating,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        24),
+                                                          ),
+                                                          margin: EdgeInsets
+                                                              .fromLTRB(0, 0,
+                                                                  0, 50),
+                                                        )),
+                                                      }
+                                                  }
+                                              }));
+                                },
+                                color: Colors.white,
+                                child: Text("ติดตาม",
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: MColors.primaryColor)),
                               ),
                             ),
                           ),
-                        );
-                      });
-                });
-              },
+                        ),
+                      );
+                    });
+              });
+            },
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 50.0,
+          ),
+          Center(
+            child: Text(
+              "ดูเพิ่มเติม",
+              style: TextStyle(fontSize: 16),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 50.0,
-            ),
-            Center(
-              child: Text(
-                "ดูเพิ่มเติม",
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 50.0,
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 50.0,
+          ),
+        ],
       ),
     );
   }
@@ -1050,27 +1058,30 @@ class _TodayScState extends State<TodaySc> {
                           ],
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: emc.asMap().entries.map((entry) {
-                          return GestureDetector(
-                            onTap: () => _controller.animateToPage(entry.key),
-                            child: Container(
-                              width: 8.0,
-                              height: 8.0,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 8.0, horizontal: 4.0),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: (Theme.of(context).brightness ==
-                                              Brightness.dark
-                                          ? Colors.white
-                                          : Colors.black)
-                                      .withOpacity(
-                                          _current == entry.key ? 0.9 : 0.2)),
-                            ),
-                          );
-                        }).toList(),
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: emc.asMap().entries.map((entry) {
+                            return GestureDetector(
+                              onTap: () => _controller.animateToPage(entry.key),
+                              child: Container(
+                                width: 8.0,
+                                height: 8.0,
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 8.0, horizontal: 4.0),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: (Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : Colors.black)
+                                        .withOpacity(
+                                            _current == entry.key ? 0.9 : 0.2)),
+                              ),
+                            );
+                          }).toList(),
+                        ),
                       ),
                     ],
                   ),

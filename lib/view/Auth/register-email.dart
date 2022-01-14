@@ -47,11 +47,11 @@ class _RegisterState extends State<Register> {
     //--------------------อีเมล----------------------//
     final TextFormField _txtEmail = TextFormField(
       controller: _email,
-      style:TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiLight),
+      style:TextStyle(fontSize: 14,fontFamily: AppTheme.FontAnakotmaiLight),
       decoration: InputDecoration(
         hintText: 'Email',
-        hintStyle: TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiLight),
-        contentPadding: EdgeInsets.only(left: 10,bottom: 5,top: 15),
+        hintStyle: TextStyle(fontSize: 14,fontFamily: AppTheme.FontAnakotmaiLight),
+        contentPadding: EdgeInsets.all(13),
         border: InputBorder.none,
         
         suffixIcon: InkWell(
@@ -93,7 +93,7 @@ class _RegisterState extends State<Register> {
           fit: BoxFit.cover,
         )),
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 10, right: 10),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -102,6 +102,7 @@ class _RegisterState extends State<Register> {
                   child: Row(
                     children: [
                       IconButton(
+                        splashRadius: AppTheme.splashRadius,
                         icon: const Icon(
                           Icons.arrow_back_ios,
                           color: Colors.white,
@@ -173,23 +174,24 @@ class _RegisterState extends State<Register> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width /1,
+                   margin: EdgeInsets.only(left: 5, right: 5),
                   child: Text(
                     'กรุณาใส่ Email ที่คุณจะใช้ในการสมัคร',
                     maxLines: 1,
                     style: TextStyle(fontSize: 17, color: Colors.white70,overflow: TextOverflow.ellipsis),
                   ),
                 ),
-                const SizedBox(height: 5,),
+                const SizedBox(height: 8,),
                 
                 //--------------------อีเมล----------------------//
                 Container(
-                height: MediaQuery.of(context).size.height /13.0,
-                      width: MediaQuery.of(context).size.width * 0.90,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(width: 1.2, color: Colors.black12),
-                          borderRadius:
-                              const BorderRadius.all(const Radius.circular(10.0))),
+                 margin: EdgeInsets.only(left: 5, right: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            border:
+                                Border.all(width: 1.2, color: Colors.black12),
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(10.0))),
                   child: _txtEmail,
                 ),
                 iserror == true

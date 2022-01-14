@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/constants/colors.dart';
+import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/internetConnectivity.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/register_ginfo.dart';
@@ -129,6 +130,7 @@ class _PicProfileState extends State<PicProfile> {
                     child: Row(
                       children: [
                         IconButton(
+                          splashRadius: AppTheme.splashRadius,
                           icon: const Icon(
                             Icons.arrow_back_ios,
                             color: Colors.white,
@@ -160,7 +162,8 @@ class _PicProfileState extends State<PicProfile> {
                         style: TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                            color: Colors.white,          fontFamily: AppTheme.FontAnakotmaiLight,
+),
                       ))),
                   Container(
                     //color: Colors.black,
@@ -211,7 +214,8 @@ class _PicProfileState extends State<PicProfile> {
                                 side: BorderSide(color: Colors.red)),
                             child: Text(
                               'ถ่ายภาพ',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 20,          fontFamily: AppTheme.FontAnakotmaiLight,
+),
                             ),
                             textColor: Colors.white,
                             color: MColors.primaryColor,
@@ -246,7 +250,8 @@ class _PicProfileState extends State<PicProfile> {
                                 side: BorderSide(color: Colors.red)),
                             child: Text(
                               'เลือกรูปภาพ',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 20,          fontFamily: AppTheme.FontAnakotmaiLight,
+),
                             ),
                             textColor: Colors.white,
                             color: MColors.primaryColor,
@@ -280,7 +285,8 @@ class _PicProfileState extends State<PicProfile> {
                                 side: BorderSide(color: Colors.red)),
                             child: Text(
                               'ถัดไป',
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(fontSize: 20,          fontFamily: AppTheme.FontAnakotmaiLight,
+),
                             ),
                             textColor: Colors.white,
                             color: MColors.primaryColor.withOpacity(0.1),

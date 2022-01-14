@@ -58,7 +58,7 @@ Widget texttimetimestamp(DateTime dateTime) => Text(
       TimeUtils.readTimestamp(dateTime.millisecondsSinceEpoch),
       maxLines: 1,
       style: TextStyle(
-        fontFamily: 'Anakotmai-Light',
+        fontFamily: AppTheme.FontAnakotmaiLight,
         fontSize: 14,
         fontWeight: FontWeight.w400,
         color: MColors.textGrey,
@@ -85,14 +85,11 @@ Widget authorpost(
               Profliess(
                 id: id,
               )),
-      child: AutoSizeText(
-        'ผู้เขียน: $string '
-        '${TimeUtils.readTimestamp(dateTime.millisecondsSinceEpoch)}',
-        maxLines: 2,
-        minFontSize: 15,
-        maxFontSize: 18,
+      child: Text(
+        'ผู้เขียน: $string ',
+        maxLines: 1,
         style: TextStyle(
-          color: MColors.primaryBlue,
+          color: MColors.primaryColor,
           fontFamily: AppTheme.FontAnakotmaiLight,
           fontSize: 15,
           overflow: TextOverflow.ellipsis,

@@ -254,7 +254,7 @@ class _DoingSCState extends State<DoingSC> {
                   height: 60,
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: AutoSizeText(
+                    child: Text(
                       'สิ่งที่ "พรรคก้าวไกล" กำลังทำอยู่',
                       maxLines: 2,
                       textAlign: TextAlign.center,
@@ -272,7 +272,7 @@ class _DoingSCState extends State<DoingSC> {
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(18.0),
-                    child: AutoSizeText(
+                    child: Text(
                       'สิ่งที่กำลังทำใน 1 เดือนที่ผ่านมา',
                       maxLines: 2,
                       textAlign: TextAlign.left,
@@ -311,18 +311,18 @@ class _DoingSCState extends State<DoingSC> {
                             var e = pageobjslist[index];
 
                             return InkWell(
-                              onTap: ()async{
+                              onTap: () async {
                                 Navigator.of(context).push(CupertinoPageRoute(
-                                      builder: (BuildContext context) {
-                                    return Webview_EmergencySC(
-                                      url:
-                                          "https://today.moveforwardparty.org/objective/${e.id}?hidebar=true",
-                                      texttitle: e.title,
-                                      iconimage: e.iconUrl,
-                                      checkurl: "https://today.moveforwardparty.org/post/",
-                                    );
-                                  }));
-
+                                    builder: (BuildContext context) {
+                                  return Webview_EmergencySC(
+                                    url:
+                                        "https://today.moveforwardparty.org/objective/${e.id}?hidebar=true",
+                                    texttitle: e.title,
+                                    iconimage: e.iconUrl,
+                                    checkurl:
+                                        "https://today.moveforwardparty.org/post/",
+                                  );
+                                }));
                               },
                               child: Container(
                                 height: MediaQuery.of(context).size.height / 10,
@@ -349,14 +349,15 @@ class _DoingSCState extends State<DoingSC> {
                                       padding: const EdgeInsets.only(
                                           top: 10, left: 15),
                                       child: Center(
-                                        child: AutoSizeText(
+                                        child: Text(
                                           e.title,
                                           maxLines: 1,
                                           overflow: TextOverflow.clip,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
-                                              fontFamily: AppTheme.FontAnakotmaiBold,
+                                              fontFamily:
+                                                  AppTheme.FontAnakotmaiBold,
                                               fontSize: 15,
                                               overflow: TextOverflow.ellipsis),
                                         ),
@@ -384,8 +385,8 @@ class _DoingSCState extends State<DoingSC> {
                 child: Container(
                   color: Colors.white,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 20),
-                    child: AutoSizeText(
+                    padding: const EdgeInsets.only(top: 20, left: 20,bottom: 10),
+                    child: Text(
                       'สิ่งที่ทำที่เคยทำมา',
                       maxLines: 2,
                       textAlign: TextAlign.left,
@@ -394,8 +395,7 @@ class _DoingSCState extends State<DoingSC> {
                           fontWeight: FontWeight.bold,
                           fontFamily: AppTheme.FontAnakotmaiLight,
                           fontSize: 17,
-                          overflow: TextOverflow.ellipsis
-                          ),
+                          overflow: TextOverflow.ellipsis),
                     ),
                   ),
                 ),
@@ -414,17 +414,18 @@ class _DoingSCState extends State<DoingSC> {
                         itemBuilder: (BuildContext context, int index) {
                           var data = pagedoingobjslist[index];
                           return InkWell(
-                            onTap: (){
-                                Navigator.of(context).push(CupertinoPageRoute(
-                                      builder: (BuildContext context) {
-                                    return Webview_EmergencySC(
-                                      url:
-                                          "https://today.moveforwardparty.org/objective/${data.id}?hidebar=true",
-                                      texttitle: data.title,
-                                      iconimage: data.iconUrl,
-                                      checkurl: "https://today.moveforwardparty.org/post/",
-                                    );
-                                  }));
+                            onTap: () {
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                  builder: (BuildContext context) {
+                                return Webview_EmergencySC(
+                                  url:
+                                      "https://today.moveforwardparty.org/objective/${data.id}?hidebar=true",
+                                  texttitle: data.title,
+                                  iconimage: data.iconUrl,
+                                  checkurl:
+                                      "https://today.moveforwardparty.org/post/",
+                                );
+                              }));
                             },
                             child: Container(
                               color: Colors.white,
@@ -433,8 +434,8 @@ class _DoingSCState extends State<DoingSC> {
                                   Container(
                                     margin: EdgeInsets.all(5),
                                     width: MediaQuery.of(context).size.width,
-                                    height:
-                                        MediaQuery.of(context).size.height / 6.5,
+                                    height: MediaQuery.of(context).size.height /
+                                        7.0,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: Colors.grey[50],
@@ -460,41 +461,39 @@ class _DoingSCState extends State<DoingSC> {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             const SizedBox(
-                                              height: 10,
+                                              height: 20,
                                             ),
-                                            Expanded(
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 110),
-                                                child: AutoSizeText(
-                                                  data.hashTag,
-                                                  maxLines: 1,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontFamily: AppTheme
-                                                          .FontAnakotmaiLight,
-                                                      fontSize: 18,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 110),
+                                              child:Text(
+                                                data.hashTag,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: AppTheme
+                                                      .FontAnakotmaiLight,
+                                                  fontSize: 18,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ),
-                                            
                                             Expanded(
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 110),
-                                                child: AutoSizeText(
+                                                child: Text(
                                                   data.title,
                                                   maxLines: 2,
                                                   style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 15,
-                                                    fontFamily: AppTheme
-                                                        .FontAnakotmaiLight,
-                                                        overflow: TextOverflow.ellipsis
-                                                  ),
+                                                      color: Colors.grey,
+                                                      fontSize: 15,
+                                                      fontFamily: AppTheme
+                                                          .FontAnakotmaiLight,
+                                                      overflow: TextOverflow
+                                                          .ellipsis),
                                                 ),
                                               ),
                                             ),

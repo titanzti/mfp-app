@@ -87,6 +87,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   var mode = "";
 
   var postimage = "";
+  var  maxLines = 5;
 
   var userprofileimage = "";
   Future futuregetpostdetiail;
@@ -114,6 +115,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   StreamController _commerntController;
   StreamController _postdetailController;
   var pagename = "";
+  Future futuregetpostdetail;
 
   @override
   void didChangeDependencies() {
@@ -167,7 +169,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
               }
           }));
       //--
-      await Api.getstory(widget.postid).then((responseData) async => ({
+     futuregetpostdetail = Api.getstory(widget.postid).then((responseData) async => ({
             setState(() {
               postloading = true;
             }),
@@ -317,8 +319,10 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
               }),
             }
         }));
+     
   }
-
+  
+  
   @override
   Widget build(BuildContext context) {
     if (onref == true) {
@@ -359,13 +363,15 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                       //     )),
                       AppBardetail(
                         context,
-                        "โพสของ",
-                        pagename == "" ? "" : pagename,
+                        "โพสต์ของ",
+                        pagename == ""?"":pagename,
                         IconButton(
+                          splashRadius: AppTheme.splashRadius,
                           icon: Icon(
                             Icons.arrow_back_ios,
                             color: MColors.primaryColor,
                           ),
+                          
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -393,6 +399,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                         final datapostdetail =
                                             postdetailslist[index];
                                         // pagename=datapostdetail.page[index].name;
+                                        var likenumber = datapostdetail.likeCount;
 
                                         return PostList(
                                             datapostdetail.title,
@@ -400,10 +407,12 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                             datapostdetail.page,
                                             datapostdetail.createdDate,
                                             datapostdetail.gallery,
-                                            datapostdetail.likeCount,
+                                            likenumber,
                                             datapostdetail.commentCount,
                                             datapostdetail.shareCount,
-                                            widget.story);
+                                            widget.story,
+                                            datapostdetail.id,
+                                            datapostdetail);
                                       },
                                     );
                                   });
@@ -433,13 +442,16 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       int likeCount,
       int commentCount,
       int shareCount,
+    
       // String pageid,
       // String pageimage,
       // String pagename,
       // bool isFollow,
       // String pageUsername,
       // bool isOfficial,
-      story) {
+      story,
+        String postid,
+        datapostdetail ) {
     return InkWell(
       onTap: () {},
       child: Container(
@@ -515,7 +527,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                 Navigate.pushPage(
                                     context,
                                     StroyPageSc(
-                                      postid: widget.postid,
+                                      postid:postid,
                                       titalpost: posttitle,
                                       imagUrl: gallery,
                                       type: widget.type,
@@ -531,7 +543,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       mode: mode,
                                     ));
                               },
-                              child: textreadstory('อ่านสตอรี่..')),
+                              child: textreadstory('อ่านสตอรี่...')),
                         )
                       : Container(),
                   Row(
@@ -577,57 +589,99 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                     : Icons.favorite,
                                 color: MColors.primaryBlue,
                               ),
-                              label: '$likeCount ถูกใจ',
-                              width: 0.12,
-                              onTap: () async {
-                                HapticFeedback.lightImpact();
-                                var jsonResponse;
-                                token == "" || token == null
-                                    ? Navigate.pushPage(
-                                        context, Loginregister())
-                                    : await Api.islike(
-                                            widget.postid, userid, token, mode)
-                                        .then((value) => ({
-                                              jsonResponse =
-                                                  jsonDecode(value.body),
-                                              // //(
-                                              //     'message${jsonResponse['message']}'),
-                                              if (value.statusCode == 200)
-                                                {
-                                                  if (jsonResponse['message'] ==
-                                                      "Like Post Success")
-                                                    {
-                                                      setState(() {
-                                                        islikepost =
-                                                            jsonResponse['data']
-                                                                ['isLike'];
-                                                        // ignore: unnecessary_statements
-                                                        likeCount + 1;
-                                                      }),
-                                                    }
-                                                  else if (jsonResponse[
-                                                          'message'] ==
-                                                      "UnLike Post Success")
-                                                    {
-                                                      setState(() {
-                                                        islikepost =
-                                                            jsonResponse['data']
-                                                                ['isLike'];
+                              label: '${datapostdetail.likeCount} ถูกใจ',
+                             width: 0.14,
+                            containerwidth: 3.3,
+                               onTap: () async {
+                              HapticFeedback.lightImpact();
+                              var jsonResponse;
+                              token == null || token == ""
+                                  ? Navigate.pushPage(
+                                      context, Loginregister())
+                                  : mode != "FB"
+                                      ? await Api.islike(
+                                              postid, userid, token, "")
+                                          .then((value) => ({
+                                                jsonResponse =
+                                                    jsonDecode(value.body),
+                                                // print(
+                                                //     'message${jsonResponse['message']}'),
+                                                if (value.statusCode == 200)
+                                                  {
+                                                    if (jsonResponse[
+                                                            'message'] ==
+                                                        "Like Post Success")
+                                                      {
+                                                        setState(() {
+                                                          islikepost =
+                                                              jsonResponse[
+                                                                      'data']
+                                                                  ['isLike'];
+                                                          islikepost = true;
+                                                          datapostdetail.likeCount++;
+                                                        }),
+                                                      }
+                                                    else if (jsonResponse[
+                                                            'message'] ==
+                                                        "UnLike Post Success")
+                                                      {
+                                                        setState(() {
+                                                          islikepost =
+                                                              jsonResponse[
+                                                                      'data']
+                                                                  ['isLike'];
+                                                          islikepost = false;
+                                                         datapostdetail.likeCount--;
+                                                        }),
+                                                      }
+                                                  }
+                                              }))
+                                      : await Api.islike(
+                                              postid, userid, token, mode)
+                                          .then((value) => ({
+                                                jsonResponse =
+                                                    jsonDecode(value.body),
+                                                // print(
+                                                //     'message${jsonResponse['message']}'),
+                                                if (value.statusCode == 200)
+                                                  {
+                                                    if (jsonResponse[
+                                                            'message'] ==
+                                                        "Like Post Success")
+                                                      {
+                                                        setState(() {
+                                                          islikepost =
+                                                              jsonResponse[
+                                                                      'data']
+                                                                  ['isLike'];
+                                                          datapostdetail.likeCount++;
+                                                        }),
+                                                      }
+                                                    else if (jsonResponse[
+                                                            'message'] ==
+                                                        "UnLike Post Success")
+                                                      {
+                                                        setState(() {
+                                                          islikepost =
+                                                              jsonResponse[
+                                                                      'data']
+                                                                  ['isLike'];
 
-                                                        likeCount--;
-                                                      }),
-                                                    }
-                                                }
-                                            }));
-                                //("กดlike");
-                              },
+                                                          datapostdetail.likeCount--;
+                                                        }),
+                                                      }
+                                                  }
+                                              }));
+                              // print("กดlike");
+                            },
                             ),
                             PostButton(
                               icon: Icon(
                                 MdiIcons.commentOutline,
                                 color: MColors.primaryBlue,
                               ),
-                              width: 0.24,
+                                 width: 0.24,
+                                                        containerwidth: 3.1,
                               label: '$commentCount ความคิดเห็น',
                               onTap: () => {},
                             ),
@@ -636,15 +690,18 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                 Icons.share,
                                 color: MColors.primaryBlue,
                               ),
-                              width: 0.12,
+                           width: 0.12,
+                            containerwidth: 3.3,
+
                               label: '$shareCount แชร์',
-                              onTap: () => {},
+                              onTap: null,
                             ),
                           ],
                         ),
                       ],
                     ),
                   ),
+                  
                   token == "" || token == null
                       ? Container()
                       : Row(
@@ -664,10 +721,9 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                             Padding(
                               padding: const EdgeInsets.only(left: 4.0),
                               child: Container(
-                                width: MediaQuery.of(context).size.width / 1.3,
-                                height:
-                                    MediaQuery.of(context).size.height / 14.0,
-                                decoration: BoxDecoration(
+                                      width: MediaQuery.of(context).size.width / 1.3,
+                                 height: maxLines * 19.0,
+                                       decoration: BoxDecoration(
                                   border: Border.all(
                                     color: Color(0xffDEDEDE),
                                   ),
@@ -676,17 +732,41 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                     Radius.circular(9.0),
                                   ),
                                 ),
-                                child: TextFormField(
-                                  controller: _commentController,
-                                  onSaved: (String value) {},
+                    child:  new ConstrainedBox(
+        constraints: BoxConstraints(
+            maxHeight: 300.0,
+        ),
+                      child: LayoutBuilder(
+                        builder: (context, size){
+                          TextSpan text = new TextSpan(
+                            text: _commentController.text,
+                            // style: yourTextStyle,
+                          );
+                    
+                          TextPainter tp = new TextPainter(
+                              text: text,
+                              textDirection: TextDirection.ltr,
+                              textAlign: TextAlign.left,
+                          );
+                          tp.layout(maxWidth: size.maxWidth);
+                    
+                          int lines = (tp.size.height / tp.preferredLineHeight).ceil();
+                          int maxLines = 10;
+                          print('height${tp.size.height}');
+                    
+                          return TextField(
+                           controller: _commentController,
                                   autofocus: widget.onfocus,
                                   onChanged: (String value) {
                                     _commenteditController.text = value;
                                     //(value);
                                   },
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.all(20.0),
+                            maxLines: lines < maxLines ? null : maxLines,
+                            decoration: InputDecoration(
+                                    // contentPadding: const EdgeInsets.all(13.0),
                                     hintText: "เขียนความคิดเห็น",
+                                            border: InputBorder.none,
+                                
                                     suffixIcon: Row(
                                       mainAxisAlignment: MainAxisAlignment
                                           .spaceBetween, // added line
@@ -694,6 +774,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                           MainAxisSize.min, // added line
                                       children: <Widget>[
                                         IconButton(
+                                          splashRadius: AppTheme.splashRadius,
                                           icon: Icon(
                                             Icons.send,
                                             color: Colors.black,
@@ -713,8 +794,12 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       ],
                                     ),
                                   ),
-                                ),
-                              ),
+                            // style: yourTextStyle,
+                          );
+                        }
+                      ),
+                    ),
+                  ),
                             ),
                           ],
                         ),
@@ -846,7 +931,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                   Navigator.pop(context);
                                 },
                               ),
-                            ))
+                            ),)
                     : Container();
               },
               child: Padding(
@@ -972,8 +1057,81 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                       width: 8,
                                     ),
                                     GestureDetector(
+                                      onTap: (){
+                                        showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            new CupertinoAlertDialog(
+                                              title: new Text(
+                                                "ลบ คอมเม้นต์",
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                              actions: [
+                                                CupertinoDialogAction(
+                                                  isDefaultAction: true,
+                                                  child: new Text("ยกเลิก"),
+                                                  onPressed: () =>
+                                                      Navigator.pop(context),
+                                                ),
+                                                CupertinoDialogAction(
+                                                    child: new Text(
+                                                      "ลบ",
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                                    onPressed: () async {
+                                                      Api.deletecomment(
+                                                              widget.postid,
+                                                              token,
+                                                              commentid,
+                                                              userid,
+                                                              mode)
+                                                          .then((value) => ({
+                                                                if (value[
+                                                                        'status'] ==
+                                                                    1)
+                                                                  {
+                                                                    setState(
+                                                                        () {
+                                                                      onref =
+                                                                          true;
+                                                                    }),
+                                                                  }
+                                                              }));
+                                                      Navigator.pop(context);
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                              SnackBar(
+                                                        backgroundColor:
+                                                            Colors.green,
+                                                        content: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.check,
+                                                              color: MColors
+                                                                  .primaryWhite,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text('สำเร็จ')
+                                                          ],
+                                                        ),
+                                                        duration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    2500),
+                                                      ));
+                                                    }),
+                                              ],
+                                            ));
+
+                                      },
                                       child: Text(
-                                        'ตอบกลับ',
+                                        'ลบ',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             color: MColors.primaryBlue),

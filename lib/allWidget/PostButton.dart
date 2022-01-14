@@ -8,13 +8,14 @@ class PostButton extends StatelessWidget {
   final String label;
   final Function onTap;
   final double width;
+  final double containerwidth;
 
   const PostButton({
     Key key,
     @required this.icon,
     @required this.label,
     @required this.onTap,
-    this.width,
+    this.width, this.containerwidth,
   }) : super(key: key);
 
   @override
@@ -22,34 +23,36 @@ class PostButton extends StatelessWidget {
     var hight = MediaQuery.of(context).size.height;
     var widthCont = MediaQuery.of(context).size.width;
 
-    return Expanded(
+    return Container(
+     width: MediaQuery.of(context).size.width/containerwidth,
+
       child: Material(
         color: Colors.white,
         child: InkWell(
           onTap: onTap,
           child: Container(
             // color: Colors.black,
-            // padding: const EdgeInsets.symmetric(horizontal: 2.0),
+            // padding: const EdgeInsets.symmetric(vertical: 10.0),
             height: hight / 20.0,
             child: Row(
               // mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              // crossAxisAlignment :CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment :CrossAxisAlignment.center,
               children: [
+                
                 Spacer(),
                 icon,
                 // const SizedBox(width: 4.0),
                 // Container(
                 //   width: 90,
                 //   child: Text(label, maxLines: 2, overflow: TextOverflow.ellipsis))
-                Spacer(),
+                const SizedBox(width: 5,),
                 Container(
                   width: MediaQuery.of(context).size.width*width,
                   child: AutoSizeText(label,
                       style: TextStyle(   fontFamily: AppTheme.FontAnakotmaiLight,
 
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
                     color: MColors.primaryBlue,
                     
                     overflow: TextOverflow.ellipsis,),

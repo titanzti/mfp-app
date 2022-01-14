@@ -299,6 +299,7 @@ class _ProfliessState extends State<Profliess> {
                             Row(
                               children: <Widget>[
                                 IconButton(
+                                  splashRadius: AppTheme.splashRadius,
                                   icon: Icon(
                                     Icons.arrow_back_ios,
                                     color: MColors.primaryColor,
@@ -381,7 +382,7 @@ class _ProfliessState extends State<Profliess> {
                               //   fit: BoxFit.cover,
                               // ),
                               Positioned(
-                                bottom: -80.0,
+                                bottom: -55.0,
                                 child: ClipOval(
                                   child: CachedNetworkImage(
                                     width:
@@ -416,8 +417,8 @@ class _ProfliessState extends State<Profliess> {
                     ),
                     SliverToBoxAdapter(
                         child: Container(
-                      color: Colors.white,
-                      height: 200,
+                      color: MColors.primaryWhite,
+                      height: MediaQuery.of(context).size.height/5.7,
                       child: Stack(
                         children: <Widget>[
                           Padding(
@@ -447,7 +448,7 @@ class _ProfliessState extends State<Profliess> {
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 16.0,
-                                  fontFamily: 'Anakotmai',
+                                  fontFamily: AppTheme.FontAnakotmaiLight,
                                 ),
                               ),
                             ),
@@ -1030,7 +1031,7 @@ class _ProfliessState extends State<Profliess> {
                                       userid: userid,
                                     ));
                               },
-                              child: textreadstory('อ่านสตอรี่..')),
+                              child: textreadstory('อ่านสตอรี่...')),
                         )
                       : Container(),
                   Row(
@@ -1068,7 +1069,8 @@ class _ProfliessState extends State<Profliess> {
                                 Icons.favorite_outline,
                                 color: MColors.primaryBlue,
                               ),
-                              width: 0.12,
+                             width: 0.14,
+                            containerwidth: 3.3,
                               label: '${nDataList1.likeCount} ถูกใจ',
                               onTap: () async {
                                 HapticFeedback.lightImpact();
@@ -1119,17 +1121,43 @@ class _ProfliessState extends State<Profliess> {
                                 color: MColors.primaryBlue,
                               ),
                               label: '${nDataList1.commentCount} ความคิดเห็น',
-                             width: 0.24,
-                              onTap: () =>{},
+                                width: 0.24,
+                                containerwidth: 3.1,
+                              onTap: () =>{
+                                 Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return PostDetailsSC(
+                                      posttitle: posttitle,
+                                      subtitle: subtitle,
+                                      authorposttext: postbyname,
+                                      dateTime: dateTime,
+                                      gallery: gallery,
+                                      postid: postid,
+                                      userimage: userimageUrl,
+                                      pageid: pageid,
+                                      pagename: pagename,
+                                      isFollow: isFollow,
+                                      pageUsername: pageUsername,
+                                      onfocus: true,
+                                      story: story,
+                                    );
+                                  },
+                                ),
+                              ),
+                              },
                             ),
                             PostButton(
                               icon: Icon(
                                 Icons.share,
                                 color: MColors.primaryBlue,
                               ),
-                              width: 0.12,
+                                 width: 0.12,
+                            containerwidth: 3.3,
+
                               label: '${nDataList1.shareCount}แชร์',
-                              onTap: () => {},
+                              onTap: null,
                             ),
                           ],
                         ),

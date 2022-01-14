@@ -26,7 +26,7 @@ class _LoginregisterState extends State<Loginregister>
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20),
+          padding: const EdgeInsets.only(left: 10, right: 10),
           child: Column(
             children: [
               Container(
@@ -34,6 +34,7 @@ class _LoginregisterState extends State<Loginregister>
                 child: Row(
                   children: [
                     IconButton(
+                      splashRadius: AppTheme.splashRadius,
                       icon: const Icon(
                         Icons.arrow_back_ios,
                         color: MColors.primaryColor,
@@ -63,19 +64,28 @@ class _LoginregisterState extends State<Loginregister>
               ),
               Column(
                 children: <Widget>[
-                  _Buttion('เข้าสู่ระบบ', Login(), MColors.primaryColor),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15,right: 15),
+                    child: _Buttion('เข้าสู่ระบบ', Login(), MColors.primaryColor),
+                  ),
                   SizedBox(
                     height: 5,
                   ),
                   TextButton(
                       onPressed: () {
                         Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Register()),
-                );
-                        
+                          context,
+                          MaterialPageRoute(builder: (context) => Register()),
+                        );
                       },
-                      child: Text('สร้างบัญชีก้าวไกล',style: TextStyle(fontSize: 16,fontFamily: AppTheme.FontAnakotmaiLight,color: MColors.primaryColor,fontWeight:FontWeight .bold ),))
+                      child: Text(
+                        'สร้างบัญชีก้าวไกล',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: AppTheme.FontAnakotmaiLight,
+                            color: MColors.primaryColor,
+                            fontWeight: FontWeight.bold),
+                      ))
                 ],
               ),
 
