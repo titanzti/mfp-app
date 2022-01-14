@@ -733,7 +733,6 @@ class _TodayScState extends State<TodaySc> {
             ),
           ),
           const SizedBox(width: 5,),
-          
         ],
       ),
     );
