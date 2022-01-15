@@ -81,6 +81,8 @@ class _ProfliessState extends State<Profliess> {
 
   bool _hasNextPage = true;
   List<PageObjective> pageobjslist = [];
+
+  var msgres="กำลังโหลด";
   @override
   void initState() {
     //print('initState');
@@ -202,9 +204,11 @@ class _ProfliessState extends State<Profliess> {
 
     //('getPostListSS');
     print(responseData.body);
-
+  dataht = jsonDecode(responseData.body);
+       msgres = dataht['message'];
     if (responseData.statusCode == 200) {
-      dataht = jsonDecode(responseData.body);
+    
+
       for (var i in dataht["data"]["posts"]) {
         setState(() {
           listpostss.add(PostPageSS.fromJson(i));
@@ -212,6 +216,19 @@ class _ProfliessState extends State<Profliess> {
         });
 
         //(listpostss.length);
+      }
+      print('msgres$msgres');
+      if(msgres=="Successfully Search Page Post"){
+      setState(() {
+        // msgres="กำลังโหลด";
+        _hasNextPage=false;
+      });
+      }else if(msgres=="Page Post Not Found"){
+        setState(() {
+        // msgres="ไม่มีโพสแล้ว";
+        _hasNextPage=false;
+      });
+
       }
 
       setState(() {
@@ -226,7 +243,7 @@ class _ProfliessState extends State<Profliess> {
   void _loadMore() async {
     if (
         // _hasNextPage == true &&
-        // _isLoadMoreRunning == false &&
+        _isLoadMoreRunning == false &&
         _scrollController.offset >=
             _scrollController.position.maxScrollExtent) {
       //('AT end');
@@ -235,7 +252,6 @@ class _ProfliessState extends State<Profliess> {
       setState(() {
         _currentMax = _currentMax + 5;
         _isLoadMoreRunning = true;
-        _hasNextPage = true;
 
         // Display a progress indicator at the bottom
       });
@@ -326,7 +342,7 @@ class _ProfliessState extends State<Profliess> {
                                     backgroundImage: (pageprofileimage == null)
                                         ? NetworkImage(
                                             'https://via.placeholder.com/150')
-                                        : NetworkImage(
+                                        : CachedNetworkImageProvider(
                                             "https://today-api.moveforwardparty.org/api$pageprofileimage/image"),
                                     backgroundColor: Colors.transparent,
                                   ),
@@ -642,44 +658,35 @@ class _ProfliessState extends State<Profliess> {
                                         height:
                                             MediaQuery.of(context).size.height /
                                                 3.0,
-                                        // decoration: BoxDecoration(
-                                        //     borderRadius:
-                                        //         BorderRadius.circular(8),
-                                        //     color: Colors.white,
-                                        //     boxShadow: [
-                                        //       BoxShadow(
-                                        //         color: Colors.grey.withOpacity(1),
-                                        //         blurRadius: 0.5,
-                                        //         spreadRadius: 0.5,
-                                        //       ),
-                                        //     ]),
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color:
+                                                    Colors.grey.withOpacity(1),
+                                                blurRadius: 0.5,
+                                                spreadRadius: 0.5,
+                                              ),
+                                            ]),
                                         child: Column(
                                           children: [
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 11),
-                                              child: ClipOval(
-                                                child: CachedNetworkImage(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      3,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                      6,
-                                                  imageUrl:
+                                              child: new Container(
+                                                width: 130.0,
+                                                height: 130.0,
+                                                decoration: new BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: new DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image:
+                                                        new CachedNetworkImageProvider(
                                                       'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
-                                                  fit: BoxFit.cover,
-                                                  placeholder: (context, url) =>
-                                                      Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color:
-                                                          MColors.primaryColor,
                                                     ),
                                                   ),
-                                                  // errorWidget: (context, url, error) => errorWidget,
                                                 ),
                                               ),
                                               // CircleAvatar(
@@ -773,29 +780,31 @@ class _ProfliessState extends State<Profliess> {
                               },
                             ),
                           ),
-                    listpostss.length == 0
-                        ? SliverToBoxAdapter(child: Container())
-                        : _isLoadMoreRunning == true
-                            ? SliverToBoxAdapter(
-                                child: Center(
-                                    child: Container(
-                                  margin: EdgeInsets.only(bottom: 20),
-                                  child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          MColors.primaryColor)),
-                                )),
-                              )
-                            : SliverToBoxAdapter(
-                                child: Container(),
-                              ),
+                    // listpostss.length == 0
+                    //     ? SliverToBoxAdapter(child: Container())
+                    //     : _isLoadMoreRunning == true
+                    //         ? SliverToBoxAdapter(
+                    //             child: Center(
+                    //                 child: Container(
+                    //               margin: EdgeInsets.only(),
+                    //               child: CircularProgressIndicator(
+                    //                   valueColor: AlwaysStoppedAnimation<Color>(
+                    //                       MColors.primaryColor)),
+                    //             )),
+                    //           )
+                    //         : SliverToBoxAdapter(
+                    //             child: Container(),
+                    //           ),
                     if (_hasNextPage == false)
                       SliverToBoxAdapter(
                         child: Container(
                           height: 50,
-                          padding: const EdgeInsets.only(top: 30, bottom: 40),
-                          color: Colors.amber,
+                          padding: const EdgeInsets.only(bottom: 20),
+                          color: MColors.primaryWhite,
                           child: Center(
-                            child: Text('You have fetched all of the content'),
+                            child: Text('${msgres=="Page Post Not Found"?"ไม่มีโพสแล้ว":'กำลังโหลด'}',
+                            style:TextStyle(fontSize: 14)
+                            ),
                           ),
                         ),
                       ),
@@ -996,20 +1005,20 @@ class _ProfliessState extends State<Profliess> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: InkWell(
-                    onTap: (){
-                               Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return PostDetailsSC(
-                postid: postid,
-                onfocus: false,
-              );
-            },
-          ),
-        );
-                    },
-                    child: texttitlepost(posttitle, context)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return PostDetailsSC(
+                                postid: postid,
+                                onfocus: false,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: texttitlepost(posttitle, context)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -1044,24 +1053,14 @@ class _ProfliessState extends State<Profliess> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  verticalDirection:VerticalDirection.down,
+                  verticalDirection: VerticalDirection.down,
                   children: [
                     Flexible(
                       // width: MediaQuery.of(context).size.width/1.5,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
-                        child: authorpost(
-                            postbyname,
-                            context,
-                            dateTime,
-                            pageid,
-                            "",
-                            "fasle",
-                            false,
-                            "false",
-                            false,
-                            "",
-                            false),
+                        child: authorpost(postbyname, context, dateTime, pageid,
+                            "", "fasle", false, "false", false, "", false),
                       ),
                     ),
                     // SizedBox(
@@ -1089,17 +1088,15 @@ class _ProfliessState extends State<Profliess> {
                               color: MColors.primaryBlue,
                             ),
                             width: 0.14,
-                            containerwidth: 3.3,
+                            containerwidth: 3.4,
                             label: '${nDataList1.likeCount} ถูกใจ',
                             onTap: () async {
                               HapticFeedback.lightImpact();
 
                               var jsonResponse;
                               token == "" || token == null
-                                  ? Navigate.pushPage(
-                                      context, Loginregister())
-                                  : await Api.islike(
-                                          postid, userid, token, "")
+                                  ? Navigate.pushPage(context, Loginregister())
+                                  : await Api.islike(postid, userid, token, "")
                                       .then((value) => ({
                                             jsonResponse =
                                                 jsonDecode(value.body),

@@ -31,7 +31,9 @@ class _SliderShowFullmagesState extends State<SliderShowFullmages>  {
       color: Colors.transparent,
       child: new Scaffold(
         backgroundColor: Colors.transparent,
+        
         appBar: AppBar(
+          
           backgroundColor: Colors.transparent,
           //title: const Text('Transaction Detail'),
         ),

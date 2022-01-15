@@ -64,15 +64,17 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             titleSpacing: 0.0,
-         
-  
 
             iconTheme: IconThemeData(
-
               color: Colors.black, //change your color here
             ),
+            leading: IconButton(
+    icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+    onPressed: () => Navigator.of(context).pop(),
+  ), 
             title: Row(
               children: [
+                
                 CircleAvatar(
                   radius: 25.0,
                   backgroundImage: NetworkImage(
@@ -183,7 +185,7 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
                                       label: hashtag,
                                     )),
                           )
-                        : postid == action.url
+                        : hashtag == action.url
                             ? () {}()
                             : Future.delayed(Duration.zero, () async {
                                 Navigator.push(
@@ -212,7 +214,7 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
                                       id: page,
                                     )),
                           )
-                        : postid == action.url
+                        : page == action.url
                             ? () {}()
                             : Future.delayed(Duration.zero, () async {
                                 Navigator.push(
@@ -230,7 +232,7 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
                   } else {
                     return Platform.isAndroid
                         ? NavigationDecision.prevent
-                        : NavigationDecision.prevent;
+                        : NavigationDecision.navigate;
                   }
                 },
                 gestureNavigationEnabled: true,

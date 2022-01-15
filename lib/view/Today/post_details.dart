@@ -343,92 +343,84 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
             color: Colors.white,
             child: SafeArea(
               child: Scaffold(
-                body: RefreshIndicator(
-                  onRefresh: () => () async {
-                    // //('RefreshIndicator');
-                    HapticFeedback.mediumImpact();
-
-                    _handleRefresh();
-                  }(),
-                  child: CustomScrollView(
-                    controller: _trackingScrollController,
-                    slivers: [
-                      // primaryAppBar(
-                      //     context,
-                      //     token,
-                      //     userid,
-                      //     userprofileimage,
-                      //     Search(),
-                      //     ProfileSc(
-                      //       userid: userid,
-                      //       token: token,
-                      //     )),
-                      AppBardetail(
-                        context,
-                        "โพสต์ของ",
-                        pagename == "" ? "" : pagename,
-                        IconButton(
-                          splashRadius: AppTheme.splashRadius,
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: MColors.primaryColor,
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
+                body: CustomScrollView(
+                  controller: _trackingScrollController,
+                  slivers: [
+                    // primaryAppBar(
+                    //     context,
+                    //     token,
+                    //     userid,
+                    //     userprofileimage,
+                    //     Search(),
+                    //     ProfileSc(
+                    //       userid: userid,
+                    //       token: token,
+                    //     )),
+                    AppBardetail(
+                      context,
+                      "โพสต์ของ",
+                      pagename == "" ? "" : pagename,
+                      IconButton(
+                        splashRadius: AppTheme.splashRadius,
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: MColors.primaryColor,
                         ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
                       ),
+                    ),
 
-                      ///-----------APPBAR-----------------//
-                      postloading == true
-                          ? SliverToBoxAdapter(child: CarouselLoading())
-                          : SliverToBoxAdapter(
-                              child: StreamBuilder(
-                                stream: _postdetailController.stream,
-                                builder: (BuildContext context,
-                                    AsyncSnapshot snapshot) {
-                                  return Builder(
-                                      builder: (BuildContext context) {
-                                    return ListView.builder(
-                                      physics: ClampingScrollPhysics(),
-                                      shrinkWrap: true,
-                                      // padding: const EdgeInsets.all(8.0),
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: postdetailslist.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        final datapostdetail =
-                                            postdetailslist[index];
-                                        // pagename=datapostdetail.page[index].name;
-                                        var likenumber =
-                                            datapostdetail.likeCount;
+                    ///-----------APPBAR-----------------//
+                    postloading == true
+                        ? SliverToBoxAdapter(child: CarouselLoading())
+                        : SliverToBoxAdapter(
+                            child: StreamBuilder(
+                              stream: _postdetailController.stream,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot snapshot) {
+                                return Builder(
+                                    builder: (BuildContext context) {
+                                  return ListView.builder(
+                                    physics: ClampingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    // padding: const EdgeInsets.all(8.0),
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: postdetailslist.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final datapostdetail =
+                                          postdetailslist[index];
+                                      // pagename=datapostdetail.page[index].name;
+                                      var likenumber =
+                                          datapostdetail.likeCount;
 
-                                        return PostList(
-                                            datapostdetail.title,
-                                            datapostdetail.detail,
-                                            datapostdetail.page,
-                                            datapostdetail.createdDate,
-                                            datapostdetail.gallery,
-                                            likenumber,
-                                            datapostdetail.commentCount,
-                                            datapostdetail.shareCount,
-                                            widget.story,
-                                            datapostdetail.id,
-                                            datapostdetail);
-                                      },
-                                    );
-                                  });
-                                },
-                              ),
+                                      return PostList(
+                                          datapostdetail.title,
+                                          datapostdetail.detail,
+                                          datapostdetail.page,
+                                          datapostdetail.createdDate,
+                                          datapostdetail.gallery,
+                                          likenumber,
+                                          datapostdetail.commentCount,
+                                          datapostdetail.shareCount,
+                                          widget.story,
+                                          datapostdetail.id,
+                                          datapostdetail);
+                                    },
+                                  );
+                                });
+                              },
                             ),
-                      // SliverToBoxAdapter(
-                      //   child:
-                      // ),
-                      SliverToBoxAdapter(
-                        child: _buildCommentList(),
-                      ),
-                    ],
-                  ),
+                          ),
+                    // SliverToBoxAdapter(
+                    //   child:
+                    // ),
+                    SliverToBoxAdapter(
+                      child: _buildCommentList(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -601,7 +593,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                               ),
                               label: '${datapostdetail.likeCount} ถูกใจ',
                               width: 0.14,
-                              containerwidth: 3.3,
+                                                  containerwidth: 3.4,
+
                               onTap: () async {
                                 HapticFeedback.lightImpact();
                                 var jsonResponse;

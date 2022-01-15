@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
@@ -341,7 +342,7 @@ class _DoingSCState extends State<DoingSC> {
                                   children: [
                                     CircleAvatar(
                                       radius: 55.0,
-                                      backgroundImage: NetworkImage(
+                                      backgroundImage: CachedNetworkImageProvider(
                                           'https://today-api.moveforwardparty.org/api${e.iconUrl}/image'),
                                       backgroundColor: Colors.transparent,
                                     ),
@@ -453,7 +454,7 @@ class _DoingSCState extends State<DoingSC> {
                                               top: 16.0, left: 14.0),
                                           child: CircleAvatar(
                                               radius: 36.0,
-                                              backgroundImage: NetworkImage(
+                                              backgroundImage: CachedNetworkImageProvider(
                                                   'https://today-api.moveforwardparty.org/api${data.iconUrl}/image')),
                                         ),
                                         Column(

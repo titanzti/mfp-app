@@ -573,7 +573,7 @@ class _TodayScState extends State<TodaySc> {
                           // size: 15.0,
                         ),
                         width: 0.14,
-                        containerwidth: 3.3,
+                        containerwidth: 3.4,
                         label: '${nDataList1.post.likeCount} ถูกใจ',
                         onTap: () async {
                           HapticFeedback.lightImpact();
@@ -666,7 +666,7 @@ class _TodayScState extends State<TodaySc> {
                         ),
                         label: '$commentCount ความคิดเห็น',
                         width: 0.24,
-                        containerwidth: 3.1,
+                        containerwidth: 2.9,
                         onTap: () async {
                           Navigator.push(
                             context,
@@ -710,7 +710,7 @@ class _TodayScState extends State<TodaySc> {
                       ),
                     ],
                   ),
-                   Divider(),
+                  //  Divider(),
                 ],
               ),
             ),
@@ -814,8 +814,11 @@ class _TodayScState extends State<TodaySc> {
                             leading: CircleAvatar(
                               radius: 26,
                               backgroundColor: Colors.white,
-                              child: ClipOval(
-                                child:
+                              child: CircleAvatar(
+                                radius: 20,
+                                
+                                
+                                backgroundImage:
                                     data.imageUrl == null || data.imageUrl == ""
                                         ? new Image.network(
                                             "https://www.pngfind.com/pngs/m/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.png",
@@ -823,12 +826,14 @@ class _TodayScState extends State<TodaySc> {
                                             height: 60,
                                             fit: BoxFit.cover,
                                           )
-                                        : Image.network(
+                                        : CachedNetworkImageProvider(
                                             "https://today-api.moveforwardparty.org/api${data.imageUrl}/image",
-                                            width: 60,
-                                            height: 60,
-                                            fit: BoxFit.cover,
+                                            // width: 60,
+                                            // height: 60,
+                                             //   backgroundColor:
+                                              //       Colors.transparent,
                                           ),
+                                              backgroundColor: Colors.transparent,
                               ),
                             ),
                             title: new Text(
@@ -998,7 +1003,7 @@ class _TodayScState extends State<TodaySc> {
                     height: MediaQuery.of(context).size.height / 2.2,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                          image: NetworkImage(
+                          image: CachedNetworkImageProvider(
                               "https://today-api.moveforwardparty.org/api${emcs.coverPageUrl}/image"),
                           fit: BoxFit.cover),
                     ),

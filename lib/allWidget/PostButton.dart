@@ -52,7 +52,7 @@ class PostButton extends StatelessWidget {
                   child: Text(label,
                       style: TextStyle(   fontFamily: AppTheme.FontAnakotmaiLight,
 
-                    fontSize: 15,
+                    fontSize: 14,
                     color: MColors.primaryBlue,
                     
                     overflow: TextOverflow.ellipsis,),

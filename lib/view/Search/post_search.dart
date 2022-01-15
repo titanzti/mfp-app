@@ -47,6 +47,10 @@ class _PostSearchState extends State<PostSearch> {
   var datagetuserprofile;
 
   var userprofileimage = "";
+
+  String msg="กำลังโหลด";
+
+  int indexlist;
   @override
   void initState() {
     // TODO: implement initState
@@ -104,10 +108,12 @@ class _PostSearchState extends State<PostSearch> {
 
   void _loadMore() async {
     //('_loadMore');
-    if (_scrollController.offset >=
-        _scrollController.position.maxScrollExtent) {
+      double _scrollPosition;
+
+    if (
+      _scrollController.offset >=
+        _scrollController.position.pixels) {
       //('AT end');
-      await new Future.delayed(const Duration(milliseconds: 100));
 
       setState(() {
         _currentMax = _currentMax + 5;
@@ -181,7 +187,11 @@ class _PostSearchState extends State<PostSearch> {
                       ) {
                         final nDataList1 =
                             todayController.serarchpostList[index];
-
+                             indexlist=index;
+                             if(index==todayController.serarchpostList.length-1){
+                               isloadmore=false;                 
+                                 msg="ไม่มีโพสแล้ว";
+                            }
                         return postlist(
                           nDataList1.post.title,
                           nDataList1.post.detail,
@@ -206,14 +216,43 @@ class _PostSearchState extends State<PostSearch> {
                         );
                       });
               }),
-              if (isloadmore == true)
-                Center(
+              // if (todayController.isLoadingmore.value == false)
+              //   Center(
+              //       child: Container(
+              //     margin: EdgeInsets.only(bottom: 30),
+              //     child: Container(
+              //             height: 50,
+              //             padding: const EdgeInsets.only(bottom: 20),
+              //             color: MColors.primaryWhite,
+              //             child: Center(
+              //               child: Text(msg,
+              //               style:TextStyle(fontSize: 14)
+              //               ),
+              //             ),
+              //           ),
+              //   )),
+                 indexlist!=todayController.serarchpostList.length-1?
+                      Center(
+                        child: Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              MColors.primaryColor)),
+                    )):Center(
                     child: Container(
                   margin: EdgeInsets.only(bottom: 30),
-                  child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          MColors.primaryColor)),
+                  child: Container(
+                          height: 50,
+                          padding: const EdgeInsets.only(bottom: 20),
+                          color: MColors.primaryWhite,
+                          child: Center(
+                            child: Text(msg,
+                            style:TextStyle(fontSize: 14)
+                            ),
+                          ),
+                        ),
                 )),
+
             ],
           ),
         ),
@@ -353,7 +392,8 @@ class _PostSearchState extends State<PostSearch> {
                               size: 19.0,
                             ),
                               width: 0.14,
-                          containerwidth: 3.3,
+                                                  containerwidth: 3.4,
+
                             label: '${nDataList1.post.likeCount} ถูกใจ',
                             onTap: () async {
                               HapticFeedback.lightImpact();

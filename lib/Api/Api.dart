@@ -493,7 +493,7 @@ class Api {
     List<PostSearchModel> searchpostList = [];
 
     // //('getHashtagList');
-    var url = "${Api.url}api/main/content/search";
+    var url = "${Api.url}api/main/content/search?isHideStory=true";
     final headers = {
       // "mode": "EMAIL",
       "content-type": "application/json",
@@ -517,9 +517,9 @@ class Api {
     );
     // //('body$body');
     // //('responseData${responseData.body}');
+      var datapostlist = jsonDecode(responseData.body);
 
     if (responseData.statusCode == 200) {
-      var datapostlist = jsonDecode(responseData.body);
       for (Map i in datapostlist["data"]) {
         searchpostList.add(PostSearchModel.fromJson(i));
       }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart';
@@ -455,7 +456,7 @@ Widget primaryAppBar(
                 padding: const EdgeInsets.all(5.0),
                 child: CircleAvatar(
                   radius: 25.0,
-                  backgroundImage: NetworkImage(
+                  backgroundImage: CachedNetworkImageProvider(
                       'https://today-api.moveforwardparty.org/api$imageurl/image'),
                   backgroundColor: Colors.transparent,
                 ),
