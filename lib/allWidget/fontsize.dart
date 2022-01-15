@@ -59,7 +59,7 @@ Widget texttimetimestamp(DateTime dateTime) => Text(
       maxLines: 1,
       style: TextStyle(
         fontFamily: AppTheme.FontAnakotmaiLight,
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: FontWeight.w400,
         color: MColors.textGrey,
       ),

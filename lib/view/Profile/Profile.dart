@@ -111,9 +111,8 @@ class _ProfileScState extends State<ProfileSc> {
               ),
             ))
         : Container(
-                      color: Colors.white,
-
-          child: SafeArea(
+            color: Colors.white,
+            child: SafeArea(
               bottom: false,
               child: Scaffold(
                 backgroundColor: MColors.primaryWhite,
@@ -138,7 +137,8 @@ class _ProfileScState extends State<ProfileSc> {
                             Row(
                               children: <Widget>[
                                 Padding(
-                                  padding: EdgeInsets.only(top: 2.0, left: 25.0),
+                                  padding:
+                                      EdgeInsets.only(top: 2.0, left: 25.0),
                                   child: CircleAvatar(
                                     radius: 42.0,
                                     backgroundImage: image == ""
@@ -157,7 +157,8 @@ class _ProfileScState extends State<ProfileSc> {
                                     top: 38.0,
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         displayName1,
@@ -277,7 +278,8 @@ class _ProfileScState extends State<ProfileSc> {
                                               'สร้างเพจ',
                                               style: TextStyle(
                                                 color: Colors.black54,
-                                                fontSize: AppTheme.SmallTextSize,
+                                                fontSize:
+                                                    AppTheme.SmallTextSize,
                                                 fontFamily:
                                                     AppTheme.FontAnakotmaiLight,
                                               ),
@@ -320,8 +322,9 @@ class _ProfileScState extends State<ProfileSc> {
                               ),
                             ),
                             Spacer(
-                              flex: 2,
+                              flex: 5,
                             ),
+                           
                             Text(
                               'ยังไม่ได้เป็นสมาชิก',
                               maxLines: 1,
@@ -554,13 +557,15 @@ class _ProfileScState extends State<ProfileSc> {
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: AppTheme.BodyTextSize,
-                                          fontFamily: AppTheme.FontAnakotmaiLight,
+                                          fontFamily:
+                                              AppTheme.FontAnakotmaiLight,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(top: 4, right: 10),
+                                      padding:
+                                          EdgeInsets.only(top: 4, right: 10),
                                       child: Icon(
                                         Icons.arrow_forward_ios_sharp,
                                         size: 18.0,
@@ -587,6 +592,6 @@ class _ProfileScState extends State<ProfileSc> {
                 ),
               ),
             ),
-        );
+          );
   }
 }

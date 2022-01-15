@@ -9,6 +9,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:mfp_app/Api/Api.dart';
 import 'package:mfp_app/allWidget/PostButton.dart';
 import 'package:mfp_app/constants/colors.dart';
+import 'package:mfp_app/model/gallery.dart';
 import 'package:mfp_app/model/postModel.dart';
 import 'package:mfp_app/allWidget/circle_button.dart';
 import 'package:mfp_app/model/searchpostlist.dart';
@@ -44,7 +45,7 @@ import 'package:mfp_app/view/Search/search.dart';
 //     actions: actions,
 //   );
 // }
-Widget myAlbumCard(List<GalleryPostSearchModel> list, BuildContext context) {
+Widget myAlbumCard(List<Gallery> list, BuildContext context) {
   if (list.length >= 4) {
     return Container(
       //  color: Colors.yellow,
@@ -156,7 +157,7 @@ Widget myAlbumCard(List<GalleryPostSearchModel> list, BuildContext context) {
   }
 }
 
-Widget searchAlbumCard(List<GallerySearchPost> list, BuildContext context) {
+Widget searchAlbumCard(List<Gallery> list, BuildContext context) {
   if (list.length >= 4) {
     return Container(
       height: MediaQuery.of(context).size.height / 2.6,
@@ -166,13 +167,13 @@ Widget searchAlbumCard(List<GallerySearchPost> list, BuildContext context) {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             getItems(
-                list[0].signUrl != null ? list[0].signUrl : list[0].imageUrl,
-                list[1].signUrl != null ? list[1].signUrl : list[1].imageUrl,
+                list[0].signUrl != null ? list[0].signUrl : "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+                list[1].signUrl != null ? list[1].signUrl : "https://today-api.moveforwardparty.org/api${list[1].imageUrl}/image",
                 0,
                 context),
             getItems(
-                list[2].signUrl != null ? list[2].signUrl : list[2].imageUrl,
-                list[3].signUrl != null ? list[3].signUrl : list[3].imageUrl,
+                list[2].signUrl != null ? list[2].signUrl :  "https://today-api.moveforwardparty.org/api${list[2].imageUrl}/image",
+                list[3].signUrl != null ? list[3].signUrl :  "https://today-api.moveforwardparty.org/api${list[3].imageUrl}/image",
                 list.length - 4,
                 context),
           ],
@@ -240,11 +241,8 @@ Widget searchAlbumCard(List<GallerySearchPost> list, BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            list[0].signUrl != null
-                ? topImage(list[0].signUrl != null
-                    ? list[0].signUrl
-                    : "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
-                : Container(),
+           topImage("https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
+              
           ],
         ),
       ),
@@ -426,7 +424,7 @@ Widget primaryAppBar(
                 backgroundColor: Colors.white70,
                 child: IconButton(
                   
-                  iconSize: 30,
+                  iconSize: 27,
                   splashRadius: AppTheme.splashRadius,
                   icon: (Icon(
                     CupertinoIcons.person_crop_circle,

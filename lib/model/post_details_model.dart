@@ -1,5 +1,7 @@
 
 
+import 'package:mfp_app/model/gallery.dart';
+
 class PostDetailsModel {
     PostDetailsModel({
         this.id,
@@ -160,41 +162,7 @@ class PostDetailsModel {
     };
 }
 
-class Gallery {
-    Gallery({
-        this.id,
-        this.post,
-        this.fileId,
-        this.imageUrl,
-        this.s3ImageUrl,
-        this.ordering,
-    });
 
-    String id;
-    String post;
-    String fileId;
-    String imageUrl;
-    String s3ImageUrl;
-    int ordering;
-
-    factory Gallery.fromJson(Map<String, dynamic> json) => Gallery(
-        id: json["_id"],
-        post: json["post"],
-        fileId: json["fileId"],
-        imageUrl: json["imageURL"],
-        s3ImageUrl: json["s3ImageURL"],
-        ordering: json["ordering"],
-    );
-
-    Map<String, dynamic> toJson() => {
-        "_id": id,
-        "post": post,
-        "fileId": fileId,
-        "imageURL": imageUrl,
-        "s3ImageURL": s3ImageUrl,
-        "ordering": ordering,
-    };
-}
 
 class HashTag {
     HashTag({

@@ -17,7 +17,8 @@ class Webview_EmergencySC extends StatefulWidget {
   final String checkurl;
   final String iconimage;
 
-  Webview_EmergencySC({Key key, this.url, this.texttitle, this.checkurl, this.iconimage})
+  Webview_EmergencySC(
+      {Key key, this.url, this.texttitle, this.checkurl, this.iconimage})
       : super(key: key);
 
   @override
@@ -62,31 +63,38 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
+            titleSpacing: 0.0,
+         
+  
+
             iconTheme: IconThemeData(
+
               color: Colors.black, //change your color here
             ),
-            title: Row(children: [
-              CircleAvatar(
-                radius: 25.0,
-                backgroundImage: NetworkImage(
-                        "https://today-api.moveforwardparty.org/api${widget.iconimage}/image"),
-                backgroundColor: Colors.transparent,
-              ),
-              const SizedBox(width: 8,),
-              Expanded(
-                child: Text(
-                widget.texttitle == null ? "" : widget.texttitle,
-                maxLines: 1,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: AppTheme.FontAnakotmaiLight,
-                    color: MColors.textDark,
-                    overflow: TextOverflow.ellipsis
-                    ),
-                          ),
-              ),
-              
-            ],),
+            title: Row(
+              children: [
+                CircleAvatar(
+                  radius: 25.0,
+                  backgroundImage: NetworkImage(
+                      "https://today-api.moveforwardparty.org/api${widget.iconimage}/image"),
+                  backgroundColor: Colors.transparent,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                Expanded(
+                  child: Text(
+                    widget.texttitle == null ? "" : widget.texttitle,
+                    maxLines: 1,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: AppTheme.FontAnakotmaiLight,
+                        color: MColors.textDark,
+                        overflow: TextOverflow.ellipsis),
+                  ),
+                ),
+              ],
+            ),
             // leading:    Row(children: [
             //   IconButton(
             //                 icon: const Icon(
@@ -98,11 +106,10 @@ class _Webview_EmergencySCState extends State<Webview_EmergencySC> {
             //                   //('กด');
             //                 },
             //               ),
-            
+
             // ],
             // ),
             leadingWidth: 50,
-           
           ),
           body: Stack(
             children: <Widget>[

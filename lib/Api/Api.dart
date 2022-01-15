@@ -755,14 +755,16 @@ class Api {
   }
 
   static Future<Http.Response> iseditcomment(String postid, String uid,
-      String token, String commentid, String commenttext) async {
+      String token, String commentid, String commenttext,String mode) async {
     // //('iseditcomment');
     var url = "${Api.url}api/post/$postid/comment/$commentid";
     final headers = {
       "userid": uid,
       "authorization": "Bearer $token",
       "content-type": "application/json",
-      "accept": "application/json"
+      "accept": "application/json",
+            "mode": mode,
+
       // "whereConditions": {"isHideStory": false},
     };
     Map data = {"comment": commenttext};

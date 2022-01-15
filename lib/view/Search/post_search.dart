@@ -142,6 +142,7 @@ class _PostSearchState extends State<PostSearch> {
       child: Scaffold(
         // key: _scaffoldKey,
         appBar: AppBar(
+          titleSpacing: 0.0,
           backgroundColor: Color(0xffF47932),
           title: Text('${widget.label}'),
           leading:  IconButton(
@@ -241,283 +242,266 @@ class _PostSearchState extends State<PostSearch> {
       String type,
       String coverimage,
       story) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(
+    return Container(
+      width: 200,
+      color: MColors.containerWhite,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //  coverimage!=null? Image.network("https://today-api.moveforwardparty.org/api$coverimage/image",width: double.infinity,):
+          // gallery[0].imageUrl!=null? Image.network("https://today-api.moveforwardparty.org/api${gallery[0].imageUrl}/image",):Image.network("https://today-api.moveforwardparty.org/api${gallery[0].signUrl}/image",),
+          gallery.length != 0 ? InkWell(
+       onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => SliderShowFullmages(listImagesModel: gallery, current: 0))),
+
+            child: myAlbumCard(gallery, context)) : Container(),
+          Card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: InkWell(
+                    onTap: (){
+                               Navigator.push(
           context,
           MaterialPageRoute(
             builder: (BuildContext context) {
               return PostDetailsSC(
-                posttitle: posttitle,
-                subtitle: subtitle,
-                authorposttext: authorposttext,
-                dateTime: dateTime,
-                gallery: gallery,
-                likeCount: likeCount,
-                commentCount: commentCount,
-                shareCoun: shareCount,
                 postid: postid,
-                userimage: pageimage,
-                pageid: pageid,
-                pageimage: pageimage,
-                pagename: pagename,
-                isFollow: isFollow,
-                pageUsername: pageUsername,
-                isOfficial: isOfficial,
                 onfocus: false,
               );
             },
           ),
         );
-      },
-      child: Container(
-        width: 200,
-        color: MColors.containerWhite,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //  coverimage!=null? Image.network("https://today-api.moveforwardparty.org/api$coverimage/image",width: double.infinity,):
-            // gallery[0].imageUrl!=null? Image.network("https://today-api.moveforwardparty.org/api${gallery[0].imageUrl}/image",):Image.network("https://today-api.moveforwardparty.org/api${gallery[0].signUrl}/image",),
-            gallery.length != 0 ? InkWell(
-         onTap: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => SliderShowFullmages(listImagesModel: gallery, current: 0))),
+                    },
+                    child: texttitlepost(posttitle, context)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: subtexttitlepost(subtitle, context),
+                ),
+                story != null
+                    ? Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: InkWell(
+                            onTap: () async {
+                              Navigate.pushPage(
+                                  context,
+                                  StroyPageSc(
+                                    postid: postid,
+                                    titalpost: posttitle,
+                                    imagUrl: gallery,
+                                    type: type,
+                                    createdDate: dateTime,
+                                    postby: pagename,
+                                    imagepage: pageimage,
+                                    likeCount: likeCount,
+                                    commentCount: commentCount,
+                                    shareCount: shareCount,
+                                    repostCount: repostCount,
+                                    token: token,
+                                    userid: userid,
+                                  ));
+                            },
+                            child: textreadstory('อ่านสตอรี่...')),
+                      )
+                    : Container(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+              
+                      Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child:  authorpost(
+                        authorposttext,
+                        context,
+                        dateTime,
+                        pageid,
+                        pageimage,
+                        pagename,
+                        isFollow,
+                        pageUsername,
+                        isOfficial,
+                        userid,
+                        true),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 2,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Divider(),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: <Widget>[
+                          PostButton(
+                            icon: Icon(
+                              Icons.favorite_outline,
+                              color: MColors.primaryBlue,
+                              size: 19.0,
+                            ),
+                              width: 0.14,
+                          containerwidth: 3.3,
+                            label: '${nDataList1.post.likeCount} ถูกใจ',
+                            onTap: () async {
+                              HapticFeedback.lightImpact();
+                              var jsonResponse;
+                              token == null || token == ""
+                                  ? Navigate.pushPage(
+                                      context, Loginregister())
+                                  : mode != "FB"
+                                      ? await Api.islike(
+                                              postid, userid, token, "")
+                                          .then((value) => ({
+                                                jsonResponse =
+                                                    jsonDecode(value.body),
+                                                // //(
+                                                //     'message${jsonResponse['message']}'),
+                                                if (value.statusCode == 200)
+                                                  {
+                                                    if (jsonResponse[
+                                                            'message'] ==
+                                                        "Like Post Success")
+                                                      {
+                                                        setState(() {
+                                                          islike =
+                                                              jsonResponse[
+                                                                      'data']
+                                                                  ['isLike'];
+                                                          nDataList1.post
+                                                              .likeCount++;
+                                                        }),
+                                                      }
+                                                    else if (jsonResponse[
+                                                            'message'] ==
+                                                        "UnLike Post Success")
+                                                      {
+                                                        setState(() {
+                                                          islike =
+                                                              jsonResponse[
+                                                                      'data']
+                                                                  ['isLike'];
 
-              child: myAlbumCard(gallery, context)) : Container(),
-            Card(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: texttitlepost(posttitle, context),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: subtexttitlepost(subtitle, context),
-                  ),
-                  story != null
-                      ? Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: InkWell(
-                              onTap: () async {
-                                Navigate.pushPage(
-                                    context,
-                                    StroyPageSc(
-                                      postid: postid,
-                                      titalpost: posttitle,
-                                      imagUrl: gallery,
-                                      type: type,
-                                      createdDate: dateTime,
-                                      postby: pagename,
-                                      imagepage: pageimage,
+                                                          nDataList1.post
+                                                              .likeCount--;
+                                                        }),
+                                                      }
+                                                  }
+                                              }))
+                                      : await Api.islike(
+                                              postid, userid, token, mode)
+                                          .then((value) => ({
+                                                jsonResponse =
+                                                    jsonDecode(value.body),
+                                                // //(
+                                                //     'message${jsonResponse['message']}'),
+                                                if (value.statusCode == 200)
+                                                  {
+                                                    if (jsonResponse[
+                                                            'message'] ==
+                                                        "Like Post Success")
+                                                      {
+                                                        setState(() {
+                                                          islike =
+                                                              jsonResponse[
+                                                                      'data']
+                                                                  ['isLike'];
+                                                          nDataList1.post
+                                                              .likeCount++;
+                                                        }),
+                                                      }
+                                                    else if (jsonResponse[
+                                                            'message'] ==
+                                                        "UnLike Post Success")
+                                                      {
+                                                        setState(() {
+                                                          islike =
+                                                              jsonResponse[
+                                                                      'data']
+                                                                  ['isLike'];
+
+                                                          nDataList1.post
+                                                              .likeCount--;
+                                                        }),
+                                                      }
+                                                  }
+                                              }));
+                              // //("กดlike");
+                            },
+                          ),
+                          PostButton(
+                            icon: Icon(
+                              MdiIcons.commentOutline,
+                              color: MColors.primaryBlue,
+                               size: 19.0,
+                            ),
+                            label: '$commentCount ความคิดเห็น',
+                            width: 0.24,
+                          containerwidth: 3.1,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return PostDetailsSC(
+                                      posttitle: posttitle,
+                                      subtitle: subtitle,
+                                      authorposttext: authorposttext,
+                                      dateTime: dateTime,
+                                      gallery: gallery,
                                       likeCount: likeCount,
                                       commentCount: commentCount,
-                                      shareCount: shareCount,
-                                      repostCount: repostCount,
-                                      token: token,
-                                      userid: userid,
-                                    ));
-                              },
-                              child: textreadstory('อ่านสตอรี่...')),
-                        )
-                      : Container(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                
-                        Container(
-                        width: MediaQuery.of(context).size.width/1.1,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child:  authorpost(
-                          authorposttext,
-                          context,
-                          dateTime,
-                          pageid,
-                          pageimage,
-                          pagename,
-                          isFollow,
-                          pageUsername,
-                          isOfficial,
-                          userid,
-                          true),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 2,
+                                      shareCoun: shareCount,
+                                      postid: postid,
+                                      userimage: userprofileimage,
+                                      pageid: pageid,
+                                      pageimage: pageimage,
+                                      pagename: pagename,
+                                      isFollow: isFollow,
+                                      pageUsername: pageUsername,
+                                      isOfficial: isOfficial,
+                                      onfocus: true,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                          PostButton(
+                            icon: Icon(
+                              Icons.share,
+                              color: MColors.primaryBlue,
+                               size: 19.0,
+                            ),
+                          width: 0.12,
+                          containerwidth: 3.5,
+                            label: '$shareCount แชร์',
+                            onTap: null,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Divider(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: <Widget>[
-                            PostButton(
-                              icon: Icon(
-                                Icons.favorite_outline,
-                                color: MColors.primaryBlue,
-                                // size: 15.0,
-                              ),
-                             width: 0.14,
-                            containerwidth: 3.3,
-                              label: '${nDataList1.post.likeCount} ถูกใจ',
-                              onTap: () async {
-                                HapticFeedback.lightImpact();
-                                var jsonResponse;
-                                token == null || token == ""
-                                    ? Navigate.pushPage(
-                                        context, Loginregister())
-                                    : mode != "FB"
-                                        ? await Api.islike(
-                                                postid, userid, token, "")
-                                            .then((value) => ({
-                                                  jsonResponse =
-                                                      jsonDecode(value.body),
-                                                  // //(
-                                                  //     'message${jsonResponse['message']}'),
-                                                  if (value.statusCode == 200)
-                                                    {
-                                                      if (jsonResponse[
-                                                              'message'] ==
-                                                          "Like Post Success")
-                                                        {
-                                                          setState(() {
-                                                            islike =
-                                                                jsonResponse[
-                                                                        'data']
-                                                                    ['isLike'];
-                                                            nDataList1.post
-                                                                .likeCount++;
-                                                          }),
-                                                        }
-                                                      else if (jsonResponse[
-                                                              'message'] ==
-                                                          "UnLike Post Success")
-                                                        {
-                                                          setState(() {
-                                                            islike =
-                                                                jsonResponse[
-                                                                        'data']
-                                                                    ['isLike'];
-
-                                                            nDataList1.post
-                                                                .likeCount--;
-                                                          }),
-                                                        }
-                                                    }
-                                                }))
-                                        : await Api.islike(
-                                                postid, userid, token, mode)
-                                            .then((value) => ({
-                                                  jsonResponse =
-                                                      jsonDecode(value.body),
-                                                  // //(
-                                                  //     'message${jsonResponse['message']}'),
-                                                  if (value.statusCode == 200)
-                                                    {
-                                                      if (jsonResponse[
-                                                              'message'] ==
-                                                          "Like Post Success")
-                                                        {
-                                                          setState(() {
-                                                            islike =
-                                                                jsonResponse[
-                                                                        'data']
-                                                                    ['isLike'];
-                                                            nDataList1.post
-                                                                .likeCount++;
-                                                          }),
-                                                        }
-                                                      else if (jsonResponse[
-                                                              'message'] ==
-                                                          "UnLike Post Success")
-                                                        {
-                                                          setState(() {
-                                                            islike =
-                                                                jsonResponse[
-                                                                        'data']
-                                                                    ['isLike'];
-
-                                                            nDataList1.post
-                                                                .likeCount--;
-                                                          }),
-                                                        }
-                                                    }
-                                                }));
-                                // //("กดlike");
-                              },
-                            ),
-                            PostButton(
-                              icon: Icon(
-                                MdiIcons.commentOutline,
-                                color: MColors.primaryBlue,
-                                // size: 20.0,
-                              ),
-                              label: '$commentCount ความคิดเห็น',
-                             width: 0.24,
-                                                        containerwidth: 3.1,
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                      return PostDetailsSC(
-                                        posttitle: posttitle,
-                                        subtitle: subtitle,
-                                        authorposttext: authorposttext,
-                                        dateTime: dateTime,
-                                        gallery: gallery,
-                                        likeCount: likeCount,
-                                        commentCount: commentCount,
-                                        shareCoun: shareCount,
-                                        postid: postid,
-                                        userimage: userprofileimage,
-                                        pageid: pageid,
-                                        pageimage: pageimage,
-                                        pagename: pagename,
-                                        isFollow: isFollow,
-                                        pageUsername: pageUsername,
-                                        isOfficial: isOfficial,
-                                        onfocus: true,
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                            PostButton(
-                              icon: Icon(
-                                Icons.share,
-                                color: MColors.primaryBlue,
-                                // size: 25.0,
-                              ),
-                            width: 0.12,
-                            containerwidth: 3.3,
-                              label: '$shareCount แชร์',
-                              onTap: null,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            SizedBox(
-              height: 3,
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 3,
+          ),
+        ],
       ),
     );
   }

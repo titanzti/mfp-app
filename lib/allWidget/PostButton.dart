@@ -49,16 +49,16 @@ class PostButton extends StatelessWidget {
                 const SizedBox(width: 5,),
                 Container(
                   width: MediaQuery.of(context).size.width*width,
-                  child: AutoSizeText(label,
+                  child: Text(label,
                       style: TextStyle(   fontFamily: AppTheme.FontAnakotmaiLight,
 
-                    fontSize: 14,
+                    fontSize: 15,
                     color: MColors.primaryBlue,
                     
                     overflow: TextOverflow.ellipsis,),
                       maxLines: 1,
-                      minFontSize: 13,
-                      maxFontSize: 17,
+                      // minFontSize: 14,
+                      // maxFontSize: 17,
                       overflow: TextOverflow.ellipsis),
                 ),
                 Spacer(),
