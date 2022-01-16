@@ -132,11 +132,12 @@ Widget myAlbumCard(List<Gallery> list, BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            list[0].signUrl != null
-                ? topImage(
-                    "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
-                  )
-                : SizedBox.shrink(),
+             Image.network("https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image"),
+            // list[0].signUrl != null
+            //     ? topImage(
+            //         "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
+            //       )
+            //     : SizedBox.shrink(),
           ],
         ),
       ),
@@ -148,9 +149,10 @@ Widget myAlbumCard(List<Gallery> list, BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            topImage(
-              "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
-            )
+            Image.network("https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image"),
+            // topImage(
+            //   ,
+            // )
           ],
         ),
       ),
@@ -242,7 +244,8 @@ Widget searchAlbumCard(List<Gallery> list, BuildContext context) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-           topImage("https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
+            
+           Image.network("https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",fit: BoxFit.cover,filterQuality:FilterQuality .low ,),
               
           ],
         ),
@@ -456,7 +459,7 @@ Widget primaryAppBar(
                 padding: const EdgeInsets.all(5.0),
                 child: CircleAvatar(
                   radius: 25.0,
-                  backgroundImage: CachedNetworkImageProvider(
+                  backgroundImage: NetworkImage(
                       'https://today-api.moveforwardparty.org/api$imageurl/image'),
                   backgroundColor: Colors.transparent,
                 ),

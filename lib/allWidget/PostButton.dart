@@ -33,7 +33,7 @@ class PostButton extends StatelessWidget {
           child: Container(
             // color: Colors.black,
             // padding: const EdgeInsets.symmetric(vertical: 10.0),
-            height: hight / 20.0,
+            height: hight / 25.0,
             child: Row(
               // mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,

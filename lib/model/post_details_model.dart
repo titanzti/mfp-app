@@ -41,6 +41,8 @@ class PostDetailsModel {
         this.isLike,
         this.likeAsPage,
         this.isComment,
+              this.story,
+
     });
 
     String id;
@@ -80,6 +82,8 @@ class PostDetailsModel {
     bool isLike;
     bool likeAsPage;
     bool isComment;
+      Story story;
+
 
     factory PostDetailsModel.fromJson(Map<String, dynamic> json) => PostDetailsModel(
         id: json["_id"],
@@ -119,6 +123,8 @@ class PostDetailsModel {
         isLike: json["isLike"],
         likeAsPage: json["likeAsPage"],
         isComment: json["isComment"],
+                        story: json["story"] == null ? null : Story.fromJson(json["story"]),
+
     );
 
     Map<String, dynamic> toJson() => {
@@ -159,9 +165,16 @@ class PostDetailsModel {
         "isLike": isLike,
         "likeAsPage": likeAsPage,
         "isComment": isComment,
+
     };
 }
+class Story {
+  Story();
 
+  factory Story.fromJson(Map<String, dynamic> json) => Story();
+
+  Map<String, dynamic> toJson() => {};
+}
 
 
 class HashTag {

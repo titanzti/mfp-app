@@ -279,7 +279,6 @@ class _ProfliessState extends State<Profliess> {
 
   @override
   Widget build(BuildContext context) {
-    print('_isLoadMoreRunning$_isLoadMoreRunning');
     return isLoading == true
         ? Container(
             color: Colors.white,
@@ -443,10 +442,11 @@ class _ProfliessState extends State<Profliess> {
                         ],
                       ),
                     ),
+                    SliverToBoxAdapter(child: const SizedBox(height: 12,)),
                     SliverToBoxAdapter(
                         child: Container(
                       color: MColors.primaryWhite,
-                      height: MediaQuery.of(context).size.height / 5.1,
+                      height: MediaQuery.of(context).size.height / 5.5,
                       child: Stack(
                         children: <Widget>[
                           Padding(
@@ -658,18 +658,18 @@ class _ProfliessState extends State<Profliess> {
                                         height:
                                             MediaQuery.of(context).size.height /
                                                 3.0,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: Colors.white,
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color:
-                                                    Colors.grey.withOpacity(1),
-                                                blurRadius: 0.5,
-                                                spreadRadius: 0.5,
-                                              ),
-                                            ]),
+                                        // decoration: BoxDecoration(
+                                        //     borderRadius:
+                                        //         BorderRadius.circular(8),
+                                        //     color: Colors.white,
+                                        //     boxShadow: [
+                                        //       BoxShadow(
+                                        //         color:
+                                        //             Colors.grey.withOpacity(1),
+                                        //         blurRadius: 0.5,
+                                        //         spreadRadius: 0.5,
+                                        //       ),
+                                        //     ]),
                                         child: Column(
                                           children: [
                                             Padding(
@@ -815,69 +815,70 @@ class _ProfliessState extends State<Profliess> {
           );
   }
 
-  Widget myAlbumCardPagepost(List<GalleryPostPageSS> list) {
-    if (list.length >= 4) {
-      return Container(
-        height: MediaQuery.of(context).size.height / 2.6,
-        width: MediaQuery.of(context).size.width / 1.0,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              getItems(list[0].signUrl, list[1].signUrl, 0, context),
-              getItems(
-                  list[2].signUrl, list[3].signUrl, list.length - 4, context),
-            ],
-          ),
-        ),
-      );
-    } else if (list.length >= 3) {
-      return Container(
-        height: MediaQuery.of(context).size.height / 2.6,
-        width: double.infinity,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              getItems(list[0].signUrl, list[1].signUrl, 0, context),
-              Expanded(
-                child: getItems(list[2].signUrl, list[2].signUrl ?? "",
-                    list.length - 3, context),
-              ),
-            ],
-          ),
-        ),
-      );
-    } else if (list.length >= 2) {
-      return Container(
-        height: MediaQuery.of(context).size.height / 2.6,
-        width: MediaQuery.of(context).size.width / 1.0,
-        color: Colors.white,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              getItems(list[0].signUrl, list[1].signUrl, 0, context),
-            ],
-          ),
-        ),
-      );
-    } else if (list.length >= 1) {
-      return Container(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              list[0].signUrl != null
-                  ? topImage(list[0].signUrl.toString())
-                  : Container(),
-            ],
-          ),
-        ),
-      );
-    }
-  }
+  // Widget myAlbumCardPagepost(List<GalleryPostPageSS> list) {
+  //   if (list.length >= 4) {
+  //     return Container(
+  //       height: MediaQuery.of(context).size.height / 2.6,
+  //       width: MediaQuery.of(context).size.width / 1.0,
+  //       child: Center(
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: <Widget>[
+  //             getItems(list[0].signUrl, list[1].signUrl, 0, context),
+  //             getItems(
+  //                 list[2].signUrl, list[3].signUrl, list.length - 4, context),
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   } else if (list.length >= 3) {
+  //     return Container(
+  //       height: MediaQuery.of(context).size.height / 2.6,
+  //       width: double.infinity,
+  //       child: Center(
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: <Widget>[
+  //             getItems(list[0].signUrl, list[1].signUrl, 0, context),
+  //             Expanded(
+  //               child: getItems(list[2].signUrl, list[2].signUrl ?? "",
+  //                   list.length - 3, context),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   } else if (list.length >= 2) {
+  //     return Container(
+  //       height: MediaQuery.of(context).size.height / 2.6,
+  //       width: MediaQuery.of(context).size.width / 1.0,
+  //       color: Colors.white,
+  //       child: Center(
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: <Widget>[
+  //             getItems(list[0].signUrl, list[1].signUrl, 0, context),
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   } else if (list.length >= 1) {
+  //     return Container(
+  //       child: Center(
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: <Widget>[
+  //             list[0].signUrl != null
+
+  //                 ? topImage(list[0].signUrl.toString())
+  //                 : Container(),
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 
   Widget mymultialbumcardpagepost(List<GalleryPostPageSS> list) {
     if (list.length >= 4) {
@@ -953,11 +954,9 @@ class _ProfliessState extends State<Profliess> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               list[0].imageUrl != null || list[0].imageUrl != ""
-                  ? topImage(
-                      "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image",
-                    )
-                  // Image.network(
-                  //     "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
+                  ? 
+                  Image.network(
+                      "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
                   : SizedBox.shrink(),
             ],
           ),
@@ -1069,16 +1068,16 @@ class _ProfliessState extends State<Profliess> {
                     texttimetimestamp(dateTime),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Divider(),
-                ),
+              
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                        Divider(
+                         thickness: 1.0,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

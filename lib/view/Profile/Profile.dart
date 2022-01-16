@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:fdottedline/fdottedline.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mfp_app/Api/Api.dart';
@@ -123,24 +124,23 @@ class _ProfileScState extends State<ProfileSc> {
                         Search(), null),
                     SliverToBoxAdapter(
                         child: Divider(
-                      color: Colors.transparent,
-                      height: 3,
-                      thickness: 6.0,
+                      thickness: 1.0,
                     )),
                     SliverToBoxAdapter(
                       child: Container(
-                        height: MediaQuery.of(context).size.height / 5.5,
+                        height: MediaQuery.of(context).size.height / 9.0,
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
                         child: Row(
                           children: <Widget>[
                             Row(
+                              // mainAxisAlignment :MainAxisAlignment.start,
                               children: <Widget>[
                                 Padding(
                                   padding:
                                       EdgeInsets.only(top: 2.0, left: 25.0),
                                   child: CircleAvatar(
-                                    radius: 42.0,
+                                    radius: 35.0,
                                     backgroundImage: image == ""
                                         ? NetworkImage(
                                             'https://via.placeholder.com/150')
@@ -153,31 +153,38 @@ class _ProfileScState extends State<ProfileSc> {
                                   width: 15.0,
                                 ),
                                 Padding(
-                                  padding: EdgeInsets.only(
-                                    top: 38.0,
-                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20.0, horizontal: 5),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Text(
                                         displayName1,
+                                        maxLines: 1,
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontSize: AppTheme.BodyTextSize,
                                             fontFamily:
                                                 AppTheme.FontAnakotmaiMedium,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                            overflow: TextOverflow.ellipsis,
+                                            ),
                                       ),
+                                     
+                                      
                                       Row(
                                         children: [
+                                          
                                           Text(
                                             email,
+                                            maxLines: 1,
                                             style: TextStyle(
                                               color: Colors.black54,
                                               fontSize: 15.5,
                                               fontFamily:
                                                   AppTheme.FontAnakotmaiLight,
+                                                     overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                           const SizedBox(
@@ -226,9 +233,7 @@ class _ProfileScState extends State<ProfileSc> {
                     ),
                     SliverToBoxAdapter(
                         child: Divider(
-                      color: Colors.transparent,
-                      height: 3,
-                      thickness: 6.0,
+                      thickness: 1.0,
                     )),
                     SliverToBoxAdapter(
                         child: Container(
@@ -265,21 +270,40 @@ class _ProfileScState extends State<ProfileSc> {
                                     Container(
                                       child: Column(
                                         children: [
-                                          CircleAvatar(
-                                            radius: 36.0,
-                                            backgroundImage: NetworkImage(
-                                                'https://via.placeholder.com/150'),
-                                            backgroundColor: Colors.transparent,
+                                          Stack(
+                                            children: [
+                                              FDottedLine(
+                                                color: Colors.grey[300],
+                                                height: 70.0,
+                                                width: 70.0,
+                                                strokeWidth: 2.0,
+                                                dottedLength: 8.0,
+                                                space: 2.0,
+
+                                                /// Set corner
+                                                corner:
+                                                    FDottedLineCorner.all(50),
+                                                child: Container(
+                                                    width: 75,
+                                                    height: 75,
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle),
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      size: 30,
+                                                      color: Colors.grey[400],
+                                                    )),
+                                              ),
+                                            ],
                                           ),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8.0),
+                                         padding:
+                                              const EdgeInsets.only(top: 8.0),
                                             child: Text(
                                               'สร้างเพจ',
                                               style: TextStyle(
                                                 color: Colors.black54,
-                                                fontSize:
-                                                    AppTheme.SmallTextSize,
+                                                fontSize: AppTheme.SmallTextSize,
                                                 fontFamily:
                                                     AppTheme.FontAnakotmaiLight,
                                               ),
@@ -298,10 +322,9 @@ class _ProfileScState extends State<ProfileSc> {
                     ),
                     SliverToBoxAdapter(
                         child: Divider(
-                      color: Colors.transparent,
-                      height: 3,
-                      thickness: 6.0,
+                      thickness: 1.0,
                     )),
+
                     SliverToBoxAdapter(
                       child: Container(
                         height: 60.0,
@@ -324,16 +347,19 @@ class _ProfileScState extends State<ProfileSc> {
                             Spacer(
                               flex: 5,
                             ),
-                           
-                            Text(
-                              'ยังไม่ได้เป็นสมาชิก',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: primaryColor,
-                                fontSize: AppTheme.BodyTextSize,
-                                fontFamily: AppTheme.FontAnakotmaiLight,
-                                fontWeight: FontWeight.bold,
+                            Padding(
+                              padding: const EdgeInsets.only(right: 20.0),
+                              child: Text(
+                                'ยังไม่ได้เป็นสมาชิก',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: primaryColor,
+                                  fontSize: AppTheme.BodyTextSize,
+                                  fontFamily: AppTheme.FontAnakotmaiLight,
+                                  fontWeight: FontWeight.bold,
+                                     overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ),
                             Padding(

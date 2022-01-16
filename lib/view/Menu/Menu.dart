@@ -274,6 +274,7 @@ class _MenuSCState extends State<MenuSC> {
                   ),
                 ),
               ),
+              SliverToBoxAdapter(child:const SizedBox(height: 10,)),
               SliverToBoxAdapter(
                 child: InkWell(
                   onTap: () async {
@@ -286,7 +287,7 @@ class _MenuSCState extends State<MenuSC> {
                     }));
                   },
                   child: Container(
-                    margin: EdgeInsets.all(14),
+                    margin: EdgeInsets.only(left: 10, right: 10),
                     width: 100,
                     height: MediaQuery.of(context).size.height / 5.3,
                     decoration: BoxDecoration(
