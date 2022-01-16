@@ -245,9 +245,10 @@ class _ProfliessState extends State<Profliess> {
         // _hasNextPage == true &&
         _isLoadMoreRunning == false &&
         _scrollController.offset >=
-            _scrollController.position.maxScrollExtent) {
+            _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
       //('AT end');
-      await new Future.delayed(const Duration(milliseconds: 100));
+      await new Future.delayed(const Duration(milliseconds: 200));
 
       setState(() {
         _currentMax = _currentMax + 5;
@@ -310,12 +311,7 @@ class _ProfliessState extends State<Profliess> {
                     //       userid: userid,
                     //       token: token,
                     //     )),
-                    SliverToBoxAdapter(
-                        child: Divider(
-                      color: Colors.grey[100],
-                      height: 3,
-                      thickness: 3.0,
-                    )),
+                   
                     SliverToBoxAdapter(
                       child: Container(
                         color: Colors.white,
@@ -618,7 +614,7 @@ class _ProfliessState extends State<Profliess> {
                     SliverToBoxAdapter(
                       child: Builder(builder: (BuildContext context) {
                         return SizedBox(
-                          height: 200.0,
+                          height: MediaQuery.of(context).size.height/4,
                           child: Scrollbar(
                             isAlwaysShown: true,
                             controller: _scrollHolController,
@@ -676,8 +672,8 @@ class _ProfliessState extends State<Profliess> {
                                               padding: const EdgeInsets.only(
                                                   top: 11),
                                               child: new Container(
-                                                width: 130.0,
-                                                height: 130.0,
+                                                width: 120.0,
+                                                height: 120.0,
                                                 decoration: new BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   image: new DecorationImage(
@@ -1175,15 +1171,16 @@ class _ProfliessState extends State<Profliess> {
                           ),
                         ],
                       ),
+                         const SizedBox(height: 7,),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(
-            height: 3,
-          ),
+         const SizedBox(
+          width: 5,
+        ),
         ],
       ),
     );
