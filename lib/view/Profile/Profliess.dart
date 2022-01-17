@@ -203,7 +203,7 @@ class _ProfliessState extends State<Profliess> {
     );
 
     //('getPostListSS');
-    print(responseData.body);
+    // print(responseData.body);
   dataht = jsonDecode(responseData.body);
        msgres = dataht['message'];
     if (responseData.statusCode == 200) {
@@ -217,7 +217,7 @@ class _ProfliessState extends State<Profliess> {
 
         //(listpostss.length);
       }
-      print('msgres$msgres');
+      // print('msgres$msgres');
       if(msgres=="Successfully Search Page Post"){
       setState(() {
         // msgres="กำลังโหลด";
@@ -406,23 +406,39 @@ class _ProfliessState extends State<Profliess> {
                               // ),
                               Positioned(
                                 bottom: -55.0,
-                                child: ClipOval(
-                                  child: CachedNetworkImage(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.7,
-                                    height: MediaQuery.of(context).size.height /
-                                        5.5,
-                                    imageUrl:
-                                        "https://today-api.moveforwardparty.org/api$pageprofileimage/image",
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Center(
-                                      child: CircularProgressIndicator(
-                                        color: MColors.primaryColor,
-                                      ),
-                                    ),
-                                    // errorWidget: (context, url, error) => errorWidget,
-                                  ),
-                                ),
+                                child:new Container(
+                                                width: 130.0,
+                                                height: 130.0,
+                                                decoration: new BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: new DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image:
+                                                        new CachedNetworkImageProvider(
+                                                      'https://today-api.moveforwardparty.org/api$pageprofileimage/image',
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                
+                                        
+                                // ClipOval(
+                                //   child: CachedNetworkImage(
+                                //     width:
+                                //         MediaQuery.of(context).size.width / 2.7,
+                                //     height: MediaQuery.of(context).size.height /
+                                //         5.5,
+                                //     imageUrl:
+                                //         "https://today-api.moveforwardparty.org/api$pageprofileimage/image",
+                                //     fit: BoxFit.cover,
+                                //     placeholder: (context, url) => Center(
+                                //       child: CircularProgressIndicator(
+                                //         color: MColors.primaryColor,
+                                //       ),
+                                //     ),
+                                //     // errorWidget: (context, url, error) => errorWidget,
+                                //   ),
+                                // ),
                                 // CircleAvatar(
                                 //   radius: 70.0,
                                 //   backgroundImage: pageprofileimage == null
@@ -486,7 +502,9 @@ class _ProfliessState extends State<Profliess> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Spacer(),
+                            Spacer(
+                             
+                            ),
                             InkWell(
                               onTap: () async {
                                 HapticFeedback.lightImpact();
@@ -529,7 +547,7 @@ class _ProfliessState extends State<Profliess> {
                                 //("กดlike");
                               },
                               child: Container(
-                                width: 110.0,
+                                width: MediaQuery.of(context).size.width/4.3,
                                 height: 40.0,
                                 child: Center(
                                   child: Text(
@@ -653,7 +671,7 @@ class _ProfliessState extends State<Profliess> {
                                                 2,
                                         height:
                                             MediaQuery.of(context).size.height /
-                                                3.0,
+                                                2.0,
                                         // decoration: BoxDecoration(
                                         //     borderRadius:
                                         //         BorderRadius.circular(8),
@@ -671,20 +689,32 @@ class _ProfliessState extends State<Profliess> {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 11),
-                                              child: new Container(
-                                                width: 120.0,
-                                                height: 120.0,
-                                                decoration: new BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  image: new DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image:
-                                                        new CachedNetworkImageProvider(
-                                                      'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
-                                                    ),
+                                              child:Container(
+                          //-------------------รูปโปรไฟล์----------------//
+                          //color: Colors.grey,
+                          height: MediaQuery.of(context).size.height /6.5,
+                          width: MediaQuery.of(context).size.width * 0.85,
+                          child: CircleAvatar(
+                            radius: 20.0,
+                            backgroundImage:  new CachedNetworkImageProvider(
+                                                    'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
                                                   ),
-                                                ),
-                                              ),
+                          ))
+                                              //  new Container(
+                                              //   width: MediaQuery.0,
+                                              //   height: 120.0,
+                                              //   decoration: new BoxDecoration(
+                                              //     shape: BoxShape.circle,
+                                              //     image: new DecorationImage(
+                                              //       fit: BoxFit.cover,
+                                              //       image:
+                                              //           new CachedNetworkImageProvider(
+                                              //         'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
+                                              //       ),
+                                              //     ),
+                                              //   ),
+                                              // )
+                                              ,
                                               // CircleAvatar(
                                               //   radius: 60.0,
                                               //   backgroundImage: NetworkImage(

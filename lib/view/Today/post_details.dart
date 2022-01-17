@@ -972,336 +972,260 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
             _commenteditController.text = data.comment;
             commentid = data.id;
 
-            return new InkWell(
-              onTap: () async {
-                data.user.id == userid
-                    ? showCupertinoModalPopup<void>(
-                        context: context,
-                        builder: (BuildContext context) => CupertinoActionSheet(
-                          actions: <CupertinoActionSheetAction>[
-                            CupertinoActionSheetAction(
-                              child: const Text('Edit'),
-                              onPressed: () {
-                                setState(() {
-                                  isedit = true;
-                                });
-                                Navigator.pop(context);
-                              },
-                            ),
-                            CupertinoActionSheetAction(
-                              child: const Text('Delete',
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                  )),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        new CupertinoAlertDialog(
-                                          title: new Text(
-                                            "Delete Comment",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          actions: [
-                                            CupertinoDialogAction(
-                                              isDefaultAction: true,
-                                              child: new Text("Cancel"),
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                            ),
-                                            CupertinoDialogAction(
-                                                child: new Text(
-                                                  "Delete",
-                                                  style: TextStyle(
-                                                      color: Colors.red),
-                                                ),
-                                                onPressed: () async {
-                                                  Api.deletecomment(
-                                                          widget.postid,
-                                                          token,
-                                                          commentid,
-                                                          userid,
-                                                          mode)
-                                                      .then((value) => ({
-                                                            if (value[
-                                                                    'status'] ==
-                                                                1)
-                                                              {
-                                                                setState(() {
-                                                                  onref = true;
-                                                                }),
-                                                              }
-                                                          }));
-                                                  Navigator.pop(context);
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                    backgroundColor:
-                                                        Colors.green,
-                                                    content: Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons.check,
-                                                          color: MColors
-                                                              .primaryWhite,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Text('Success')
-                                                      ],
-                                                    ),
-                                                    duration: const Duration(
-                                                        milliseconds: 2500),
-                                                  ));
-                                                }),
-                                          ],
-                                        ));
-                              },
-                            )
-                          ],
-                          cancelButton: CupertinoActionSheetAction(
-                            child: const Text('Cancel'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
+            return Padding(
+              padding: EdgeInsets.all(8.0),
+              // widget.data['toCommentID'] == null ? EdgeInsets.all(8.0) : EdgeInsets.fromLTRB(34.0,8.0,8.0,8.0),
+              child: Stack(
+                children: <Widget>[
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding:
+                            const EdgeInsets.fromLTRB(6.0, 2.0, 10.0, 2.0),
+                        child: Container(
+                          width: 48,
+                          // widget.data['toCommentID'] == null ? 48 : 40,
+                          height: 48,
+                          // widget.data['toCommentID'] == null ? 48 : 40,
+                          child: CircleAvatar(
+                            radius: 25.0,
+                            backgroundImage: data.user.imageUrl != null
+                                ? NetworkImage(
+                                    "https://today-api.moveforwardparty.org/api${data.user.imageUrl}/image")
+                                : NetworkImage(
+                                    'https://via.placeholder.com/150'),
+                            backgroundColor: Colors.transparent,
                           ),
                         ),
-                      )
-                    : Container();
-              },
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                // widget.data['toCommentID'] == null ? EdgeInsets.all(8.0) : EdgeInsets.fromLTRB(34.0,8.0,8.0,8.0),
-                child: Stack(
-                  children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(6.0, 2.0, 10.0, 2.0),
-                          child: Container(
-                            width: 48,
-                            // widget.data['toCommentID'] == null ? 48 : 40,
-                            height: 48,
-                            // widget.data['toCommentID'] == null ? 48 : 40,
-                            child: CircleAvatar(
-                              radius: 25.0,
-                              backgroundImage: data.user.imageUrl != null
-                                  ? NetworkImage(
-                                      "https://today-api.moveforwardparty.org/api${data.user.imageUrl}/image")
-                                  : NetworkImage(
-                                      'https://via.placeholder.com/150'),
-                              backgroundColor: Colors.transparent,
-                            ),
-                          ),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 4.0),
-                                      child: Text(
-                                        data.user.displayName,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            overflow: TextOverflow.ellipsis,
-                                            fontWeight: FontWeight.bold,
-                                            color: MColors.primaryBlue),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 4.0),
-                                      child: Text(
-                                        data.comment,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            overflow: TextOverflow.ellipsis,
-                                            color: MColors.primaryBlue),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              width: MediaQuery.of(context).size.width - 90,
-                              // widget.size.width- (widget.data['toCommentID'] == null ? 90 : 110),
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Color(0xffDEDEDE),
-                                ),
-                                color: MColors.primaryWhite,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(15.0),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10.0, top: 2.0),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width / 2,
-                                child: Row(
-                                  children: <Widget>[
-                                    GestureDetector(
-                                      onTap: () async {
-                                        Api.islikecomment(widget.postid, userid,
-                                                token, commentid, mode)
-                                            .then((value) => ({
-                                                  jsonResponse =
-                                                      jsonDecode(value.body),
-                                                  //print('message${jsonResponse['message']}'),
-                                                  if (value.statusCode == 200)
-                                                    {
-                                                      if (jsonResponse[
-                                                              'message'] ==
-                                                          "Like Post Comment Success")
-                                                        {
-                                                          setState(() {
-                                                            data.likeCount++;
-                                                            data.isLike = true;
-                                                          }),
-                                                        }
-                                                      else if (jsonResponse[
-                                                              'message'] ==
-                                                          "UnLike Post Comment Success")
-                                                        {
-                                                          setState(() {
-                                                            data.likeCount--;
-                                                            data.isLike = false;
-                                                          }),
-                                                        }
-                                                    }
-                                                }));
-                                      },
-                                      child: Text(
-                                        '${data.likeCount} ถูกใจ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: data.isLike == false
-                                                ? MColors.primaryBlue
-                                                : MColors.primaryColor),
-                                        // style:TextStyle(fontWeight: FontWeight.bold,color:_currentMyData.myLikeCommnetList != null && _currentMyData.myLikeCommnetList.contains(widget.data['commentID']) ? Colors.blue[900] : Colors.grey[700])
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                new CupertinoAlertDialog(
-                                                  title: new Text(
-                                                    "ลบ คอมเม้นต์",
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  actions: [
-                                                    CupertinoDialogAction(
-                                                      isDefaultAction: true,
-                                                      child: new Text("ยกเลิก"),
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              context),
-                                                    ),
-                                                    CupertinoDialogAction(
-                                                        child: new Text(
-                                                          "ลบ",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.red),
-                                                        ),
-                                                        onPressed: () async {
-                                                          Api.deletecomment(
-                                                                  widget.postid,
-                                                                  token,
-                                                                  commentid,
-                                                                  userid,
-                                                                  mode)
-                                                              .then(
-                                                                  (value) => ({
-                                                                        if (value['status'] ==
-                                                                            1)
-                                                                          {
-                                                                            setState(() {
-                                                                              onref = true;
-                                                                            }),
-                                                                          }
-                                                                      }));
-                                                          Navigator.pop(
-                                                              context);
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  SnackBar(
-                                                            backgroundColor:
-                                                                Colors.green,
-                                                            content: Row(
-                                                              children: [
-                                                                Icon(
-                                                                  Icons.check,
-                                                                  color: MColors
-                                                                      .primaryWhite,
-                                                                ),
-                                                                SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text('สำเร็จ')
-                                                              ],
-                                                            ),
-                                                            duration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        2500),
-                                                          ));
-                                                        }),
-                                                  ],
-                                                ));
-                                      },
-                                      child: Text(
-                                        'ลบ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: MColors.primaryBlue),
-                                        // style:TextStyle(fontWeight: FontWeight.bold,color:_currentMyData.myLikeCommnetList != null && _currentMyData.myLikeCommnetList.contains(widget.data['commentID']) ? Colors.blue[900] : Colors.grey[700])
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Text(
-                                      TimeUtils.readTimestamp(data
-                                          .createdDate.millisecondsSinceEpoch),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: Text(
+                                      data.user.displayName,
                                       maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          color: MColors.primaryBlue,
-                                          fontFamily:
-                                              AppTheme.FontAnakotmaiLight,
-                                          fontSize: 13,
-                                          overflow: TextOverflow.ellipsis),
+                                          fontSize: 16,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontWeight: FontWeight.bold,
+                                          color: MColors.primaryBlue),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 4.0),
+                                    child: Text(
+                                      data.comment,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          overflow: TextOverflow.ellipsis,
+                                          color: MColors.primaryBlue),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                            width: MediaQuery.of(context).size.width - 90,
+                            // widget.size.width- (widget.data['toCommentID'] == null ? 90 : 110),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color(0xffDEDEDE),
+                              ),
+                              color: MColors.primaryWhite,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(15.0),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 10.0, top: 2.0),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 2,
+                              child: Row(
+                                children: <Widget>[
+                                  GestureDetector(
+                                    onTap: () async {
+                                      Api.islikecomment(widget.postid, userid,
+                                              token, commentid, mode)
+                                          .then((value) => ({
+                                                jsonResponse =
+                                                    jsonDecode(value.body),
+                                                //print('message${jsonResponse['message']}'),
+                                                if (value.statusCode == 200)
+                                                  {
+                                                    if (jsonResponse[
+                                                            'message'] ==
+                                                        "Like Post Comment Success")
+                                                      {
+                                                        setState(() {
+                                                          data.likeCount++;
+                                                          data.isLike = true;
+                                                        }),
+                                                      }
+                                                    else if (jsonResponse[
+                                                            'message'] ==
+                                                        "UnLike Post Comment Success")
+                                                      {
+                                                        setState(() {
+                                                          data.likeCount--;
+                                                          data.isLike = false;
+                                                        }),
+                                                      }
+                                                  }
+                                              }));
+                                    },
+                                    child: Text(
+                                      '${data.likeCount} ถูกใจ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: data.isLike == false
+                                              ? MColors.primaryBlue
+                                              : MColors.primaryColor),
+                                      // style:TextStyle(fontWeight: FontWeight.bold,color:_currentMyData.myLikeCommnetList != null && _currentMyData.myLikeCommnetList.contains(widget.data['commentID']) ? Colors.blue[900] : Colors.grey[700])
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 8,
+                                  ),
+                                 data.user.id == userid
+                  ?  GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) =>
+                                              new CupertinoAlertDialog(
+                                                title: new Text(
+                                                  "ลบ คอมเม้นต์",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                actions: [
+                                                  CupertinoDialogAction(
+                                                    isDefaultAction: true,
+                                                    child: new Text("ยกเลิก"),
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            context),
+                                                  ),
+                                                  CupertinoDialogAction(
+                                                      child: new Text(
+                                                        "ลบ",
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.red),
+                                                      ),
+                                                      onPressed: () async {
+                                                        Api.deletecomment(
+                                                                widget.postid,
+                                                                token,
+                                                                commentid,
+                                                                userid,
+                                                                mode)
+                                                            .then(
+                                                                (value) => ({
+                                                                      if (value['status'] ==
+                                                                          1)
+                                                                        {
+                                                                          setState(() {
+                                                                            onref = true;
+                                                                          }),
+                                                                        }
+                                                                    }));
+                                                        Navigator.pop(
+                                                            context);
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                                SnackBar(
+                                                          backgroundColor:
+                                                              Colors.green,
+                                                          content: Row(
+                                                            children: [
+                                                              Icon(
+                                                                Icons.check,
+                                                                color: MColors
+                                                                    .primaryWhite,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text('สำเร็จ')
+                                                            ],
+                                                          ),
+                                                          duration:
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      2500),
+                                                        ));
+                                                      }),
+                                                ],
+                                              ));
+                                    },
+                                    child: Text(
+                                      'ลบ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: MColors.primaryBlue),
+                                      // style:TextStyle(fontWeight: FontWeight.bold,color:_currentMyData.myLikeCommnetList != null && _currentMyData.myLikeCommnetList.contains(widget.data['commentID']) ? Colors.blue[900] : Colors.grey[700])
+                                    ),
+                                  ):Container(),
+                                data.user.id == userid
+                  ?   SizedBox(
+                                    width: 8,
+                                  ):SizedBox(
+                                    width: 4,
+                                  ),
+                               data.user.id == userid
+                  ?    GestureDetector(
+                                    onTap: () {
+                              setState(() {
+                                isedit = true;
+                              });
+                             
+                            },
+                                    child: Text(
+                                      'แก้ไข',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: MColors.primaryBlue),
+                                      // style:TextStyle(fontWeight: FontWeight.bold,color:_currentMyData.myLikeCommnetList != null && _currentMyData.myLikeCommnetList.contains(widget.data['commentID']) ? Colors.blue[900] : Colors.grey[700])
+                                    ),
+                                    ):Container(),
+                                 data.user.id == userid
+                  ?  SizedBox(
+                                    width: 8,
+                                  ):Container(),
+                                  Text(
+                                    TimeUtils.readTimestamp(data
+                                        .createdDate.millisecondsSinceEpoch),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: MColors.primaryBlue,
+                                        fontFamily:
+                                            AppTheme.FontAnakotmaiLight,
+                                        fontSize: 13,
+                                        overflow: TextOverflow.ellipsis),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
               ),
             );
           },

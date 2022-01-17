@@ -283,9 +283,9 @@ class _TodayScState extends State<TodaySc> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.taptoload == true) {
-      _goToElement(0);
-    }
+    // if (widget.taptoload == true) {
+    //   _goToElement(0);
+    // }
     return Container(
       color: Colors.white,
       child: SafeArea(
@@ -350,7 +350,7 @@ class _TodayScState extends State<TodaySc> {
                 SliverToBoxAdapter(
                   child: Container(
                     width: double.infinity,
-                    height: 50,
+                    height: MediaQuery.of(context).size.height/16.0,
                     color: MColors.primaryGrey,
                     child: Center(
                       child: titletimeline("ไทม์ไลน์"),
@@ -963,7 +963,7 @@ class _TodayScState extends State<TodaySc> {
             _current = index;
           });
         },
-        height: MediaQuery.of(context).size.height / 1.9,
+        height: MediaQuery.of(context).size.height / 2.0,
         // aspectRatio: 16 / 9,
         enableInfiniteScroll: true,
         initialPage: 0,
@@ -978,7 +978,7 @@ class _TodayScState extends State<TodaySc> {
       items: emc.map((emcs) {
         return Builder(
           builder: (BuildContext context) {
-            return InkWell(
+            return GestureDetector(
               onTap: () {
                 Navigator.of(context)
                     .push(CupertinoPageRoute(builder: (BuildContext context) {
@@ -1001,10 +1001,11 @@ class _TodayScState extends State<TodaySc> {
                 //     ));
               },
               child: Column(
+                mainAxisAlignment :MainAxisAlignment.center,
                 children: [
                   Container(
                     width: double.infinity,
-                    height: MediaQuery.of(context).size.height / 2.2,
+                    height: MediaQuery.of(context).size.height / 2.4,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(
@@ -1013,6 +1014,7 @@ class _TodayScState extends State<TodaySc> {
                     ),
                   ),
                   Stack(
+                    alignment :Alignment.topCenter,
                     children: [
                       Container(
                         width: double.infinity,

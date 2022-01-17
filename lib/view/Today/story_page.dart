@@ -137,6 +137,7 @@ class _StroyPageScState extends State<StroyPageSc> {
           appBar: AppBar(
             backgroundColor: MColors.primaryWhite,
             elevation: 0,
+            titleSpacing:0.0,
             centerTitle: true,
             title: todayController.idloadingstory.value
                 ? Container()

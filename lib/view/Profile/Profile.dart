@@ -128,99 +128,64 @@ class _ProfileScState extends State<ProfileSc> {
                     )),
                     SliverToBoxAdapter(
                       child: Container(
-                        height: MediaQuery.of(context).size.height / 9.0,
+                        height: MediaQuery.of(context).size.height /8.0,
                         width: MediaQuery.of(context).size.width,
                         color: Colors.white,
-                        child: Row(
+                        child: Column(children: [
+                           Row(
+                     mainAxisAlignment :MainAxisAlignment.start,
+
                           children: <Widget>[
-                            Row(
-                              // mainAxisAlignment :MainAxisAlignment.start,
-                              children: <Widget>[
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 2.0, left: 25.0),
-                                  child: CircleAvatar(
-                                    radius: 35.0,
-                                    backgroundImage: image == ""
-                                        ? NetworkImage(
-                                            'https://via.placeholder.com/150')
-                                        : NetworkImage(
-                                            'https://today-api.moveforwardparty.org/api$image/image'),
-                                    backgroundColor: Colors.transparent,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 15.0,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 5),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        displayName1,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: AppTheme.BodyTextSize,
-                                            fontFamily:
-                                                AppTheme.FontAnakotmaiMedium,
-                                            fontWeight: FontWeight.bold,
-                                            overflow: TextOverflow.ellipsis,
-                                            ),
-                                      ),
-                                     
-                                      
-                                      Row(
-                                        children: [
-                                          
-                                          Text(
-                                            email,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 15.5,
-                                              fontFamily:
-                                                  AppTheme.FontAnakotmaiLight,
-                                                     overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          // mode == "FB"
-                                          //     ? Container(
-                                          //         color: MColors.textDark,
-                                          //         child: Image.asset(
-                                          //           'images/facebook.png',
-                                          //           width: 20,
-                                          //           height: 20,
-                                          //         ))
-                                          //     : Container(),
-                                          // mode == "EMAIL"
-                                          //     ? Container(
-                                          //         decoration: BoxDecoration(
-                                          //             border: Border.all(
-                                          //           color: MColors.primaryWhite,
-                                          //         )),
-                                          //         child: Image.asset(
-                                          //           'images/Email.png',
-                                          //           width: 20,
-                                          //           height: 20,
-                                          //         ))
-                                          //     : Container(),
-                                          //  mode=="EMAIL"?   Container(
-                                          // color: MColors.textDark,
-                                          // child: Image.asset('images/twitter.png',width: 20,height: 20,))
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(top: 2.0, left: 25.0),
+                              child: CircleAvatar(
+                                radius: 35.0,
+                                backgroundImage: image == ""
+                                    ? NetworkImage(
+                                        'https://via.placeholder.com/150')
+                                    : NetworkImage(
+                                        'https://today-api.moveforwardparty.org/api$image/image'),
+                                backgroundColor: Colors.transparent,
+                              ),
                             ),
+                            const SizedBox(
+                              width: 15.0,
+                            ),
+                             Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      displayName1,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: AppTheme.BodyTextSize,
+                                          fontFamily:
+                                              AppTheme.FontAnakotmaiMedium,
+                                          fontWeight: FontWeight.bold,
+                                          overflow: TextOverflow.ellipsis,
+                                          ),
+                                    ),
+                                    Text(
+                                      email,
+                                      maxLines: 1,
+                                           overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 15.5,
+                                        fontFamily:
+                                            AppTheme.FontAnakotmaiLight,
+                                               overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                  ],
+                                ),
+                            
                             Spacer(),
                             Icon(
                               Icons.arrow_forward_ios_sharp,
@@ -229,6 +194,8 @@ class _ProfileScState extends State<ProfileSc> {
                             ),
                           ],
                         ),
+                        ],)
+                       
                       ),
                     ),
                     SliverToBoxAdapter(

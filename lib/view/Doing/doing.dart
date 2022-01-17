@@ -429,14 +429,13 @@ class _DoingSCState extends State<DoingSC> {
                               }));
                             },
                             child: Container(
-                              color: Colors.white,
                               child: Column(
                                 children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.all(5),
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height /
-                                        7.0,
+                                        7.3,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
                                         color: Colors.grey[50],
@@ -450,8 +449,7 @@ class _DoingSCState extends State<DoingSC> {
                                     child: Stack(
                                       children: <Widget>[
                                         Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 16.0, left: 14.0),
+                                          padding: EdgeInsets.all(12),
                                           child: CircleAvatar(
                                               radius: 36.0,
                                               backgroundImage: CachedNetworkImageProvider(
@@ -462,7 +460,7 @@ class _DoingSCState extends State<DoingSC> {
                                               CrossAxisAlignment.start,
                                           children: <Widget>[
                                             const SizedBox(
-                                              height: 20,
+                                              height: 10,
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.only(
@@ -487,7 +485,7 @@ class _DoingSCState extends State<DoingSC> {
                                                     left: 110),
                                                 child: Text(
                                                   data.title,
-                                                  maxLines: 2,
+                                                  maxLines:2,
                                                   style: TextStyle(
                                                       color: Colors.grey,
                                                       fontSize: 15,
