@@ -556,9 +556,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                             page[0].id,
                             page[0].imageUrl,
                             page[0].name,
-                            false,
                             "pageUsername",
-                            false,
                             userid,
                             true),
                       ),
@@ -765,7 +763,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                 tp.preferredLineHeight)
                                             .ceil();
                                         int maxLines = 10;
-                                        print('height${tp.size.height}');
+                                        // print('height${tp.size.height}');
 
                                         return TextField(
                                           controller: _commentController,
@@ -856,7 +854,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                                 tp.preferredLineHeight)
                                             .ceil();
                                         int maxLines = 10;
-                                        print('height${tp.size.height}');
+                                        // print('height${tp.size.height}');
 
                                         return TextFormField(
                                           initialValue:
@@ -864,7 +862,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                           autofocus: widget.onfocus,
                                           onChanged: (String value) {
                                             _commenteditController.text = value;
-                                            print(value);
+                                            // print(value);
                                           },
                                           maxLines: lines < maxLines
                                               ? null

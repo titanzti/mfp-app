@@ -82,7 +82,7 @@ class _ProfliessState extends State<Profliess> {
   bool _hasNextPage = true;
   List<PageObjective> pageobjslist = [];
 
-  var msgres="กำลังโหลด";
+  var msgres = "กำลังโหลด";
   @override
   void initState() {
     //print('initState');
@@ -102,9 +102,7 @@ class _ProfliessState extends State<Profliess> {
               {
                 datagetuserprofile = jsonDecode(responseData.body),
                 //('datagetuserprofile$datagetuserprofile'),
-                for (Map i in datagetuserprofile["data"]["pageObjectives"])
-                  {
-                    setState(() {
+                 setState(() {
                       // pagename =i['page'][0]['name'];
                       pageid = datagetuserprofile["data"]["id"];
                       pageUsername = datagetuserprofile["data"]["pageUsername"];
@@ -113,6 +111,9 @@ class _ProfliessState extends State<Profliess> {
                       pagecoverURL = datagetuserprofile["data"]["coverURL"];
                       pagefollowers = datagetuserprofile["data"]["followers"];
                     }),
+                for (Map i in datagetuserprofile["data"]["pageObjectives"])
+                  {
+                   
 
                     pageobjslist.add(PageObjective.fromJson(i)),
                     // _pageobjController.add(responseData),
@@ -171,7 +172,7 @@ class _ProfliessState extends State<Profliess> {
                     }),
                   }
               }));
-      await _getPostListSS(pageUsername, _currentMax);
+      await _getPostListSS(widget.id, _currentMax);
     });
 
     super.initState();
@@ -204,11 +205,9 @@ class _ProfliessState extends State<Profliess> {
 
     //('getPostListSS');
     // print(responseData.body);
-  dataht = jsonDecode(responseData.body);
-       msgres = dataht['message'];
+    dataht = jsonDecode(responseData.body);
+    msgres = dataht['message'];
     if (responseData.statusCode == 200) {
-    
-
       for (var i in dataht["data"]["posts"]) {
         setState(() {
           listpostss.add(PostPageSS.fromJson(i));
@@ -218,17 +217,16 @@ class _ProfliessState extends State<Profliess> {
         //(listpostss.length);
       }
       // print('msgres$msgres');
-      if(msgres=="Successfully Search Page Post"){
-      setState(() {
-        // msgres="กำลังโหลด";
-        _hasNextPage=false;
-      });
-      }else if(msgres=="Page Post Not Found"){
+      if (msgres == "Successfully Search Page Post") {
         setState(() {
-        // msgres="ไม่มีโพสแล้ว";
-        _hasNextPage=false;
-      });
-
+          // msgres="กำลังโหลด";
+          _hasNextPage = false;
+        });
+      } else if (msgres == "Page Post Not Found") {
+        setState(() {
+          // msgres="ไม่มีโพสแล้ว";
+          _hasNextPage = false;
+        });
       }
 
       setState(() {
@@ -244,9 +242,9 @@ class _ProfliessState extends State<Profliess> {
     if (
         // _hasNextPage == true &&
         _isLoadMoreRunning == false &&
-        _scrollController.offset >=
-            _scrollController.position.maxScrollExtent &&
-        !_scrollController.position.outOfRange) {
+            _scrollController.offset >=
+                _scrollController.position.maxScrollExtent &&
+            !_scrollController.position.outOfRange) {
       //('AT end');
       await new Future.delayed(const Duration(milliseconds: 200));
 
@@ -257,7 +255,7 @@ class _ProfliessState extends State<Profliess> {
         // Display a progress indicator at the bottom
       });
       try {
-        _getPostListSS(pageUsername, _currentMax);
+        _getPostListSS(widget.id, _currentMax);
       } catch (err) {
         //('Something went wrong!');
       }
@@ -280,6 +278,7 @@ class _ProfliessState extends State<Profliess> {
 
   @override
   Widget build(BuildContext context) {
+    print('id${widget.id}');
     return isLoading == true
         ? Container(
             color: Colors.white,
@@ -311,7 +310,7 @@ class _ProfliessState extends State<Profliess> {
                     //       userid: userid,
                     //       token: token,
                     //     )),
-                   
+
                     SliverToBoxAdapter(
                       child: Container(
                         color: Colors.white,
@@ -406,22 +405,20 @@ class _ProfliessState extends State<Profliess> {
                               // ),
                               Positioned(
                                 bottom: -55.0,
-                                child:new Container(
-                                                width: 130.0,
-                                                height: 130.0,
-                                                decoration: new BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  image: new DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image:
-                                                        new CachedNetworkImageProvider(
-                                                      'https://today-api.moveforwardparty.org/api$pageprofileimage/image',
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                
-                                        
+                                child: new Container(
+                                  width: 130.0,
+                                  height: 130.0,
+                                  decoration: new BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: new DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: new CachedNetworkImageProvider(
+                                        'https://today-api.moveforwardparty.org/api$pageprofileimage/image',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
                                 // ClipOval(
                                 //   child: CachedNetworkImage(
                                 //     width:
@@ -454,7 +451,10 @@ class _ProfliessState extends State<Profliess> {
                         ],
                       ),
                     ),
-                    SliverToBoxAdapter(child: const SizedBox(height: 12,)),
+                    SliverToBoxAdapter(
+                        child: const SizedBox(
+                      height: 12,
+                    )),
                     SliverToBoxAdapter(
                         child: Container(
                       color: MColors.primaryWhite,
@@ -502,9 +502,7 @@ class _ProfliessState extends State<Profliess> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Spacer(
-                             
-                            ),
+                            Spacer(),
                             InkWell(
                               onTap: () async {
                                 HapticFeedback.lightImpact();
@@ -547,7 +545,7 @@ class _ProfliessState extends State<Profliess> {
                                 //("กดlike");
                               },
                               child: Container(
-                                width: MediaQuery.of(context).size.width/4.3,
+                                width: MediaQuery.of(context).size.width / 4.3,
                                 height: 40.0,
                                 child: Center(
                                   child: Text(
@@ -601,13 +599,13 @@ class _ProfliessState extends State<Profliess> {
                         ),
                       ),
                     ),
-                    SliverToBoxAdapter(
+                   pageobjslist.length==0?SliverToBoxAdapter(child: Container()):  SliverToBoxAdapter(
                         child: Divider(
                       color: Colors.grey[200],
                       height: 20,
                       thickness: 8.0,
                     )),
-                    SliverToBoxAdapter(
+                  pageobjslist.length==0?SliverToBoxAdapter(child: Container()):   SliverToBoxAdapter(
                       child: Container(
                         color: Colors.white,
                         child: Padding(
@@ -625,14 +623,14 @@ class _ProfliessState extends State<Profliess> {
                         ),
                       ),
                     ),
-                    SliverToBoxAdapter(
+                pageobjslist.length==0?SliverToBoxAdapter(child: Container()):     SliverToBoxAdapter(
                         child: const SizedBox(
                       height: 5,
                     )),
-                    SliverToBoxAdapter(
+                  pageobjslist.length==0?SliverToBoxAdapter(child: Container()):  SliverToBoxAdapter(
                       child: Builder(builder: (BuildContext context) {
                         return SizedBox(
-                          height: MediaQuery.of(context).size.height/4,
+                          height: MediaQuery.of(context).size.height / 4,
                           child: Scrollbar(
                             isAlwaysShown: true,
                             controller: _scrollHolController,
@@ -689,17 +687,24 @@ class _ProfliessState extends State<Profliess> {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   top: 11),
-                                              child:Container(
-                          //-------------------รูปโปรไฟล์----------------//
-                          //color: Colors.grey,
-                          height: MediaQuery.of(context).size.height /6.5,
-                          width: MediaQuery.of(context).size.width * 0.85,
-                          child: CircleAvatar(
-                            radius: 20.0,
-                            backgroundImage:  new CachedNetworkImageProvider(
-                                                    'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
-                                                  ),
-                          ))
+                                              child: Container(
+                                                  //-------------------รูปโปรไฟล์----------------//
+                                                  //color: Colors.grey,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      6.5,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.85,
+                                                  child: CircleAvatar(
+                                                    radius: 20.0,
+                                                    backgroundImage:
+                                                        new CachedNetworkImageProvider(
+                                                      'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
+                                                    ),
+                                                  ))
                                               //  new Container(
                                               //   width: MediaQuery.0,
                                               //   height: 120.0,
@@ -828,9 +833,9 @@ class _ProfliessState extends State<Profliess> {
                           padding: const EdgeInsets.only(bottom: 20),
                           color: MColors.primaryWhite,
                           child: Center(
-                            child: Text('${msgres=="Page Post Not Found"?"ไม่มีโพสแล้ว":'กำลังโหลด'}',
-                            style:TextStyle(fontSize: 14)
-                            ),
+                            child: Text(
+                                '${msgres == "Page Post Not Found" ? "ไม่มีโพสแล้ว" : 'กำลังโหลด'}',
+                                style: TextStyle(fontSize: 14)),
                           ),
                         ),
                       ),
@@ -980,8 +985,7 @@ class _ProfliessState extends State<Profliess> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               list[0].imageUrl != null || list[0].imageUrl != ""
-                  ? 
-                  Image.network(
+                  ? Image.network(
                       "https://today-api.moveforwardparty.org/api${list[0].imageUrl}/image")
                   : SizedBox.shrink(),
             ],
@@ -1085,7 +1089,7 @@ class _ProfliessState extends State<Profliess> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
                         child: authorpost(postbyname, context, dateTime, pageid,
-                            "", "fasle", false, "false", false, "", false),
+                            "", "fasle", "false", "", false),
                       ),
                     ),
                     // SizedBox(
@@ -1094,15 +1098,14 @@ class _ProfliessState extends State<Profliess> {
                     texttimetimestamp(dateTime),
                   ],
                 ),
-              
                 Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                        Divider(
-                         thickness: 1.0,
+                      Divider(
+                        thickness: 1.0,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -1201,16 +1204,18 @@ class _ProfliessState extends State<Profliess> {
                           ),
                         ],
                       ),
-                         const SizedBox(height: 7,),
+                      const SizedBox(
+                        height: 7,
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-         const SizedBox(
-          width: 5,
-        ),
+          const SizedBox(
+            width: 5,
+          ),
         ],
       ),
     );

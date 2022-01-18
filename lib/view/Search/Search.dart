@@ -161,7 +161,7 @@ class _SearchState extends State<Search> {
 
     if (responseData.statusCode == 200) {
       dataht = jsonDecode(responseData.body);
-      print('dataht$dataht');
+      // print('dataht$dataht');
 
       for (Map i in dataht["data"]["result"]) {
         setState(() {
@@ -173,7 +173,7 @@ class _SearchState extends State<Search> {
           }
         });
 
-        print('listSearchHastagจำนวน${listSearchHastag.length}');
+        // print('listSearchHastagจำนวน${listSearchHastag.length}');
         //('_searchResult${_searchResult.length}');
       }
 
