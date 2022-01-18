@@ -84,30 +84,26 @@ class _ProfliessState extends State<Profliess> {
     _scrollController.addListener(_loadMore);
 
     Future.delayed(Duration.zero, () async {
-
       token = await Api.gettoke();
 
       userid = await Api.getmyuid();
-    
+
       await Api.getPage(widget.id).then((responseData) async => ({
             if (responseData.statusCode == 200)
               {
                 datagetuserprofile = jsonDecode(responseData.body),
                 //('datagetuserprofile$datagetuserprofile'),
-                 setState(() {
-                      pageid = datagetuserprofile["data"]["id"];
-                      pageUsername = datagetuserprofile["data"]["pageUsername"];
-                      pageprofileimage = datagetuserprofile["data"]["imageURL"];
-                      pagename = datagetuserprofile["data"]["name"];
-                      pagecoverURL = datagetuserprofile["data"]["coverURL"];
-                      pagefollowers = datagetuserprofile["data"]["followers"];
-                    }),
+                setState(() {
+                  pageid = datagetuserprofile["data"]["id"];
+                  pageUsername = datagetuserprofile["data"]["pageUsername"];
+                  pageprofileimage = datagetuserprofile["data"]["imageURL"];
+                  pagename = datagetuserprofile["data"]["name"];
+                  pagecoverURL = datagetuserprofile["data"]["coverURL"];
+                  pagefollowers = datagetuserprofile["data"]["followers"];
+                }),
                 for (Map i in datagetuserprofile["data"]["pageObjectives"])
                   {
-                   
-
                     pageobjslist.add(PageObjective.fromJson(i)),
-
                   },
               }
             else
@@ -155,7 +151,6 @@ class _ProfliessState extends State<Profliess> {
                       setState(() {
                         isLoading = false;
                       });
-
                     }),
                   }
               }));
@@ -200,7 +195,6 @@ class _ProfliessState extends State<Profliess> {
           listpostss.add(PostPageSS.fromJson(i));
           _postsController.add(dataht);
         });
-
       }
       if (msgres == "Successfully Search Page Post") {
         setState(() {
@@ -216,7 +210,6 @@ class _ProfliessState extends State<Profliess> {
         isLoading = false;
         _isLoadMoreRunning = false;
       });
-
     } else if (responseData.statusCode == 400) {}
   }
 
@@ -232,16 +225,13 @@ class _ProfliessState extends State<Profliess> {
       setState(() {
         _currentMax = _currentMax + 5;
         _isLoadMoreRunning = true;
-
       });
       try {
         _getPostListSS(widget.id, _currentMax);
-      } catch (err) {
-      }
+      } catch (err) {}
     } else {
       _isLoadMoreRunning = false;
     }
-
   }
 
   void _goToElement(int index) {
@@ -548,160 +538,174 @@ class _ProfliessState extends State<Profliess> {
                         ),
                       ),
                     ),
-                   pageobjslist.length==0?SliverToBoxAdapter(child: Container()):  SliverToBoxAdapter(
-                        child: Divider(
-                      color: Colors.grey[200],
-                      height: 20,
-                      thickness: 8.0,
-                    )),
-                  pageobjslist.length==0?SliverToBoxAdapter(child: Container()):   SliverToBoxAdapter(
-                      child: Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(18.0),
-                          child: Text(
-                            'สิ่งที่กำลังทำใน 1 เดือนที่ผ่านมา',
-                            maxLines: 2,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                color: MColors.primaryBlue,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Anakotmai',
-                                fontSize: 17),
+                    pageobjslist.length == 0
+                        ? SliverToBoxAdapter(child: Container())
+                        : SliverToBoxAdapter(
+                            child: Divider(
+                            color: Colors.grey[200],
+                            height: 20,
+                            thickness: 8.0,
+                          )),
+                    pageobjslist.length == 0
+                        ? SliverToBoxAdapter(child: Container())
+                        : SliverToBoxAdapter(
+                            child: Container(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(18.0),
+                                child: Text(
+                                  'สิ่งที่กำลังทำใน 1 เดือนที่ผ่านมา',
+                                  maxLines: 2,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: MColors.primaryBlue,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Anakotmai',
+                                      fontSize: 17),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                pageobjslist.length==0?SliverToBoxAdapter(child: Container()):     SliverToBoxAdapter(
-                        child: const SizedBox(
-                      height: 5,
-                    )),
-                  pageobjslist.length==0?SliverToBoxAdapter(child: Container()):  SliverToBoxAdapter(
-                      child: Builder(builder: (BuildContext context) {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height / 4,
-                          child: Scrollbar(
-                            isAlwaysShown: true,
-                            controller: _scrollHolController,
-                            child: new ListView.builder(
-                                controller: _scrollHolController,
-                                physics: ClampingScrollPhysics(),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: pageobjslist.length,
-                                itemBuilder: (
-                                  BuildContext context,
-                                  int index,
-                                ) {
-                                  final pageobj = pageobjslist[index];
+                    pageobjslist.length == 0
+                        ? SliverToBoxAdapter(child: Container())
+                        : SliverToBoxAdapter(
+                            child: const SizedBox(
+                            height: 5,
+                          )),
+                    pageobjslist.length == 0
+                        ? SliverToBoxAdapter(child: Container())
+                        : SliverToBoxAdapter(
+                            child: Builder(builder: (BuildContext context) {
+                              return SizedBox(
+                                height: MediaQuery.of(context).size.height / 4,
+                                child: Scrollbar(
+                                  isAlwaysShown: true,
+                                  controller: _scrollHolController,
+                                  child: new ListView.builder(
+                                      controller: _scrollHolController,
+                                      physics: ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: pageobjslist.length,
+                                      itemBuilder: (
+                                        BuildContext context,
+                                        int index,
+                                      ) {
+                                        final pageobj = pageobjslist[index];
 
-                                  return InkWell(
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          CupertinoPageRoute(
-                                              builder: (BuildContext context) {
-                                        return Webview_EmergencySC(
-                                          url:
-                                              "https://today.moveforwardparty.org/objective/${pageobj.id}?hidebar=true",
-                                          texttitle: pageobj.title,
-                                          iconimage: pageobj.iconUrl,
-                                          checkurl:
-                                              "https://today.moveforwardparty.org/objective/",
-                                        );
-                                      }));
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width /
+                                        return InkWell(
+                                          onTap: () {
+                                            Navigator.of(context).push(
+                                                CupertinoPageRoute(builder:
+                                                    (BuildContext context) {
+                                              return Webview_EmergencySC(
+                                                url:
+                                                    "https://today.moveforwardparty.org/objective/${pageobj.id}?hidebar=true",
+                                                texttitle: pageobj.title,
+                                                iconimage: pageobj.iconUrl,
+                                                checkurl:
+                                                    "https://today.moveforwardparty.org/objective/",
+                                              );
+                                            }));
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.all(5) ,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
                                                 2,
-                                        height:
-                                            MediaQuery.of(context).size.height /
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
                                                 2.0,
-                                        // decoration: BoxDecoration(
-                                        //     borderRadius:
-                                        //         BorderRadius.circular(8),
-                                        //     color: Colors.white,
-                                        //     boxShadow: [
-                                        //       BoxShadow(
-                                        //         color:
-                                        //             Colors.grey.withOpacity(1),
-                                        //         blurRadius: 0.5,
-                                        //         spreadRadius: 0.5,
-                                        //       ),
-                                        //     ]),
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 11),
-                                              child: Container(
-                                                  //-------------------รูปโปรไฟล์----------------//
-                                                  //color: Colors.grey,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                      6.5,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width *
-                                                      0.85,
-                                                  child: CircleAvatar(
-                                                    radius: 20.0,
-                                                    backgroundImage:
-                                                        new CachedNetworkImageProvider(
-                                                      'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
-                                                    ),
-                                                  ))
-                                              //  new Container(
-                                              //   width: MediaQuery.0,
-                                              //   height: 120.0,
-                                              //   decoration: new BoxDecoration(
-                                              //     shape: BoxShape.circle,
-                                              //     image: new DecorationImage(
-                                              //       fit: BoxFit.cover,
-                                              //       image:
-                                              //           new CachedNetworkImageProvider(
-                                              //         'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
-                                              //       ),
-                                              //     ),
-                                              //   ),
-                                              // )
-                                              ,
-                                              // CircleAvatar(
-                                              //   radius: 60.0,
-                                              //   backgroundImage: NetworkImage(
-                                              //      'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image'),
-                                              //   backgroundColor:
-                                              //       Colors.transparent,
-                                              // ),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color:
+                                                        Colors.grey.withOpacity(1),
+                                                    blurRadius: 0.5,
+                                                    spreadRadius: 0.5,
+                                                  ),
+                                                ]),
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 11),
+                                                  child: Container(
+                                                      //-------------------รูปโปรไฟล์----------------//
+                                                      //color: Colors.grey,
+                                                      height: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .height /
+                                                          6.5,
+                                                      width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width *
+                                                          0.85,
+                                                      child: CircleAvatar(
+                                                        radius: 20.0,
+                                                        backgroundImage:
+                                                            new CachedNetworkImageProvider(
+                                                          'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
+                                                        ),
+                                                      ))
+                                                  //  new Container(
+                                                  //   width: MediaQuery.0,
+                                                  //   height: 120.0,
+                                                  //   decoration: new BoxDecoration(
+                                                  //     shape: BoxShape.circle,
+                                                  //     image: new DecorationImage(
+                                                  //       fit: BoxFit.cover,
+                                                  //       image:
+                                                  //           new CachedNetworkImageProvider(
+                                                  //         'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image',
+                                                  //       ),
+                                                  //     ),
+                                                  //   ),
+                                                  // )
+                                                  ,
+                                                  // CircleAvatar(
+                                                  //   radius: 60.0,
+                                                  //   backgroundImage: NetworkImage(
+                                                  //      'https://today-api.moveforwardparty.org/api${pageobj.iconUrl}/image'),
+                                                  //   backgroundColor:
+                                                  //       Colors.transparent,
+                                                  // ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 10,left: 5),
+                                                  child: Text(
+                                                   pageobj.title,
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontFamily:
+                                                            'Anakotmai-Bold',
+                                                        fontSize: 16),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 10),
-                                              child: Text(
-                                                pageobj.title,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily:
-                                                        'Anakotmai-Bold',
-                                                    fontSize: 16),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }),
+                                          ),
+                                        );
+                                      }),
+                                ),
+                              );
+                            }),
                           ),
-                        );
-                      }),
-                    ),
                     SliverToBoxAdapter(
                         child: const SizedBox(
                       height: 5,
@@ -1074,8 +1078,7 @@ class _ProfliessState extends State<Profliess> {
                                 ? Navigate.pushPage(context, Loginregister())
                                 : await Api.islike(postid, userid, token, "")
                                     .then((value) => ({
-                                          jsonResponse =
-                                              jsonDecode(value.body),
+                                          jsonResponse = jsonDecode(value.body),
                                           ////('message${jsonResponse['message']}'),
                                           if (value.statusCode == 200)
                                             {
