@@ -1,18 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import 'package:mfp_app/Api/Api.dart';
-import 'package:mfp_app/allWidget/CarouselsLoading.dart';
 import 'package:mfp_app/allWidget/PostButton.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/allWidget/fontsize.dart';
-import 'package:mfp_app/allWidget/sizeconfig.dart';
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/pagemodel.dart';
 import 'package:mfp_app/model/postlistSSmodel.dart';
@@ -20,8 +16,7 @@ import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:http/http.dart' as Http;
-import 'package:mfp_app/view/Profile/profile.dart';
-import 'package:mfp_app/view/Search/Search.dart';
+
 import 'package:mfp_app/view/Today/post_details.dart';
 import 'package:mfp_app/view/Today/show_full_image.dart';
 import 'package:mfp_app/view/Today/story_page.dart';
@@ -89,21 +84,17 @@ class _ProfliessState extends State<Profliess> {
     _scrollController.addListener(_loadMore);
 
     Future.delayed(Duration.zero, () async {
-      //('delayedgetpost');
-      //-----token----
+
       token = await Api.gettoke();
-      //('token$token');
-      //----userid-----
+
       userid = await Api.getmyuid();
-      //('userid$userid');
-      //--getPage
+    
       await Api.getPage(widget.id).then((responseData) async => ({
             if (responseData.statusCode == 200)
               {
                 datagetuserprofile = jsonDecode(responseData.body),
                 //('datagetuserprofile$datagetuserprofile'),
                  setState(() {
-                      // pagename =i['page'][0]['name'];
                       pageid = datagetuserprofile["data"]["id"];
                       pageUsername = datagetuserprofile["data"]["pageUsername"];
                       pageprofileimage = datagetuserprofile["data"]["imageURL"];
@@ -116,11 +107,8 @@ class _ProfliessState extends State<Profliess> {
                    
 
                     pageobjslist.add(PageObjective.fromJson(i)),
-                    // _pageobjController.add(responseData),
 
-                    // var stroycoverImage= i["coverImage"];
                   },
-                //('pageUsername$pageUsername'),
               }
             else
               {
@@ -168,7 +156,6 @@ class _ProfliessState extends State<Profliess> {
                         isLoading = false;
                       });
 
-                      //('isFollow$isFollow');
                     }),
                   }
               }));
@@ -214,17 +201,13 @@ class _ProfliessState extends State<Profliess> {
           _postsController.add(dataht);
         });
 
-        //(listpostss.length);
       }
-      // print('msgres$msgres');
       if (msgres == "Successfully Search Page Post") {
         setState(() {
-          // msgres="กำลังโหลด";
           _hasNextPage = false;
         });
       } else if (msgres == "Page Post Not Found") {
         setState(() {
-          // msgres="ไม่มีโพสแล้ว";
           _hasNextPage = false;
         });
       }
@@ -234,7 +217,6 @@ class _ProfliessState extends State<Profliess> {
         _isLoadMoreRunning = false;
       });
 
-      // loading = false,
     } else if (responseData.statusCode == 400) {}
   }
 
@@ -245,27 +227,21 @@ class _ProfliessState extends State<Profliess> {
             _scrollController.offset >=
                 _scrollController.position.maxScrollExtent &&
             !_scrollController.position.outOfRange) {
-      //('AT end');
       await new Future.delayed(const Duration(milliseconds: 200));
 
       setState(() {
         _currentMax = _currentMax + 5;
         _isLoadMoreRunning = true;
 
-        // Display a progress indicator at the bottom
       });
       try {
         _getPostListSS(widget.id, _currentMax);
       } catch (err) {
-        //('Something went wrong!');
       }
     } else {
       _isLoadMoreRunning = false;
     }
-    // setState(() {
-    //                 _isLoadMoreRunning = false;
 
-    //       });
   }
 
   void _goToElement(int index) {
@@ -418,33 +394,6 @@ class _ProfliessState extends State<Profliess> {
                                     ),
                                   ),
                                 ),
-
-                                // ClipOval(
-                                //   child: CachedNetworkImage(
-                                //     width:
-                                //         MediaQuery.of(context).size.width / 2.7,
-                                //     height: MediaQuery.of(context).size.height /
-                                //         5.5,
-                                //     imageUrl:
-                                //         "https://today-api.moveforwardparty.org/api$pageprofileimage/image",
-                                //     fit: BoxFit.cover,
-                                //     placeholder: (context, url) => Center(
-                                //       child: CircularProgressIndicator(
-                                //         color: MColors.primaryColor,
-                                //       ),
-                                //     ),
-                                //     // errorWidget: (context, url, error) => errorWidget,
-                                //   ),
-                                // ),
-                                // CircleAvatar(
-                                //   radius: 70.0,
-                                //   backgroundImage: pageprofileimage == null
-                                //       ? NetworkImage(
-                                //           'https://via.placeholder.com/150')
-                                //       : NetworkImage(
-                                //           "https://today-api.moveforwardparty.org/api$pageprofileimage/image"),
-                                //   backgroundColor: Colors.transparent,
-                                // ),
                               )
                             ],
                           ),
