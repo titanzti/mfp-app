@@ -502,7 +502,6 @@ class _PostSearchState extends State<PostSearch> {
                                     authorposttext: authorposttext,
                                     dateTime: dateTime,
                                     gallery: gallery,
-                                    likeCount: likeCount,
                                     commentCount: commentCount,
                                     shareCoun: shareCount,
                                     postid: postid,

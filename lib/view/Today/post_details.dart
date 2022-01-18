@@ -32,7 +32,6 @@ class PostDetailsSC extends StatefulWidget {
   final String subtitle;
   final DateTime dateTime;
   final List gallery;
-  int likeCount;
   final int commentCount;
   final int shareCoun;
   final String userimage;
@@ -54,7 +53,6 @@ class PostDetailsSC extends StatefulWidget {
       this.subtitle,
       this.dateTime,
       this.gallery,
-      this.likeCount,
       this.commentCount,
       this.shareCoun,
       this.userimage,
@@ -118,6 +116,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   StreamController _commerntController;
   StreamController _postdetailController;
   var pagename = "";
+    var pageid="";
+
   Future futuregetpostdetail;
 
   @override
@@ -184,8 +184,10 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     for (Map i in jsonResponse["data"])
                       {
                         setState(() {
-                          pagename = i['page'][0]['name'];
+                            pagename = i['page'][0]['name'];
+                            pageid = i['page'][0]['pageId'];
                         }),
+                        
 
                         postdetailslist.add(PostDetailsModel.fromJson(i)),
                         _postdetailController.add(responseData),
@@ -201,6 +203,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                 else if (responseData.statusCode == 400)
                   {}
               }));
+              
       //--getcommentlist
       await Api.getcommentlist(widget.postid, userid, token)
           .then((responseData) => ({
@@ -330,7 +333,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
     if (onref == true) {
       _handleRefresh();
     }
-    // //(pagename);
+
     return loading == true
         ? Container(
             color: Colors.white,
@@ -373,13 +376,20 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     ),
 
                     ///-----------APPBAR-----------------//
-                    postloading == true
-                        ? SliverToBoxAdapter(child: CarouselLoading())
-                        : SliverToBoxAdapter(
+                    pagename==""?SliverToBoxAdapter(child: Center(child: Text('ไม่พบเพจ',style:TextStyle(fontSize: 18,color: MColors.textDark)))):
+                         SliverToBoxAdapter(
                             child: StreamBuilder(
                               stream: _postdetailController.stream,
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
+                              // future: Future.wait([
+                              //   futuregetpostdetail
+                              // ]),
+                              builder: (BuildContext context,AsyncSnapshot snapshot) {
+                                if( snapshot.connectionState == ConnectionState.waiting){
+                             return  CarouselLoading();
+                                    }
+                                    if(snapshot.connectionState == ConnectionState.done){
+                             return  Text('ไม่พบเพจ');
+                                    }
                                 return Builder(builder: (BuildContext context) {
                                   return ListView.builder(
                                     physics: ClampingScrollPhysics(),
@@ -393,6 +403,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                           postdetailslist[index];
                                       // pagename=datapostdetail.page[index].name;
                                       var likenumber = datapostdetail.likeCount;
+                                      //  pageid=datapostdetail.pageId;
+                                    
 
                                       return PostList(
                                           datapostdetail.title,

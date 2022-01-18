@@ -681,7 +681,6 @@ class _TodayScState extends State<TodaySc> {
                                   authorposttext: pageName_displayName== null ?  nDataList1.user.displayName.toString() : nDataList1.page.name.toString(),
                                   dateTime: dateTime,
                                   gallery: gallery,
-                                  likeCount: likeCount,
                                   commentCount: commentCount,
                                   shareCoun: shareCount,
                                   postid: postid,

@@ -38,6 +38,7 @@ class _SliderShowFullmagesState extends State<SliderShowFullmages>  {
           //title: const Text('Transaction Detail'),
         ),
         body: Container(
+          width: MediaQuery.of(context).size.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
