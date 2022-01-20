@@ -111,7 +111,7 @@ class _ProfileScState extends State<ProfileSc> {
                     )),
                     SliverToBoxAdapter(
                       child: Container(
-                          height: MediaQuery.of(context).size.height / 8.0,
+                          height: MediaQuery.of(context).size.height / 10,
                           width: MediaQuery.of(context).size.width,
                           color: Colors.white,
                           child: Column(
@@ -171,7 +171,7 @@ class _ProfileScState extends State<ProfileSc> {
                                   Spacer(),
                                   Icon(
                                     Icons.arrow_forward_ios_sharp,
-                                    size: 28.0,
+                                    size: 25.0,
                                     color: primaryColor,
                                   ),
                                 ],

@@ -418,13 +418,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       int likeCount,
       int commentCount,
       int shareCount,
-
-      // String pageid,
-      // String pageimage,
-      // String pagename,
-      // bool isFollow,
-      // String pageUsername,
-      // bool isOfficial,
       story,
       String postid,
       datapostdetail) {
@@ -697,7 +690,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                         children: [
                           Padding(
                             padding:
-                                const EdgeInsets.only(left: 10.0, bottom: 10),
+                                const EdgeInsets.only(left: 6.0,right: 3.0, bottom: 10),
                             child: CircleAvatar(
                               radius: 25.0,
                               backgroundImage: userprofileimage != null
@@ -711,7 +704,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                            isedit != true
                            ?  Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 5.0,right: 7.0),
+                          padding: const EdgeInsets.fromLTRB(6.0, 2.0, 25.0, 2.0),
                               child: Column(
                                 children: [
                                   Container(
@@ -771,7 +764,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                             ),
                           ): Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 5.0,right: 7.0),
+                          padding: const EdgeInsets.fromLTRB(6.0, 2.0, 25.0, 2.0),
                               child: Column(
                                 children: [
                                   Container(
