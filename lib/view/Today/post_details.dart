@@ -972,7 +972,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                               padding:
                                   const EdgeInsets.only(left: 10.0, top: 2.0),
                               child: Container(
-                                width: MediaQuery.of(context).size.width / 2,
+                                width: MediaQuery.of(context).size.width / 1.5,
                                 child: Row(
                                   children: <Widget>[
                                     GestureDetector(
