@@ -408,10 +408,10 @@ class _SearchState extends State<Search> {
                       height: 3,
                       thickness: 6.0,
                     )),
-                    loading == true
-                        ? SliverToBoxAdapter(
-                            child: Center(child: CupertinoActivityIndicator()))
-                        :
+                    // loading == true
+                    //     ? SliverToBoxAdapter(
+                    //         child: Center(child: CupertinoActivityIndicator()))
+                    //     :
                     controller.text != "" && listSearchHastag.length != 0
                         ? SliverToBoxAdapter(
                             child: new Builder(builder: (BuildContext context) {
