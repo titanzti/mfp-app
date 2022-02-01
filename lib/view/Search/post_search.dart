@@ -452,7 +452,7 @@ class _PostSearchState extends State<PostSearch> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Text('คัดลอกลิงค์')
+                                  Text('คัดลอกลิงค์',style: TextStyle(fontFamily: AppTheme.FontAnakotmaiMedium),)
                                 ],
                               ),
                               duration: const Duration(milliseconds: 1000),

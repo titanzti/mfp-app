@@ -1137,7 +1137,7 @@ class _ProfliessState extends State<Profliess> {
                                     SizedBox(
                                       width: 5,
                                     ),
-                                    Text('คัดลอกลิงค์')
+                                  Text('คัดลอกลิงค์',style: TextStyle(fontFamily: AppTheme.FontAnakotmaiMedium),)
                                   ],
                                 ),
                                 duration: const Duration(milliseconds: 1000),

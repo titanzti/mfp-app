@@ -21,6 +21,7 @@ import 'package:mfp_app/allWidget/CarouselsLoading.dart';
 import 'package:mfp_app/allWidget/allWidget.dart';
 import 'package:mfp_app/allWidget/fontsize.dart';
 import 'package:mfp_app/allWidget/PostButton.dart';
+import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/internetConnectivity.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/view/Auth/login-register.dart';
@@ -680,7 +681,7 @@ class _TodayScState extends State<TodaySc> {
                                   SizedBox(
                                     width: 5,
                                   ),
-                                  Text('คัดลอกลิงค์')
+                                  Text('คัดลอกลิงค์',style: TextStyle(fontFamily: AppTheme.FontAnakotmaiMedium),)
                                 ],
                               ),
                               duration: const Duration(milliseconds: 1000),
