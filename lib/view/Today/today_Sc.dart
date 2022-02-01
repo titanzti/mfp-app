@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
@@ -76,6 +74,7 @@ class _TodayScState extends State<TodaySc> {
   var image;
 
   var userimageUrl;
+  bool islike = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -107,12 +106,13 @@ class _TodayScState extends State<TodaySc> {
       //--userid
       userid = await Api.getmyuid();
       // print('userid$userid');
-      // print('''
-      //    Logged in!
-      //    userid: $userid
-      //   token: $token
-      //    mode: $mode
-      //    ''');
+      print(
+          '''
+         Logged in!
+         userid: $userid
+        token: $token
+         mode: $mode
+         ''');
     });
     checkInternetConnectivity().then((value) async {
       value == true
@@ -165,7 +165,8 @@ class _TodayScState extends State<TodaySc> {
                   emergencyController.emergencyevList.clear();
 
                   await emergencyController.getmergencyevents();
-                  await todayController.getpost(0);
+                  await todayController.getpost(
+                      0, userid == null ? "" : userid);
                   await todayController.getrecompage();
                 });
               });
@@ -242,7 +243,7 @@ class _TodayScState extends State<TodaySc> {
     });
     try {
       emergencyController.getmergencyevents();
-      todayController.getpost(0);
+      todayController.getpost(0, userid == null ? "" : userid);
       todayController.getrecompage();
     } finally {}
   }
@@ -264,7 +265,8 @@ class _TodayScState extends State<TodaySc> {
 
       try {
         // print('_loadMoregetpost');
-        await todayController.getpost(_currentMax);
+        await todayController.getpost(
+            _currentMax, userid == null ? "" : userid);
       } catch (err) {
         // print('Something went wrong!');
       }
@@ -273,6 +275,10 @@ class _TodayScState extends State<TodaySc> {
 
   @override
   void didChangeDependencies() {
+    setState(() {
+      todayController.getpost(_currentMax, userid == null ? "" : userid);
+    });
+
     super.didChangeDependencies();
   }
 
@@ -386,25 +392,34 @@ class _TodayScState extends State<TodaySc> {
                             }
 
                             return postlist(
-                              nDataList1.post.title,
-                              nDataList1.post.detail,
-                              nDataList1.page ,
-                              nDataList1.post.createdDate,
-                              nDataList1.post.gallery,
-                              nDataList1.post.likeCount,
-                              nDataList1.post.commentCount,
-                              nDataList1.post.shareCount,
-                              nDataList1.post.repostCount,
-                              nDataList1.post.id,
-                               nDataList1.page==null?"":nDataList1.page.id,
-                              nDataList1.page==null?"":nDataList1.page.imageUrl,
-                               nDataList1.page==null?"":nDataList1.page.name,
-                              nDataList1.page==null?"":nDataList1.page.pageUsername,
-                              nDataList1,
-                              nDataList1.post.type,
-                              nDataList1.post.story,
-                              nDataList1.page==null?nDataList1.user:nDataList1.page
-                            );
+                                nDataList1.post.title,
+                                nDataList1.post.detail,
+                                nDataList1.page,
+                                nDataList1.post.createdDate,
+                                nDataList1.post.gallery,
+                                nDataList1.post.likeCount,
+                                nDataList1.post.commentCount,
+                                nDataList1.post.shareCount,
+                                nDataList1.post.repostCount,
+                                nDataList1.post.id,
+                                nDataList1.page == null
+                                    ? ""
+                                    : nDataList1.page.id,
+                                nDataList1.page == null
+                                    ? ""
+                                    : nDataList1.page.imageUrl,
+                                nDataList1.page == null
+                                    ? ""
+                                    : nDataList1.page.name,
+                                nDataList1.page == null
+                                    ? ""
+                                    : nDataList1.page.pageUsername,
+                                nDataList1,
+                                nDataList1.post.type,
+                                nDataList1.post.story,
+                                nDataList1.page == null
+                                    ? nDataList1.user
+                                    : nDataList1.page);
                           });
                   }),
                 ),
@@ -455,7 +470,6 @@ class _TodayScState extends State<TodaySc> {
       String type,
       story,
       datauser) {
-    bool islike = false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -474,55 +488,55 @@ class _TodayScState extends State<TodaySc> {
             SizedBox(
               height: 10,
             ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10,top: 5),
-                  child: InkWell(
-                    onTap: (){
-                        Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return PostDetailsSC(
-                    postid: postid,
-                    onfocus: false,
-                  );
-                },
-              ),
-            );
-                    },
-                    child: texttitlepost(posttitle, context)),
-                ),
-                Padding(
-                        padding: const EdgeInsets.all(10),
-                  child: subtexttitlepost(subtitle, context),
-                ),
-                story != null
-                    ? Padding(
-                        padding: const EdgeInsets.all( 10.0),
-                        child: InkWell(
-                            onTap: () async {
-                              Navigate.pushPage(
-                                  context,
-                                  StroyPageSc(
-                                    postid: postid,
-                                    titalpost: posttitle,
-                                    imagUrl: gallery,
-                                    type: type,
-                                    createdDate: dateTime,
-                                    postby: pagename,
-                                    imagepage: pageimage,
-                                    likeCount: likeCount,
-                                    commentCount: commentCount,
-                                    shareCount: shareCount,
-                                    repostCount: repostCount,
-                                    token: token,
-                                    userid: userid,
-                                    mode: mode,
-                                  ));
-                            },
-                            child: textreadstory('อ่านสตอรี่...')),
-                      )
-                    : Container(),
+            Padding(
+              padding: const EdgeInsets.only(left: 10, top: 5),
+              child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return PostDetailsSC(
+                            postid: postid,
+                            onfocus: false,
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: texttitlepost(posttitle, context)),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: subtexttitlepost(subtitle, context),
+            ),
+            story != null
+                ? Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: InkWell(
+                        onTap: () async {
+                          Navigate.pushPage(
+                              context,
+                              StroyPageSc(
+                                postid: postid,
+                                titalpost: posttitle,
+                                imagUrl: gallery,
+                                type: type,
+                                createdDate: dateTime,
+                                postby: pagename,
+                                imagepage: pageimage,
+                                likeCount: likeCount,
+                                commentCount: commentCount,
+                                shareCount: shareCount,
+                                repostCount: repostCount,
+                                token: token,
+                                userid: userid,
+                                mode: mode,
+                              ));
+                        },
+                        child: textreadstory('อ่านสตอรี่...')),
+                  )
+                : Container(),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -531,15 +545,17 @@ class _TodayScState extends State<TodaySc> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: authorpost(
-                        pageName_displayName== null ?  nDataList1.user.displayName.toString() : nDataList1.page.name.toString(),
+                        pageName_displayName == null
+                            ? nDataList1.user.displayName.toString()
+                            : nDataList1.page.name.toString(),
                         context,
                         dateTime,
-                        nDataList1.page==null?"":nDataList1.page.id,
+                        nDataList1.page == null ? "" : nDataList1.page.id,
                         pageimage,
                         pagename,
                         pageUsername,
                         id,
-                       pageName_displayName!=null? true:false),
+                        pageName_displayName != null ? true : false),
                   ),
                 ),
                 // SizedBox(
@@ -577,88 +593,41 @@ class _TodayScState extends State<TodaySc> {
                         width: 0.14,
                         containerwidth: 3.4,
                         label: '${nDataList1.post.likeCount} ถูกใจ',
-                        onTap: () async {
+                        onTap: () {
                           HapticFeedback.lightImpact();
                           var jsonResponse;
+                          print(nDataList1.post.islike);
                           token == null || token == ""
                               ? Navigate.pushPage(context, Loginregister())
                               : mode != "FB"
-                                  ? await Api.islike(postid, userid, token, "")
-                                      .then((value) => ({
-                                            jsonResponse =
-                                                jsonDecode(value.body),
-                                            // print(
-                                            //     'message${jsonResponse['message']}'),
-                                            if (value.statusCode == 200)
-                                              {
-                                                if (jsonResponse['message'] ==
-                                                    "Like Post Success")
-                                                  {
-                                                    setState(() {
-                                                      islike =
-                                                          jsonResponse['data']
-                                                              ['isLike'];
-                                                      nDataList1.post.islike =
-                                                          true;
-                                                      nDataList1
-                                                          .post.likeCount++;
-                                                    }),
-                                                  }
-                                                else if (jsonResponse[
-                                                        'message'] ==
-                                                    "UnLike Post Success")
-                                                  {
-                                                    setState(() {
-                                                      islike =
-                                                          jsonResponse['data']
-                                                              ['isLike'];
-                                                      nDataList1.post.islike =
-                                                          false;
-                                                      nDataList1
-                                                          .post.likeCount--;
-                                                    }),
-                                                  }
-                                              }
-                                          }))
-                                  : await Api.islike(
-                                          postid, userid, token, mode)
-                                      .then((value) => ({
-                                            jsonResponse =
-                                                jsonDecode(value.body),
-                                            // print(
-                                            //     'message${jsonResponse['message']}'),
-                                            if (value.statusCode == 200)
-                                              {
-                                                if (jsonResponse['message'] ==
-                                                    "Like Post Success")
-                                                  {
-                                                    setState(() {
-                                                      islike =
-                                                          jsonResponse['data']
-                                                              ['isLike'];
-                                                      nDataList1.post.islike =
-                                                          true;
-                                                      nDataList1
-                                                          .post.likeCount++;
-                                                    }),
-                                                  }
-                                                else if (jsonResponse[
-                                                        'message'] ==
-                                                    "UnLike Post Success")
-                                                  {
-                                                    setState(() {
-                                                      islike =
-                                                          jsonResponse['data']
-                                                              ['isLike'];
-                                                      nDataList1.post.islike =
-                                                          false;
-                                                      nDataList1
-                                                          .post.likeCount--;
-                                                    }),
-                                                  }
-                                              }
-                                          }));
-                          // print("กดlike");
+                                  ? setState(() {
+                                      if (nDataList1.post.islike == false ||
+                                          nDataList1.post.islike == null ||
+                                          nDataList1.post.likeCount < 0) {
+                                        nDataList1.post.islike = true;
+                                        nDataList1.post.likeCount++;
+                                        Api.islike(postid, userid, token, "");
+                                      } else if (nDataList1.post.islike ==
+                                          true) {
+                                        nDataList1.post.islike = false;
+                                        nDataList1.post.likeCount--;
+                                        Api.islike(postid, userid, token, "");
+                                      }
+                                    })
+                                  : setState(() {
+                                      if (nDataList1.post.islike == false ||
+                                          nDataList1.post.islike == null ||
+                                          nDataList1.post.likeCount < 0) {
+                                        nDataList1.post.islike = true;
+                                        nDataList1.post.likeCount++;
+                                        Api.islike(postid, userid, token, "FB");
+                                      } else if (nDataList1.post.islike ==
+                                          true) {
+                                        nDataList1.post.islike = false;
+                                        nDataList1.post.likeCount--;
+                                        Api.islike(postid, userid, token, "FB");
+                                      }
+                                    });
                         },
                       ),
                       PostButton(
@@ -676,19 +645,8 @@ class _TodayScState extends State<TodaySc> {
                             MaterialPageRoute(
                               builder: (BuildContext context) {
                                 return PostDetailsSC(
-                                  posttitle: posttitle,
-                                  subtitle: subtitle,
-                                  authorposttext: pageName_displayName== null ?  nDataList1.user.displayName.toString() : nDataList1.page.name.toString(),
-                                  dateTime: dateTime,
                                   gallery: gallery,
-                                  commentCount: commentCount,
-                                  shareCoun: shareCount,
                                   postid: postid,
-                                  userimage: userimageUrl,
-                                  pageid: pageid,
-                                  pageimage: pageimage,
-                                  pagename: pagename,
-                                  pageUsername: pageUsername,
                                   onfocus: true,
                                   story: story,
                                 );
@@ -705,8 +663,30 @@ class _TodayScState extends State<TodaySc> {
                         ),
                         width: 0.12,
                         containerwidth: 3.5,
-                        label: '$shareCount แชร์',
-                        onTap: null,
+                        label: ' แชร์',
+                        onTap: () {
+                          Clipboard.setData(new ClipboardData(
+                                  text:
+                                      "https://today.moveforwardparty.org/post/$postid"))
+                              .then((_) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: MColors.primaryColor,
+                              content: Row(
+                                children: [
+                                  Icon(
+                                    Icons.check,
+                                    color: MColors.primaryWhite,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text('คัดลอกลิงค์')
+                                ],
+                              ),
+                              duration: const Duration(milliseconds: 1000),
+                            ));
+                          });
+                        },
                       ),
                     ],
                   ),
