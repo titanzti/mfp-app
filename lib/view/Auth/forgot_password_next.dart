@@ -195,7 +195,7 @@ class _Forget_Password_NextState extends State<Forget_Password_Next> {
     );
     final TextFormField _Txtotp = TextFormField(
       controller: _otp,
-      obscureText: true,
+      obscureText: false,
       style: TextStyle(fontSize: 14, fontFamily: AppTheme.FontAnakotmaiLight),
       decoration: InputDecoration(
         hintText: 'รหัสกู้คืน',
