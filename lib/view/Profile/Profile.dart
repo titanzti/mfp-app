@@ -69,8 +69,8 @@ class _ProfileScState extends State<ProfileSc> {
 
       userid = await Api.getmyuid();
       Api.getpageuser(
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDllNDk3YjhhMmQzNDU3NThmZmM4NyIsImlhdCI6MTY0MzY4Nzc3NH0.MfqDp7aamdIlVE6Ot5-RGLIZWSk3dEYztH-ExBpA61g",
-              "6049e497b8a2d345758ffc87")
+              token,
+              userid)
           .then((responseData) => ({
                 if (responseData.statusCode == 200)
                   {
@@ -313,7 +313,9 @@ class _ProfileScState extends State<ProfileSc> {
                                   ),
                                 ),
                               ),
-                              Row(
+                            userpageList.length==0?Container(
+                              margin: EdgeInsets.all(30),
+                              child: Center(child: Text('ไม่มีเพจที่ดูแล',style: TextStyle(fontSize: 20,fontFamily: AppTheme.FontAnakotmaiMedium),)),) :  Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
