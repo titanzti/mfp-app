@@ -77,7 +77,7 @@ class _PostSearchState extends State<PostSearch> {
             }),
           }));
       storytestreplaceAll = widget.label.replaceAll("#", "");
-      await Api.getuserprofile(userid).then((responseData) async => ({
+      await Api.getuserprofile(userid == null ? "" : userid).then((responseData) async => ({
             if (responseData.statusCode == 200)
               {
                 datagetuserprofile = jsonDecode(responseData.body),
