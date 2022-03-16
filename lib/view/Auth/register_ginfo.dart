@@ -25,11 +25,15 @@ class Generalinformation extends StatefulWidget {
   final String firstname;
   final String lastname;
   final DateTime birthdate;
-  final String fbid;
+   String fbid;
   final String mode;
-  final String fbtoken;
-  final DateTime fbexpires;
-  final bool isfb;
+   String fbtoken;
+   DateTime fbexpires;
+   bool isfb;
+   String twitterOauthToken;
+  int twitterUserId;
+  String twitterTokenSecret;
+   String twitterscreenName;
 
   Generalinformation(
       {Key key,
@@ -45,7 +49,7 @@ class Generalinformation extends StatefulWidget {
       this.mode,
       this.fbtoken,
       this.fbexpires,
-      this.isfb})
+      this.isfb, this.twitterUserId, this.twitterOauthToken, this.twitterTokenSecret, this.twitterscreenName})
       : super(key: key);
 
   @override
@@ -93,6 +97,8 @@ class _GeneralinformationState extends State<Generalinformation> {
   final f = new DateFormat('yyyy-MM-dd');
 
   bool isregisterfb = false;
+  bool isregistertw = false;
+
   void _validateInputs() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
@@ -292,6 +298,89 @@ class _GeneralinformationState extends State<Generalinformation> {
       });
     }
   }
+  Future<http.Response> twRegister(
+    String email,
+    String password,
+    String displayName,
+    String username,
+    String firstName,
+    String lastName,
+    String uniqueId,
+    DateTime birthdate,
+    int gender,
+    String customGender,
+    String imageb64,
+    String twitterUserId,
+    String twitterOauthToken,
+    String twitterTokenSecret,
+  ) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      isclick = true;
+    });
+    try {
+      var url =
+          Uri.parse("https://today-api.moveforwardparty.org/api/register");
+      final headers = {
+        "mode": "TWITTER",
+        "content-type": "application/json",
+      };
+      Map data = {
+        "username": username,
+        "displayName": displayName,
+        "firstName": firstName,
+        "lastName": lastName,
+        "email": email,
+        "password": password,
+        "uniqueId": uniqueId,
+        "birthdate": birthdate.toIso8601String(),
+        "gender": gender,
+        "customGender": customGender,
+        "asset": {
+          "mimeType": "image/jpeg",
+          "data": imageb64,
+        },
+        "twitterUserId": twitterUserId,
+        'twitterOauthToken': twitterOauthToken,
+        'twitterTokenSecret': twitterTokenSecret,
+      };
+      //encode Map to JSON
+      var body = jsonEncode(data);
+
+      var responsepostRequest =
+          await http.post(url, headers: headers, body: body);
+
+      final jsonResponse = jsonDecode(responsepostRequest.body);
+      msg = jsonResponse['message'];
+
+      if (responsepostRequest.statusCode == 200) {
+        mybody = jsonResponse["data"];
+
+        if (jsonResponse['status'] == 1) {
+          setState(() {
+            sharedPreferences.setString(
+                "token", '${jsonResponse["data"]["token"]}');
+            mytoken = jsonResponse["data"]["token"];
+            isregistertw = true;
+          });
+        }
+      }
+      if (jsonResponse.statusCode == 400) {
+        if (jsonResponse['status'] == 0) {
+          setState(() {
+            isregistertw = false;
+          });
+        }
+      }
+
+      return responsepostRequest;
+    } catch (e) {
+      setState(() {
+        isclick = false;
+      });
+    }
+  }
+
 
   Future<http.Response> checkuniqueId(
     String uniqueId,
@@ -970,6 +1059,28 @@ class _GeneralinformationState extends State<Generalinformation> {
                                                         .fbexpires
                                                         .toString()),
                                                   );
+                                                }
+                                                if(widget.mode=="TWITTER"){
+                                                   await twRegister(
+                                                    _email.text,
+                                                    "",
+                                                    widget.twitterscreenName,
+                                                    _email.text,
+                                                    _firstname.text,
+                                                    _lastname.text,
+                                                    _uniqueid.text,
+                                                    DateTime.parse(
+                                                        _birthday.text),
+                                                    gendertypeint,
+                                                    gendertypeint == 3
+                                                        ? _customGender.text
+                                                        : "",
+                                                    widget.img64,
+                                                    widget.twitterUserId.toString(),
+                                                    widget.twitterOauthToken,
+                                                    widget.twitterTokenSecret,
+                                                  );
+
                                                 }
                                                 if (widget.mode == "EMAIL") {
                                                   if (_birthday.text != "") {

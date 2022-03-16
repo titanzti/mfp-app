@@ -36,7 +36,7 @@ class _NavScreenState extends State<NavScreen> {
         userid: userid,
         taptoload: taptoload,
       ),
-      DoingSC(),
+      DoingSC(taptoload:taptoload),
       ShopSC(),
       MenuSC(),
     ];

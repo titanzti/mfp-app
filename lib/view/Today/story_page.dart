@@ -145,6 +145,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                     style: TextStyle(
                         color: MColors.textDark,
                         fontWeight: FontWeight.bold,
+                         fontFamily: AppTheme.FontAnakotmaiBold,
                         fontSize: 18),
                   ),
             automaticallyImplyLeading: false,
@@ -209,7 +210,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                                                   style: TextStyle(
                                                       fontFamily: AppTheme
                                                           .FontAnakotmaiBold,
-                                                      color: MColors.textDark,
+                                                      color: MColors.primaryWhite,
                                                       fontSize: AppTheme
                                                           .TitleTextSize),
                                                 ),
@@ -221,6 +222,89 @@ class _StroyPageScState extends State<StroyPageSc> {
                                                 height: 10,
                                                 thickness: 2.0),
                                           ),
+                                           Container(
+                      alignment: Alignment.bottomCenter,
+                      height: MediaQuery.of(context).size.height / 15.0,
+                      width: MediaQuery.of(context).size.width,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Spacer(),
+                          Text(
+                            widget.commentCount.toString(),
+                            //'${nDataList.post.commentCount}',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          SizedBox(width: 5,),
+                          Container(
+                            width: MediaQuery.of(context).size.width/8.0,
+
+                            child: Text('ความคิดเห็น',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontFamily: AppTheme.FontAnakotmaiBold,
+                            color:MColors.primaryWhite,
+                            fontSize: 16
+                            )),
+                          ),
+                          Spacer(),
+                          Text(
+                            widget.repostCount.toString(),
+                            //'${nDataList.post.repostCount}',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          SizedBox(width: 5,),
+                          Container(
+                            width: MediaQuery.of(context).size.width/8.0,
+
+                            child: Text('บอกต่อ',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontFamily: AppTheme.FontAnakotmaiBold,
+                            color:MColors.primaryWhite,
+                            fontSize: 16
+                            )),
+                          ),
+                          Spacer(),
+                          Text(
+                            widget.likeCount.toString(),
+                            //'${nDataList.post.likeCount}',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          SizedBox(width: 5,),
+                          Container(
+                            width: MediaQuery.of(context).size.width/8.0,
+
+                            child: Text('ถูกใจ',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontFamily: AppTheme.FontAnakotmaiBold,
+                            color:MColors.primaryWhite,
+                            fontSize: 16
+                            )),
+                          ),
+                          Spacer(),
+                          Text(
+                            widget.shareCount.toString(),
+                            //'${nDataList.post.shareCount}',
+                            style: TextStyle(color: Colors.white, fontSize: 18),
+                          ),
+                          SizedBox(width: 5,),
+                          Container(
+                            width: MediaQuery.of(context).size.width/8.0,
+
+                            child: Text('แชร์',
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontFamily: AppTheme.FontAnakotmaiBold,
+                            color:MColors.primaryWhite,
+                            fontSize: 16
+                            )),
+                          ),
+                          Spacer(),
+                        ],
+                      ),
+                    ),
                                         ],
                                       ),
                                     ),
@@ -232,89 +316,8 @@ class _StroyPageScState extends State<StroyPageSc> {
                         ),
                       ],
                     ),
-                    Container(
-                      alignment: Alignment.bottomCenter,
-                      color: Colors.grey[800],
-                      height: MediaQuery.of(context).size.height / 20.0,
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Spacer(),
-                          Text(
-                            widget.commentCount.toString(),
-                            //'${nDataList.post.commentCount}',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          IconButton(
-                            splashRadius: AppTheme.splashRadius,
-                            icon: Icon(
-                              Icons.comment,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              //print('กด');
-                            },
-                          ),
-                          Spacer(),
-                          Text(
-                            widget.repostCount.toString(),
-                            //'${nDataList.post.repostCount}',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          IconButton(
-                            splashRadius: AppTheme.splashRadius,
-                            icon: Icon(
-                              Icons.favorite,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              //print('กด');
-                            },
-                          ),
-                          Spacer(),
-                          Text(
-                            widget.likeCount.toString(),
-                            //'${nDataList.post.likeCount}',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          IconButton(
-                            splashRadius: AppTheme.splashRadius,
-                            icon: Icon(
-                              Icons.favorite_border,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              //print('กด');
-                            },
-                          ),
-                          Spacer(),
-                          Text(
-                            widget.shareCount.toString(),
-                            //'${nDataList.post.shareCount}',
-                            style: TextStyle(color: Colors.white, fontSize: 18),
-                          ),
-                          IconButton(
-                            splashRadius: AppTheme.splashRadius,
-                            icon: Icon(
-                              Icons.share_outlined,
-                              color: Colors.white,
-                            ),
-                            onPressed: null,
-                          ),
-                          Spacer(),
-                        ],
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        'มีการเติมเต็ม 0 รายการ',
-                        style: TextStyle(
-                            fontFamily: AppTheme.FontAnakotmaiLight,
-                            color: MColors.textDark,
-                            fontSize: AppTheme.BodyTextSize),
-                      ),
-                    ),
+                   
+                   
                     Divider(
                       color: Colors.grey[200],
                       height: 3,

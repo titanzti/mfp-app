@@ -18,6 +18,7 @@ import 'package:mfp_app/view/Auth/login-register.dart';
 import 'package:mfp_app/view/Today/post_details.dart';
 import 'package:mfp_app/view/Today/show_full_image.dart';
 import 'package:mfp_app/view/Today/story_page.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PostSearch extends StatefulWidget {
   final String label;
@@ -325,7 +326,7 @@ class _PostSearchState extends State<PostSearch> {
                                   userid: userid,
                                 ));
                           },
-                          child: textreadstory('อ่านสตอรี่...')),
+                          child: textreadstory('อ่านสตอรี่...',context)),
                     )
                   : Container(),
               Row(
@@ -350,7 +351,7 @@ class _PostSearchState extends State<PostSearch> {
                   SizedBox(
                     width: 2,
                   ),
-                  texttimetimestamp(dateTime),
+                  texttimetimestamp(dateTime,context),
                 ],
               ),
               Padding(
@@ -380,11 +381,48 @@ class _PostSearchState extends State<PostSearch> {
                         label: '${nDataList1.post.likeCount} ถูกใจ',
                         onTap: () {
                           HapticFeedback.lightImpact();
-                          print(nDataList1.post.islike);
-                          token == null || token == ""
-                              ? Navigate.pushPage(context, Loginregister())
-                              : mode != "FB"
-                                  ? setState(() {
+                                    switch (mode) {
+                                case "FB":
+                                  print('FB');
+                                  if (nDataList1.post.islike == false ||
+                                      nDataList1.post.islike == null ||
+                                      nDataList1.post.likeCount < 0) {
+                                    setState(() {
+                                      nDataList1.post.islike = true;
+                                      nDataList1.post.likeCount++;
+                                    });
+                                    Api.islike(postid, userid, token, "FB");
+                                  } else if (nDataList1.post.islike == true) {
+                                    setState(() {
+                                      nDataList1.post.islike = false;
+                                      nDataList1.post.likeCount--;
+                                    });
+                                    Api.islike(postid, userid, token, "FB");
+                                  }
+                                  break;
+                                case "TWITTER":
+                                  print('TWITTER');
+                                  if (nDataList1.post.islike == false ||
+                                      nDataList1.post.islike == null ||
+                                      nDataList1.post.likeCount < 0) {
+                                    setState(() {
+                                      nDataList1.post.islike = true;
+                                      nDataList1.post.likeCount++;
+                                    });
+                                    Api.islike(postid, userid, token, "TW");
+                                  } else if (nDataList1.post.islike == true) {
+                                    setState(() {
+                                      nDataList1.post.islike = false;
+                                      nDataList1.post.likeCount--;
+                                    });
+                                    Api.islike(postid, userid, token, "TW");
+                                  }
+                                  break;
+                                default:
+                                  if (token == null || token == "") {
+                                    Navigate.pushPage(context, Loginregister());
+                                  } else {
+                                    setState(() {
                                       if (nDataList1.post.islike == false ||
                                           nDataList1.post.islike == null ||
                                           nDataList1.post.likeCount < 0) {
@@ -396,22 +434,11 @@ class _PostSearchState extends State<PostSearch> {
                                         nDataList1.post.islike = false;
                                         nDataList1.post.likeCount--;
                                         Api.islike(postid, userid, token, "");
-                                      }
-                                    })
-                                  : setState(() {
-                                      if (nDataList1.post.islike == false ||
-                                          nDataList1.post.islike == null ||
-                                          nDataList1.post.likeCount < 0) {
-                                        nDataList1.post.islike = true;
-                                        nDataList1.post.likeCount++;
-                                        Api.islike(postid, userid, token, "FB");
-                                      } else if (nDataList1.post.islike ==
-                                          true) {
-                                        nDataList1.post.islike = false;
-                                        nDataList1.post.likeCount--;
-                                        Api.islike(postid, userid, token, "FB");
                                       }
                                     });
+                                  }
+                                  break;
+                              }
                         },
                       ),
                         PostButton(
@@ -447,30 +474,21 @@ class _PostSearchState extends State<PostSearch> {
                             color: MColors.primaryBlue,
                             size: 19.0,
                           ),
-                          width: 0.12,
-                          containerwidth: 3.5,
+                          width: 0.15,
+                            containerwidth: 3.7,
                           label: ' แชร์',
-                          onTap:  () {
-                          Clipboard.setData(new ClipboardData(text: "https://today.moveforwardparty.org/post/$postid"))
-                              .then((_) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              backgroundColor: MColors.primaryColor,
-                              content: Row(
-                                children: [
-                                  Icon(
-                                    Icons.check,
-                                    color: MColors.primaryWhite,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text('คัดลอกลิงค์',style: TextStyle(fontFamily: AppTheme.FontAnakotmaiMedium),)
-                                ],
-                              ),
-                              duration: const Duration(milliseconds: 1000),
-                            ));
-                          });
-                        },
+                          onTap: ()async {
+                                  final box =
+                                  context.findRenderObject() as RenderBox;
+
+                              await Share.share(
+                                  "https://today.moveforwardparty.org/post/$postid",
+                                  subject:
+                                      "https://today.moveforwardparty.org/post/$postid",
+                                  sharePositionOrigin:
+                                      box.localToGlobal(Offset.zero) &
+                                          box.size);
+                            },
                         ),
                       ],
                     ),

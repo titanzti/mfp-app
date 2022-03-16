@@ -11,6 +11,8 @@ import 'package:mfp_app/view/Profile/profile.dart';
 import 'package:mfp_app/view/Search/search.dart';
 
 class MenuSC extends StatefulWidget {
+  
+  MenuSC({Key key}) : super(key: key);
   @override
   _MenuSCState createState() => _MenuSCState();
 }
