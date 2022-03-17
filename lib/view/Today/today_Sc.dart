@@ -48,8 +48,7 @@ class TodaySc extends StatefulWidget {
 }
 
 class _TodayScState extends State<TodaySc> {
-  final TrackingScrollController _trackingScrollController =
-      TrackingScrollController();
+  
   ScrollController _scrollController = ScrollController();
   int _currentMax = 0;
   final EmergencyController emergencyController =
@@ -288,7 +287,6 @@ class _TodayScState extends State<TodaySc> {
 
   @override
   void dispose() {
-    _trackingScrollController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -516,12 +514,12 @@ class _TodayScState extends State<TodaySc> {
                       child: texttitlepost(posttitle, context)),
                 ),
                 Padding(
-                  padding: appStyle.getEdgeInsetsFromRatio(left: 3),
+                  padding: appStyle.getEdgeInsetsFromRatio(left: 3,top: 1),
                   child: subtexttitlepost(subtitle, context),
                 ),
                 story != null
                     ? Padding(
-                        padding: appStyle.getEdgeInsetsFromRatio(left: 3,top: 1,bottom: 1),
+                        padding: appStyle.getEdgeInsetsFromRatio(left: 3,top: 1.5,bottom: 1),
                         child: InkWell(
                             onTap: () async {
                               Navigate.pushPage(

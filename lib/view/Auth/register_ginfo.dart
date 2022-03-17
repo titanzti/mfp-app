@@ -514,13 +514,13 @@ class _GeneralinformationState extends State<Generalinformation> {
       ),
       keyboardType: TextInputType.text,
       autocorrect: false,
-      validator: (value) {
-        if (value.isEmpty) {
-          return 'กรุณาใส่ยูสเซอร์เนม';
-        }
+      // validator: (value) {
+      //   if (value.isEmpty) {
+      //     return 'กรุณาใส่ยูสเซอร์เนม';
+      //   }
 
-        return null;
-      },
+      //   return null;
+      // },
       onChanged: (value) async {
         await checkuniqueId(value);
 
@@ -1118,6 +1118,17 @@ class _GeneralinformationState extends State<Generalinformation> {
                                                   }
                                                 }
                                                 if (isregisterfb == true) {
+                                                  return Navigator.of(context)
+                                                      .pushAndRemoveUntil(
+                                                          CupertinoPageRoute(
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  NavScreen()),
+                                                          (Route<dynamic>
+                                                                  route) =>
+                                                              false);
+                                                }
+                                                 if (isregistertw == true) {
                                                   return Navigator.of(context)
                                                       .pushAndRemoveUntil(
                                                           CupertinoPageRoute(

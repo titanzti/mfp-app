@@ -150,6 +150,9 @@ flutter:
     - family: Anakotmai-Light
       fonts:
         - asset: fonts/Anakotmai-Medium.ttf
+    - family: Sarabun-Light
+      fonts:
+        - asset: fonts/Sarabun-Light.ttf
 
     # - family: Trajan Pro
     #   fonts:

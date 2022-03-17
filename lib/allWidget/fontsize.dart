@@ -38,7 +38,7 @@ Widget subtexttitlepost(String string, context) => Text(
       '$string',
       style: TextStyle(
     // h4 -> display1
-    fontFamily:AppTheme.FontAnakotmaiLight,
+    fontFamily:AppTheme.FontSarabunLight,
     fontSize: AppStyle(context).getWidth(percent: 4.5),
 
     color: MColors.primaryBlue),
@@ -124,6 +124,7 @@ Widget textreadstory(String string,BuildContext context) => Text(
       string,
       style: TextStyle(
         fontFamily: AppTheme.FontAnakotmaiMedium,
+        // fontWeight: FontWeight.w200,
         fontSize: AppStyle(context).getWidth(percent: 4.5),
         color: MColors.primaryColor,
       ),

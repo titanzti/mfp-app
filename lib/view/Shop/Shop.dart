@@ -17,8 +17,10 @@ import 'package:mfp_app/view/Search/search.dart';
 
 class ShopSC extends StatefulWidget {
   // DoingSC({Key? key}) : super(key: key);
-  bool taptoload;
-  ShopSC({Key key,  this.taptoload}) : super(key: key);
+   bool taptoload;
+
+   ShopSC({Key key, this.taptoload}) : super(key: key);
+
   @override
   _ShopSCState createState() => _ShopSCState();
 }
