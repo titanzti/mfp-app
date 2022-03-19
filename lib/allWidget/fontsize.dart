@@ -123,8 +123,8 @@ Widget texthashtags(String string) => Text(
 Widget textreadstory(String string,BuildContext context) => Text(
       string,
       style: TextStyle(
-        fontFamily: AppTheme.FontAnakotmaiMedium,
-        // fontWeight: FontWeight.w200,
+        fontFamily: AppTheme.FontAnakotmaiLight,
+        fontWeight: FontWeight.bold,
         fontSize: AppStyle(context).getWidth(percent: 4.5),
         color: MColors.primaryColor,
       ),

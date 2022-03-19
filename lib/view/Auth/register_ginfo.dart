@@ -358,9 +358,6 @@ class _GeneralinformationState extends State<Generalinformation> {
 
         if (jsonResponse['status'] == 1) {
           setState(() {
-            sharedPreferences.setString(
-                "token", '${jsonResponse["data"]["token"]}');
-            mytoken = jsonResponse["data"]["token"];
             isregistertw = true;
           });
         }
@@ -380,7 +377,56 @@ class _GeneralinformationState extends State<Generalinformation> {
       });
     }
   }
+   Future<http.Response> singinTW() async {
+  SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+         
+       final authToken=    sharedPreferences.getString("twitterOauthToken");
+       final authTokenSecret=    sharedPreferences.getString("twitterOauthTokenSecret");
+       final twitterUserId=    sharedPreferences.getString("twitterUserId");
 
+          var url = Uri.parse("${Api.url}api/login");
+          Map data = {
+            "twitterOauthToken": authToken,
+            "twitterOauthTokenSecret": authTokenSecret,
+            "twitterUserId": twitterUserId
+          };
+          final headers = {
+            "mode": "TWITTER",
+            "content-type": "application/json",
+          };
+          var body = jsonEncode(data);
+
+          var res = await http.post(url, headers: headers, body: body);
+          final jsonResponse = jsonDecode(res.body);
+
+          if (res.statusCode == 200) {
+            if (jsonResponse['status'] == 1) {
+              msg = jsonResponse['message'];
+              if (jsonResponse != null) {
+                print('msg$msg');
+                sharedPreferences.setString(
+                    "token", '${jsonResponse["data"]["token"]}');
+                sharedPreferences.setString(
+                    "myuid", '${jsonResponse["data"]["user"]["id"]}');
+                sharedPreferences.setString(
+                    "imageURL", '${jsonResponse["data"]["user"]["imageURL"]}');
+                sharedPreferences.setString("mode", 'TWITTER');
+
+                mytoken = jsonResponse["data"]["token"];
+               
+                Navigator.of(context).pushAndRemoveUntil(
+                    CupertinoPageRoute(
+                        builder: (BuildContext context) => NavScreen()),
+                    (Route<dynamic> route) => false);
+              } else {
+                setState(() {
+                  // _isloading = false;
+                });
+              }
+            }
+  }
+   }
 
   Future<http.Response> checkuniqueId(
     String uniqueId,
@@ -1128,16 +1174,10 @@ class _GeneralinformationState extends State<Generalinformation> {
                                                                   route) =>
                                                               false);
                                                 }
-                                                 if (isregistertw == true) {
-                                                  return Navigator.of(context)
-                                                      .pushAndRemoveUntil(
-                                                          CupertinoPageRoute(
-                                                              builder: (BuildContext
-                                                                      context) =>
-                                                                  NavScreen()),
-                                                          (Route<dynamic>
-                                                                  route) =>
-                                                              false);
+                                                 if (isregistertw == true)  {
+                                                             singinTW();
+
+                                                   
                                                 }
 
                                                 //  showAlertDialog(context);

@@ -472,7 +472,7 @@ class _StroyPageScState extends State<StroyPageSc> {
           itemBuilder: (BuildContext context, int index) {
             var data = listModel[index];
 
-            return GestureDetector(
+            return listModel.isNotEmpty? GestureDetector(
               onTap: () {
                 print('${data.comment}');
                 // print('${_commenteditController.text}');
@@ -632,7 +632,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                   ],
                 ),
               ),
-            );
+            ):Container();
           },
         );
       },

@@ -7,6 +7,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/gallery.dart';
 import 'package:mfp_app/allWidget/circle_button.dart';
+import 'package:mfp_app/utils/app.style.config.dart';
 import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/internetConnectivity.dart';
 import 'package:mfp_app/utils/router.dart';
@@ -20,7 +21,7 @@ Widget myAlbumCard(List<Gallery> list, BuildContext context) {
     return Container(
       //  color: Colors.yellow,
       height: MediaQuery.of(context).size.height / 2.6,
-      width: double.infinity,
+      // width: double.infinity,
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -290,7 +291,7 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
                 child: Image.asset('images/placeholder.jpg'));
           },
           height: MediaQuery.of(context).size.height / 5.2,
-          width: MediaQuery.of(context).size.width * 0.5 - 1,
+          width: AppStyle(context).getWidth(percent: 49),
           fit: BoxFit.cover,
           filterQuality: FilterQuality.low,
         ),
@@ -307,13 +308,12 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
                               return Container(
                                   height:
                                       MediaQuery.of(context).size.height / 5.2,
-                                            width: MediaQuery.of(context).size.width *0.5-1,
+                                                             width: AppStyle(context).getWidth(percent: 47.5),
 
                                   child: Image.asset('images/placeholder.jpg'));
                             },
                             height: MediaQuery.of(context).size.height / 5.2,
-                                  width: MediaQuery.of(context).size.width *0.5-1,
-
+                            width: AppStyle(context).getWidth(percent: 47.5),
                             fit: BoxFit.cover,
                             filterQuality: FilterQuality.low,
                           )
@@ -323,8 +323,7 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
                       ? Positioned(
                           child: Container(
                             height: MediaQuery.of(context).size.height / 5.2,
-                                    width: MediaQuery.of(context).size.width *0.5-1,
-
+                            width: AppStyle(context).getWidth(percent: 47.5),
                             decoration: BoxDecoration(color: Colors.black38),
                             child: Center(
                               child: Text(
@@ -348,12 +347,11 @@ Widget getItems(img_path, img_path2, count, BuildContext context) {
                             StackTrace stackTrace) {
                           return Container(
                               height: MediaQuery.of(context).size.height / 5.2,
-                                    width: MediaQuery.of(context).size.width *0.5-1,
-
+                            width: AppStyle(context).getWidth(percent: 47.5),
                               child: Image.asset('images/placeholder.jpg'));
                         },
                         height: MediaQuery.of(context).size.height / 5.2,
-                        width: MediaQuery.of(context).size.width / 2.1 - 3,
+                            width: AppStyle(context).getWidth(percent: 47.5),
                         fit: BoxFit.cover,
                         filterQuality: FilterQuality.low,
                       )

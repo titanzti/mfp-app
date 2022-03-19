@@ -156,7 +156,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     }
   }
 
-  Future initiateFacebookTwitter() async {
+  Future initiateTwitterLogin() async {
     try {
       final twitterLogin = TwitterLogin(
         apiKey: '81eBPMrAFW20CN0PRnughGs4T',
@@ -186,8 +186,12 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
           SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();
           final imgBase64Str = await networkImageToBase64(
-            session?.thumbnailImage.toString(),
+            session.thumbnailImage,
           );
+          print('imgBase64Str$imgBase64Str');
+           sharedPreferences.setString("twitterOauthToken", '${authResult?.authToken}');
+           sharedPreferences.setString("twitterOauthTokenSecret", '${authResult?.authTokenSecret}');
+           sharedPreferences.setString("twitterUserId", '${session?.id}');
 
           var url = Uri.parse("${Api.url}api/login");
           Map data = {
@@ -245,17 +249,17 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
               Navigator.of(context).pushAndRemoveUntil(
                   CupertinoPageRoute(
                       builder: (BuildContext context) => Generalinformation(
-                            email: session.email,
-                            password: "",
-                            img64: imgBase64Str,
-                            firstname: "",
-                            lastname: "",
-                            twitterOauthToken: authResult.authToken,
-                            twitterTokenSecret: authResult.authTokenSecret,
-                            mode: 'TWITTER',
-                            twitterUserId: session?.id,
-                            twitterscreenName:session.screenName
-                          )),
+                          email: session.email,
+                          password: "",
+                          img64: imgBase64Str,
+                          firstname: "",
+                          lastname: "",
+                          name: session.screenName,
+                          twitterOauthToken: authResult.authToken,
+                          twitterTokenSecret: authResult.authTokenSecret,
+                          mode: 'TWITTER',
+                          twitterUserId: session?.id,
+                          twitterscreenName: session.screenName)),
                   (Route<dynamic> route) => false);
             }
           }
@@ -518,13 +522,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     Colors.white,
                     isfacebookLoggedIn != true
                         ? isTwitterLoggedIn != true
-                            ?() async {
-                            initiateFacebookLogin();
-                            setState(() {
-                              isfacebookLoggedIn = true;
-                            });
-                          }
-                          : null
+                            ? () async {
+                                initiateFacebookLogin();
+                                setState(() {
+                                  isfacebookLoggedIn = true;
+                                });
+                              }
+                            : null
                         : null,
                     isfacebookLoggedIn == false
                         ? Container()
@@ -538,15 +542,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                     Color(0xFF1DA1F3),
                     Colors.white,
                     // isfacebookLoggedIn != true ? () {} : null,
-                   isfacebookLoggedIn != true
+                    isfacebookLoggedIn != true
                         ? isTwitterLoggedIn != true
                             ? () async {
-                              setState(() {
-                              isTwitterLoggedIn = true;
-                            });
-                      await initiateFacebookTwitter();
-                    }
-                          : null
+                                setState(() {
+                                  isTwitterLoggedIn = true;
+                                });
+                                await initiateTwitterLogin();
+                              }
+                            : null
                         : null,
                     isTwitterLoggedIn == false
                         ? Container()
