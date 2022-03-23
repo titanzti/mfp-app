@@ -174,7 +174,7 @@ class _PostSearchState extends State<PostSearch> {
                         return postlist(
                           nDataList1.post.title,
                           nDataList1.post.detail,
-                          nDataList1.page.name ?? "",
+                          nDataList1.page,
                           nDataList1.post.createdDate,
                           nDataList1.post.gallery,
                           nDataList1.post.likeCount,
@@ -182,12 +182,11 @@ class _PostSearchState extends State<PostSearch> {
                           nDataList1.post.shareCount,
                           nDataList1.post.repostCount,
                           nDataList1.post.id,
-                          nDataList1.page.id,
-                          nDataList1.page.imageUrl,
-                          nDataList1.page.name,
+                        
+                          nDataList1.page== null
+                                    ? ""
+                                    : nDataList1.page.imageUrl,
                           false,
-                          nDataList1.page.pageUsername,
-                          nDataList1.page.isOfficial,
                           nDataList1,
                           nDataList1.post.type,
                           nDataList1.post.coverImage,
@@ -242,7 +241,7 @@ class _PostSearchState extends State<PostSearch> {
   Widget postlist(
       String posttitle,
       String subtitle,
-      String authorposttext,
+       listPage,
       DateTime dateTime,
       List gallery,
       int likeCount,
@@ -250,12 +249,8 @@ class _PostSearchState extends State<PostSearch> {
       int shareCount,
       int repostCount,
       String postid,
-      String pageid,
       String pageimage,
-      String pagename,
       bool isFollow,
-      String pageUsername,
-      bool isOfficial,
       nDataList1,
       String type,
       String coverimage,
@@ -273,7 +268,10 @@ class _PostSearchState extends State<PostSearch> {
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => SliderShowFullmages(
                           listImagesModel: gallery, current: 0))),
-                  child: myAlbumCard(gallery, context))
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: myAlbumCard(gallery, context),
+                  ))
               : Container(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,7 +314,9 @@ class _PostSearchState extends State<PostSearch> {
                                   imagUrl: gallery,
                                   type: type,
                                   createdDate: dateTime,
-                                  postby: pagename,
+                                  postby: listPage == null
+                                ? nDataList1.user.displayName.toString()
+                                : nDataList1.page.name.toString(),
                                   imagepage: pageimage,
                                   likeCount: likeCount,
                                   commentCount: commentCount,
@@ -337,14 +337,11 @@ class _PostSearchState extends State<PostSearch> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10.0),
                       child: authorpost(
-                          authorposttext,
+                          listPage == null
+                                ? nDataList1.user.displayName.toString()
+                                : nDataList1.page.name.toString(),
                           context,
-                          dateTime,
-                          pageid,
-                          pageimage,
-                          pagename,
-                          pageUsername,
-                          userid,
+                          listPage==null?"":nDataList1.page.id,
                           true),
                     ),
                   ),

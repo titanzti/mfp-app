@@ -218,7 +218,7 @@ _scrollController.dispose();
       child: SafeArea(
         child: Scaffold(
           body: CustomScrollView(
-            controller: _scrollController,
+            // controller: _scrollController,
             physics: AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
@@ -282,7 +282,9 @@ _scrollController.dispose();
                     return FutureBuilder(
                       future: Future.wait([getpageObj]),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-                       
+                        if(!snapshot.hasData){
+                          return CarouselLoading();
+                        }
                         return GridView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: 4,

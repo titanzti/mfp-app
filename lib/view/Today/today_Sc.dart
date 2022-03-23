@@ -561,13 +561,8 @@ class _TodayScState extends State<TodaySc> {
                                 ? nDataList1.user.displayName.toString()
                                 : nDataList1.page.name.toString(),
                             context,
-                            dateTime,
                             nDataList1.page == null ? "" : nDataList1.page.id,
-                            pageimage,
-                            pagename,
-                            pageUsername,
-                            id,
-                            pageName_displayName != null ? true : false),
+                            true),
                       ),
                     ),
 

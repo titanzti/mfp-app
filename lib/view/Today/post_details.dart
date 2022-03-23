@@ -540,11 +540,6 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                         child: authorpost(
                             page[0].name,
                             context,
-                            dateTime,
-                            page[0].id,
-                            page[0].imageUrl,
-                            page[0].name,
-                            "pageUsername",
                             userid,
                             true),
                       ),

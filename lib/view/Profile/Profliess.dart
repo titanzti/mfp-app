@@ -1032,8 +1032,7 @@ class _ProfliessState extends State<Profliess> {
                       // width: MediaQuery.of(context).size.width/1.5,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 10.0),
-                        child: authorpost(postbyname, context, dateTime, pageid,
-                            "", "fasle", "false", "", false),
+                        child: authorpost(postbyname, context, pageid==null?"":pageid, false),
                       ),
                     ),
                     // SizedBox(

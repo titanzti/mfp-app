@@ -83,12 +83,7 @@ Widget texttimetimestamp(DateTime dateTime,BuildContext context )=> Text(
 Widget authorpost(
   String string,
   context,
-  DateTime dateTime,
   String id,
-  String imageUrl,
-  String name,
-  String pageUsername,
-  String userid,
   bool isenable,
 ) =>
     InkWell(
