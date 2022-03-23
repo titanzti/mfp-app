@@ -14,6 +14,7 @@ import 'package:mfp_app/constants/colors.dart';
 import 'package:mfp_app/model/commentlistmodel.dart';
 import 'package:mfp_app/model/post_details_model.dart';
 import 'package:http/http.dart' as Http;
+import 'package:mfp_app/utils/app.style.config.dart';
 import 'package:mfp_app/utils/app_theme.dart';
 import 'package:mfp_app/utils/router.dart';
 import 'package:mfp_app/utils/timeutils.dart';
@@ -26,13 +27,14 @@ class PostDetailsSC extends StatefulWidget {
   final String postid;
 
   final List gallery;
+  final String pagename;
 
   final bool onfocus;
   final story;
   final String type;
 
   PostDetailsSC(
-      {Key key, this.postid, this.gallery, this.onfocus, this.type, this.story})
+      {Key key, this.postid, this.gallery, this.onfocus, this.type, this.story, this.pagename})
       : super(key: key);
 
   @override
@@ -85,6 +87,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   StreamController _postdetailController;
   var pagename = "";
   var pageid = "";
+  var nopage = "";
+  bool isNoPageName = false;
 
   Future futuregetpostdetail;
 
@@ -153,21 +157,33 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                         // //('jsonResponse$jsonResponse'),
                         for (Map i in jsonResponse["data"])
                           {
-                            setState(() {
-                              pagename = i['page'][0]['name'];
-                              pageid = i['page'][0]['pageId'];
+                        
+                              // pagename = i['page'][0]['name'] == null
+                              //     ? ""
+                              //     : i['page'][0]['name'],
+                              // pageid = i['page'][0]['pageId'],
+                              setState(() {
+                                       postdetailslist.add(PostDetailsModel.fromJson(i));
+                            _postdetailController.add(responseData);
                             }),
-                            postdetailslist.add(PostDetailsModel.fromJson(i)),
-                            _postdetailController.add(responseData),
+                           
+                  
+                             
                           },
-                        // //("Response  :$storytestreplaceAll"),
-                        // //('titalpost$titalpost'),
+                      setState(() {
+                              postloading = false;
+                            }),
+                           
+               
+
+                       
+                      }
+                    else if (responseData.statusCode == 400)
+                      {
                         setState(() {
                           postloading = false;
                         }),
                       }
-                    else if (responseData.statusCode == 400)
-                      {}
                   }));
 
       //--getcommentlist
@@ -228,8 +244,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
   Future sendcomment(String postid, String mytoken, String mag, String myuid,
       String mode) async {
     // //('sendcomment');
-    if(mode=="TWITTER"){
-      mode="TW";
+    if (mode == "TWITTER") {
+      mode = "TW";
     }
 
     var url = Uri.parse("${Api.url}api/post/$postid/comment");
@@ -299,6 +315,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
     if (onref == true) {
       _handleRefresh();
     }
+                                               var appStyle=   AppStyle(context);
+
 
     return loading == true
         ? Container(
@@ -318,7 +336,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     AppBardetail(
                       context,
                       "โพสต์ของ",
-                      pagename == "" ? "" : pagename,
+                      widget.pagename == "" ? "" : widget.pagename,
                       IconButton(
                         splashRadius: AppTheme.splashRadius,
                         icon: Icon(
@@ -335,50 +353,58 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     postloading == true
                         ? SliverToBoxAdapter(child: CarouselLoading())
                         : SliverToBoxAdapter(
-                            child: StreamBuilder(
-                              stream: _postdetailController.stream,
-                              // future: Future.wait([
-                              //   futuregetpostdetail
-                              // ]),
-                              builder: (BuildContext context,
-                                  AsyncSnapshot snapshot) {
-                                // if (snapshot.connectionState ==
-                                //     ConnectionState.waiting) {
-                                //   return CarouselLoading();
-                                // }
-                                // if (snapshot.connectionState ==
-                                //     ConnectionState.done) {
-                                //   return Text('ไม่พบเพจ');
-                                // }
-                                return Builder(builder: (BuildContext context) {
-                                  return ListView.builder(
-                                    physics: ClampingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: postdetailslist.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      final datapostdetail =
-                                          postdetailslist[index];
-                                      var likenumber = datapostdetail.likeCount;
-                                      return PostList(
-                                          datapostdetail.title,
-                                          datapostdetail.detail,
-                                          datapostdetail.page,
-                                          datapostdetail.createdDate,
-                                          datapostdetail.gallery,
-                                          likenumber,
-                                          datapostdetail.commentCount,
-                                          datapostdetail.shareCount,
-                                          datapostdetail.story,
-                                          datapostdetail.id,
-                                          datapostdetail);
-                                    },
-                                  );
-                                });
-                              },
-                            ),
-                          ),
+                                child: StreamBuilder(
+                                  stream: _postdetailController.stream,
+                                  // future: Future.wait([
+                                  //   futuregetpostdetail
+                                  // ]),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+                                    // if (snapshot.connectionState ==
+                                    //     ConnectionState.waiting) {
+                                    //   return CarouselLoading();
+                                    // }
+                                    // if (snapshot.connectionState ==
+                                    //     ConnectionState.done) {
+                                    //   return Text('ไม่พบเพจ');
+                                    // }
+                                    return Builder(
+                                        builder: (BuildContext context) {
+                                      return ListView.builder(
+                                        physics: ClampingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: postdetailslist.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          final datapostdetail =
+                                              postdetailslist[index];
+                                          var likenumber =
+                                              datapostdetail.likeCount;
+                                              print('จำนวน${datapostdetail.page.length}');
+                                              List tempPage =[];
+                                              if(datapostdetail.page.length!=0){
+                                          return PostList(
+                                              datapostdetail.title,
+                                              datapostdetail.detail,
+                                              datapostdetail.page,
+                                              datapostdetail.createdDate,
+                                              datapostdetail.gallery,
+                                              likenumber,
+                                              datapostdetail.commentCount,
+                                              datapostdetail.shareCount,
+                                              datapostdetail.story,
+                                              datapostdetail.id,
+                                              datapostdetail);
+                                              }else{
+                                                return Container(child: Center(child: Text('ไม่พบเพจ',style: TextStyle(fontSize:appStyle.getWidth(percent: 5.0,),fontFamily: AppTheme.FontAnakotmaiBold))));
+                                              }
+                                        },
+                                      );
+                                    });
+                                  },
+                                ),
+                              ),
                     SliverToBoxAdapter(
                       child: Container(
                           color: Colors.grey[200], child: _buildCommentList()),
@@ -458,7 +484,10 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => SliderShowFullmages(
                             listImagesModel: gallery, current: 0))),
-                    child: searchAlbumCard(gallery, context))
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4.5),
+                      child: searchAlbumCard(gallery, context),
+                    ))
                 : SizedBox.shrink(),
             // Image.network(gallery[0].signUrl),
             Column(
@@ -499,7 +528,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                     mode: mode,
                                   ));
                             },
-                            child: textreadstory('อ่านสตอรี่...',context)),
+                            child: textreadstory('อ่านสตอรี่...', context)),
                       )
                     : Container(),
                 Row(
@@ -523,7 +552,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     //     SizedBox(
                     //   width: 2,
                     // ),
-                    Container(child: texttimetimestamp(dateTime,context)),
+                    Container(child: texttimetimestamp(dateTime, context)),
                   ],
                 ),
                 Padding(
@@ -667,8 +696,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                             width: 0.15,
                             containerwidth: 3.7,
                             label: ' แชร์',
-                            onTap: ()async {
-                                  final box =
+                            onTap: () async {
+                              final box =
                                   context.findRenderObject() as RenderBox;
 
                               await Share.share(

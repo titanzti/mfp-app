@@ -169,7 +169,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                   children: [
                     Stack(
                       children: [
-                        Image.network(
+                   imagelist.isNotEmpty?     Image.network(
                           "https://today-api.moveforwardparty.org/api${imagelist[0].imageUrl}/image",
                           errorBuilder: (BuildContext context, Object exception,
                               StackTrace stackTrace) {
@@ -184,7 +184,11 @@ class _StroyPageScState extends State<StroyPageSc> {
                           fit: BoxFit.cover,
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height / 3.0,
-                        ),
+                        ):Container(
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height / 3.0,
+                                child: Image.asset('images/placeholder.jpg')),
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height / 3.0,
@@ -449,7 +453,7 @@ class _StroyPageScState extends State<StroyPageSc> {
                                 );
                       }),
                     ),
-                    _buildCommentList()
+                  listModel.isNotEmpty?  _buildCommentList():Container(),
                     // Text('data'),
                   ],
                 ),

@@ -505,7 +505,11 @@ class _TodayScState extends State<TodaySc> {
                             builder: (BuildContext context) {
                               return PostDetailsSC(
                                 postid: postid,
+                                pagename: pageName_displayName == null
+                                ? nDataList1.user.displayName.toString()
+                                : nDataList1.page.name.toString(),
                                 onfocus: false,
+                                story: story,
                               );
                             },
                           ),
@@ -685,6 +689,9 @@ class _TodayScState extends State<TodaySc> {
                                       postid: postid,
                                       onfocus: true,
                                       story: story,
+                                      pagename: pageName_displayName == null
+                                ? nDataList1.user.displayName.toString()
+                                : nDataList1.page.name.toString(),
                                     );
                                   },
                                 ),
