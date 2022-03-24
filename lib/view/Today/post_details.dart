@@ -101,7 +101,8 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
 
     super.didChangeDependencies();
   }
-
+var tempPageName="";
+List tempList =[];
   @override
   void initState() {
     ////(widget.postid);
@@ -155,6 +156,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                       {
                         jsonResponse = jsonDecode(responseData.body),
                         // //('jsonResponse$jsonResponse'),
+                         
                         for (Map i in jsonResponse["data"])
                           {
                         
@@ -165,15 +167,37 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                               setState(() {
                                        postdetailslist.add(PostDetailsModel.fromJson(i));
                             _postdetailController.add(responseData);
+                                                          postloading = false;
+
                             }),
+
+                           
+                          
+                             
                            
                   
                              
                           },
-                      setState(() {
+                               
+                              if( jsonResponse["data"][0]["page"]==null){
+                                
+                                setState(() {
+                                                        tempPageName ="ไม่พบเพจ";
+
+                            }),
+                           
+
+                              }else{
+                                setState(() {
+                        tempPageName = jsonResponse["data"][0]["page"][0]["name"] ==0 ?"":jsonResponse["data"][0]["page"][0]["name"];
+                               print('tempPageName$tempPageName');
                               postloading = false;
                             }),
                            
+
+                              }
+                          
+                      
                
 
                        
@@ -336,7 +360,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                     AppBardetail(
                       context,
                       "โพสต์ของ",
-                      widget.pagename == "" ? "" : widget.pagename,
+                      widget.pagename == null ? tempPageName : widget.pagename,
                       IconButton(
                         splashRadius: AppTheme.splashRadius,
                         icon: Icon(
@@ -383,8 +407,10 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
                                               datapostdetail.likeCount;
                                               print('จำนวน${datapostdetail.page.length}');
                                               List tempPage =[];
+                                              
+                                              
                                               if(datapostdetail.page.length!=0){
-                                          return PostList(
+                                           return PostList(
                                               datapostdetail.title,
                                               datapostdetail.detail,
                                               datapostdetail.page,
@@ -429,6 +455,7 @@ class _PostDetailsSCState extends State<PostDetailsSC> {
       String postid,
       datapostdetail) {
     print(datapostdetail.isLike);
+  
     return InkWell(
       onTap: () {},
       child: Container(

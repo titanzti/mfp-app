@@ -949,6 +949,7 @@ class _ProfliessState extends State<Profliess> {
       story,
       nDataList1) {
                 final appStyle = AppStyle(context);
+                
 
     return Card(
       child: Padding(

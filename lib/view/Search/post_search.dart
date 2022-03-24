@@ -255,6 +255,11 @@ class _PostSearchState extends State<PostSearch> {
       String type,
       String coverimage,
       story) {
+         bool isstory =true;
+        if(listPage==null){
+          isstory=false;
+
+        }
     return Container(
       width: 200,
       color: MColors.containerWhite,
@@ -342,7 +347,7 @@ class _PostSearchState extends State<PostSearch> {
                                 : nDataList1.page.name.toString(),
                           context,
                           listPage==null?"":nDataList1.page.id,
-                          true),
+                          isstory),
                     ),
                   ),
                   SizedBox(

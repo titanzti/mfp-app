@@ -474,6 +474,11 @@ class _TodayScState extends State<TodaySc> {
       story,
       datauser) {
         final appStyle = AppStyle(context);
+        bool isstory =true;
+        if(pageName_displayName==null){
+          isstory=false;
+
+        }
     return Card(
       child: Padding(
         padding: const EdgeInsets.only(left: 2, right: 2, bottom: 2, top: 2),
@@ -562,7 +567,7 @@ class _TodayScState extends State<TodaySc> {
                                 : nDataList1.page.name.toString(),
                             context,
                             nDataList1.page == null ? "" : nDataList1.page.id,
-                            true),
+                            isstory),
                       ),
                     ),
 
