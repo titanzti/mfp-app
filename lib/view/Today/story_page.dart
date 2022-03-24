@@ -188,7 +188,9 @@ class _StroyPageScState extends State<StroyPageSc> {
                                 width: MediaQuery.of(context).size.width,
                                 height:
                                     MediaQuery.of(context).size.height / 3.0,
-                                child: Image.asset('images/placeholder.jpg')),
+                                    color:Colors.grey,
+                                // child: Image.asset('images/placeholder.jpg')
+                                ),
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height / 3.0,

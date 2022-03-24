@@ -218,7 +218,7 @@ _scrollController.dispose();
       child: SafeArea(
         child: Scaffold(
           body: CustomScrollView(
-            // controller: _scrollController,
+            controller: _scrollController,
             physics: AlwaysScrollableScrollPhysics(),
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
